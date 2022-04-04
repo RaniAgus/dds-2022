@@ -9,7 +9,7 @@ abstract class Venta {
 Venta "prendas" --> "*" PrendaVendida
 
 note right of Venta::getPrecioTotal
-  prendas.map(Prenda::getPrecioTotal).sum() + aplicarRecargo()
+  prendas.map(getPrecioTotal).sum() + aplicarRecargo()
 end note
 
 note right of Venta::esDeFecha
@@ -28,6 +28,13 @@ class VentaConTarjeta extends Venta {
   aplicarRecargo()
 }
 
+note as RecargoTarjeta
+  cuotas * coeficientePorCuota
+  + prendas.map(getPrecioTotal).sum() * porcentajePorPrenda
+end note
+
+VentaConTarjeta::aplicarRecargo .. RecargoTarjeta
+
 class PrendaVendida {
   precio: BigDecimal
   cantidad: Integer
@@ -35,6 +42,12 @@ class PrendaVendida {
 }
 
 PrendaVendida --> Prenda
+
+note right of PrendaVendida::precio
+  Se guarda por separado el precio al momento
+  de la venta, ya que el precio de la prenda
+  puede sufrir modificaciones (ej: inflación)
+end note
 
 class Prenda {
   precioBase: BigDecimal
@@ -55,25 +68,27 @@ enum Tipo {
 }
 
 interface Estado {
-  modificarPrecioBase(base): BigDecimal
+  modificarPrecioBase(precioBase): BigDecimal
 }
 
 class Nueva implements Estado {
-  modificarPrecioBase(base)
+  modificarPrecioBase(precioBase)
 }
 
 class Promocion implements Estado {
   descuento: BigDecimal
-  modificarPrecioBase(base)
+  modificarPrecioBase(precioBase)
 }
 
 class Liquidacion implements Estado {
   porcentaje: Integer
-  modificarPrecioBase(base)
+  modificarPrecioBase(precioBase)
 }
 
-note left of Liquidacion::modificarPrecioBase
+note as LiquidacionCalculo
 base * (1 - porcentaje / 100)
 end note
+
+Liquidacion .. LiquidacionCalculo
 
 @enduml
