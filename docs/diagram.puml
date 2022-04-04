@@ -1,3 +1,79 @@
 @startuml
-Bob -> Alice : hello
+abstract class Venta {
+  fecha: LocalDate
+  getPrecioTotal(): BigDecimal
+  esDeFecha(fecha): Boolean
+  {abstract} aplicarRecargo(): BigDecimal
+}
+
+Venta "prendas" --> "*" PrendaVendida
+
+note right of Venta::getPrecioTotal
+  prendas.map(Prenda::getPrecioTotal).sum() + aplicarRecargo()
+end note
+
+note right of Venta::esDeFecha
+  Este método permite filtrar las
+  ventas de un día determinado
+end note
+
+class VentaEnEfectivo extends Venta {
+  aplicarRecargo()
+}
+
+class VentaConTarjeta extends Venta {
+  cuotas
+  coeficientePorCuota
+  porcentajePorPrenda
+  aplicarRecargo()
+}
+
+class PrendaVendida {
+  precio: BigDecimal
+  cantidad: Integer
+  getPrecioTotal(): BigDecimal
+}
+
+PrendaVendida --> Prenda
+
+class Prenda {
+  precioBase: BigDecimal
+  getPrecio(): BigDecimal
+}
+
+Prenda --> Tipo
+Prenda --> Estado
+
+note right of Prenda::getPrecio
+estado.modificarPrecioBase(precioBase)
+end note
+
+enum Tipo {
+  SACO
+  PANTALON
+  CAMISA
+}
+
+interface Estado {
+  modificarPrecioBase(base): BigDecimal
+}
+
+class Nueva implements Estado {
+  modificarPrecioBase(base)
+}
+
+class Promocion implements Estado {
+  descuento: BigDecimal
+  modificarPrecioBase(base)
+}
+
+class Liquidacion implements Estado {
+  porcentaje: Integer
+  modificarPrecioBase(base)
+}
+
+note left of Liquidacion::modificarPrecioBase
+base * (1 - porcentaje / 100)
+end note
+
 @enduml
