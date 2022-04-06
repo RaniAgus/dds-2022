@@ -22,6 +22,12 @@ class VentaEnEfectivo extends Venta {
   aplicarRecargo()
 }
 
+note as RecargoEfectivo
+  Retorna 0
+end note
+
+VentaEnEfectivo::aplicarRecargo .. RecargoEfectivo
+
 class VentaConTarjeta extends Venta {
   cuotas
   coeficientePorCuota
@@ -44,7 +50,7 @@ class PrendaVendida {
   getPrecioTotal()
 }
 
-PrendaVendida --> Prenda
+PrendaVendida "prenda" --> Prenda
 
 note right of PrendaVendida::precio
   Se guarda por separado el precio al momento
@@ -58,11 +64,11 @@ class Prenda {
   getPrecio()
 }
 
-Prenda --> Tipo
-Prenda --> Estado
+Prenda "tipo" --> Tipo
+Prenda "estado" --> Estado
 
 note right of Prenda::getPrecio
-estado.modificarPrecioBase(precioBase)
+Obtiene el precio base según su estado
 end note
 
 enum Tipo {
