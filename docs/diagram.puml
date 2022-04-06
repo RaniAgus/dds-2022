@@ -50,9 +50,10 @@ class PrendaVendida {
 PrendaVendida "prenda" --> Prenda
 
 note right of PrendaVendida::precio
-  Es el precio al momento de la venta. Se guarda 
-  por separado ya que prenda.getPrecio() puede 
-  sufrir modificaciones a lo largo del tiempo.
+  Es el precio al momento de la venta. 
+  Se guarda por separado ya que el valor
+  de prenda.getPrecio() puede sufrir 
+  modificaciones a lo largo del tiempo.
 end note
 
 class Prenda {
