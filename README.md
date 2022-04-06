@@ -1,5 +1,9 @@
 # Maco Wins
 
+## Diagrama de Clases
+
+![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-macowins/main/docs/diagram.puml?)
+
 ## Requerimientos
 
 Se requiere:
@@ -23,7 +27,3 @@ La conocida empresa de ropa formal para caballeros, Macowins, es capaz de darle 
 
 > “Cada venta tiene asociada las prendas que se vendieron, su cantidad y la fecha de venta. 
 > Las ventas pueden ser en efectivo o con tarjeta. En el caso que sea con tarjeta, tienen el mismo comportamiento que en efectivo (el cual no modifica el precio), sólo que se le aplica un recargo según la cantidad de cuotas seleccionadas (cantidad de cuotas * un coeficiente fijo + 0.01 del valor de cada prenda).”
-
-## Diagrama de Clases
-
-![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-macowins/main/docs/diagram.puml?)
