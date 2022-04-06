@@ -9,7 +9,7 @@ abstract class Venta {
 Venta "prendas" --> "*" PrendaVendida
 
 note right of Venta::getPrecioTotal
-  prendas.map(getPrecioTotal).sum() + aplicarRecargo
+  prendas.map(getPrecioTotal).sum() + aplicarRecargo()
 end note
 
 note right of Venta::esDeFecha
@@ -94,7 +94,7 @@ class Promocion implements Estado {
 }
 
 note as PromocionCalculo
-precioBase - descuento
+  precioBase - descuento
 end note
 
 Promocion .. PromocionCalculo
@@ -105,7 +105,7 @@ class Liquidacion implements Estado {
 }
 
 note as LiquidacionCalculo
-precioBase * (1 - porcentaje / 100)
+  precioBase * (1 - porcentaje / 100)
 end note
 
 Liquidacion .. LiquidacionCalculo
