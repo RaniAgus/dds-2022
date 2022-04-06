@@ -1,15 +1,16 @@
 @startuml
 abstract class Venta {
-  fecha: LocalDate
-  getPrecioTotal(): BigDecimal
-  esDeFecha(fecha): Boolean
-  {abstract} aplicarRecargo(): BigDecimal
+  fecha
+  getPrecioTotal()
+  esDeFecha(fecha)
+  {abstract} aplicarRecargo()
 }
 
 Venta "prendas" --> "*" PrendaVendida
 
 note right of Venta::getPrecioTotal
-  prendas.map(getPrecioTotal).sum() + aplicarRecargo()
+  Es la sumatoria de getPrecioTotal() de todas
+  las prendas + aplicarRecargo()
 end note
 
 note right of Venta::esDeFecha
@@ -29,16 +30,18 @@ class VentaConTarjeta extends Venta {
 }
 
 note as RecargoTarjeta
-  cuotas * coeficientePorCuota
-  + prendas.map(getPrecioTotal).sum() * porcentajePorPrenda
+  Es el producto entre las cuotas y el 
+  coeficientePorCuota + el producto entre la 
+  sumatoria de getPrecioTotal() de todas las
+  prendas y el porcentajePorPrenda
 end note
 
 VentaConTarjeta::aplicarRecargo .. RecargoTarjeta
 
 class PrendaVendida {
-  precio: BigDecimal
-  cantidad: Integer
-  getPrecioTotal(): BigDecimal
+  precio
+  cantidad
+  getPrecioTotal()
 }
 
 PrendaVendida --> Prenda
@@ -46,12 +49,13 @@ PrendaVendida --> Prenda
 note right of PrendaVendida::precio
   Se guarda por separado el precio al momento
   de la venta, ya que el precio de la prenda
-  puede sufrir modificaciones (ej: inflación)
+  puede sufrir modificaciones a lo largo del
+  tiempo.
 end note
 
 class Prenda {
-  precioBase: BigDecimal
-  getPrecio(): BigDecimal
+  precioBase
+  getPrecio()
 }
 
 Prenda --> Tipo
@@ -68,7 +72,7 @@ enum Tipo {
 }
 
 interface Estado {
-  modificarPrecioBase(precioBase): BigDecimal
+  modificarPrecioBase(precioBase)
 }
 
 class Nueva implements Estado {
@@ -76,17 +80,23 @@ class Nueva implements Estado {
 }
 
 class Promocion implements Estado {
-  descuento: BigDecimal
+  descuento
   modificarPrecioBase(precioBase)
 }
 
+note as PromocionCalculo
+precioBase - descuento
+end note
+
+Promocion .. PromocionCalculo
+
 class Liquidacion implements Estado {
-  porcentaje: Integer
+  porcentaje
   modificarPrecioBase(precioBase)
 }
 
 note as LiquidacionCalculo
-base * (1 - porcentaje / 100)
+precioBase * (1 - porcentaje / 100)
 end note
 
 Liquidacion .. LiquidacionCalculo
