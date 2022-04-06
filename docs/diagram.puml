@@ -65,7 +65,7 @@ Prenda "tipo" --> Tipo
 Prenda "estado" --> Estado
 
 note right of Prenda::getPrecio
-Obtiene el precio base según su estado
+  estado.modificarPrecioBase(precioBase)
 end note
 
 enum Tipo {
