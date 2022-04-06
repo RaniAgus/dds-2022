@@ -23,7 +23,7 @@ class VentaEnEfectivo extends Venta {
 }
 
 note as RecargoEfectivo
-  Retorna 0
+  Vale siempre cero
 end note
 
 VentaEnEfectivo::aplicarRecargo .. RecargoEfectivo
@@ -84,6 +84,12 @@ interface Estado {
 class Nueva implements Estado {
   modificarPrecioBase(precioBase)
 }
+
+note as NuevaCalculo
+precioBase
+end note
+
+Nueva .. NuevaCalculo
 
 class Promocion implements Estado {
   descuento
