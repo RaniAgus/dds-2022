@@ -9,8 +9,7 @@ abstract class Venta {
 Venta "prendas" --> "*" PrendaVendida
 
 note right of Venta::getPrecioTotal
-  Es la sumatoria de getPrecioTotal() de todas
-  las prendas + aplicarRecargo()
+  prendas.map(getPrecioTotal).sum() + aplicarRecargo
 end note
 
 note right of Venta::esDeFecha
@@ -36,10 +35,8 @@ class VentaConTarjeta extends Venta {
 }
 
 note as RecargoTarjeta
-  Es el producto entre las cuotas y el 
-  coeficientePorCuota + el producto entre la 
-  sumatoria de getPrecioTotal() de todas las
-  prendas y el porcentajePorPrenda
+  cuotas * coeficientePorCuota + 
+  prendas.map(getPrecioTotal).sum() * porcentajePorPrenda
 end note
 
 VentaConTarjeta .. RecargoTarjeta
