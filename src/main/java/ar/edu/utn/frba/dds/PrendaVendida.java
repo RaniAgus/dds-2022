@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds;
 
-import java.math.BigDecimal;
-
 import static java.math.BigDecimal.valueOf;
+
+import java.math.BigDecimal;
 
 public class PrendaVendida {
   private Prenda prenda;
