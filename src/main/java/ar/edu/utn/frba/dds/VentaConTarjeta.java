@@ -9,23 +9,23 @@ import static java.math.BigDecimal.valueOf;
 public class VentaConTarjeta extends Venta {
   private Integer cuotas;
   private BigDecimal coeficientePorCuota;
-  private BigDecimal porcentajePorPrenda;
+  private BigDecimal coeficientePorPrenda;
 
   public VentaConTarjeta(LocalDate fecha,
                          List<PrendaVendida> prendasVendidas,
                          Integer cuotas,
                          BigDecimal coeficientePorCuota,
-                         BigDecimal porcentajePorPrenda) {
+                         BigDecimal coeficientePorPrenda) {
     super(fecha, prendasVendidas);
     this.cuotas = cuotas;
     this.coeficientePorCuota = coeficientePorCuota;
-    this.porcentajePorPrenda = porcentajePorPrenda;
+    this.coeficientePorPrenda = coeficientePorPrenda;
   }
 
   @Override
   public BigDecimal aplicarRecargo() {
     return coeficientePorCuota
         .multiply(valueOf(cuotas))
-        .add(sumaPreciosTotales().multiply(porcentajePorPrenda));
+        .add(sumaPreciosTotales().multiply(coeficientePorPrenda));
   }
 }
