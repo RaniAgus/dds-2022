@@ -13,6 +13,10 @@ public class Prenda {
     this.estado = estado;
   }
 
+  public Tipo getTipo() {
+    return tipo;
+  }
+
   public BigDecimal getPrecio() {
     return estado.modificarPrecioBase(precioBase);
   }
