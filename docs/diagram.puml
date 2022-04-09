@@ -30,13 +30,13 @@ VentaEnEfectivo .. RecargoEfectivo
 class VentaConTarjeta extends Venta {
   cuotas
   coeficientePorCuota
-  porcentajePorPrenda
+  coeficientePorPrenda
   aplicarRecargo()
 }
 
 note as RecargoTarjeta
   cuotas * coeficientePorCuota + 
-  prendas.map(getPrecioTotal).sum() * porcentajePorPrenda
+  prendas.map(getPrecioTotal).sum() * coeficientePorPrenda
 end note
 
 VentaConTarjeta .. RecargoTarjeta
@@ -100,12 +100,12 @@ end note
 Promocion .. PromocionCalculo
 
 class Liquidacion implements Estado {
-  porcentaje
+  coeficiente
   modificarPrecioBase(precioBase)
 }
 
 note as LiquidacionCalculo
-  precioBase * (1 - porcentaje / 100)
+  precioBase * (1 - coeficiente / 100)
 end note
 
 Liquidacion .. LiquidacionCalculo

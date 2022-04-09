@@ -3,14 +3,14 @@ package ar.edu.utn.frba.dds;
 import java.math.BigDecimal;
 
 public class Liquidacion implements Estado {
-  private BigDecimal multiplicador;
+  private BigDecimal coeficiente;
 
-  public Liquidacion(BigDecimal multiplicador) {
-    this.multiplicador = multiplicador;
+  public Liquidacion(BigDecimal coeficiente) {
+    this.coeficiente = coeficiente;
   }
 
   @Override
   public BigDecimal modificarPrecioBase(BigDecimal precioBase) {
-    return precioBase.multiply(multiplicador);
+    return precioBase.multiply(coeficiente);
   }
 }
