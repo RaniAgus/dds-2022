@@ -3,7 +3,7 @@ class Ventas {
   gananciasDelDia(dia)
 }
 
-Ventas --> "*" Venta
+Ventas "ventas" --> "*" Venta
 
 abstract class Venta {
   dia
