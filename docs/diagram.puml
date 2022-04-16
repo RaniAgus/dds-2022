@@ -1,8 +1,14 @@
 @startuml
+class Ventas {
+  gananciasDelDia(dia)
+}
+
+Ventas --> "*" Venta
+
 abstract class Venta {
-  fecha
+  dia
   getPrecioTotal()
-  esDeFecha(fecha)
+  esDelDia(dia)
   {abstract} aplicarRecargo()
 }
 
@@ -12,7 +18,7 @@ note right of Venta::getPrecioTotal
   prendas.map(getPrecioTotal).sum() + aplicarRecargo()
 end note
 
-note right of Venta::esDeFecha
+note right of Venta::esDelDia
   Este método permite filtrar las
   ventas de un día determinado
 end note

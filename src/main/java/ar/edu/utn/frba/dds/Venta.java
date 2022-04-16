@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Venta {
-  private LocalDate fecha;
+  private LocalDate dia;
   private List<PrendaVendida> prendasVendidas;
 
-  public Venta(LocalDate fecha, List<PrendaVendida> prendasVendidas) {
-    this.fecha = fecha;
+  public Venta(LocalDate dia, List<PrendaVendida> prendasVendidas) {
+    this.dia = dia;
     this.prendasVendidas = new ArrayList<>(prendasVendidas);
   }
 
@@ -18,8 +18,8 @@ public abstract class Venta {
     return sumaPreciosTotales().add(aplicarRecargo());
   }
 
-  public Boolean esDeFecha(LocalDate otraFecha) {
-    return fecha.isEqual(otraFecha);
+  public Boolean esDelDia(LocalDate dia) {
+    return dia.isEqual(this.dia);
   }
 
   public abstract BigDecimal aplicarRecargo();

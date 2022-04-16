@@ -11,12 +11,12 @@ public class VentaConTarjeta extends Venta {
   private BigDecimal coeficientePorCuota;
   private BigDecimal coeficientePorPrenda;
 
-  public VentaConTarjeta(LocalDate fecha,
+  public VentaConTarjeta(LocalDate dia,
                          List<PrendaVendida> prendasVendidas,
                          Integer cuotas,
                          BigDecimal coeficientePorCuota,
                          BigDecimal coeficientePorPrenda) {
-    super(fecha, prendasVendidas);
+    super(dia, prendasVendidas);
     this.cuotas = cuotas;
     this.coeficientePorCuota = coeficientePorCuota;
     this.coeficientePorPrenda = coeficientePorPrenda;
