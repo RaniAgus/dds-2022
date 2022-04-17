@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds;
+package ar.edu.utn.frba.dds.macowins;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
