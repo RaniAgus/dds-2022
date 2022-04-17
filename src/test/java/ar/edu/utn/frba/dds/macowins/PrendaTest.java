@@ -2,6 +2,9 @@ package ar.edu.utn.frba.dds.macowins;
 
 import org.junit.jupiter.api.Test;
 
+import static java.math.BigDecimal.valueOf;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PrendaTest {
@@ -18,35 +21,31 @@ public class PrendaTest {
 
   @Test
   public void elPrecioDeUnaCamisaNuevaEsSuPrecioBase() {
-    assertEquals(camisaNueva(4000).precio(), 4000, 0);
-    assertEquals(camisaNueva(5000).precio(), 5000, 0);
+    assertThat(camisaNueva(4000).getPrecio(), comparesEqualTo(valueOf(4000)));
+    assertThat(camisaNueva(5000).getPrecio(), comparesEqualTo(valueOf(5000)));
   }
 
   @Test
   public void elPrecioDeUnSacoEnLiquidacionEsSuLaMitadDeSuPrecioBase() {
-    assertEquals(sacoEnLiquidacion(3000).precio(), 1500, 0);
-    assertEquals(sacoEnLiquidacion(8000).precio(), 4000, 0);
+    assertThat(sacoEnLiquidacion(3000).getPrecio(), comparesEqualTo(valueOf(1500)));
+    assertThat(sacoEnLiquidacion(8000).getPrecio(), comparesEqualTo(valueOf(4000)));
   }
 
   @Test
-  public void elPrecioDeUnPantalonEnPromocionEsSuPrecioBaseMenosSuDecuento() {
-    assertEquals(pantalonEnPromocion(1500, 200).precio(), 1300, 0);
-    assertEquals(pantalonEnPromocion(1500, 100).precio(), 1400, 0);
+  public void elPrecioDeUnPantalonEnPromocionEsSuPrecioBaseMenosSuDescuento() {
+    assertThat(pantalonEnPromocion(1500, 200).getPrecio(), comparesEqualTo(valueOf(1300)));
+    assertThat(pantalonEnPromocion(1500, 100).getPrecio(), comparesEqualTo(valueOf(1400)));
   }
 
   private Prenda pantalonEnPromocion(int precioBase, int descuento) {
-    // TODO completar
-    return null;
+    return new Prenda(valueOf(precioBase), Tipo.PANTALON, new Promocion(valueOf(descuento)));
   }
 
-
   private Prenda camisaNueva(double precioBase) {
-    // TODO completar
-    return null;
+    return new Prenda(valueOf(precioBase), Tipo.CAMISA, new Nueva());
   }
 
   private Prenda sacoEnLiquidacion(double precioBase) {
-    // TODO completar
-    return null;
+    return new Prenda(valueOf(precioBase), Tipo.SACO, new Liquidacion(valueOf(0.5)));
   }
 }

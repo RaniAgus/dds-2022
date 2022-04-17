@@ -1,5 +1,6 @@
-package ar.edu.utn.frba.dds;
+package ar.edu.utn.frba.dds.macowins;
 
+import ar.edu.utn.frba.dds.macowins.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

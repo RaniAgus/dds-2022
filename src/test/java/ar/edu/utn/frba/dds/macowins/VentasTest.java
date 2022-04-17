@@ -1,8 +1,8 @@
-package ar.edu.utn.frba.dds;
+package ar.edu.utn.frba.dds.macowins;
 
+import ar.edu.utn.frba.dds.macowins.*;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static java.math.BigDecimal.valueOf;
