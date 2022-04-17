@@ -15,6 +15,10 @@ public class PrendaVendida {
     this.cantidad = cantidad;
   }
 
+  public Tipo getTipo() {
+    return prenda.getTipo();
+  }
+
   public BigDecimal getPrecioTotal() {
     return precio.multiply(valueOf(cantidad));
   }
