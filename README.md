@@ -18,4 +18,5 @@ y a sus gustos en el aspecto estético.
 ### Primera Iteración
 
 - [Requerimientos](./docs/requerimientos/iteracion-1.md)
+- [Solución](./docs/soluciones/iteracion-1.md)
 - [Diagrama de Clases](./docs/diagramas/iteracion-1.puml)
