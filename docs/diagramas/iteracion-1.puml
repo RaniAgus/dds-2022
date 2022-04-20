@@ -1,0 +1,5 @@
+@startuml iteracion-1
+
+Foo --> Bar
+
+@enduml
