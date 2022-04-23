@@ -15,10 +15,6 @@ public class Prenda {
     this.colorSecundario = colorSecundario;
   }
 
-  public Prenda(Tipo tipo, Tela tela, Color colorPrimario) {
-    this(tipo, tela, colorPrimario, null);
-  }
-
   public Categoria getCategoria() {
     return this.tipo.getCategoria();
   }

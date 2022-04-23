@@ -1,10 +1,10 @@
 # Primera Iteración
 
-## Diagrama de Clases
+## Solución planteada
+
+### Diagrama de Clases
 
 ![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-1.puml)
-
-## Solución
 
 ### Requerimiento 1
 
@@ -130,3 +130,38 @@ class Prenda {
   }
 }
 ```
+
+## Cambios post Puesta en Común
+
+### Diagrama de Clases
+
+![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-1-cambios.puml)
+
+### Requerimientos 1 y 6
+
+No resultó ser importante cargar dinámicamente nuevos tipos de `Prenda` (igual
+me faltó aclarar que serían validados por un usuario administrador del sistema).
+Decidí cambiarlo por un `enum` ya que es más simple la validación: me permite 
+asignarle una `Categoria` al momento de definirla para evitar tener 
+inconsistencias:
+
+```java
+enum Tipo {
+  ANTEOJOS(Categoria.ACCESORIO),
+  ZAPATOS(Categoria.CALZADO),
+  // ...
+  
+  getCategoria()
+}
+```
+
+### Requerimiento 7
+
+No tuve en cuenta que la carga de una `Prenda` viene de un formulario, por lo
+que a la hora de instanciarla probablemente haga algo como:
+
+```ts
+var prenda = new Prenda(..., form.colorSecundario)
+```
+
+Entonces, tener dos constructores resulta ser innecesario.

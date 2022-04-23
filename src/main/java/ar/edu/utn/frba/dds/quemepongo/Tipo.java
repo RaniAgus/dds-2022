@@ -1,12 +1,14 @@
 package ar.edu.utn.frba.dds.quemepongo;
 
 
-public class Tipo {
-  private String nombre;
-  private Categoria categoria;
+public enum Tipo {
+  ANTEOJOS(Categoria.ACCESORIO),
+  ZAPATOS(Categoria.CALZADO),
+  /* ... */;
 
-  public Tipo(String nombre, Categoria categoria) {
-    this.nombre = nombre;
+  private final Categoria categoria;
+
+  Tipo(Categoria categoria) {
     this.categoria = categoria;
   }
 
