@@ -1,10 +1,16 @@
 package ar.edu.utn.frba.dds.quemepongo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@AllArgsConstructor
 public class Tipo {
   private String nombre;
-  private @Getter Categoria categoria;
+  private Categoria categoria;
+
+  public Tipo(String nombre, Categoria categoria) {
+    this.nombre = nombre;
+    this.categoria = categoria;
+  }
+
+  public Categoria getCategoria() {
+    return categoria;
+  }
 }
