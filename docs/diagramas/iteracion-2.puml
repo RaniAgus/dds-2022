@@ -2,7 +2,7 @@
 
 class Borrador {
   tipo
-  conTela(tela)
+  conMaterial(material)
   conTrama(trama)
   conColorPrimario(colorPrimario)
   conColorSecundario(colorSecundario)
@@ -15,12 +15,12 @@ class Prenda {
 }
 
 Prenda "tipo" -left-> Tipo
-Prenda "tela" --> Tela
+Prenda "material" --> Material
 Prenda "trama" --> Trama
 Prenda "colorSecundario\n(opcional)" -right-> Color
 Prenda "colorPrincipal" -right-> Color
 
-enum Tela {
+enum Material {
   ALGODON,
   CUERO,
   LANA,
@@ -43,10 +43,10 @@ enum Tipo {
   ANTEOJOS,
   ZAPATOS,
   ...
-  esTelaValida(tela)
+  esMaterialValido(material)
 }
 
-Tipo "telasValidas" --> "*" Tela
+Tipo "materialesValidos" --> "*" Material
 Tipo "categoria" -left-> Categoria
 
 enum Categoria {

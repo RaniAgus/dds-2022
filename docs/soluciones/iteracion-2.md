@@ -6,6 +6,12 @@
 
 ![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-2.puml)
 
+### Otros cambios
+
+Se renombró la clase `Tela` a `Material` porque pueden existir accesorios hechos
+de un material que no es un tipo de tela, por lo que me parece una mejor 
+abstracción el usar ese nombre.
+
 ### Requerimiento 1
 
 > Como usuario/a de QuéMePongo, quiero especificar qué trama tiene la tela de
@@ -27,8 +33,9 @@ enum Trama {
   ESTAMPADO
 }
 ```
-En un principio consideré agregarlo como atributo a la `Tela`, pero no le 
-agrega ningún valor ya que cualquier tela se puede combinar con cualquier trama.
+En un principio consideré agregarlo como atributo al `Material`, pero no le 
+agrega ningún valor ya que cualquier material se puede combinar con cualquier 
+trama.
 
 ### Requerimiento 4
 
@@ -41,7 +48,7 @@ su estado interno borradores de la misma:
 ```ts
 class Borrador {
     tipo
-    tela
+    material
     trama
     // ... etc
     
@@ -88,14 +95,14 @@ class Borrador {
 }
 ```
 
-En el caso de la `Tela`, se delega la responsabilidad de verificar si es un 
+En el caso del `Material`, se delega la responsabilidad de verificar si es un 
 valor válido al `Tipo` ya ingresado (el cual va a tener todos los valores de 
-`Tela` posibles:
+`Material` posibles:
 
 ```ts
 class Borrador {
-     conTela(tela: Tela) {
-         if (!this.tipo.esTelaValida(tela)) {
+     conMaterial(material: Material) {
+         if (!this.tipo.esMaterialValido(material)) {
              throw new PrendaInvalidaException(...)
          }
          // ..
@@ -103,12 +110,12 @@ class Borrador {
 }
 
 ```
-Por lo tanto, se convierte la clase `Tela` a `enum` para dejar asentado en el 
-modelo todos los valores posibles (lo cual no se puede lograr utilizando un 
+Por lo tanto, se convierte la clase `Material` a `enum` para dejar asentado en 
+el modelo todos los valores posibles (lo cual no se puede lograr utilizando un 
 `String`):
 
 ```ts
-enum Tela {
+enum Material {
   ALGODON,
   CUERO,
   LANA,
@@ -117,22 +124,22 @@ enum Tela {
 }
 ```
 
-Para resolver este requerimiento asumí que solo el tipo de `Tela` se debe
+Para resolver este requerimiento asumí que solo el tipo de `Material` se debe
 corresponde con un `Tipo` de `Prenda`. Si se quisieran incluir todos los 
 atributos relacionados al material de una `Prenda` mencionados (`Color`es, 
-`Tela` y `Trama`) a la validación según el `Tipo`, consideraría crear una clase 
-`Material` que los contenga y que el `Tipo` contenga todas las restricciones 
+`Material` y `Trama`) a la validación según el `Tipo`, consideraría crear una 
+clase que los contenga y que el `Tipo` contenga todas las restricciones 
 posibles. 
 
 Me refiero a "restricciones" y no "valores" ya que ese universo es muy 
-amplio (siendo el producto de los valores posibles de `Color`(^2) x `Tela` x 
+amplio (siendo el producto de los valores posibles de `Color`(^2) x `Material` x 
 `Trama`), por lo que la carga de cada uno de los mismos resultaría ser una 
-tarea muy  tediosa.
+tarea muy tediosa.
 
 ### Requerimiento 5
 
 > Como usuario/a de QuéMePongo, quiero poder no indicar ninguna trama para una
-  tela, y que por defecto ésta sea lisa.
+  material, y que por defecto ésta sea lisa.
 
 El método `crearPrenda` de un `Borrador` va a incluir ese valor por defecto en
 caso de que sea `null`:
@@ -142,7 +149,7 @@ class Borrador {
     crearPrenda() {
         return new Prenda(
             // ...
-            this.tela != null ? this.tela : Tela.LISA, 
+            this.material != null ? this.material : Material.LISA, 
             // ...
         )
     }
