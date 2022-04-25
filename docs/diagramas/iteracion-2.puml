@@ -1,0 +1,33 @@
+@startuml iteracion-2
+
+class Prenda {
+}
+
+Prenda "tipo" --> Tipo
+Prenda "tela" --> Tela
+Prenda "colorSecundario\n(opcional)" -right-> Color
+Prenda "colorPrincipal" -right-> Color
+
+class Tela {
+  nombre
+}
+
+class Color {
+}
+
+enum Tipo {
+  ANTEOJOS(ACCESORIO),
+  ZAPATOS(CALZADO),
+  ...(...)
+}
+
+Tipo "categoria" --> Categoria
+
+enum Categoria {
+  CALZADO
+  PARTE_SUPERIOR,
+  PARTE_INFERIOR,
+  ACCESORIO
+}
+
+@enduml
