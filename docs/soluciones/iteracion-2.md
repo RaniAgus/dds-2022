@@ -117,6 +117,18 @@ enum Tela {
 }
 ```
 
+Para resolver este requerimiento asumí que solo el tipo de `Tela` se debe
+corresponde con un `Tipo` de `Prenda`. Si se quisieran incluir todos los 
+atributos relacionados al material de una `Prenda` mencionados (`Color`es, 
+`Tela` y `Trama`) a la validación según el `Tipo`, consideraría crear una clase 
+`Material` que los contenga y que el `Tipo` contenga todas las restricciones 
+posibles. 
+
+Me refiero a "restricciones" y no "valores" ya que ese universo es muy 
+amplio (siendo el producto de los valores posibles de `Color`(^2) x `Tela` x 
+`Trama`), por lo que la carga de cada uno de los mismos resultaría ser una 
+tarea muy  tediosa.
+
 ### Requerimiento 5
 
 > Como usuario/a de QuéMePongo, quiero poder no indicar ninguna trama para una
