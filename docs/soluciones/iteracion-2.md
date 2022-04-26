@@ -205,9 +205,9 @@ crearlos directamente en el código utilizando una implementación de la clase
 abstract class UniformeFactory {
     crearUniforme() {
         return new Uniforme(
-            this.getPrendaSuperior(),
-            this.getPrendaInferior(),
-            this.getCalzado()    
+            this.getBorradorSuperior().crearPrenda(),
+            this.getBorradorInferior().crearPrenda(),
+            this.getBorradorCalzado().crearPrenda()    
         )
     }
 }
@@ -241,20 +241,16 @@ código elijo confiar en que voy a obtener solo valores correctos.
   negro y zapatos negros)
 
 Se van a cargar los uniformes extendiendo la clase `UniformeFactory`, 
-construyendo cada prenda a través del `Borrador`:
+devolviendo el `Borrador` correcto para crear la `Prenda`:
 
 ```ts
 class UniformeSanJuanFactory extends UniformeFactory {
     Borrador borradorSuperior = new Borrador(Tipo.CHOMBA)
           .conColorPrimario(Color.GREEN)
           .conMaterial(Material.PIQUE)
-           // ...
+           // ... etc
   
-    getPrendaSuperior(): Prenda {
-        return borradorSuperior.crearPrenda()
-    }
-    
-    // ...
+    // ... getters
 }
 ```
 
