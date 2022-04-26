@@ -1,5 +1,38 @@
 @startuml iteracion-2
 
+class UniformeSanJuan {
+  getBorradorSuperior()
+  getBorradorInferior()
+  getBorradorCalzado()
+}
+
+class UniformeJohnson {
+  getBorradorSuperior()
+  getBorradorInferior()
+  getBorradorCalzado()
+}
+
+UniformeSanJuan --|> UniformeFactory
+UniformeJohnson --|> UniformeFactory
+
+abstract UniformeFactory {
+  crearUniforme()
+  {abstract} getBorradorSuperior()
+  {abstract} getBorradorInferior()
+  {abstract} getBorradorCalzado()
+}
+
+UniformeFactory ..> Uniforme
+UniformeFactory ..> "3" Borrador
+
+class Uniforme {
+   superior
+   inferior
+   calzado
+}
+
+Uniforme --> "3" Prenda
+
 class Borrador {
   tipo
   conMaterial(material)
@@ -12,13 +45,14 @@ class Borrador {
 Borrador ..> Prenda
 
 class Prenda {
+ colorPrincipal
+ colorSecundario
 }
 
-Prenda "tipo" -left-> Tipo
-Prenda "material" --> Material
-Prenda "trama" --> Trama
-Prenda "colorSecundario\n(opcional)" -right-> Color
-Prenda "colorPrincipal" -right-> Color
+Prenda -left-> Tipo
+Prenda --> Material
+Prenda --> Trama
+Prenda --> "2" Color
 
 enum Material {
   ALGODON,
@@ -46,8 +80,8 @@ enum Tipo {
   esMaterialValido(material)
 }
 
-Tipo "materialesValidos" --> "*" Material
-Tipo "categoria" -left-> Categoria
+Tipo --> "*" Material
+Tipo --> Categoria
 
 enum Categoria {
   CALZADO

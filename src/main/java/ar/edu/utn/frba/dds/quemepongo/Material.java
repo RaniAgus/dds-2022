@@ -4,7 +4,8 @@ public enum Material {
   CUERO,
   LANA,
   JEAN,
-  PLASTICO,
-  METAL,
+  TELA,
+  PIQUE,
+  ACETATO,
   // ...
 }

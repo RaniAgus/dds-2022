@@ -5,17 +5,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Tipo {
-  ANTEOJOS(
-      Categoria.ACCESORIO,
-      Arrays.asList(Material.PLASTICO, Material.METAL)
+  ZAPATILLAS(
+      Categoria.CALZADO,
+      Arrays.asList(Material.CUERO, Material.TELA)
   ),
-  CAMPERA(
+  CHOMBA(
       Categoria.PARTE_SUPERIOR,
-      Arrays.asList(Material.CUERO, Material.JEAN, Material.LANA)
+      Arrays.asList(Material.CUERO, Material.JEAN, Material.LANA, Material.PIQUE)
   ),
   PANTALON(
       Categoria.PARTE_INFERIOR,
-      Arrays.asList(Material.CUERO, Material.JEAN)
+      Arrays.asList(Material.CUERO, Material.JEAN, Material.ACETATO)
   ),
   /* ... */;
 

@@ -192,6 +192,76 @@ peligroso hacer `new` de una`Prenda` en cualquier parte del código que no sea e
 método `crearPrenda` de `Borrador`, ya que esa instancia no va a contar con las 
 validaciones que se incluyen en el mismo.
 
+### Bonus 1
+
+> Como usuario/a de QueMePongo, quiero poder recibir sugerencias de uniformes
+armados.
+
+Como estos uniformes prearmados no van a variar demasiado en el tiempo, vamos a
+crearlos directamente en el código utilizando una implementación de la clase
+`UniformeFactory`:
+
+```ts
+abstract class UniformeFactory {
+    crearUniforme() {
+        return new Uniforme(
+            this.getPrendaSuperior(),
+            this.getPrendaInferior(),
+            this.getCalzado()    
+        )
+    }
+}
+```
+
+### Bonus 2
+
+> Como usuario/a de QueMePongo, quiero que un uniforme siempre conste de una
+  prenda superior, una inferior y un calzado
+
+Se crea una clase `Uniforme` que conste de tres `Prenda`s:
+
+```ts
+class Uniforme {
+    superior: Prenda
+    inferior: Prenda
+    calzado: Prenda
+}
+```
+
+Pensé en agregar validaciones para asegurarme de que cada parte sea superior,
+inferior y calzado respectivamente, pero como van a ser cargadas desde el
+código elijo confiar en que voy a obtener solo valores correctos.
+
+### Bonus 3
+
+> Como admin de QueMePongo, quiero poder configurar diferentes uniformes para
+  distintas instituciones (Ej: para el colegio San Juan debe ser una chomba
+  verde de piqué, un pantalón de acetato gris y zapatillas blancas, mientras que
+  para el Instituto Johnson siempre será una camisa blanca, pantalón de vestir
+  negro y zapatos negros)
+
+Se van a cargar los uniformes extendiendo la clase `UniformeFactory`, 
+construyendo cada prenda a través del `Borrador`:
+
+```ts
+class UniformeSanJuanFactory extends UniformeFactory {
+    Borrador borradorSuperior = new Borrador(Tipo.CHOMBA)
+          .conColorPrimario(Color.GREEN)
+          .conMaterial(Material.PIQUE)
+           // ...
+  
+    getPrendaSuperior(): Prenda {
+        return borradorSuperior.crearPrenda()
+    }
+    
+    // ...
+}
+```
+
+Por un lado es más simple al no requerir de una interfaz de usuario ni una 
+base de datos para cargarlos, pero por otro no es tan extensible ya que si se 
+agregan muchos colegios van a haber muchas clases en el código. 
+
 <!--
 ## Cambios post Puesta en Común
 
