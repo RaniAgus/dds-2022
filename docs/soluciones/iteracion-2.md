@@ -149,7 +149,7 @@ class Borrador {
     crearPrenda() {
         return new Prenda(
             // ...
-            this.material != null ? this.material : Material.LISA, 
+            this.trama != null ? this.trama : Trama.LISA, 
             // ...
         )
     }
@@ -174,9 +174,13 @@ class Borrador {
   }
 
   crearPrenda() {
+    if (colorPrimario == null) {
+      throw new PrendaInvalidaException(...)
+    }
+    
     return new Prenda(
         // ...
-        this.colorPrimario.orElseThrow(() => new PrendaInvalidaException(...)),
+        this.colorPrimario,
         // ...
     )
   }
