@@ -22,7 +22,7 @@ abstract UniformeFactory {
   {abstract} getBorradorCalzado()
 }
 
-UniformeFactory ..> Uniforme
+UniformeFactory ..> "<<creates>>" Uniforme
 UniformeFactory ..> "3" Borrador
 
 class Uniforme {
@@ -42,7 +42,7 @@ class Borrador {
   crearPrenda()
 }
 
-Borrador ..> Prenda
+Borrador ..> "<<creates>>" Prenda
 
 class Prenda {
  colorPrincipal
