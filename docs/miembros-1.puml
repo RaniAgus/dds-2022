@@ -1,0 +1,42 @@
+@startuml
+class Organizacion {
+    razonSocial
+    ubicacionGeografica
+}
+
+Organizacion --> "1" TipoDeOrganizacion
+Organizacion --> "1" ClasificacionDeOrganizacion
+Organizacion --> "1..*" Sector
+
+enum TipoDeOrganizacion {
+    GUBERNAMENTAL
+    ONG
+    EMPRESA
+    INSTITUCION
+}
+
+enum ClasificacionDeOrganizacion {
+    MINISTERIO
+    UNIVERSIDAD
+    ESCUELA
+    EMPRESA_PRIMARIO
+    EMPRESA_SECUNDARIO
+    etc...
+}
+
+class Sector {
+    solicitarVinculacion(miembro)
+    vincular(miembro)
+}
+
+Sector "miembros" --> "1..*" Miembro
+Sector "solicitudes" --> "1..*" Miembro
+
+class Miembro {
+    nombre
+    apellido
+
+    darDeAltaTrayecto(trayecto)
+}
+
+@enduml

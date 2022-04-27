@@ -1,0 +1,52 @@
+@startuml
+
+class SolicitudVinculacion {
+   aceptar()
+}
+
+SolicitudVinculacion --> "1" Miembro
+SolicitudVinculacion --> "1" Sector
+
+note left of SolicitudVinculacion::aceptar
+miembro.vincularA(sector)
+end note
+
+class Miembro {
+  vincularA(sector)
+}
+
+Miembro --> "1..*" Sector
+
+class Sector {
+
+}
+
+Sector --> Organizacion
+
+class Organizacion {
+  razonSocial
+  ubicacionGeografica
+  solicitarVinculacion(solicitud)
+}
+
+Organizacion --> "1..*" SolicitudVinculacion
+Organizacion --> "1" TipoDeOrganizacion
+Organizacion --> "1" ClasificacionDeOrganizacion
+
+enum TipoDeOrganizacion {
+    GUBERNAMENTAL
+    ONG
+    EMPRESA
+    INSTITUCION
+}
+
+enum ClasificacionDeOrganizacion {
+    MINISTERIO
+    UNIVERSIDAD
+    ESCUELA
+    EMPRESA_PRIMARIO
+    EMPRESA_SECUNDARIO
+    etc...
+}
+
+@enduml

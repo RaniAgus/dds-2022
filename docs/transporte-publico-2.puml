@@ -1,0 +1,39 @@
+@startuml
+
+class TransportePublico {
+    paradaInicial
+    paradaFinal
+    linea
+}
+
+TransportePublico --> "1" TipoDeTransportePublico
+
+enum TipoDeTransportePublico {
+    TREN(Lineas.deTren)
+    SUBTE(Lineas.deSubte)
+    COLECTIVO(Lineas.deColectivo)
+    ..
+    lineas
+}
+
+TipoDeTransportePublico --> "1" Lineas
+
+class Lineas {
+    static deTren
+    static deSubte
+    static deColectivo
+    darDeAltaLinea(Linea)
+}
+
+Lineas --> "1..*" Linea
+
+class Linea {
+    darDeAltaParada(Parada)
+}
+
+Linea --> "1..*" Parada
+
+class Parada {
+}
+
+@enduml
