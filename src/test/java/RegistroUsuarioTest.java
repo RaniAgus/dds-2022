@@ -14,26 +14,26 @@ public class RegistroUsuarioTest {
 
   @Test
   public void validarContrasenasDebiles() {
-    RegistroUsuarios registroUsuarios = RegistroUsuarios.INSTANCE;
+    RegistroUsuarios registroUsuarios = RegistroUsuarios.instance();
     Assertions.assertThrows(ContrasenaDebilException.class,()->registroUsuarios.verificarContrasenaDebil("corta"),"La contraseña debe tener al menos 8 caracteres");
     Assertions.assertThrows(ContrasenaDebilException.class,()->registroUsuarios.verificarContrasenaDebil("1234567890"),"Contraseña dentro de las 10000 mas usadas. Elija otra por favor");
   }
   @Test
   public void validarContrasenaUsarioPorDefecto() {
-    RegistroUsuarios registroUsuarios = RegistroUsuarios.INSTANCE;
+    RegistroUsuarios registroUsuarios = RegistroUsuarios.instance();
     Assertions.assertThrows(ContrasenaDebilException.class,()->registroUsuarios.guardarUsuario("usuario","usuario"),"No se puede utilizar contraseñas ppor defecto");
   }
 
   @Test
   public void validarUsuarioYaRegistrado() throws IOException {
-    RegistroUsuarios registroUsuarios = RegistroUsuarios.INSTANCE;
+    RegistroUsuarios registroUsuarios = RegistroUsuarios.instance();
     registroUsuarios.guardarUsuario("admin","contraSuper*Segura20");
     Assertions.assertThrows(UsuarioNoDisponibleExeption.class,()->registroUsuarios.guardarUsuario("admin","contrapocoSegura01"),"El usuario: usuario no esta disponible");
   }
 
   @Test
   public void registrarYVerificar() throws IOException {
-    RegistroUsuarios registroUsuarios = RegistroUsuarios.INSTANCE;
+    RegistroUsuarios registroUsuarios = RegistroUsuarios.instance();
     registroUsuarios.guardarUsuario("usuario","contraSuper*Segura20");
     assertTrue(registroUsuarios.validarUsuario("usuario", "contraSuper*Segura20"));
   }

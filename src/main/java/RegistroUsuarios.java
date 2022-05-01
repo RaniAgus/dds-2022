@@ -15,7 +15,11 @@ import java.util.Scanner;
 public class RegistroUsuarios {
   private Map<String, String> usuariosCreados;
   private List<String> contrasenasProhibidas;
-  public static final RegistroUsuarios INSTANCE = new RegistroUsuarios();
+  private static final RegistroUsuarios INSTANCE = new RegistroUsuarios();
+
+  public static RegistroUsuarios instance() {
+    return INSTANCE;
+  }
 
   private RegistroUsuarios()  {
     this.contrasenasProhibidas = new ArrayList<String>();
