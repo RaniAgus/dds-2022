@@ -1,0 +1,137 @@
+@startuml diagrama-2
+    
+    class Organizacion {
+        razonSocial
+        ubicacionGeografica
+
+        aceptarVinculacion(sector, miembro)
+    }
+
+    enum TipoDeOrganizacion {
+        GUBERNAMENTAL
+        ONG
+        EMPRESA
+        INSTITUCION
+    }
+
+    enum ClasificacionDeOrganizacion {
+        MINISTERIO
+        UNIVERSIDAD
+        ESCUELA
+        EMPRESA_PRIMARIO
+        EMPRESA_SECUNDARIO
+        etc...
+    }
+
+    class Sector {
+    }
+
+    class Miembro {
+        String nombre
+        String apellido
+        String documento
+
+        solicitarVinculacion(organizacion, sector)
+        darDeAltaTrayecto(trayecto)
+    }
+
+    enum tipoDeDocumento {
+        DNI
+        CUIT
+        CUIL
+        PASAPORTE
+        etc...
+    }
+
+    class Trayecto {    
+    }
+
+    class Tramo {
+        ubicacionInicial
+        ubicacionFinal
+    }
+
+    interface MedioDeTransporte {
+    }
+
+    class VehiculoParticular {
+        direccionInicial
+        direccionFinal
+    }
+
+    enum TipoDeVehiculoParticular {
+        AUTOMOVIL
+        CAMIONETA
+        MOTOCICLETA
+    }
+
+    enum TipoDeCombustible {
+        GNC
+        NAFTA
+        ELECTRICO
+        GASOIL
+    }
+
+    class TransportePublico {
+        paradaInicial
+        paradaFinal
+        linea
+    }
+
+    enum TipoDeTransportePublico {
+        TREN
+        SUBTE
+        COLECTIVO
+    }
+
+    class Linea {
+        darDeAltaParada(Parada)
+    }
+
+    class Parada {
+    }
+
+    class ServicioContratado {
+        nombre
+        direccionInicial
+        direccionFinal
+
+        static taxi()
+        static remis()
+    }
+
+    class BicicletaOAPie {
+        direccionInicial
+        direccionFinal
+    }
+
+    Organizacion --> "1" TipoDeOrganizacion
+    Organizacion --> "1" ClasificacionDeOrganizacion
+    Organizacion --> "1..*" Sector
+
+    Sector --> "1" Organizacion
+    Sector --> "1..*" Miembro : vinculados
+    Sector --> "0..*" Miembro : pendientes
+
+    Miembro --> "1..*" Sector
+    Miembro --> "1" tipoDeDocumento
+    Miembro --> "1..*" Trayecto
+    
+    Trayecto --> "1..*" Tramo
+
+    Tramo --> "1" MedioDeTransporte
+
+    MedioDeTransporte <|.. VehiculoParticular
+    MedioDeTransporte <|.. TransportePublico
+    MedioDeTransporte <|.. ServicioContratado
+    MedioDeTransporte <|.. BicicletaOAPie
+
+    VehiculoParticular --> "1" TipoDeVehiculoParticular
+    VehiculoParticular --> "1" TipoDeCombustible
+
+    TransportePublico --> "2" Parada
+    TransportePublico --> "1" Linea
+    Linea --> "1" TipoDeTransportePublico 
+    Linea --> "1..*" Parada
+
+@enduml
