@@ -3,8 +3,6 @@
     class Organizacion {
         razonSocial
         ubicacionGeografica
-
-        aceptarVinculacion(sector, miembro)
     }
 
     enum TipoDeOrganizacion {
@@ -30,8 +28,11 @@
         String nombre
         String apellido
 
-        solicitarVinculacion(organizacion, sector)
         darDeAltaTrayecto(trayecto)
+    }
+
+    class SolicitudVinculacion{
+        aceptar()
     }
 
     class Documento {
@@ -113,14 +114,17 @@
     Organizacion --> "1" TipoDeOrganizacion
     Organizacion --> "1" ClasificacionDeOrganizacion
     Organizacion --> "1..*" Sector
+    Organizacion --> "0..*" SolicitudVinculacion : pendientes
 
     Sector --> "1" Organizacion
     Sector --> "1..*" Miembro : vinculados
-    Sector --> "0..*" Miembro : pendientes
 
     Miembro --> "1..*" Sector
     Miembro --> "1" Documento
     Miembro --> "1..*" Trayecto
+
+    SolicitudVinculacion --> "1" Sector
+    SolicitudVinculacion --> "1" Miembro
     
     Trayecto --> "1..*" Tramo
 
