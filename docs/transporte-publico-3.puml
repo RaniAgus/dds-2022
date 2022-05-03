@@ -1,0 +1,61 @@
+@startuml
+
+abstract class Tramo {
+    {abstract} getUbicacionInicial()
+    {abstract} getUbicacionFinal()
+}
+
+Tramo .right.> "2" Ubicacion
+Tramo -down-> "1" MedioDeTransporte
+
+Tramo <|-- ViajeEnVehiculoParticular
+Tramo <|-- ViajeEnTransportePublico
+Tramo <|-- ViajeEnServicioContratado
+Tramo <|-- ViajeEnBicicletaOAPie
+
+ViajeEnVehiculoParticular --> VehiculoParticular
+ViajeEnTransportePublico --> TransportePublico
+ViajeEnServicioContratado --> ServicioContratado
+
+class VehiculoParticular {
+}
+
+VehiculoParticular --> "1" TipoDeVehiculoParticular
+VehiculoParticular --> "1" TipoDeCombustible
+
+enum TipoDeVehiculoParticular {
+    AUTOMOVIL
+    CAMIONETA
+    MOTOCICLETA
+}
+
+enum TipoDeCombustible {
+    GNC
+    NAFTA
+    ELECTRICO
+    GASOIL
+}
+
+class ServicioContratado {
+    nombre
+}
+
+class BicicletaOAPie {
+}
+
+class TransportePublico {
+    darDeAltaParada(tramo)
+    tramosEntre(tramoInicial, tramoFinal)
+}
+
+
+enum TipoDeTransportePublico {
+    TREN
+    SUBTE
+    COLECTIVO
+}
+
+TransportePublico --> "1" TipoDeTransportePublico
+TransportePublico -up-> "1..*" Ubicacion
+
+@enduml
