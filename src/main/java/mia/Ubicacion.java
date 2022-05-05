@@ -1,3 +1,5 @@
+package mia;
+
 /******************************************************************************
  *  Source:       https://introcs.cs.princeton.edu/java/44st/Location.java.html
  *  Immutable data type for a named location: name and (latitude, longitude).
@@ -20,8 +22,8 @@ public class Ubicacion {
   }
 
   /**
-   * @param that: la otra Ubicacion
-   * @return devuelve la distancia en kilómetros entre una Ubicacion y otra
+   * @param that: la otra mia.Ubicacion
+   * @return devuelve la distancia en kilómetros entre una mia.Ubicacion y otra
    */
   public Double distanciaA(Ubicacion that) {
     // conversión de latitudes y longitudes a radianes

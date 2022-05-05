@@ -1,3 +1,5 @@
+package mia;
+
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -24,10 +26,18 @@ public class Organizacion {
         "La organizacion debe tener un tipo");
     this.ubicacionGeografica = requireNonNull(ubicacionGeografica,
         "La ubicacion no puede ser nula");
-    this.sectores = sectores;
+    this.sectores = new ArrayList<>(sectores);
+  }
+
+  public String getRazonSocial() {
+    return razonSocial;
   }
 
   public void darDeAltaSector(Sector sector) {
     this.sectores.add(sector);
+  }
+
+  public List<Sector> getSectores() {
+    return new ArrayList<>(sectores);
   }
 }

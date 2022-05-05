@@ -1,3 +1,5 @@
+package mia;
+
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -9,8 +11,8 @@ public class Sector {
   private List<Miembro> miembros;
 
   public Sector(List<Miembro> miembros, List<Miembro> miembrosPendientes) {
-    this.miembrosPendientes = miembrosPendientes;
-    this.miembros = miembros;
+    this.miembrosPendientes = new ArrayList<>(miembrosPendientes);
+    this.miembros = new ArrayList<>(miembros);
   }
 
   public void solicitarVinculacion(Miembro miembro) {
@@ -26,5 +28,9 @@ public class Sector {
 
   public List<Miembro> getMiembros() {
     return new ArrayList<>(miembros);
+  }
+
+  public List<Miembro> getMiembrosPendientes() {
+    return new ArrayList<>(miembrosPendientes);
   }
 }

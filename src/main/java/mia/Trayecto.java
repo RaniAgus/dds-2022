@@ -1,3 +1,6 @@
+package mia;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trayecto {
@@ -7,6 +10,6 @@ public class Trayecto {
     if (tramos.isEmpty()) {
       throw new TrayectoException("El trayecto debe contener al menos un tramo");
     }
-    this.tramos = tramos;
+    this.tramos = new ArrayList<>(tramos);
   }
 }

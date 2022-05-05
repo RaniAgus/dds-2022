@@ -1,3 +1,5 @@
+package mia;
+
 public class TramoEnServicioContratado extends Tramo{
   private TipoDeServicioContratado tipoDeServicioContratado;
 

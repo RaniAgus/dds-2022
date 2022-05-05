@@ -1,3 +1,5 @@
+package mia;
+
 import static java.util.Objects.requireNonNull;
 
 public class TipoDeServicioContratado {
@@ -7,6 +9,10 @@ public class TipoDeServicioContratado {
     this.nombre = requireNonNull(nombre, "Un servicio contratado debe llevar nombre");
   }
 
-  public static final TipoDeServicioContratado Taxi = new TipoDeServicioContratado("Taxi");
-  public static final TipoDeServicioContratado Remis = new TipoDeServicioContratado("Remis");
+  public String getNombre() {
+    return nombre;
+  }
+
+  public static final TipoDeServicioContratado TAXI = new TipoDeServicioContratado("Taxi");
+  public static final TipoDeServicioContratado REMIS = new TipoDeServicioContratado("Remis");
 }

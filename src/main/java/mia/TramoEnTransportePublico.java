@@ -1,3 +1,5 @@
+package mia;
+
 import static java.util.Objects.requireNonNull;
 public class TramoEnTransportePublico extends Tramo {
   private Linea linea;

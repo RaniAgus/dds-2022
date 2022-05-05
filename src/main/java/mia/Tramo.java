@@ -1,3 +1,5 @@
+package mia;
+
 public abstract class Tramo {
   private Ubicacion ubicacionInicial;
   private Ubicacion ubicacionFinal;

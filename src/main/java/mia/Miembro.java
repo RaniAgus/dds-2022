@@ -1,9 +1,9 @@
+package mia;
+
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 
 public class Miembro {
@@ -23,11 +23,14 @@ public class Miembro {
     this.documento = requireNonNull(documento, "Un miembro debe tener un documento.");
     this.tipoDeDocumento = requireNonNull(tipoDeDocumento,
         "Un miembro debe tener un tipo de documento.");
-    this.trayectos = trayectos;
+    this.trayectos = new ArrayList<>(trayectos);
   }
 
   public void darDeAltaTrayecto(Trayecto trayecto) {
     this.trayectos.add(trayecto);
   }
 
+  public List<Trayecto> getTrayectos() {
+    return new ArrayList<>(trayectos);
+  }
 }
