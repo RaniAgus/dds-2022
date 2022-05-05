@@ -1,3 +1,5 @@
+package mia;
+
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -13,10 +15,10 @@ public class Organizacion {
   private final ClasificacionDeOrganizacion clasificacionDeOrganizacion;
   private final List<Sector> sectores;
 
-  Organizacion(String razonSocial, Ubicacion ubicacionGeografica,
-               TipoDeOrganizacion tipoDeOrganizacion,
-               ClasificacionDeOrganizacion clasificacionDeOrganizacion,
-               List<Sector> sectores) {
+  public Organizacion(String razonSocial, Ubicacion ubicacionGeografica,
+                      TipoDeOrganizacion tipoDeOrganizacion,
+                      ClasificacionDeOrganizacion clasificacionDeOrganizacion,
+                      List<Sector> sectores) {
     this.razonSocial = requireNonNull(razonSocial, "La razon social no puede ser nula");
     this.clasificacionDeOrganizacion = requireNonNull(clasificacionDeOrganizacion,
         "La clasificacion no pude ser nula");
@@ -24,17 +26,18 @@ public class Organizacion {
         "La organizacion debe tener un tipo");
     this.ubicacionGeografica = requireNonNull(ubicacionGeografica,
         "La ubicacion no puede ser nula");
-    this.sectores = sectores == null ? new ArrayList<Sector>() : sectores;
+    this.sectores = new ArrayList<>(sectores);
   }
 
-  public void aceptarVinculacionDeUnMiembro(Miembro miembro, Sector sector) {
-    if (!this.sectores.contains(sector)) {
-      throw new SectorNoEncontradoException("La organizacion no tiene ese sector");
-    }
-    sector.vincularMiembro(miembro);
+  public String getRazonSocial() {
+    return razonSocial;
   }
 
   public void darDeAltaSector(Sector sector) {
     this.sectores.add(sector);
+  }
+
+  public List<Sector> getSectores() {
+    return new ArrayList<>(sectores);
   }
 }

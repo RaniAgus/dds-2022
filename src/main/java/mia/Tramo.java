@@ -1,12 +1,11 @@
+package mia;
+
 public abstract class Tramo {
   private Ubicacion ubicacionInicial;
   private Ubicacion ubicacionFinal;
 
-  public void setUbicacionInicial(Ubicacion ubicacionInicial) {
+  public Tramo(Ubicacion ubicacionInicial, Ubicacion ubicacionFinal) {
     this.ubicacionInicial = ubicacionInicial;
-  }
-
-  public void setUbicacionFinal(Ubicacion ubicacionFinal) {
     this.ubicacionFinal = ubicacionFinal;
   }
 }
