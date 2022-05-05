@@ -1,3 +1,3 @@
 public enum TipoDeCombustible {
-  GNC,NAFTA,GASOIL,ELECTRICO
+  GNC, NAFTA, GASOIL, ELECTRICO
 }

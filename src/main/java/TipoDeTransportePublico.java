@@ -1,3 +1,3 @@
 public enum TipoDeTransportePublico {
-  TREN,SUBTE,COLECTIVO
+  TREN, SUBTE, COLECTIVO
 }

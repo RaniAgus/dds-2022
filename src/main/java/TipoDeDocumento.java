@@ -1,3 +1,3 @@
 public enum TipoDeDocumento {
-  DNI, CUIL, CUIT, PASAPORTE;
+  DNI, CUIL, CUIT, PASAPORTE
 }

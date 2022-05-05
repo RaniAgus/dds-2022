@@ -5,20 +5,26 @@ import java.util.List;
 
 
 public class Sector {
-  Organizacion organizacion;
-  List<Miembro> miembros;
+  private List<Miembro> miembrosPendientes;
+  private List<Miembro> miembros;
 
-  public Sector(Organizacion organizacion) {
-    this.organizacion = requireNonNull(organizacion,
-        "Un sector debe estar asociado a una organizacion.");
-    this.miembros = new ArrayList<>();
+  public Sector(List<Miembro> miembros, List<Miembro> miembrosPendientes) {
+    this.miembrosPendientes = miembrosPendientes;
+    this.miembros = miembros;
+  }
+
+  public void solicitarVinculacion(Miembro miembro) {
+    this.miembrosPendientes.add(requireNonNull(miembro, "el miembro no es valido"));
   }
 
   public void vincularMiembro(Miembro miembro) {
-    this.miembros.add(requireNonNull(miembro, "Se debe vincular un miembro valido."));
+    if (!this.miembrosPendientes.remove(miembro)) {
+      throw new IllegalArgumentException("El miembro no solicito vincularse al sector");
+    }
+    this.miembros.add(miembro);
   }
 
   public List<Miembro> getMiembros() {
-    return miembros;
+    return new ArrayList<>(miembros);
   }
 }

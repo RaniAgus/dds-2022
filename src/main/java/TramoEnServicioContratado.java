@@ -1,11 +1,11 @@
-import static java.util.Objects.requireNonNull;
 public class TramoEnServicioContratado extends Tramo{
-  private String nombre;
+  private TipoDeServicioContratado tipoDeServicioContratado;
 
-  public TramoEnServicioContratado(String nombre) {
-    this.nombre = requireNonNull(nombre,"No se puede instanciar un Tramo en servicio contratado sin nombre");
+  public TramoEnServicioContratado(Ubicacion ubicacionInicial,
+                                   Ubicacion ubicacionFinal,
+                                   TipoDeServicioContratado tipoDeServicioContratado) {
+    super(ubicacionInicial, ubicacionFinal);
+    this.tipoDeServicioContratado = tipoDeServicioContratado;
   }
 
-  public static final TramoEnServicioContratado Taxi = new TramoEnServicioContratado("Taxi");
-  public static final TramoEnServicioContratado Remis = new TramoEnServicioContratado("Remis");
 }
