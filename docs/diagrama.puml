@@ -1,0 +1,116 @@
+@startuml
+
+class Organizacion {
+    razonSocial : String
+    darDeAltaSector(sector)
+}
+
+Organizacion --> "1..*" Sector
+Organizacion --> Ubicacion
+Organizacion --> TipoDeOrganizacion
+Organizacion --> ClasificacionDeOrganizacion
+
+class Ubicacion {
+    nombre : String
+    latitud : Double
+    longitud : Double
+    distanciaA(otraObicacion)
+}
+
+enum TipoDeOrganizacion {
+    GUBERNAMENTAL,
+    ONG,
+    EMPRESA,
+    INSTITUCION
+}
+
+enum ClasificacionDeOrganizacion {
+    MINISTERIO,
+    UNIVERSIDAD,
+    ESCUELA,
+    EMPRESA_PRIMARIA,
+    EMPRESA_SECUNDARIA
+}
+
+
+class Sector {
+    solicitarVinculacion(miembro)
+    vincularMiembro(miembro)
+}
+
+Sector --> "0..*" Miembro : miembros
+Sector --> "0..*" Miembro : miembrosPendientes
+
+class Miembro {
+    nombre : String
+    apellido : String
+    documento : String
+    darDeAltaTrayecto(trayecto)
+}
+
+Miembro --> TipoDeDocumento
+Miembro -right-> "0..*" Trayecto
+
+enum TipoDeDocumento {
+    DNI, CUIL, CUIT, PASAPORTE
+}
+
+class Trayecto {
+
+}
+
+Trayecto -right-> "1..*" Tramo
+
+abstract class Tramo {
+
+}
+
+Tramo -up-> Ubicacion : ubicacionInicial
+Tramo -up-> Ubicacion : ubicacionFinal
+
+Tramo <|-right- TramoEnTransportePublico
+Tramo <|-- TramoEnServicioContratado
+Tramo <|-- TramoEnBicicletaOPie
+Tramo <|-- TramoEnVehiculoParticular
+
+TramoEnVehiculoParticular --> TipoDeVehiculoParticular
+TramoEnVehiculoParticular --> TipoDeCombustible
+
+enum TipoDeVehiculoParticular {
+  AUTOMOVIL,
+  CAMIONETA,
+  MOTOCICLETA
+}
+
+enum TipoDeCombustible {
+  GNC,
+  NAFTA,
+  GASOIL,
+  ELECTRICO
+}
+
+TramoEnServicioContratado --> TipoDeServicioContratado
+
+class TipoDeServicioContratado {
+    nombre : String
+    {static} TAXI
+    {static} REMIS
+}
+
+TramoEnTransportePublico -right-> Linea
+
+class Linea {
+    nombre : String
+}
+
+Linea --> TipoDeTransportePublico
+Linea --> "1..*" Ubicacion : paradas
+
+enum TipoDeTransportePublico {
+  TREN,
+  SUBTE,
+  COLECTIVO
+}
+
+
+@enduml
