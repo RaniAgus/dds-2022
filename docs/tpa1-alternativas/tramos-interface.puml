@@ -1,0 +1,61 @@
+@startuml tramos-1
+
+class Tramo {
+    ubicacionInicial
+    ubicacionFinal
+}
+
+Tramo -right-> "2" Ubicacion
+Tramo -down-> "1" MedioDeTransporte
+
+interface MedioDeTransporte {
+}
+
+MedioDeTransporte <|.. VehiculoParticular
+MedioDeTransporte <|.. TransportePublico
+MedioDeTransporte <|.. ServicioContratado
+MedioDeTransporte <|.. BicicletaOAPie
+
+class VehiculoParticular {
+}
+
+VehiculoParticular --> "1" TipoDeVehiculoParticular
+VehiculoParticular --> "1" TipoDeCombustible
+
+enum TipoDeVehiculoParticular {
+    AUTOMOVIL
+    CAMIONETA
+    MOTOCICLETA
+}
+
+enum TipoDeCombustible {
+    GNC
+    NAFTA
+    ELECTRICO
+    GASOIL
+}
+
+class ServicioContratado {
+    nombre
+}
+
+class BicicletaOAPie {
+}
+
+class TransportePublico {
+    paradas
+    darDeAltaParada(tramo)
+    tramosEntre(tramoInicial, tramoFinal)
+}
+
+
+enum TipoDeTransportePublico {
+    TREN
+    SUBTE
+    COLECTIVO
+}
+
+TransportePublico --> "1" TipoDeTransportePublico
+TransportePublico -up-> "1..*" Ubicacion
+
+@enduml
