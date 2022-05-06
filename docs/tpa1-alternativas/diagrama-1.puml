@@ -1,0 +1,161 @@
+@startuml diagrama
+    
+    class Organizacion {
+        razonSocial
+        ubicacionGeografica
+
+        aceptarVinculacion(sector, miembro)
+    }
+
+    enum TipoDeOrganizacion {
+        GUBERNAMENTAL
+        ONG
+        EMPRESA
+        INSTITUCION
+    }
+
+    enum ClasificacionDeOrganizacion {
+        MINISTERIO
+        UNIVERSIDAD
+        ESCUELA
+        EMPRESA_PRIMARIO
+        EMPRESA_SECUNDARIO
+        etc...
+    }
+
+    class Sector {
+
+    }
+
+    class Miembro {
+        nombre
+        apellido
+
+        vincular(organizacion, sector)
+        darDeAltaTrayecto(trayecto)
+    }
+
+    class AreaDeTrabajo {
+    }
+
+    class Documento {
+        numero
+    }
+
+    enum tipoDeDocumento {
+        DNI
+        CUIT
+        CUIL
+        PASAPORTE
+        etc...
+    }
+
+    class Trayecto {    
+    }
+
+    class Tramo {
+        ubicacionInicial
+        ubicacionFinal
+    }
+
+    interface MedioDeTransporte {
+    }
+
+    class VehiculoParticular {
+        direccionInicial
+        direccionFinal
+    }
+
+    enum TipoDeVehiculoParticular {
+        AUTOMOVIL
+        CAMIONETA
+        MOTOCICLETA
+    }
+
+    enum TipoDeCombustible {
+        GNC
+        NAFTA
+        ELECTRICO
+        GASOIL
+    }
+
+    class TransportePublico {
+        paradaInicial
+        paradaFinal
+        linea
+    }
+
+    enum TipoDeTransportePublico {
+        TREN(Lineas.deTren)
+        SUBTE(Lineas.deSubte)
+        COLECTIVO(Lineas.deColectivo)
+        ..
+        lineas
+    }
+
+    class Lineas {
+        static deTren
+        static deSubte
+        static deColectivo
+        darDeAltaLinea(Linea)
+    }
+
+    class Linea {
+        darDeAltaParada(Parada)
+    }
+
+    class Parada {
+    }
+
+    class ServicioContratado {
+        direccionInicial
+        direccionFinal
+    }
+
+    enum TipoDeServicioContratado {
+        TAXI
+        REMIS
+        etc...
+    }
+
+    class BicicletaOAPie {
+        direccionInicial
+        direccionFinal
+    }
+
+    Organizacion --> "1" TipoDeOrganizacion
+    Organizacion --> "1" ClasificacionDeOrganizacion
+    Organizacion --> "1..*" Sector
+
+    Sector --> "1..*" Miembro
+
+    Miembro --> "1" Documento
+    Miembro --> "1..*" AreaDeTrabajo
+
+    Documento --> "1" tipoDeDocumento
+
+    AreaDeTrabajo --> "1" Organizacion
+    AreaDeTrabajo --> "1" Sector
+
+    Miembro --> "1..*" Trayecto
+    
+    Trayecto --> "1..*" Tramo
+
+    Tramo --> "1" MedioDeTransporte
+
+    MedioDeTransporte <|.. VehiculoParticular
+    MedioDeTransporte <|.. TransportePublico
+    MedioDeTransporte <|.. ServicioContratado
+    MedioDeTransporte <|.. BicicletaOAPie
+
+    VehiculoParticular --> "1" TipoDeVehiculoParticular
+    VehiculoParticular --> "1" TipoDeCombustible
+
+    TransportePublico --> "1" TipoDeTransportePublico
+    TipoDeTransportePublico --> "1" Lineas
+    Lineas --> "1..*" Linea
+    Linea --> "1..*" Parada
+
+    ServicioContratado --> "1" TipoDeServicioContratado
+
+@enduml

@@ -1,0 +1,61 @@
+@startuml diagrama-3
+
+class Organizacion {
+    razonSocial
+    ubicacionGeografica
+}
+
+Organizacion -down-> "1" TipoDeOrganizacion
+Organizacion -down-> "1" ClasificacionDeOrganizacion
+Organizacion -down-> "1..*" Sector
+Sector -up-> "1" Organizacion
+
+enum TipoDeOrganizacion {
+    GUBERNAMENTAL
+    ONG
+    EMPRESA
+    INSTITUCION
+}
+
+enum ClasificacionDeOrganizacion {
+    MINISTERIO
+    UNIVERSIDAD
+    ESCUELA
+    EMPRESA_PRIMARIO
+    EMPRESA_SECUNDARIO
+    etc...
+}
+
+class Sector {
+    solicitarVinculacion(miembro)
+    vincular(miembro)
+}
+
+Sector -down-> "1..*" Miembro : vinculados
+Miembro -up-> "1..*" Sector
+Sector -down-> "0..*" Miembro : pendientes
+
+class Miembro {
+    String nombre
+    String apellido
+    String documento
+
+    vincular(sector)
+    darDeAltaTrayecto(trayecto)
+}
+
+Miembro -left-> "1" tipoDeDocumento
+Miembro -down-> "1..*" Trayecto
+
+enum tipoDeDocumento {
+    DNI
+    CUIT
+    CUIL
+    PASAPORTE
+    etc...
+}
+
+class Trayecto {
+}
+
+@enduml

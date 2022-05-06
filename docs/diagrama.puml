@@ -1,161 +1,116 @@
-@startuml diagrama
-    
-    class Organizacion {
-        razonSocial
-        ubicacionGeografica
+@startuml
 
-        aceptarVinculacion(sector, miembro)
-    }
+class Organizacion {
+    razonSocial : String
+    darDeAltaSector(sector)
+}
 
-    enum TipoDeOrganizacion {
-        GUBERNAMENTAL
-        ONG
-        EMPRESA
-        INSTITUCION
-    }
+Organizacion --> "1..*" Sector
+Organizacion --> Ubicacion
+Organizacion --> TipoDeOrganizacion
+Organizacion --> ClasificacionDeOrganizacion
 
-    enum ClasificacionDeOrganizacion {
-        MINISTERIO
-        UNIVERSIDAD
-        ESCUELA
-        EMPRESA_PRIMARIO
-        EMPRESA_SECUNDARIO
-        etc...
-    }
+class Ubicacion {
+    nombre : String
+    latitud : Double
+    longitud : Double
+    distanciaA(otraObicacion)
+}
 
-    class Sector {
+enum TipoDeOrganizacion {
+    GUBERNAMENTAL,
+    ONG,
+    EMPRESA,
+    INSTITUCION
+}
 
-    }
+enum ClasificacionDeOrganizacion {
+    MINISTERIO,
+    UNIVERSIDAD,
+    ESCUELA,
+    EMPRESA_PRIMARIA,
+    EMPRESA_SECUNDARIA
+}
 
-    class Miembro {
-        nombre
-        apellido
 
-        vincular(organizacion, sector)
-        darDeAltaTrayecto(trayecto)
-    }
+class Sector {
+    solicitarVinculacion(miembro)
+    vincularMiembro(miembro)
+}
 
-    class AreaDeTrabajo {
-    }
+Sector --> "0..*" Miembro : miembros
+Sector --> "0..*" Miembro : miembrosPendientes
 
-    class Documento {
-        numero
-    }
+class Miembro {
+    nombre : String
+    apellido : String
+    documento : String
+    darDeAltaTrayecto(trayecto)
+}
 
-    enum tipoDeDocumento {
-        DNI
-        CUIT
-        CUIL
-        PASAPORTE
-        etc...
-    }
+Miembro --> TipoDeDocumento
+Miembro -right-> "0..*" Trayecto
 
-    class Trayecto {    
-    }
+enum TipoDeDocumento {
+    DNI, CUIL, CUIT, PASAPORTE
+}
 
-    class Tramo {
-        ubicacionInicial
-        ubicacionFinal
-    }
+class Trayecto {
 
-    interface MedioDeTransporte {
-    }
+}
 
-    class VehiculoParticular {
-        direccionInicial
-        direccionFinal
-    }
+Trayecto -right-> "1..*" Tramo
 
-    enum TipoDeVehiculoParticular {
-        AUTOMOVIL
-        CAMIONETA
-        MOTOCICLETA
-    }
+abstract class Tramo {
 
-    enum TipoDeCombustible {
-        GNC
-        NAFTA
-        ELECTRICO
-        GASOIL
-    }
+}
 
-    class TransportePublico {
-        paradaInicial
-        paradaFinal
-        linea
-    }
+Tramo -up-> Ubicacion : ubicacionInicial
+Tramo -up-> Ubicacion : ubicacionFinal
 
-    enum TipoDeTransportePublico {
-        TREN(Lineas.deTren)
-        SUBTE(Lineas.deSubte)
-        COLECTIVO(Lineas.deColectivo)
-        ..
-        lineas
-    }
+Tramo <|-right- TramoEnTransportePublico
+Tramo <|-- TramoEnServicioContratado
+Tramo <|-- TramoEnBicicletaOPie
+Tramo <|-- TramoEnVehiculoParticular
 
-    class Lineas {
-        static deTren
-        static deSubte
-        static deColectivo
-        darDeAltaLinea(Linea)
-    }
+TramoEnVehiculoParticular --> TipoDeVehiculoParticular
+TramoEnVehiculoParticular --> TipoDeCombustible
 
-    class Linea {
-        darDeAltaParada(Parada)
-    }
+enum TipoDeVehiculoParticular {
+  AUTOMOVIL,
+  CAMIONETA,
+  MOTOCICLETA
+}
 
-    class Parada {
-    }
+enum TipoDeCombustible {
+  GNC,
+  NAFTA,
+  GASOIL,
+  ELECTRICO
+}
 
-    class ServicioContratado {
-        direccionInicial
-        direccionFinal
-    }
+TramoEnServicioContratado --> TipoDeServicioContratado
 
-    enum TipoDeServicioContratado {
-        TAXI
-        REMIS
-        etc...
-    }
+class TipoDeServicioContratado {
+    nombre : String
+    {static} TAXI
+    {static} REMIS
+}
 
-    class BicicletaOAPie {
-        direccionInicial
-        direccionFinal
-    }
+TramoEnTransportePublico -right-> Linea
 
-    Organizacion --> "1" TipoDeOrganizacion
-    Organizacion --> "1" ClasificacionDeOrganizacion
-    Organizacion --> "1..*" Sector
+class Linea {
+    nombre : String
+}
 
-    Sector --> "1..*" Miembro
+Linea --> TipoDeTransportePublico
+Linea --> "1..*" Ubicacion : paradas
 
-    Miembro --> "1" Documento
-    Miembro --> "1..*" AreaDeTrabajo
+enum TipoDeTransportePublico {
+  TREN,
+  SUBTE,
+  COLECTIVO
+}
 
-    Documento --> "1" tipoDeDocumento
-
-    AreaDeTrabajo --> "1" Organizacion
-    AreaDeTrabajo --> "1" Sector
-
-    Miembro --> "1..*" Trayecto
-    
-    Trayecto --> "1..*" Tramo
-
-    Tramo --> "1" MedioDeTransporte
-
-    MedioDeTransporte <|.. VehiculoParticular
-    MedioDeTransporte <|.. TransportePublico
-    MedioDeTransporte <|.. ServicioContratado
-    MedioDeTransporte <|.. BicicletaOAPie
-
-    VehiculoParticular --> "1" TipoDeVehiculoParticular
-    VehiculoParticular --> "1" TipoDeCombustible
-
-    TransportePublico --> "1" TipoDeTransportePublico
-    TipoDeTransportePublico --> "1" Lineas
-    Lineas --> "1..*" Linea
-    Linea --> "1..*" Parada
-
-    ServicioContratado --> "1" TipoDeServicioContratado
 
 @enduml
