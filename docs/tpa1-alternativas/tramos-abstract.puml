@@ -6,22 +6,16 @@ abstract class Tramo {
 }
 
 Tramo .right.> "2" Ubicacion
-Tramo -down-> "1" MedioDeTransporte
 
-Tramo <|-- ViajeEnVehiculoParticular
+Tramo <|-left- ViajeEnVehiculoParticular
 Tramo <|-- ViajeEnTransportePublico
 Tramo <|-- ViajeEnServicioContratado
 Tramo <|-- ViajeEnBicicletaOAPie
 
-ViajeEnVehiculoParticular --> VehiculoParticular
 ViajeEnTransportePublico --> TransportePublico
 ViajeEnServicioContratado --> ServicioContratado
-
-class VehiculoParticular {
-}
-
-VehiculoParticular --> "1" TipoDeVehiculoParticular
-VehiculoParticular --> "1" TipoDeCombustible
+ViajeEnVehiculoParticular --> "1" TipoDeVehiculoParticular
+ViajeEnVehiculoParticular --> "1" TipoDeCombustible
 
 enum TipoDeVehiculoParticular {
     AUTOMOVIL
@@ -38,9 +32,6 @@ enum TipoDeCombustible {
 
 class ServicioContratado {
     nombre
-}
-
-class BicicletaOAPie {
 }
 
 class TransportePublico {
