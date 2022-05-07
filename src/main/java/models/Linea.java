@@ -2,7 +2,6 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.Objects.requireNonNull;
 
 public class Linea {
   private String nombre;
@@ -12,7 +11,7 @@ public class Linea {
   public Linea(String nombre, List<Ubicacion> paradas, TipoDeTransportePublico tipo) {
     this.nombre = nombre;
     this.paradas = new ArrayList<>(paradas);
-    this.tipo = requireNonNull(tipo,"No se puede crear un tramo en transporte publico sin tipo");
+    this.tipo = tipo;
   }
 
   public void agregarParada(Ubicacion nuevaParada) {
@@ -20,6 +19,6 @@ public class Linea {
   }
 
   public List<Ubicacion> getParadas() {
-    return new ArrayList<>(paradas);
+    return paradas;
   }
 }

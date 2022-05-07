@@ -1,7 +1,5 @@
 package models;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,21 +14,21 @@ public class Sector {
   }
 
   public void solicitarVinculacion(Miembro miembro) {
-    this.miembrosPendientes.add(requireNonNull(miembro, "el miembro no es valido"));
+    this.miembrosPendientes.add(miembro);
   }
 
   public void vincularMiembro(Miembro miembro) {
     if (!this.miembrosPendientes.remove(miembro)) {
-      throw new IllegalArgumentException("El miembro no solicito vincularse al sector");
+      throw new IllegalArgumentException("El miembro no solicitó vincularse al sector");
     }
     this.miembros.add(miembro);
   }
 
   public List<Miembro> getMiembros() {
-    return new ArrayList<>(miembros);
+    return miembros;
   }
 
   public List<Miembro> getMiembrosPendientes() {
-    return new ArrayList<>(miembrosPendientes);
+    return miembrosPendientes;
   }
 }

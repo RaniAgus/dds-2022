@@ -1,7 +1,5 @@
 package models;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +16,10 @@ public class Miembro {
                  String documento,
                  TipoDeDocumento tipoDeDocumento,
                  List<Trayecto> trayectos) {
-    this.apellido = requireNonNull(apellido, "Un miembro debe tener un apellido.");
-    this.nombre = requireNonNull(nombre, "Un miembro debe tener un nombre.");
-    this.documento = requireNonNull(documento, "Un miembro debe tener un documento.");
-    this.tipoDeDocumento = requireNonNull(tipoDeDocumento,
-        "Un miembro debe tener un tipo de documento.");
+    this.apellido = apellido;
+    this.nombre = nombre;
+    this.documento = documento;
+    this.tipoDeDocumento = tipoDeDocumento;
     this.trayectos = new ArrayList<>(trayectos);
   }
 
@@ -31,6 +28,6 @@ public class Miembro {
   }
 
   public List<Trayecto> getTrayectos() {
-    return new ArrayList<>(trayectos);
+    return trayectos;
   }
 }
