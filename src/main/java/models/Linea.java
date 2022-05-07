@@ -19,10 +19,6 @@ public class Linea {
     this.paradas.add(nuevaParada);
   }
 
-  public String getNombre() {
-    return nombre;
-  }
-
   public List<Ubicacion> getParadas() {
     return new ArrayList<>(paradas);
   }

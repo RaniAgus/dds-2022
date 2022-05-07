@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 import static models.factory.UbicacionFactory.alem;
 import static models.factory.UbicacionFactory.medrano;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 
 public class UbicacionTest {
   @Test
@@ -13,6 +14,6 @@ public class UbicacionTest {
     Ubicacion medrano = medrano();
     Ubicacion alem = alem();
 
-    assertEquals(4.66, medrano.distanciaA(alem), 0.01);
+    assertThat(medrano.distanciaA(alem)).isCloseTo(4.66, offset(0.01));
   }
 }

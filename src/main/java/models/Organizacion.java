@@ -5,9 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class Organizacion {
   private final String razonSocial;
   private final Ubicacion ubicacionGeografica;
@@ -27,10 +24,6 @@ public class Organizacion {
     this.ubicacionGeografica = requireNonNull(ubicacionGeografica,
         "La ubicacion no puede ser nula");
     this.sectores = new ArrayList<>(sectores);
-  }
-
-  public String getRazonSocial() {
-    return razonSocial;
   }
 
   public void darDeAltaSector(Sector sector) {
