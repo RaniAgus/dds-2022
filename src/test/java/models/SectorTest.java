@@ -6,8 +6,8 @@ import static java.util.Collections.singletonList;
 import static models.factory.MiembroFactory.agus;
 import static models.factory.SectorFactory.unSectorConSolicitudes;
 import static models.factory.SectorFactory.unSectorVacio;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class SectorTest {
 
@@ -18,7 +18,7 @@ public class SectorTest {
 
     sector.solicitarVinculacion(miembro);
 
-    assertTrue(sector.getMiembrosPendientes().contains(miembro));
+    assertThat(sector.getMiembrosPendientes()).containsExactly(miembro);
   }
 
   @Test
@@ -28,7 +28,7 @@ public class SectorTest {
 
     sector.vincularMiembro(miembro);
 
-    assertTrue(sector.getMiembros().contains(miembro));
+    assertThat(sector.getMiembros()).containsExactly(miembro);
   }
 
   @Test
@@ -38,7 +38,16 @@ public class SectorTest {
 
     sector.vincularMiembro(miembro);
 
-    assertFalse(sector.getMiembrosPendientes().contains(miembro));
+    assertThat(sector.getMiembrosPendientes()).doesNotContain(miembro);
+  }
+
+  @Test
+  public void noSePuedeVincularUnMiembroQueNoHayaSolicitadoVinculacion() {
+    Sector sector = unSectorVacio();
+    Miembro miembro = agus();
+
+    assertThatThrownBy(() -> sector.vincularMiembro(miembro))
+        .isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static java.util.Collections.singletonList;
 import static models.factory.MiembroFactory.agus;
 import static models.factory.TramoFactory.tramoAPieDesdeMedranoHastaAlem;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MiembroTest {
   @Test
@@ -15,6 +15,6 @@ public class MiembroTest {
 
     miembro.darDeAltaTrayecto(trayecto);
 
-    assertTrue(miembro.getTrayectos().contains(trayecto));
+    assertThat(miembro.getTrayectos()).containsExactly(trayecto);
   }
 }

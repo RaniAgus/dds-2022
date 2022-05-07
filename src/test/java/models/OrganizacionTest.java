@@ -5,22 +5,18 @@ import org.junit.jupiter.api.Test;
 import static java.util.Collections.emptyList;
 import static models.factory.SectorFactory.unSectorVacio;
 import static models.factory.UbicacionFactory.medrano;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrganizacionTest {
-
-  @Test
-  public void sePuedeCrearUnaOrganizacion() {
-    Organizacion utn = utn();
-    assertEquals("UTN", utn.getRazonSocial());
-  }
 
   @Test
   public void sePuedeDarDeAltaUnSector() {
     Organizacion utn = utn();
     Sector unSectorVacio = unSectorVacio();
+
     utn.darDeAltaSector(unSectorVacio);
-    assertTrue(utn.getSectores().contains(unSectorVacio));
+
+    assertThat(utn.getSectores()).containsExactly(unSectorVacio);
   }
 
   private Organizacion utn() {
