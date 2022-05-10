@@ -34,7 +34,7 @@ class Uniforme {
 Uniforme --> "3" Prenda
 
 class Borrador {
-  tipo
+  conTipo(tipo)
   conMaterial(material)
   conTrama(trama)
   conColorPrimario(colorPrimario)

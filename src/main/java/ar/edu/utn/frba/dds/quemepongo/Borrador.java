@@ -5,22 +5,16 @@ import java.awt.*;
 public class Borrador {
   private Tipo tipo;
   private Material material;
-  private Trama trama;
+  private Trama trama = Trama.LISA;
   private Color colorPrimario;
   private Color colorSecundario;
 
-  public Borrador(Tipo tipo) {
-    if (tipo == null) {
-      throw new PrendaInvalidaException("Falta parámetro: tipo");
-    }
+  public Borrador conTipo(Tipo tipo) {
     this.tipo = tipo;
+    return this;
   }
 
   public Borrador conMaterial(Material material) {
-    validarParametroNoNulo(material, "material");
-    if (!tipo.esMaterialValido(material)) {
-      throw new PrendaInvalidaException(tipo, material);
-    }
     this.material = material;
     return this;
   }
@@ -31,7 +25,6 @@ public class Borrador {
   }
 
   public Borrador conColorPrimario(Color colorPrimario) {
-    validarParametroNoNulo(colorPrimario, "color primario");
     this.colorPrimario = colorPrimario;
     return this;
   }
@@ -42,21 +35,28 @@ public class Borrador {
   }
 
   public Prenda crearPrenda() {
-    validarParametroNoNulo(material, "material");
-    validarParametroNoNulo(colorPrimario, "color primario");
-
     return new Prenda(
-        tipo,
-        material,
-        trama != null ? trama : Trama.LISA,
-        colorPrimario,
+        validarParametroNoNulo(tipo, "tipo"),
+        validarMaterial(material, tipo),
+        validarParametroNoNulo(trama, "trama"),
+        validarParametroNoNulo(colorPrimario, "color primario"),
         colorSecundario
     );
   }
 
-  private void validarParametroNoNulo(Object parametro, String nombre) {
+  private static <T> T validarParametroNoNulo(T parametro, String nombre) {
     if (parametro == null) {
       throw new PrendaInvalidaException(nombre);
     }
+    return parametro;
   }
+
+  private static Material validarMaterial(Material material, Tipo tipo) {
+    validarParametroNoNulo(material, "material");
+    if (!tipo.esMaterialValido(material)) {
+      throw new PrendaInvalidaException(tipo, material);
+    }
+    return material;
+  }
+
 }

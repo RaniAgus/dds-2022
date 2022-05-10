@@ -258,18 +258,13 @@ Por un lado es más simple al no requerir de una interfaz de usuario ni una
 base de datos para cargarlos, pero por otro no es tan extensible ya que si se 
 agregan muchos colegios van a haber muchas clases en el código. 
 
-<!--
 ## Cambios post Puesta en Común
-
-### Diagrama de Clases
-
-![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-2-cambios.puml)
-
-### Requerimiento 1
 
 ### Requerimiento 2
 
-...
+No hacía falta que `Tipo` esté en el constructor de `Borrador`, al contrario,
+esto hace que el diseño sea menos flexible. Se agrega un método `conTipo()`:
 
-### Requerimiento N
--->
+```ts
+var borrador = new Borrador().conTipo(Tipo.CHOMBA)
+```

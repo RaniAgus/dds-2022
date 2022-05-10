@@ -3,15 +3,18 @@ package ar.edu.utn.frba.dds.quemepongo;
 import java.awt.*;
 
 public class UniformeSanJuanFactory extends UniformeFactory {
-  private final Borrador borradorSuperior = new Borrador(Tipo.CHOMBA)
+  private final Borrador borradorSuperior = new Borrador()
+      .conTipo(Tipo.CHOMBA)
       .conMaterial(Material.PIQUE)
       .conColorPrimario(Color.GREEN);
 
-  private final Borrador borradorInferior = new Borrador(Tipo.PANTALON)
+  private final Borrador borradorInferior = new Borrador()
+      .conTipo(Tipo.PANTALON)
       .conMaterial(Material.ACETATO)
       .conColorPrimario(Color.GRAY);
 
-  private final Borrador borradorCalzado = new Borrador(Tipo.ZAPATILLAS)
+  private final Borrador borradorCalzado = new Borrador()
+      .conTipo(Tipo.ZAPATILLAS)
       .conMaterial(Material.TELA)
       .conColorPrimario(Color.WHITE);
 
