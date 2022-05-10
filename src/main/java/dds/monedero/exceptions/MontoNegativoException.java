@@ -1,7 +1,9 @@
 package dds.monedero.exceptions;
 
+import java.math.BigDecimal;
+
 public class MontoNegativoException extends RuntimeException {
-  public MontoNegativoException(String message) {
-    super(message);
+  public MontoNegativoException(Double monto) {
+    super(monto + ": el monto a ingresar debe ser un valor positivo");
   }
 }
