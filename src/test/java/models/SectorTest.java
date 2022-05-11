@@ -18,27 +18,29 @@ public class SectorTest {
 
     sector.solicitarVinculacion(miembro);
 
-    assertThat(sector.getMiembrosPendientes()).containsExactly(miembro);
+    assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.PENDIENTE)).containsExactly(miembro);
   }
 
   @Test
   public void alAceptarUnMiembroPasaAEstarVinculadoAlSector() {
     Miembro miembro = agus();
-    Sector sector = unSectorConSolicitudes(singletonList(miembro));
+    Vinculacion vinculacion = new Vinculacion(miembro);
+    Sector sector = unSectorConSolicitudes(singletonList(vinculacion));
 
     sector.vincularMiembro(miembro);
 
-    assertThat(sector.getMiembros()).containsExactly(miembro);
+    assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.ACEPTADO)).containsExactly(miembro);
   }
 
   @Test
   public void alAceptarUnMiembroDejaDeEstarPendiente() {
     Miembro miembro = agus();
-    Sector sector = unSectorConSolicitudes(singletonList(miembro));
+    Vinculacion vinculacion = new Vinculacion(miembro);
+    Sector sector = unSectorConSolicitudes(singletonList(vinculacion));
 
     sector.vincularMiembro(miembro);
 
-    assertThat(sector.getMiembrosPendientes()).doesNotContain(miembro);
+    assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.PENDIENTE)).doesNotContain(miembro);
   }
 
   @Test
