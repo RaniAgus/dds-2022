@@ -97,7 +97,7 @@ Los métodos `poner` y `sacar` tienen muchas responsabilidades:
 
 Delego la responsabilidad de validar el monto al `Movimiento` y separo el 
 `agregarMovimiento()` en dos métodos `agregarDeposito()` y `agregarExtraccion()`
-para que las validaciones queden allí.
+y, dentro de ellos, delego las validaciones en otros métodos privados.
 
 Nota: creo que `poner` y `sacar` son fachadas que a futuro se pueden reemplazar
 por los métodos `agregarMovimiento()` y `agregarDeposito()`, pero al tratarse de
