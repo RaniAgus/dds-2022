@@ -3,7 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Miembro {
   private String nombre;
   private String apellido;
@@ -22,12 +21,13 @@ public class Miembro {
     this.tipoDeDocumento = tipoDeDocumento;
     this.trayectos = new ArrayList<>(trayectos);
   }
-
   public void darDeAltaTrayecto(Trayecto trayecto) {
     this.trayectos.add(trayecto);
   }
-
   public List<Trayecto> getTrayectos() {
     return trayectos;
+  }
+  public void solicitarVinculacion(Sector sector) {
+    sector.solicitarVinculacion(this);
   }
 }

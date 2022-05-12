@@ -1,34 +1,37 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Sector {
-  private List<Miembro> miembrosPendientes;
-  private List<Miembro> miembros;
+  private List<Vinculacion> vinculaciones;
 
-  public Sector(List<Miembro> miembros, List<Miembro> miembrosPendientes) {
-    this.miembrosPendientes = new ArrayList<>(miembrosPendientes);
-    this.miembros = new ArrayList<>(miembros);
+  public Sector(List<Vinculacion> vinculaciones) {
+    this.vinculaciones = new ArrayList<>(vinculaciones);
   }
 
   public void solicitarVinculacion(Miembro miembro) {
-    this.miembrosPendientes.add(miembro);
+    if (getVinculacionConMiembro(miembro).isPresent()) throw new IllegalArgumentException("El miembro ya tiene una vinculacion asociada en el sector");
+    this.vinculaciones.add(new Vinculacion(miembro));
+  }
+
+  private Optional<Vinculacion> getVinculacionConMiembro(Miembro miembro) {
+    return this.vinculaciones.stream().filter(vinculacion -> vinculacion.getMiembro() == miembro).findFirst();
   }
 
   public void vincularMiembro(Miembro miembro) {
-    if (!this.miembrosPendientes.remove(miembro)) {
-      throw new IllegalArgumentException("El miembro no solicitó vincularse al sector");
-    }
-    this.miembros.add(miembro);
+    Optional<Vinculacion> aux = this.getVinculacionConMiembro(miembro);
+    if (!aux.isPresent()) throw new IllegalArgumentException("El miembro no solicito vincularse.");
+    if (aux.get().getEstado() == EstadoVinculo.ACEPTADO) throw new IllegalArgumentException("El miembro ya habia sido aceptado");
+    aux.get().setEstado(EstadoVinculo.ACEPTADO);
   }
 
-  public List<Miembro> getMiembros() {
-    return miembros;
+  public List<Miembro> getMiembrosSegunEstado(EstadoVinculo estado) {
+    return this.vinculaciones.stream()
+        .filter(vinculacion -> vinculacion.getEstado() == estado)
+        .map(Vinculacion::getMiembro)
+        .collect(Collectors.toList());
   }
 
-  public List<Miembro> getMiembrosPendientes() {
-    return miembrosPendientes;
-  }
 }
