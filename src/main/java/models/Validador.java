@@ -19,9 +19,7 @@ public class Validador {
   public void validar(String Usuario,String contrasena) {
     String errores = validaciones.stream().reduce("", (errorsAccumulator, currentValidacion) -> {
     Optional<String> error = currentValidacion.validar(Usuario,contrasena);
-      if(error.isPresent()){
-        errorsAccumulator += error.get() + ". ";
-      }
+    errorsAccumulator += error.orElse("");
       return errorsAccumulator;
     }, String :: concat);
     if (!errores.isEmpty()){
