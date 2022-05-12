@@ -1,4 +1,8 @@
-package ar.edu.utn.frba.dds.quemepongo;
+package ar.edu.utn.frba.dds.quemepongo.model;
+
+import ar.edu.utn.frba.dds.quemepongo.model.estado.Estado;
+import ar.edu.utn.frba.dds.quemepongo.model.estado.Nueva;
+import ar.edu.utn.frba.dds.quemepongo.exception.PrendaInvalidaException;
 
 import java.awt.*;
 
@@ -8,6 +12,8 @@ public class Borrador {
   private Trama trama = Trama.LISA;
   private Color colorPrimario;
   private Color colorSecundario;
+  private Estado estado = new Nueva();
+  private boolean estaLavandose = false;
 
   public Borrador conTipo(Tipo tipo) {
     this.tipo = tipo;
@@ -34,13 +40,25 @@ public class Borrador {
     return this;
   }
 
+  public Borrador conEstado(Estado estado) {
+    this.estado = estado;
+    return this;
+  }
+
+  public Borrador setEstaLavandose(boolean estaLavandose) {
+    this.estaLavandose = estaLavandose;
+    return this;
+  }
+
   public Prenda crearPrenda() {
     return new Prenda(
         validarParametroNoNulo(tipo, "tipo"),
         validarMaterial(material, tipo),
         validarParametroNoNulo(trama, "trama"),
         validarParametroNoNulo(colorPrimario, "color primario"),
-        colorSecundario
+        colorSecundario,
+        validarParametroNoNulo(estado, "estado"),
+        estaLavandose
     );
   }
 

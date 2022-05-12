@@ -1,4 +1,8 @@
-package ar.edu.utn.frba.dds.quemepongo;
+package ar.edu.utn.frba.dds.quemepongo.model.uniforme;
+
+import ar.edu.utn.frba.dds.quemepongo.model.Borrador;
+import ar.edu.utn.frba.dds.quemepongo.model.Material;
+import ar.edu.utn.frba.dds.quemepongo.model.Tipo;
 
 import java.awt.*;
 

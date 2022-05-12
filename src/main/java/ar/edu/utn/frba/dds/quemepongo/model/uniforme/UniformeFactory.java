@@ -1,11 +1,15 @@
-package ar.edu.utn.frba.dds.quemepongo;
+package ar.edu.utn.frba.dds.quemepongo.model.uniforme;
+
+import ar.edu.utn.frba.dds.quemepongo.model.Atuendo;
+import ar.edu.utn.frba.dds.quemepongo.model.Borrador;
 
 public abstract class UniformeFactory {
-  public Uniforme crearUniforme() {
-    return new Uniforme(
+  public Atuendo crearUniforme() {
+    return new Atuendo(
         getBorradorSuperior().crearPrenda(),
         getBorradorInferior().crearPrenda(),
-        getBorradorCalzado().crearPrenda()
+        getBorradorCalzado().crearPrenda(),
+        null
     );
   }
 

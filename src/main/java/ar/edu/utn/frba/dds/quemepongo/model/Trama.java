@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo;
+package ar.edu.utn.frba.dds.quemepongo.model;
 
 public enum Trama {
   LISA,
