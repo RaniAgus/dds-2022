@@ -52,6 +52,8 @@ Se le agrega a la `Prenda` un método `usar()` que actualice su `Estado`:
 class Prenda {
   estado: Estado
 
+  //...
+
   usar() {
     estado = estado.usar()
   }
@@ -64,10 +66,12 @@ determinada acción:
 ```ts
 interface Estado {
   usar(): Estado
+  //...
 }
 
 class Nueva implements Estado {
   usar() => new Usada()
+  //...
 }
 ```
 
@@ -79,6 +83,8 @@ class Nueva implements Estado {
 Al segundo uso, la `Prenda` pasa a estado `Sucia`:
 ```ts
 class Usada implements Estado {
+  //...
+
   usar() => new Sucia()
 }
 ```
@@ -93,6 +99,8 @@ El estado `Sucia` tiene un contador de usos:
 class Sucia implements Estado {
   usos = 0;
 
+  //...
+
   usar() => (++usos > 3 ? new Percudida() : this);
 }
 ```
@@ -102,14 +110,16 @@ class Sucia implements Estado {
 > Como usuario/a de QuéMePongo, quiero indicar que una prenda ha sido puesta a
 > lavar.
 
-La clase `Prenda` tiene un atributo `lavandose` como boolean:
+La clase `Prenda` tiene un atributo `estaLavandose` como boolean:
 
 ```ts
 class Prenda {
-  lavandose: boolean
+  estaLavandose: boolean
+
+  //...
 
   ponerALavar() {
-    lavandose = true
+    estaLavandose = true
   }
 }
 ```
@@ -119,12 +129,14 @@ class Prenda {
 > Como usuario/a de QuéMePongo, quiero que una prenda no pueda ser sugerida
 > mientras está lavándose.
 
-El método `esSugerible()` de la `Prenda` depende tanto de `lavandose` como de su
-`Estado`:
+El método `esSugerible()` de la `Prenda` depende tanto de `estaLavandose` como
+de su `Estado`:
 
 ```ts
 class Prenda {
-  esSugerible(): boolean => estado.esSugerible()
+  // ...
+
+  esSugerible(): boolean => !estaLavandose && estado.esSugerible()
 }
 ```
 
@@ -138,6 +150,8 @@ La clase `Prenda` cuenta con un método `esSugerible()` que se delega según su
 
 ```ts
 class Percudida implements Estado {
+  //...
+
   esSugerible(): boolean => false
 }
 ```
@@ -151,8 +165,10 @@ class Percudida implements Estado {
 
 ```ts
 class Prenda {
+  //...
+
   lavar() {
-    lavandose = false
+    estaLavandose = false
     estado = estado.lavar()
   }
 }
@@ -162,6 +178,8 @@ Y para el caso de `Sucia` va a devolver una nueva instancia de `Usada`:
 
 ```ts
 class Sucia implements Estado {
+  //...
+
   lavar(): Estado => new Usada()
 }
 ```
