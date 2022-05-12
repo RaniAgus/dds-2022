@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Cuenta {
   private List<Movimiento> movimientos;
-  private Long MAX_DEPOSITOS_DIARIOS = 3L;
-  private Double MAX_VALOR_EXTRAIDO_DIARIO = 1000.00;
+  private static Long MAX_DEPOSITOS_DIARIOS = 3L;
+  private static Double MAX_VALOR_EXTRAIDO_DIARIO = 1000.00;
 
   public Cuenta(List<Movimiento> movimientos) {
     this.movimientos = new ArrayList<>(movimientos);
@@ -32,38 +32,43 @@ public class Cuenta {
   }
 
   private void agregarDeposito(Deposito deposito) {
-    if (getDepositosA(deposito.getFecha()) >= MAX_DEPOSITOS_DIARIOS) {
-      throw new MaximaCantidadDepositosException(MAX_DEPOSITOS_DIARIOS);
-    }
-
+    validarMaximoDepositosDiarios(deposito);
     movimientos.add(deposito);
   }
 
-  private Long getDepositosA(LocalDate fecha) {
-    return movimientos.stream()
-        .filter(movimiento -> movimiento.fueDepositadoA(fecha))
-        .count();
+  private void agregarExtraccion(Extraccion extraccion) {
+    validarLimiteDeExtraccionDiario(extraccion);
+    validarSaldoPositivo(extraccion);
+    movimientos.add(extraccion);
   }
 
-  private void agregarExtraccion(Extraccion extraccion) {
-    Double limiteDeExtraccion = getLimiteDeExtraccionA(extraccion.getFecha());
+  private void validarMaximoDepositosDiarios(Deposito deposito) {
+    long depositos = movimientos.stream()
+        .filter(movimiento -> movimiento.fueDepositadoA(deposito.getFecha()))
+        .count();
+
+    if (depositos >= MAX_DEPOSITOS_DIARIOS) {
+      throw new MaximaCantidadDepositosException(MAX_DEPOSITOS_DIARIOS);
+    }
+  }
+
+  private void validarLimiteDeExtraccionDiario(Extraccion extraccion) {
+    double limiteDeExtraccion = MAX_VALOR_EXTRAIDO_DIARIO + movimientos.stream()
+        .filter(movimiento -> movimiento.fueExtraidoA(extraccion.getFecha()))
+        .mapToDouble(Movimiento::getValor)
+        .sum();
+
     if (limiteDeExtraccion + extraccion.getValor() < 0) {
       throw new MaximoExtraccionDiarioException(
           MAX_VALOR_EXTRAIDO_DIARIO, limiteDeExtraccion
       );
     }
+  }
+
+  private void validarSaldoPositivo(Extraccion extraccion) {
     Double saldo = getSaldo();
     if (saldo + extraccion.getValor() < 0) {
       throw new SaldoMenorException(saldo);
     }
-
-    movimientos.add(extraccion);
-  }
-
-  private Double getLimiteDeExtraccionA(LocalDate fecha) {
-    return MAX_VALOR_EXTRAIDO_DIARIO + movimientos.stream()
-        .filter(movimiento -> movimiento.fueExtraidoA(fecha))
-        .mapToDouble(Movimiento::getValor)
-        .sum();
   }
 }
