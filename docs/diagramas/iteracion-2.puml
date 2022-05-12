@@ -23,7 +23,9 @@ abstract UniformeFactory {
 }
 
 UniformeFactory ..> "<<creates>>" Uniforme
-UniformeFactory ..> "3" Borrador
+UniformeFactory ..> Borrador
+UniformeFactory ..> Borrador
+UniformeFactory ..> Borrador
 
 class Uniforme {
    superior

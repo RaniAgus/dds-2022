@@ -14,7 +14,9 @@ abstract UniformeFactory {
 }
 
 UniformeFactory .right.> Atuendo : <<creates>>
-UniformeFactory ..> "3" Borrador
+UniformeFactory ..> Borrador
+UniformeFactory ..> Borrador
+UniformeFactory ..> Borrador
 
 class Atuendo {
    superior
@@ -31,6 +33,7 @@ class Borrador {
   conTrama(trama)
   conColorPrimario(colorPrimario)
   conColorSecundario(colorSecundario)
+  (...)
   crearPrenda()
 }
 
