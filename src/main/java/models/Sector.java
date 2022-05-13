@@ -20,11 +20,15 @@ public class Sector {
     return this.vinculaciones.stream().filter(vinculacion -> vinculacion.getMiembro() == miembro).findFirst();
   }
 
-  public void vincularMiembro(Miembro miembro) {
+  public void aceptarMiembro(Miembro miembro) {
     Optional<Vinculacion> aux = this.getVinculacionConMiembro(miembro);
     if (!aux.isPresent()) throw new IllegalArgumentException("El miembro no solicito vincularse.");
-    if (aux.get().getEstado() == EstadoVinculo.ACEPTADO) throw new IllegalArgumentException("El miembro ya habia sido aceptado");
-    aux.get().setEstado(EstadoVinculo.ACEPTADO);
+    aux.get().aceptar();
+  }
+  public void rechazarMiembro(Miembro miembro) {
+    Optional<Vinculacion> aux = this.getVinculacionConMiembro(miembro);
+    if (!aux.isPresent()) throw new IllegalArgumentException("El miembro no solicito vincularse.");
+    aux.get().rechazar();
   }
 
   public List<Miembro> getMiembrosSegunEstado(EstadoVinculo estado) {
