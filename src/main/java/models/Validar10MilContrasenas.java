@@ -12,21 +12,20 @@ import java.util.Scanner;
 public class Validar10MilContrasenas implements Validacion{
   private List<String> contrasenasProhibidas = new ArrayList<String>();
 
-
-  @Override
-  public Optional<String> validar(String Usuario,String contrasena) {
+  public Validar10MilContrasenas() throws FileNotFoundException {
     Optional<String> error = Optional.empty();
     File listado = new File("./Weak_Paswords.txt");
     Scanner contrasenasDebiles = null;
-    try {
-      contrasenasDebiles = new Scanner(listado);
-    } catch (FileNotFoundException e) {
-      error = Optional.of("no se encontro el archivo Weak_Paswords.txt");
-    }
+    contrasenasDebiles = new Scanner(listado);
     while (contrasenasDebiles.hasNextLine()) {
       this.contrasenasProhibidas.add(contrasenasDebiles.nextLine());
     }
     contrasenasDebiles.close();
+  }
+
+  @Override
+  public Optional<String> validar(String Usuario,String contrasena) {
+    Optional<String> error = Optional.empty();
     if (this.contrasenasProhibidas.contains(contrasena)) {
       error = Optional.of("Contraseña dentro de las 10000 mas usadas. Elija otra por favor");
     }
