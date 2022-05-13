@@ -3,32 +3,20 @@ package models;
 public enum EstadoVinculo {
   PENDIENTE {
     @Override
-    public void aceptar(Vinculacion vinculacion) {
-      vinculacion.setEstado(EstadoVinculo.ACEPTADO);
+    public EstadoVinculo aceptar(Vinculacion vinculacion) {
+      return EstadoVinculo.ACEPTADO;
     }
     @Override
-    public void rechazar(Vinculacion vinculacion) {
-      vinculacion.setEstado(EstadoVinculo.RECHAZADO);
+    public EstadoVinculo rechazar(Vinculacion vinculacion) {
+      return EstadoVinculo.RECHAZADO;
     }
   },
-  ACEPTADO {
-    @Override
-    public void aceptar(Vinculacion vinculacion) {
-      throw new IllegalStateException("El miembro ya fue aceptado.");
-    }
-    @Override
-    public void rechazar(Vinculacion vinculacion) {
-    }
-  },
-  RECHAZADO {
-    @Override
-    public void aceptar(Vinculacion vinculacion) {
-    }
-    @Override
-    public void rechazar(Vinculacion vinculacion) {
-      throw new IllegalStateException("El miembro ya fue rechazado.");
-    }
-  };
-  abstract void aceptar(Vinculacion vinculacion);
-  abstract void rechazar(Vinculacion vinculacion);
+  ACEPTADO,
+  RECHAZADO;
+  public EstadoVinculo aceptar(Vinculacion vinculacion) {
+    return this;
+  }
+  public EstadoVinculo rechazar(Vinculacion vinculacion) {
+    return this;
+  }
 }
