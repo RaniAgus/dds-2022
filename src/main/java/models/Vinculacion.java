@@ -9,10 +9,10 @@ public class Vinculacion {
     this.estado = EstadoVinculo.PENDIENTE;
   }
   public void aceptar(){
-    this.estado.aceptar(this);
+    this.estado = this.estado.aceptar(this);
   }
   public void rechazar(){
-    this.estado.rechazar(this);
+    this.estado = this.estado.rechazar(this);
   }
   public Miembro getMiembro() {
     return miembro;
@@ -21,8 +21,5 @@ public class Vinculacion {
     return estado;
   }
 
-  public void setEstado(EstadoVinculo estado) {
-    this.estado = estado;
-  }
 }
 
