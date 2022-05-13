@@ -13,10 +13,8 @@ public class Validar10MilContrasenas implements Validacion{
   private List<String> contrasenasProhibidas = new ArrayList<String>();
 
   public Validar10MilContrasenas() throws FileNotFoundException {
-    Optional<String> error = Optional.empty();
     File listado = new File("./Weak_Paswords.txt");
-    Scanner contrasenasDebiles = null;
-    contrasenasDebiles = new Scanner(listado);
+    Scanner contrasenasDebiles = new Scanner(listado);
     while (contrasenasDebiles.hasNextLine()) {
       this.contrasenasProhibidas.add(contrasenasDebiles.nextLine());
     }
