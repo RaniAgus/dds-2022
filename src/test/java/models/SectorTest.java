@@ -14,42 +14,30 @@ public class SectorTest {
   @Test
   public void unMiembroPuedeSolicitarVincularse() {
     Sector sector = unSectorVacio();
-    Miembro miembro = agus();
+    Vinculacion vinculacion = new Vinculacion(agus());
 
-    sector.solicitarVinculacion(miembro);
+    sector.solicitarVinculacion(vinculacion);
 
-    assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.PENDIENTE)).containsExactly(miembro);
+    assertThat(sector.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE)).containsExactly(vinculacion);
   }
-
   @Test
   public void alAceptarUnMiembroPasaAEstarVinculadoAlSector() {
     Miembro miembro = agus();
     Vinculacion vinculacion = new Vinculacion(miembro);
     Sector sector = unSectorConSolicitudes(singletonList(vinculacion));
 
-    sector.vincularMiembro(miembro);
+    vinculacion.aceptar();
 
-    assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.ACEPTADO)).containsExactly(miembro);
+    assertThat(sector.getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO)).containsExactly(vinculacion);
   }
-
   @Test
   public void alAceptarUnMiembroDejaDeEstarPendiente() {
     Miembro miembro = agus();
     Vinculacion vinculacion = new Vinculacion(miembro);
     Sector sector = unSectorConSolicitudes(singletonList(vinculacion));
 
-    sector.vincularMiembro(miembro);
+    vinculacion.aceptar();
 
-    assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.PENDIENTE)).doesNotContain(miembro);
+    assertThat(sector.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE)).doesNotContain(vinculacion);
   }
-
-  @Test
-  public void noSePuedeVincularUnMiembroQueNoHayaSolicitadoVinculacion() {
-    Sector sector = unSectorVacio();
-    Miembro miembro = agus();
-
-    assertThatThrownBy(() -> sector.vincularMiembro(miembro))
-        .isExactlyInstanceOf(IllegalArgumentException.class);
-  }
-
 }
