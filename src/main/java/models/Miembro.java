@@ -27,7 +27,4 @@ public class Miembro {
   public List<Trayecto> getTrayectos() {
     return trayectos;
   }
-  public void solicitarVinculacion(Sector sector) {
-    sector.solicitarVinculacion(this);
-  }
 }
