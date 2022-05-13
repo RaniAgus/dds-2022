@@ -27,7 +27,7 @@ public class SectorTest {
     Vinculacion vinculacion = new Vinculacion(miembro);
     Sector sector = unSectorConSolicitudes(singletonList(vinculacion));
 
-    sector.vincularMiembro(miembro);
+    sector.aceptarMiembro(miembro);
 
     assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.ACEPTADO)).containsExactly(miembro);
   }
@@ -38,7 +38,7 @@ public class SectorTest {
     Vinculacion vinculacion = new Vinculacion(miembro);
     Sector sector = unSectorConSolicitudes(singletonList(vinculacion));
 
-    sector.vincularMiembro(miembro);
+    sector.aceptarMiembro(miembro);
 
     assertThat(sector.getMiembrosSegunEstado(EstadoVinculo.PENDIENTE)).doesNotContain(miembro);
   }
@@ -48,7 +48,7 @@ public class SectorTest {
     Sector sector = unSectorVacio();
     Miembro miembro = agus();
 
-    assertThatThrownBy(() -> sector.vincularMiembro(miembro))
+    assertThatThrownBy(() -> sector.aceptarMiembro(miembro))
         .isExactlyInstanceOf(IllegalArgumentException.class);
   }
 
