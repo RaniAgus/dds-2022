@@ -6,6 +6,7 @@ public enum EstadoVinculo {
     public EstadoVinculo aceptar(Vinculacion vinculacion) {
       return EstadoVinculo.ACEPTADO;
     }
+
     @Override
     public EstadoVinculo rechazar(Vinculacion vinculacion) {
       return EstadoVinculo.RECHAZADO;
@@ -13,9 +14,11 @@ public enum EstadoVinculo {
   },
   ACEPTADO,
   RECHAZADO;
+
   public EstadoVinculo aceptar(Vinculacion vinculacion) {
     return this;
   }
+
   public EstadoVinculo rechazar(Vinculacion vinculacion) {
     return this;
   }

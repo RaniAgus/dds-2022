@@ -21,9 +21,11 @@ public class Miembro {
     this.tipoDeDocumento = tipoDeDocumento;
     this.trayectos = new ArrayList<>(trayectos);
   }
+
   public void darDeAltaTrayecto(Trayecto trayecto) {
     this.trayectos.add(trayecto);
   }
+
   public List<Trayecto> getTrayectos() {
     return trayectos;
   }

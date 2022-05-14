@@ -1,8 +1,8 @@
 package models;
 
-public class VehiculoParticular implements MedioDeTransporte{
-  private TipoDeVehiculoParticular tipoDeVehiculo;
-  private TipoDeCombustible tipoDeCombustible;
+public class VehiculoParticular implements MedioDeTransporte {
+  private final TipoDeVehiculoParticular tipoDeVehiculo;
+  private final TipoDeCombustible tipoDeCombustible;
 
   public VehiculoParticular(TipoDeVehiculoParticular tipoDeVehiculo,
                             TipoDeCombustible tipoDeCombustible) {

@@ -1,13 +1,15 @@
 package models;
 
-public class Administrador {
-  String Usuario;
-  String Contrasena;
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
-  public Administrador(Validador validador,String usuario, String contrasena) {
-    validador.validar(usuario,contrasena);
-    this.Contrasena = contrasena;
-    this.Usuario = usuario;
+public class Administrador {
+  String usuario;
+  String contrasena;
+
+  public Administrador(Validador validador, String usuario, String contrasena) {
+    validador.validar(usuario, contrasena);
+    this.contrasena = sha256Hex(contrasena);
+    this.usuario = usuario;
     Administradores.getInstance().agregarAdministrador(this);
   }
 }

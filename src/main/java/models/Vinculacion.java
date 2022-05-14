@@ -8,15 +8,19 @@ public class Vinculacion {
     this.miembro = miembro;
     this.estado = EstadoVinculo.PENDIENTE;
   }
-  public void aceptar(){
+
+  public void aceptar() {
     this.estado = this.estado.aceptar(this);
   }
-  public void rechazar(){
+
+  public void rechazar() {
     this.estado = this.estado.rechazar(this);
   }
+
   public Miembro getMiembro() {
     return miembro;
   }
+
   public EstadoVinculo getEstado() {
     return estado;
   }
