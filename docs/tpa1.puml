@@ -1,0 +1,98 @@
+@startuml
+
+class Organizacion {
+    razonSocial : String
+    tipo : TipoDeOrganizacion
+    clasificacion : ClasificacionDeOrganizacion
+    ubicacion : Ubicacion
+    darDeAltaSector(sector)
+}
+
+Organizacion --> "1..*" Sector
+
+class Sector {
+    solicitarVinculacion(vinculacion)
+    getVinculacionesSegunEstado(estadoVinculo)
+}
+
+Sector --> "0..*" Vinculacion : vinculaciones
+
+class Vinculacion {
+    aceptar()
+    rechazar()
+}
+
+Vinculacion --> Miembro
+Vinculacion -right-> EstadoVinculo
+
+enum EstadoVinculo {
+    PENDIENTE,
+    ACEPTADO,
+    RECHAZADO
+    aceptar(vinculacion)
+    rechazar(vinculacion)
+}
+EstadoVinculo ..> Vinculacion
+
+class Miembro {
+    nombre : String
+    apellido : String
+    documento : String
+    tipoDeDocumento : TipoDeDocumento
+    darDeAltaTrayecto(trayecto)
+}
+
+Miembro --> "0..*" Trayecto
+
+class Trayecto {
+
+}
+
+Trayecto --> "1..*" Tramo
+
+class Tramo {
+    ubicacionInicial : Ubicacion
+    ubicacionFinal : Ubicacion
+}
+
+Tramo --> MedioDeTransporte
+
+interface MedioDeTransporte {
+}
+
+MedioDeTransporte <|.. TransportePublico
+MedioDeTransporte <|.. ServicioContratado
+MedioDeTransporte <|.. BicicletaOPie
+MedioDeTransporte <|.. VehiculoParticular
+
+class VehiculoParticular {
+    tipo : TipoDeVehiculoParticular
+    combustible : TipoDeCombustible
+}
+
+ServicioContratado --> TipoDeServicioContratado
+
+class TipoDeServicioContratado {
+    nombre : String
+    {static} TAXI
+    {static} REMIS
+}
+
+TransportePublico --> Linea
+
+class Linea {
+    nombre : String
+    tipo : TipoDeTransportePublico
+    agregarParada(ubicacion)
+}
+
+Linea --> "1..*" Ubicacion : paradas
+
+class Ubicacion {
+    nombre : String
+    latitud : Double
+    longitud : Double
+    distanciaA(otraObicacion)
+}
+
+@enduml
