@@ -1,7 +1,7 @@
 package models;
 
-import models.exceptions.ContrasenaDebilException;
-import models.exceptions.UsuarioNoDisponibleExeption;
+import exceptions.ContrasenaDebilException;
+import exceptions.UsuarioNoDisponibleExeption;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

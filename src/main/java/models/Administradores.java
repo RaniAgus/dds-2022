@@ -5,7 +5,7 @@ import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import models.exceptions.UsuarioNoDisponibleExeption;
+import exceptions.UsuarioNoDisponibleExeption;
 
 
 public final class Administradores {
@@ -17,7 +17,7 @@ public final class Administradores {
   }
 
   private Administradores() {
-    this.admins = new ArrayList<Administrador>();
+    this.admins = new ArrayList<>();
   }
 
   public void agregarAdministrador(Administrador administrador) {

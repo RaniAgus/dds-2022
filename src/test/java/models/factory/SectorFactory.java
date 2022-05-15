@@ -1,7 +1,7 @@
 package models.factory;
 
-import models.Sector;
-import models.Vinculacion;
+import models.organizacion.Sector;
+import models.organizacion.Vinculacion;
 
 import java.util.List;
 

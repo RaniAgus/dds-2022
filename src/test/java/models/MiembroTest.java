@@ -1,5 +1,7 @@
 package models;
 
+import models.miembro.Miembro;
+import models.miembro.Trayecto;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.singletonList;

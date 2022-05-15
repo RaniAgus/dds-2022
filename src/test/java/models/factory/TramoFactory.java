@@ -1,7 +1,7 @@
 package models.factory;
 
-import models.Tramo;
-import models.BicicletaOPie;
+import models.miembro.Tramo;
+import models.mediodetransporte.BicicletaOPie;
 
 import static models.factory.UbicacionFactory.medrano;
 import static models.factory.UbicacionFactory.alem;

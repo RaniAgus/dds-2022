@@ -1,5 +1,7 @@
 package models;
 
+import models.validador.Validador;
+
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 public class Administrador {

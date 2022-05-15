@@ -1,7 +1,7 @@
 package models.factory;
 
-import models.Miembro;
-import models.TipoDeDocumento;
+import models.miembro.Miembro;
+import models.miembro.TipoDeDocumento;
 
 import static java.util.Collections.emptyList;
 

@@ -43,8 +43,4 @@ public class Ubicacion {
     return Math.toDegrees(angulo) * KILOMETROS_POR_GRADO;
   }
 
-  @Override
-  public String toString() {
-    return nombre + " (" + latitud + ", " + longitud + ")";
-  }
 }

@@ -1,5 +1,6 @@
 package models;
 
+import models.mediodetransporte.Linea;
 import org.junit.jupiter.api.Test;
 import static models.factory.LineaFactory.subteB;
 import static org.assertj.core.api.Assertions.assertThat;

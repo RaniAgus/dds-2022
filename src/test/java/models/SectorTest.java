@@ -1,5 +1,9 @@
 package models;
 
+import models.miembro.Miembro;
+import models.organizacion.EstadoVinculo;
+import models.organizacion.Sector;
+import models.organizacion.Vinculacion;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.singletonList;
@@ -7,7 +11,6 @@ import static models.factory.MiembroFactory.agus;
 import static models.factory.SectorFactory.unSectorConSolicitudes;
 import static models.factory.SectorFactory.unSectorVacio;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class SectorTest {
 
