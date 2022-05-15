@@ -1,0 +1,35 @@
+@startuml
+
+class Administradores {
+    agregarAdministrador(administrador)
+    obtenerAdministrador(usuario, contrasena)
+    existeAdministrador(usuario)
+}
+
+Administradores --> "1..*" Administrador
+
+class Administrador {
+    usuario : String
+    contrasena : String
+}
+
+Administrador ..> Validador
+
+class Validador {
+    agregarValidacion()
+    validar(usuario, contrasena)
+}
+
+Validador --> "0..*" Validacion
+
+interface Validacion {
+    validar(usuario, contrasena)
+}
+
+Validacion <|.. Validar8Caracteres
+Validacion <|.. Validar10MilContrasenas
+Validacion <|.. ValidarCaracteresConsecutivos
+Validacion <|.. ValidarCaracteresRepetidos
+Validacion <|.. ValidarUsuarioPorDefecto
+
+@enduml
