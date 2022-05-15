@@ -26,17 +26,17 @@ public final class Administradores {
 
   public Administrador obtenerAdministrador(String usuario, String contrasena) {
     if (!existeAdministrador(usuario)) {
-      throw new UsuarioNoDisponibleExeption("No existe el usuarion: " +  usuario);
+      throw new UsuarioNoDisponibleExeption("No existe el usuario: " +  usuario);
     }
     Optional<Administrador> administrador = this.admins
         .stream()
-        .filter(admin -> admin.usuario.equals(usuario)
-        && admin.contrasena.equals(sha256Hex(contrasena))).findFirst();
+        .filter(admin -> admin.getUsuario().equals(usuario)
+        && admin.getContrasena().equals(sha256Hex(contrasena))).findFirst();
     return administrador.orElseThrow(() -> new UsuarioNoDisponibleExeption(
         "No se pudo validar que sea ese administrador"));
   }
 
   public boolean existeAdministrador(String usuario) {
-    return this.admins.stream().anyMatch(admin -> admin.usuario.equals(usuario));
+    return this.admins.stream().anyMatch(admin -> admin.getUsuario().equals(usuario));
   }
 }

@@ -2,18 +2,14 @@ package models;
 
 import models.exceptions.ContrasenaDebilException;
 import models.exceptions.UsuarioNoDisponibleExeption;
-import models.factory.ValidadorFactory;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static models.factory.ValidadorFactory.validador;
 
 public class RegistroUsuarioTest {
 
@@ -21,7 +17,7 @@ public class RegistroUsuarioTest {
   public void validarContrasenasDebiles()  {
     SoftAssertions soft = new SoftAssertions();
 
-    soft.assertThatThrownBy(() -> new Administrador(ValidadorFactory.validador()
+    soft.assertThatThrownBy(() -> new Administrador(validador()
             ,"admin1234"
             ,"admin1234"))
         .isExactlyInstanceOf(ContrasenaDebilException.class)
@@ -29,35 +25,44 @@ public class RegistroUsuarioTest {
             + "La contraseña no debe tener 4 caracteres consecutivos."
             +"No se puede utilizar contraseñas por defecto.");
 
-    soft.assertThatThrownBy(() -> new Administrador(ValidadorFactory.validador()
+    soft.assertThatThrownBy(() -> new Administrador(validador()
         ,"admin"
         ,"aaa1234"))
         .isExactlyInstanceOf(ContrasenaDebilException.class)
         .hasMessage("La contraseña debe tener al menos 8 caracteres."
             + "La contraseña no debe tener 4 caracteres consecutivos."
             + "La contraseña no debe repetir 3 veces seguidas un mismo caracter.");
+
+    soft.assertAll();
   }
 
 
   @Test
   public void registrarYObtener() throws FileNotFoundException {
-    Administradores administradores= Administradores.getInstance();
-   Administrador administrador = new Administrador(ValidadorFactory.validador(),"Juancito","ContraSUper*MegaS3gUr4");
-   Assertions.assertEquals(administrador,administradores.obtenerAdministrador("Juancito","ContraSUper*MegaS3gUr4"));
+    Administradores administradores = Administradores.getInstance();
+    Administrador administrador = new Administrador(validador(), "Juancito", "ContraSUper*MegaS3gUr4");
+
+    administradores.agregarAdministrador(administrador);
+
     SoftAssertions soft = new SoftAssertions();
 
-    assertThatThrownBy(() -> administradores.obtenerAdministrador("Juancito","contraIncorrecta"))
+    soft.assertThat(administradores.obtenerAdministrador("Juancito","ContraSUper*MegaS3gUr4"))
+        .isEqualTo(administrador);
+
+    soft.assertThatThrownBy(() -> administradores.obtenerAdministrador("Juancito","contraIncorrecta"))
         .isExactlyInstanceOf(UsuarioNoDisponibleExeption.class)
         .hasMessage("No se pudo validar que sea ese administrador");
 
-    assertThatThrownBy(() -> administradores.obtenerAdministrador("Usuario_Inexistente","contraIncorrecta"))
+    soft.assertThatThrownBy(() -> administradores.obtenerAdministrador("Usuario_Inexistente","contraIncorrecta"))
         .isExactlyInstanceOf(UsuarioNoDisponibleExeption.class)
-        .hasMessage("No existe el usuarion: Usuario_Inexistente");
+        .hasMessage("No existe el usuario: Usuario_Inexistente");
+
+    soft.assertAll();
   }
 
   @BeforeEach
   public void limpiarSingleton() {
-    Administradores.getInstance().admins= new ArrayList<Administrador>();
+    Administradores.getInstance().admins = new ArrayList<>();
   }
 
 }
