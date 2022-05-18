@@ -31,6 +31,12 @@ clase `Atuendo`.
 Modelo el `Guardarropas` como una colección de `Prendas` que puede tener un
 usuario del sistema.
 
+Hasta el momento desconozco cómo es la lógica de generación de una sugerencia:
+ya sea si debe ser una sola, aleatoria entre todas las prendas sugeribles, o si 
+debe generar todas las combinaciones posibles. Por lo tanto, por ahora expongo
+el método `getPrendasSugeribles(categoria)`, que filtrará las prendas que
+pertenezcan a una categoría y `esSugerible()` sea `true`.
+
 ### Requerimiento 4
 
 > Como usuario/a de QuéMePongo, quiero que una sugerencia cubra cada parte del
