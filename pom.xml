@@ -27,6 +27,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>31.1-jre</version>
+    </dependency>
+    <dependency>
       <groupId>com.github.RaniAgus</groupId>
       <artifactId>api-accuweather-objetos</artifactId>
       <version>0.0.1</version>
