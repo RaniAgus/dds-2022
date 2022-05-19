@@ -17,4 +17,16 @@ public class HighLevelFileSystem {
     }
     return new File(fileSystem, descriptor);
   }
+
+  public FileStatus getStatusOf(String path) {
+    if (fileSystem.isDirectory(path)) {
+      return FileStatus.DIRECTORY;
+    } else if (fileSystem.isRegularFile(path)) {
+      return FileStatus.REGULAR_FILE;
+    } else if (fileSystem.exists(path)) {
+      return FileStatus.OTHER;
+    } else {
+      return FileStatus.NON_EXISTENT;
+    }
+  }
 }
