@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.function.Consumer;
 
 import static org.mockito.Mockito.*;
 
@@ -113,14 +116,59 @@ class HighLevelFileSystemTest {
     verify(lowLevelFileSystem, times(1)).syncWriteFile(42, buffer.getBytes(), 0, 4);
   }
 
-  @Test
+  @Test @SuppressWarnings("unchecked")
   void sePuedeLeerAsincronicamenteUnArchivo() {
-    Assertions.fail("Completar");
+    Buffer buffer = new Buffer(10);
+
+    when(lowLevelFileSystem.openFile("ejemplo.txt")).thenReturn(42);
+    doAnswer(invocation -> {
+      Arrays.fill(buffer.getBytes(), 0, 4, (byte) 3);
+      invocation.getArgument(4, Consumer.class).accept(4);
+      return null;
+    }).when(lowLevelFileSystem).asyncReadFile(eq(42), eq(buffer.getBytes()), eq(0), eq(9), any());
+
+    File file = fileSystem.open("ejemplo.txt");
+    CompletableFuture<Buffer> future = file.readAsync(buffer);
+
+    Assertions.assertEquals(0, future.join().getStart());
+    Assertions.assertEquals(3, future.join().getEnd());
+    Assertions.assertEquals(4, future.join().getCurrentSize());
+    Assertions.assertArrayEquals(future.join().getBytes(), new byte[] {3, 3, 3, 3, 0, 0, 0, 0, 0, 0});
+  }
+
+  @Test @SuppressWarnings("unchecked")
+  void siLaLecturaAsincronicaFallaUnaExcepcionEsLanzada() {
+    Buffer buffer = new Buffer(10);
+
+    when(lowLevelFileSystem.openFile("archivoMalito.txt")).thenReturn(13);
+    doAnswer(invocation -> {
+      invocation.getArgument(4, Consumer.class).accept(-1);
+      return null;
+    }).when(lowLevelFileSystem).asyncReadFile(anyInt(), any(), anyInt(), anyInt(), any());
+
+    File file = fileSystem.open("archivoMalito.txt");
+    CompletableFuture<Buffer> future = file.readAsync(buffer);
+
+    CompletionException e = Assertions.assertThrows(CompletionException.class, future::join);
+    Assertions.assertEquals(CanNotReadFileException.class, e.getCause().getClass());
   }
 
   @Test
   void sePuedeEscribirAsincronicamenteUnArchivo() {
-    Assertions.fail("Completar");
+    Buffer buffer = new Buffer(100);
+    Arrays.fill(buffer.getBytes(), 0, 4, (byte) 3);
+    buffer.limit(5);
+
+    when(lowLevelFileSystem.openFile("ejemplo.txt")).thenReturn(42);
+    doAnswer(invocation -> {
+      invocation.getArgument(4, Runnable.class).run();
+      return null;
+    }).when(lowLevelFileSystem).asyncWriteFile(eq(42), eq(buffer.getBytes()), eq(0),  eq(4), any());
+
+    File file = fileSystem.open("ejemplo.txt");
+    file.writeAsync(buffer).join();
+
+    verify(lowLevelFileSystem, times(1)).asyncWriteFile(eq(42), eq(buffer.getBytes()), eq(0),  eq(4), any());
   }
 
   @Test
