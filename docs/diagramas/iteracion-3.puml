@@ -25,7 +25,10 @@ class Atuendo {
    accesorio
 }
 
-Atuendo --> "3" Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
 
 class Borrador {
   conTipo(tipo)
