@@ -2,7 +2,7 @@
 <FindBugsFilter>
 	<Match>
 		<Bug pattern="EI_EXPOSE_REP"/>
-		<Class name="fs.Buffer"/>
+		<Class name="fs.model.Buffer"/>
 	</Match>
 
 </FindBugsFilter>

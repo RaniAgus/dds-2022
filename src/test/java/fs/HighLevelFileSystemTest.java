@@ -1,5 +1,10 @@
 package fs;
 
+import fs.exception.CanNotOpenFileException;
+import fs.exception.CanNotReadFileException;
+import fs.model.Buffer;
+import fs.model.File;
+import fs.model.HighLevelFileSystem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -8,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HighLevelFileSystemTest {
 
@@ -70,7 +73,7 @@ class HighLevelFileSystemTest {
   }
 
   @Test
-  void siLaLecturaSincronicaFallaUnaExcepciónEsLanzada() {
+  void siLaLecturaSincronicaFallaUnaExcepcionEsLanzada() {
     Buffer buffer = new Buffer(10);
 
     when(lowLevelFileSystem.openFile("archivoMalito.txt")).thenReturn(13);
@@ -83,12 +86,31 @@ class HighLevelFileSystemTest {
 
   @Test
   void sePuedeEscribirSincronicamenteUnArchivoCuandoHayNoHayNadaParaEscribir() {
-    Assertions.fail("Completar");
+    Buffer buffer = new Buffer(100);
+    buffer.limit(0);
+
+    when(lowLevelFileSystem.openFile("ejemplo.txt")).thenReturn(42);
+    doNothing().when(lowLevelFileSystem).syncWriteFile(42, buffer.getBytes(), 0,  -1);
+
+    File file = fileSystem.open("ejemplo.txt");
+    file.write(buffer);
+
+    verify(lowLevelFileSystem, times(1)).syncWriteFile(42, buffer.getBytes(), 0, -1);
   }
 
   @Test
   void sePuedeEscribirSincronicamenteUnArchivoCuandoHayAlgoParaEscribir() {
-    Assertions.fail("Completar");
+    Buffer buffer = new Buffer(100);
+    Arrays.fill(buffer.getBytes(), 0, 4, (byte) 3);
+    buffer.limit(5);
+
+    when(lowLevelFileSystem.openFile("ejemplo.txt")).thenReturn(42);
+    doNothing().when(lowLevelFileSystem).syncWriteFile(42, buffer.getBytes(), 0,  4);
+
+    File file = fileSystem.open("ejemplo.txt");
+    file.write(buffer);
+
+    verify(lowLevelFileSystem, times(1)).syncWriteFile(42, buffer.getBytes(), 0, 4);
   }
 
   @Test
@@ -103,7 +125,13 @@ class HighLevelFileSystemTest {
 
   @Test
   void sePuedeCerrarUnArchivo() {
-    Assertions.fail("Completar");
+    when(lowLevelFileSystem.openFile("ejemplo.txt")).thenReturn(42);
+    doNothing().when(lowLevelFileSystem).closeFile(42);
+
+    File file = fileSystem.open("ejemplo.txt");
+    file.close();
+
+    verify(lowLevelFileSystem, times(1)).closeFile(42);
   }
 
   @Test
