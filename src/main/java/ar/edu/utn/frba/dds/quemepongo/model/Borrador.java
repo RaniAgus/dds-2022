@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.quemepongo.model.estado.Nueva;
 import ar.edu.utn.frba.dds.quemepongo.exception.PrendaInvalidaException;
 
 import java.awt.*;
+import java.util.Set;
 
 public class Borrador {
   private Tipo tipo;
@@ -14,6 +15,7 @@ public class Borrador {
   private Color colorSecundario;
   private Estado estado = new Nueva();
   private boolean estaLavandose = false;
+  private Set<Temperatura> temperaturasAptas;
 
   public Borrador conTipo(Tipo tipo) {
     this.tipo = tipo;
@@ -50,6 +52,11 @@ public class Borrador {
     return this;
   }
 
+  public Borrador conTemperaturasAptas(Set<Temperatura> temperaturasAptas) {
+    this.temperaturasAptas = temperaturasAptas;
+    return this;
+  }
+
   public Prenda crearPrenda() {
     return new Prenda(
         validarParametroNoNulo(tipo, "tipo"),
@@ -58,7 +65,8 @@ public class Borrador {
         validarParametroNoNulo(colorPrimario, "color primario"),
         colorSecundario,
         validarParametroNoNulo(estado, "estado"),
-        estaLavandose
+        estaLavandose,
+        validarParametroNoNulo(temperaturasAptas, "temperaturas aptas")
     );
   }
 

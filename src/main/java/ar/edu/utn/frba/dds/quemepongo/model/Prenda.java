@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.quemepongo.model;
 import ar.edu.utn.frba.dds.quemepongo.model.estado.Estado;
 
 import java.awt.*;
+import java.util.Set;
 
 public class Prenda {
   private Tipo tipo;
@@ -12,6 +13,7 @@ public class Prenda {
   private Color colorSecundario;
   private Estado estado;
   private boolean estaLavandose;
+  private Set<Temperatura> temperaturasAptas;
 
   public Prenda(Tipo tipo,
                 Material material,
@@ -19,7 +21,8 @@ public class Prenda {
                 Color colorPrimario,
                 Color colorSecundario,
                 Estado estado,
-                boolean estaLavandose) {
+                boolean estaLavandose,
+                Set<Temperatura> temperaturasAptas) {
     this.tipo = tipo;
     this.material = material;
     this.trama = trama;
@@ -27,6 +30,7 @@ public class Prenda {
     this.colorSecundario = colorSecundario;
     this.estado = estado;
     this.estaLavandose = estaLavandose;
+    this.temperaturasAptas = temperaturasAptas;
   }
 
   public boolean esDeCategoria(Categoria categoria) {
@@ -35,6 +39,10 @@ public class Prenda {
 
   public boolean esSugerible() {
     return !estaLavandose && estado.esSugerible();
+  }
+
+  public boolean esAptaPara(Temperatura temperatura) {
+    return temperaturasAptas.contains(temperatura);
   }
 
   public void usar() {
