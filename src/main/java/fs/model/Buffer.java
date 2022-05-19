@@ -1,5 +1,7 @@
 package fs.model;
 
+import fs.exception.BufferOutOfBoundsException;
+
 public class Buffer {
   private byte[] bytes;
   private int start;
@@ -14,6 +16,12 @@ public class Buffer {
   }
 
   public void limit(int offset) {
+    if (getMaxSize() <= start + offset - 1) {
+      throw new BufferOutOfBoundsException(
+          "El limite sobrepasa la capacidad maxima del buffer: "
+              + (start + offset - 1) + "(max: " + getMaxSize() + ")"
+      );
+    }
     end = start + offset - 1;
   }
 

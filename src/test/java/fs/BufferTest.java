@@ -1,5 +1,6 @@
 package fs;
 
+import fs.exception.BufferOutOfBoundsException;
 import fs.model.Buffer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,17 @@ public class BufferTest {
   }
 
   @Test
-  void maxSizeNoSeVeAfectadoPorLosLimite() {
+  void maxSizeNoSeVeAfectadoPorLosLimites() {
     Buffer buffer = new Buffer(27);
     buffer.limit(8);
     buffer.limit(14);
     buffer.limit(1);
     Assertions.assertEquals(27, buffer.getMaxSize());
+  }
+
+  @Test
+  void noSePuedeEstablecerUnLimiteMayorAlMaxSizeDelBuffer() {
+    Buffer buffer = new Buffer(10);
+    Assertions.assertThrows(BufferOutOfBoundsException.class, () -> buffer.limit(11));
   }
 }
