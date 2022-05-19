@@ -1,10 +1,33 @@
 @startuml iteracion-4
 
 class Guardarropas {
-  getPrendasSugeribles(categoria)
+  sugerir() : Atuendo
 }
 
+Guardarropas ..> Atuendo
 Guardarropas --> "*" Prenda
+Guardarropas -right-> ServicioMeteorologico
+
+interface ServicioMeteorologico {
+    getTemperatura()
+}
+
+ServicioMeteorologico .right.> Temperatura
+
+ServicioMeteorologico <|.. AccuWeather
+
+class AccuWeather {
+    getTemperatura()
+}
+
+enum Temperatura {
+    FRIO,
+    TEMPLADO,
+    CALIDO
+    {static} of(unit, value)
+    {static} ofCelsius(celsius)
+    {static} ofFahrenheit(fahrenheit)
+}
 
 abstract UniformeFactory {
   crearUniforme()
@@ -25,7 +48,10 @@ class Atuendo {
    accesorio
 }
 
-Atuendo --> "3" Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
 
 class Borrador {
   conTipo(tipo)
@@ -43,8 +69,10 @@ class Prenda {
  colorPrincipal : Color
  colorSecundario : Color
  estaLavandose : boolean
+ temperaturasAptas : Temperatura[]
  esDeCategoria(categoria)
  esSugerible()
+ esAptaPara(temperatura)
  usar()
  ponerALavar()
  lavar()
