@@ -1,7 +1,7 @@
 package fs.model;
 
-import fs.exception.CanNotOpenFileException;
 import fs.LowLevelFileSystem;
+import fs.exception.CanNotOpenFileException;
 
 public class HighLevelFileSystem {
   private LowLevelFileSystem fileSystem;
