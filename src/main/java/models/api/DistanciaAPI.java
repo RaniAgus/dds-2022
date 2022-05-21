@@ -1,0 +1,38 @@
+package models.api;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Query;
+
+import java.util.List;
+
+public interface DistanciaAPI {
+  @GET("/api/paises")
+  Call<List<Pais>> getPaises(@Query("offset") long offset,
+                             @Header("Authorization") String authorization);
+
+  @GET("/api/provincias")
+  Call<List<Provincia>> getProvincias(@Query("offset") long offset,
+                                      @Query("paisId") Integer paisId,
+                                      @Header("Authorization") String authorization);
+
+  @GET("/api/municipios")
+  Call<List<Municipio>> getMunicipios(@Query("offset") long offset,
+                                      @Query("provinciaId") Integer provinciaId,
+                                      @Header("Authorization") String authorization);
+
+  @GET("/api/localidades")
+  Call<List<Localidad>> getLocalidades(@Query("offset") long offset,
+                                       @Query("municipioId") Integer municipioId,
+                                       @Header("Authorization") String authorization);
+
+  @GET("/api/distancia")
+  Call<Distancia> getDistancia(@Query("localidadOrigenId") Integer localidadOrigenId,
+                               @Query("calleOrigen") String calleOrigen,
+                               @Query("alturaOrigen") String alturaOrigen,
+                               @Query("localidadDestinoId") Integer localidadDestino,
+                               @Query("calleDestino") String calleDestino,
+                               @Query("alturaDestino") String alturaDestino,
+                               @Header("Authorization") String authorization);
+}
