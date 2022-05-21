@@ -24,7 +24,6 @@ enum Temperatura {
     FRIO,
     TEMPLADO,
     CALIDO
-    {static} of(unit, value)
     {static} ofCelsius(celsius)
     {static} ofFahrenheit(fahrenheit)
 }
