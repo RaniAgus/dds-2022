@@ -9,6 +9,14 @@ public class Distancia {
     this.unidad = unidad;
   }
 
+  public String getValor() {
+    return valor;
+  }
+
+  public String getUnidad() {
+    return unidad;
+  }
+
   @Override
   public String toString() {
     return "Distancia{" +

@@ -8,25 +8,24 @@ public class Miembro {
   private String apellido;
   private String documento;
   private TipoDeDocumento tipoDeDocumento;
-  private List<Trayecto> trayectos;
+  //private List<Trayecto> trayectos;
 
   public Miembro(String nombre,
                  String apellido,
                  String documento,
-                 TipoDeDocumento tipoDeDocumento,
-                 List<Trayecto> trayectos) {
+                 TipoDeDocumento tipoDeDocumento) {
     this.apellido = apellido;
     this.nombre = nombre;
     this.documento = documento;
     this.tipoDeDocumento = tipoDeDocumento;
-    this.trayectos = new ArrayList<>(trayectos);
+    //this.trayectos = new ArrayList<>(trayectos);
   }
 
-  public void darDeAltaTrayecto(Trayecto trayecto) {
+  /*public void darDeAltaTrayecto(Trayecto trayecto, List<Miembro> companierosDeViaje) {
     this.trayectos.add(trayecto);
-  }
+  }*/
 
-  public List<Trayecto> getTrayectos() {
+  /*public List<Trayecto> getTrayectos() {
     return trayectos;
-  }
+  }*/
 }
