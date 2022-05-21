@@ -16,7 +16,7 @@ public class Pais {
   @Override
   public String toString() {
     return "Pais{" +
-        "id='" + id + '\'' +
+        "id=" + id +
         ", nombre='" + nombre + '\'' +
         '}';
   }

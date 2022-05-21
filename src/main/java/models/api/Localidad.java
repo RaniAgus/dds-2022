@@ -20,7 +20,7 @@ public class Localidad {
   @Override
   public String toString() {
     return "Localidad{" +
-        "id='" + id + '\'' +
+        "id=" + id +
         ", nombre='" + nombre + '\'' +
         ", codPostal='" + codPostal + '\'' +
         ", municipio=" + municipio +

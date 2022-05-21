@@ -18,9 +18,9 @@ public class Provincia {
   @Override
   public String toString() {
     return "Provincia{" +
-        "id='" + id + '\'' +
+        "id=" + id +
         ", nombre='" + nombre + '\'' +
-        ", pais='" + pais + '\'' +
+        ", pais=" + pais +
         '}';
   }
 }
