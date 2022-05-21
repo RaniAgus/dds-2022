@@ -1,8 +1,6 @@
 import models.api.*;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,11 +12,7 @@ public class EjemploRetrofit {
   private static final String key = "Bearer " + System.getenv("DISTANCIA_API_KEY");
 
   public static void main(String[] args) {
-    DistanciaAPI api = new Retrofit.Builder()
-        .baseUrl("https://ddstpa.com.ar/api/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(DistanciaAPI.class);
+    DistanciaAPI api = DistanciaAPI.INSTANCE;
 
     List<Pais> paises = consultar(api.getPaises(1, key));
     List<Provincia> provincias = consultar(api.getProvincias(1, paises.get(0).getId(), key));

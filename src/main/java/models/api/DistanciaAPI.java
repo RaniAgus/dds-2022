@@ -1,6 +1,8 @@
 package models.api;
 
 import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
@@ -8,6 +10,12 @@ import retrofit2.http.Query;
 import java.util.List;
 
 public interface DistanciaAPI {
+  DistanciaAPI INSTANCE = new Retrofit.Builder()
+      .baseUrl("https://ddstpa.com.ar/api/")
+      .addConverterFactory(GsonConverterFactory.create())
+      .build()
+      .create(DistanciaAPI.class);
+
   @GET("/api/paises")
   Call<List<Pais>> getPaises(@Query("offset") long offset,
                              @Header("Authorization") String authorization);
