@@ -9,12 +9,12 @@ import retrofit2.http.Query;
 
 import java.util.List;
 
-public interface DistanciaAPI {
-  DistanciaAPI INSTANCE = new Retrofit.Builder()
+public interface GeoddsApi {
+  GeoddsApi INSTANCE = new Retrofit.Builder()
       .baseUrl("https://ddstpa.com.ar/api/")
       .addConverterFactory(GsonConverterFactory.create())
       .build()
-      .create(DistanciaAPI.class);
+      .create(GeoddsApi.class);
 
   @GET("/api/paises")
   Call<List<Pais>> getPaises(@Query("offset") long offset,

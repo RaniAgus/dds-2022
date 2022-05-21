@@ -9,15 +9,15 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class EjemploRetrofit {
-  private static final String key = "Bearer " + System.getenv("DISTANCIA_API_KEY");
+  private static final String apiKey = "Bearer " + System.getenv("GEODDS_API_KEY");
 
   public static void main(String[] args) {
-    DistanciaAPI api = DistanciaAPI.INSTANCE;
+    GeoddsApi api = GeoddsApi.INSTANCE;
 
-    List<Pais> paises = consultar(api.getPaises(1, key));
-    List<Provincia> provincias = consultar(api.getProvincias(1, paises.get(0).getId(), key));
-    List<Municipio> municipios = paginar(offset -> api.getMunicipios(offset, provincias.get(0).getId(), key));
-    List<Localidad> localidades = paginar(offset -> api.getLocalidades(offset, municipios.get(116).getId(), key));
+    List<Pais> paises = consultar(api.getPaises(1, apiKey));
+    List<Provincia> provincias = consultar(api.getProvincias(1, paises.get(0).getId(), apiKey));
+    List<Municipio> municipios = paginar(offset -> api.getMunicipios(offset, provincias.get(0).getId(), apiKey));
+    List<Localidad> localidades = paginar(offset -> api.getLocalidades(offset, municipios.get(116).getId(), apiKey));
     Distancia distancia = consultar(api.getDistancia(
         1, // Caa Yari, Leandro N. Alem, Misiones
         "maipu",
@@ -25,7 +25,7 @@ public class EjemploRetrofit {
         localidades.get(1).getId(),
         "O'Higgins",
         "200",
-        key
+        apiKey
     ));
 
     provincias.forEach(System.out::println);
