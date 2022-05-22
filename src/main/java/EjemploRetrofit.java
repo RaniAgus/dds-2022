@@ -1,32 +1,22 @@
+import models.Ubicacion;
 import models.api.*;
-import retrofit2.Call;
-import retrofit2.Response;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import models.miembro.Geolocalizador;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
 public class EjemploRetrofit {
   private static final String apiKey = "Bearer " + System.getenv("GEODDS_API_KEY");
 
   public static void main(String[] args) {
-    GeoddsApi api = GeoddsApi.INSTANCE;
+    Geolocalizador geolocalizador = new Geolocalizador(apiKey, GeoddsApi.INSTANCE);
 
-    List<Pais> paises = consultar(api.getPaises(1, apiKey));
-    List<Provincia> provincias = consultar(api.getProvincias(1, paises.get(0).getId(), apiKey));
-    List<Municipio> municipios = paginar(offset -> api.getMunicipios(offset, provincias.get(0).getId(), apiKey));
-    List<Localidad> localidades = paginar(offset -> api.getLocalidades(offset, municipios.get(116).getId(), apiKey));
-    Distancia distancia = consultar(api.getDistancia(
-        1, // Caa Yari, Leandro N. Alem, Misiones
-        "maipu",
-        "100",
-        localidades.get(1).getId(),
-        "O'Higgins",
-        "200",
-        apiKey
-    ));
+    List<Pais> paises = geolocalizador.getPaises();
+    List<Provincia> provincias = geolocalizador.getProvincias(paises.get(0));
+    List<Municipio> municipios = geolocalizador.getMunicipios(provincias.get(0));
+    List<Localidad> localidades = geolocalizador.getLocalidades(municipios.get(116));
+    Distancia distancia = geolocalizador.medirDistancia(
+        new Ubicacion(1, "maipu", "100"),
+        new Ubicacion(localidades.get(1).getId(), "O'Higgins", "200")
+    );
 
     provincias.forEach(System.out::println);
     municipios.forEach(System.out::println);
@@ -34,23 +24,4 @@ public class EjemploRetrofit {
     System.out.println(distancia);
   }
 
-  private static <T> List<T> paginar(Function<Long, Call<List<T>>> call) {
-    List<T> total = new ArrayList<>();
-    for (long offset = 1;; offset++) {
-      List<T> res = consultar(call.apply(offset));
-      if (res.isEmpty()) break;
-      total.addAll(res);
-    }
-    return total;
-  }
-
-  private static <T> T consultar(Call<T> call) {
-    try {
-      System.out.println("Request{method=GET, url=" + call.request().url() + "}");
-      Response<T> response = call.execute();
-      return Optional.ofNullable(response.body()).orElseThrow(RuntimeException::new);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
 }
