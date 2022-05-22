@@ -17,12 +17,14 @@ public class Organizacion {
   public Organizacion(String razonSocial, Ubicacion ubicacionGeografica,
                       TipoDeOrganizacion tipoDeOrganizacion,
                       ClasificacionDeOrganizacion clasificacionDeOrganizacion,
-                      List<Sector> sectores) {
+                      List<Sector> sectores,
+                      List<DatoActividad> datosActividad) {
     this.razonSocial = razonSocial;
     this.clasificacionDeOrganizacion = clasificacionDeOrganizacion;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.ubicacionGeografica = ubicacionGeografica;
     this.sectores = new ArrayList<>(sectores);
+    this.datosActividad = new ArrayList<>(datosActividad);
   }
 
   public void darDeAltaSector(Sector sector) {
