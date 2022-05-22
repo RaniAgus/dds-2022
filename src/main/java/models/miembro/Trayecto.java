@@ -20,11 +20,11 @@ public class Trayecto {
     return viajantes;
   }
 
-  public Distancia medirDistanciaTrayecto(GeoddsApiImplementation apiDistancia){
+  public Distancia medirDistanciaTrayecto(Geolocalizador apiDistancia){
     Integer distanciaTotal = tramos.stream().mapToInt(tramo -> Integer.parseInt(tramo.getDistanciaDelTramo(apiDistancia).getValor())).sum();
     return new Distancia(distanciaTotal.toString(),"KM");
   }
-  public Stream<Distancia> medirDistanciasParciales(GeoddsApiImplementation apiDistancia){
+  public Stream<Distancia> medirDistanciasParciales(Geolocalizador apiDistancia){
     return tramos.stream().map(tramo -> tramo.getDistanciaDelTramo(apiDistancia));
   }
   /*public void addViajante(Miembro unViajante){

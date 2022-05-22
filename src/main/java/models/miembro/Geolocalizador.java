@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class GeoddsApiImplementation {
+public class Geolocalizador {
   private final String apiKey = "Bearer " + System.getenv("GEODDS_API_KEY");
 
   GeoddsApi api = GeoddsApi.INSTANCE;

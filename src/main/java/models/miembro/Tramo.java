@@ -2,7 +2,6 @@ package models.miembro;
 
 import models.Ubicacion;
 import models.api.Distancia;
-import models.api.GeoddsApi;
 import models.mediodetransporte.MedioDeTransporte;
 
 
@@ -18,7 +17,7 @@ public class Tramo {
     this.ubicacionFinal = ubicacionFinal;
     this.medioDeTransporte = medioDeTransporte;
   }
-  public Distancia getDistanciaDelTramo(GeoddsApiImplementation apiDistancia){
+  public Distancia getDistanciaDelTramo(Geolocalizador apiDistancia){
     return apiDistancia.medirDistancia(ubicacionInicial,ubicacionFinal);
   }
 }
