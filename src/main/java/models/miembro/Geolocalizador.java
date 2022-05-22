@@ -12,9 +12,13 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class Geolocalizador {
-  private final String apiKey = "Bearer " + System.getenv("GEODDS_API_KEY");
+  private String apiKey;
+  private GeoddsApi api;
 
-  GeoddsApi api = GeoddsApi.INSTANCE;
+  public Geolocalizador(String apiKey, GeoddsApi api) {
+    this.apiKey = apiKey;
+    this.api = api;
+  }
 
   public List<Pais> getPaises(){
     return consultar(api.getPaises(1, apiKey));
