@@ -60,7 +60,6 @@ public class Geolocalizador {
 
   private static <T> T consultar(Call<T> call) {
     try {
-      System.out.println("Request{method=GET, url=" + call.request().url() + "}");
       Response<T> response = call.execute();
       return Optional.ofNullable(response.body()).orElseThrow(RuntimeException::new);
     } catch (IOException e) {
