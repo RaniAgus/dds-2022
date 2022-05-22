@@ -1,27 +1,26 @@
 package models.api;
 
-public class Distancia {
-  private String valor;
-  private String unidad;
+import java.math.BigDecimal;
 
-  public Distancia(String valor, String unidad) {
+public class Distancia {
+  public static Distancia CERO = new Distancia(BigDecimal.ZERO, Unidad.KM);
+  private BigDecimal valor;
+  private Unidad unidad;
+
+  public Distancia(BigDecimal valor, Unidad unidad) {
     this.valor = valor;
     this.unidad = unidad;
   }
 
-  public String getValor() {
-    return valor;
-  }
-
-  public String getUnidad() {
-    return unidad;
+  public Distancia sumar(Distancia distancia) {
+    return new Distancia(valor.add(distancia.valor), Unidad.KM);
   }
 
   @Override
   public String toString() {
     return "Distancia{" +
-        "valor='" + valor + '\'' +
-        ", unidad='" + unidad + '\'' +
+        "valor=" + valor +
+        ", unidad=" + unidad +
         '}';
   }
 }

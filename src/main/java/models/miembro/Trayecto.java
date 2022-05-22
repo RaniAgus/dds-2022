@@ -1,10 +1,9 @@
 package models.miembro;
 
 import models.api.Distancia;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class Trayecto {
   private List<Tramo> tramos;
@@ -21,13 +20,9 @@ public class Trayecto {
   }
 
   public Distancia medirDistanciaTrayecto(Geolocalizador apiDistancia){
-    Integer distanciaTotal = tramos.stream().mapToInt(tramo -> Integer.parseInt(tramo.getDistanciaDelTramo(apiDistancia).getValor())).sum();
-    return new Distancia(distanciaTotal.toString(),"KM");
+    return tramos.stream()
+        .map(tramo -> tramo.getDistanciaDelTramo(apiDistancia))
+        .reduce(Distancia.CERO, Distancia::sumar);
   }
-  public Stream<Distancia> medirDistanciasParciales(Geolocalizador apiDistancia){
-    return tramos.stream().map(tramo -> tramo.getDistanciaDelTramo(apiDistancia));
-  }
-  /*public void addViajante(Miembro unViajante){
-    this.viajantes.add(unViajante);
-  }*/
+
 }
