@@ -1,5 +1,11 @@
 @startuml iteracion-5
 
+class Usuario {
+    agregar(guardarropas)
+}
+
+Usuario --> "*" Guardarropas
+
 class Guardarropas {
   sugerir() : Atuendo
 }

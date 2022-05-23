@@ -11,13 +11,29 @@
 separar mis prendas según diversos criterios (ropa de viaje, ropa de
 entrecasa, etc).
 
-
+Se crea una clase `Usuario`, la cual tiene sus propios `Guardarropas`:
+```ts
+class Usuario {
+    guardarropas: Guardarropas[]
+}
+```
 
 ### Requerimiento 2
 > Como usuario/a de QuéMePongo, quiero poder crear guardarropas compartidos con
 otros usuarios/as (ej, ropa que comparto con mi hermano/a).
 
+Se puede agregar una misma instancia de `Guardarropas` a distintos `Usuarios`:
 
+```ts
+let persona1 = new Usuario(...)
+let persona2 = new Usuario(...)
+
+// ...
+
+let guardarropasCompartido = new Guardarropas(...)
+persona1.agregar(guardarropasCompartido)
+persona2.agregar(guardarropasCompartido)
+```
 
 ### Requerimiento 3
 > Como usuario/a de QuéMePongo, quiero que otro usuario/a me proponga
