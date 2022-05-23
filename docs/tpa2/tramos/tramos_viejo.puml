@@ -1,0 +1,48 @@
+@startuml tramos_entrega1
+
+class Tramo {
+    ubicacionInicial : Ubicacion
+    ubicacionFinal : Ubicacion
+}
+
+Tramo --> MedioDeTransporte
+
+interface MedioDeTransporte {
+}
+
+MedioDeTransporte <|.. TransportePublico
+MedioDeTransporte <|.. ServicioContratado
+MedioDeTransporte <|.. BicicletaOPie
+MedioDeTransporte <|.. VehiculoParticular
+
+class VehiculoParticular {
+    tipo : TipoDeVehiculoParticular
+    combustible : TipoDeCombustible
+}
+
+ServicioContratado --> TipoDeServicioContratado
+
+class TipoDeServicioContratado {
+    nombre : String
+    {static} TAXI
+    {static} REMIS
+}
+
+TransportePublico --> Linea
+
+class Linea {
+    nombre : String
+    tipo : TipoDeTransportePublico
+    agregarParada(ubicacion)
+}
+
+Linea --> "1..*" Ubicacion : paradas
+
+class Ubicacion {
+    nombre : String
+    latitud : Double
+    longitud : Double
+    distanciaA(otraObicacion)
+}
+
+@enduml

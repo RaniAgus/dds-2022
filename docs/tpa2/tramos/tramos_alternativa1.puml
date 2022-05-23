@@ -1,0 +1,80 @@
+@startuml
+
+interface Tramo {
+  distancia()
+  esCompartible()
+}
+
+class TramoPublico {
+  parada1
+  parada2
+  linea
+}
+
+Tramo <|.. TramoPublico
+
+note left of TramoPublico
+  distancia() = linea.distanciaEntreParadas(p1,p2)
+end note
+
+class Linea {
+    nombre : String
+    tipo : TipoDeTransportePublico
+    agregarParada(ubicacion)
+    distanciaEntreParadas(parada1, parada2)
+}
+
+TramoPublico --> Linea
+
+class Parada {
+    nombre : String
+    distanciaALaSiguiente : Double
+}
+
+TramoPublico --> "2" Parada
+Linea --> "1..*" Parada
+
+note left of Linea
+distanciaEntreParadas() = 
+sumatoria de distancias de las paradas intermedias
+end note
+
+class TramoPrivado {
+  Lo mismo que los tramos viejos
+  ..
+  direccion1
+  direccion2
+  medioDeTransporte
+}
+
+
+
+note right of TramoPrivado
+distancia() = api.distancia(direccion1, direccion2)
+end note
+
+Tramo <|.. TramoPrivado
+
+interface MedioDeTransporte {
+}
+
+TramoPrivado --> MedioDeTransporte
+
+MedioDeTransporte <|.. ServicioContratado
+MedioDeTransporte <|.. BicicletaOPie
+MedioDeTransporte <|.. VehiculoParticular
+
+class VehiculoParticular {
+    tipo : TipoDeVehiculoParticular
+    combustible : TipoDeCombustible
+}
+
+ServicioContratado --> TipoDeServicioContratado
+
+class TipoDeServicioContratado {
+    nombre : String
+    {static} TAXI
+    {static} REMIS
+}
+
+@enduml
