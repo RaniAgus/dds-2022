@@ -1,6 +1,7 @@
-package ar.edu.utn.frba.dds.quemepongo.model;
+package ar.edu.utn.frba.dds.quemepongo.model.prenda;
 
-import ar.edu.utn.frba.dds.quemepongo.model.estado.Estado;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.estado.EstadoPrenda;
 
 import java.awt.*;
 import java.util.Set;
@@ -11,7 +12,7 @@ public class Prenda {
   private Trama trama;
   private Color colorPrimario;
   private Color colorSecundario;
-  private Estado estado;
+  private EstadoPrenda estado;
   private boolean estaLavandose;
   private Set<Temperatura> temperaturasAptas;
 
@@ -20,7 +21,7 @@ public class Prenda {
                 Trama trama,
                 Color colorPrimario,
                 Color colorSecundario,
-                Estado estado,
+                EstadoPrenda estado,
                 boolean estaLavandose,
                 Set<Temperatura> temperaturasAptas) {
     this.tipo = tipo;

@@ -1,7 +1,8 @@
-package ar.edu.utn.frba.dds.quemepongo.model;
+package ar.edu.utn.frba.dds.quemepongo.model.prenda;
 
-import ar.edu.utn.frba.dds.quemepongo.model.estado.Estado;
-import ar.edu.utn.frba.dds.quemepongo.model.estado.Nueva;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.estado.EstadoPrenda;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.estado.Nueva;
 import ar.edu.utn.frba.dds.quemepongo.exception.PrendaInvalidaException;
 
 import java.awt.*;
@@ -13,7 +14,7 @@ public class Borrador {
   private Trama trama = Trama.LISA;
   private Color colorPrimario;
   private Color colorSecundario;
-  private Estado estado = new Nueva();
+  private EstadoPrenda estado = new Nueva();
   private boolean estaLavandose = false;
   private Set<Temperatura> temperaturasAptas;
 
@@ -42,7 +43,7 @@ public class Borrador {
     return this;
   }
 
-  public Borrador conEstado(Estado estado) {
+  public Borrador conEstado(EstadoPrenda estado) {
     this.estado = estado;
     return this;
   }

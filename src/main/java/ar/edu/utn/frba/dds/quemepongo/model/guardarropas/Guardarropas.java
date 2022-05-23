@@ -1,5 +1,7 @@
-package ar.edu.utn.frba.dds.quemepongo.model;
+package ar.edu.utn.frba.dds.quemepongo.model.guardarropas;
 
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Categoria;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Prenda;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
 
 import java.util.List;

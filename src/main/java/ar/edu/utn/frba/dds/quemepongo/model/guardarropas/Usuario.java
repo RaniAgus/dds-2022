@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo.model;
+package ar.edu.utn.frba.dds.quemepongo.model.guardarropas;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.quemepongo.model.uniforme;
 
-import ar.edu.utn.frba.dds.quemepongo.model.Atuendo;
-import ar.edu.utn.frba.dds.quemepongo.model.Borrador;
+import ar.edu.utn.frba.dds.quemepongo.model.guardarropas.Atuendo;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Borrador;
 
 public abstract class UniformeFactory {
   public Atuendo crearUniforme() {

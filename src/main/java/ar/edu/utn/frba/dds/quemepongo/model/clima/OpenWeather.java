@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.quemepongo.model.clima;
 
 import ar.edu.utn.frba.dds.quemepongo.exception.TemperaturaNoObtenidaException;
-import ar.edu.utn.frba.dds.quemepongo.model.Temperatura;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -34,7 +33,8 @@ public class OpenWeather implements ServicioMeteorologico {
     Weather weather;
     try {
       weather = Optional.ofNullable(
-          OpenWeatherApi.INSTANCE.getWeather("Buenos Aires,ar", "metric", key)
+          OpenWeatherApi.INSTANCE
+              .getWeather("Buenos Aires,ar", "metric", key)
               .execute()
               .body()
       ).orElseThrow(TemperaturaNoObtenidaException::new);

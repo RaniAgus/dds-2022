@@ -1,9 +1,9 @@
 package ar.edu.utn.frba.dds.quemepongo.model.uniforme;
 
-import ar.edu.utn.frba.dds.quemepongo.model.Borrador;
-import ar.edu.utn.frba.dds.quemepongo.model.Material;
-import ar.edu.utn.frba.dds.quemepongo.model.Temperatura;
-import ar.edu.utn.frba.dds.quemepongo.model.Tipo;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Borrador;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Material;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Tipo;
 import com.google.common.collect.ImmutableSet;
 
 import java.awt.Color;

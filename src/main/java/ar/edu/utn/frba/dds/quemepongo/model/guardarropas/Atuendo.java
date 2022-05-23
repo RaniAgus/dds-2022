@@ -1,4 +1,6 @@
-package ar.edu.utn.frba.dds.quemepongo.model;
+package ar.edu.utn.frba.dds.quemepongo.model.guardarropas;
+
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Prenda;
 
 public class Atuendo {
   private Prenda prendaSuperior;

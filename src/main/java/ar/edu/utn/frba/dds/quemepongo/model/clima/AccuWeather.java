@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.quemepongo.model.clima;
 
 import ar.edu.utn.frba.dds.quemepongo.exception.TemperaturaNoObtenidaException;
-import ar.edu.utn.frba.dds.quemepongo.model.Temperatura;
 import com.google.common.collect.ImmutableMap;
 import edu.utn.frba.dds.accuweather.AccuWeatherAPI;
 

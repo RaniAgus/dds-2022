@@ -1,6 +1,6 @@
-package ar.edu.utn.frba.dds.quemepongo.model.estado;
+package ar.edu.utn.frba.dds.quemepongo.model.prenda.estado;
 
-public class Sucia implements Estado {
+public class Sucia implements EstadoPrenda {
   private Integer usos;
 
   public Sucia(Integer usos) {
@@ -13,12 +13,12 @@ public class Sucia implements Estado {
   }
 
   @Override
-  public Estado usar() {
+  public EstadoPrenda usar() {
     return ++usos > 3 ? new Percudida() : this;
   }
 
   @Override
-  public Estado lavar() {
+  public EstadoPrenda lavar() {
     return new Usada();
   }
 }

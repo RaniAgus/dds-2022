@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.quemepongo.exception;
 
-import ar.edu.utn.frba.dds.quemepongo.model.Material;
-import ar.edu.utn.frba.dds.quemepongo.model.Tipo;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Material;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.Tipo;
 
 import static java.lang.String.format;
 
