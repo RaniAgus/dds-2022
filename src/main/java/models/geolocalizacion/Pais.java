@@ -1,4 +1,4 @@
-package models.api;
+package models.geolocalizacion;
 
 public class Pais {
   private Integer id;

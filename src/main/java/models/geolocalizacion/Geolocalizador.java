@@ -1,7 +1,5 @@
-package models.miembro;
+package models.geolocalizacion;
 
-import models.Ubicacion;
-import models.api.*;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -13,31 +11,29 @@ import java.util.function.Function;
 
 public class Geolocalizador {
   private String apiKey;
-  private GeoddsApi api;
 
-  public Geolocalizador(String apiKey, GeoddsApi api) {
+  public Geolocalizador(String apiKey) {
     this.apiKey = apiKey;
-    this.api = api;
   }
 
   public List<Pais> getPaises(){
-    return consultar(api.getPaises(1, apiKey));
+    return consultar(GeoddsApi.INSTANCE.getPaises(1, apiKey));
   }
 
   public List<Provincia> getProvincias(Pais pais){
-    return consultar(api.getProvincias(1, pais.getId(), apiKey));
+    return consultar(GeoddsApi.INSTANCE.getProvincias(1, pais.getId(), apiKey));
   }
 
   public List<Municipio> getMunicipios(Provincia provincia){
-    return paginar(offset -> api.getMunicipios(offset, provincia.getId(), apiKey));
+    return paginar(offset -> GeoddsApi.INSTANCE.getMunicipios(offset, provincia.getId(), apiKey));
   }
 
   public List<Localidad> getLocalidades(Municipio municipio){
-    return paginar(offset -> api.getLocalidades(offset, municipio.getId(), apiKey));
+    return paginar(offset -> GeoddsApi.INSTANCE.getLocalidades(offset, municipio.getId(), apiKey));
   }
 
   public Distancia medirDistancia(Ubicacion ubicacionOrigen, Ubicacion ubicacionDestino){
-    return consultar(api.getDistancia(
+    return consultar(GeoddsApi.INSTANCE.getDistancia(
         ubicacionOrigen.getIdLocalidad(),
         ubicacionOrigen.getCalle(),
         ubicacionOrigen.getAltura(),

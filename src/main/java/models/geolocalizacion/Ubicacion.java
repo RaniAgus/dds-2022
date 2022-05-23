@@ -1,4 +1,4 @@
-package models;
+package models.geolocalizacion;
 
 /******************************************************************************
  *  Source:       https://introcs.cs.princeton.edu/java/44st/Location.java.html

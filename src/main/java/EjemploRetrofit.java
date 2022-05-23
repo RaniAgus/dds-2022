@@ -1,13 +1,13 @@
-import models.Ubicacion;
-import models.api.*;
-import models.miembro.Geolocalizador;
+import models.geolocalizacion.Ubicacion;
+import models.geolocalizacion.*;
+import models.geolocalizacion.Geolocalizador;
 import java.util.List;
 
 public class EjemploRetrofit {
   private static final String apiKey = "Bearer " + System.getenv("GEODDS_API_KEY");
 
   public static void main(String[] args) {
-    Geolocalizador geolocalizador = new Geolocalizador(apiKey, GeoddsApi.INSTANCE);
+    Geolocalizador geolocalizador = new Geolocalizador(apiKey);
 
     List<Pais> paises = geolocalizador.getPaises();
     List<Provincia> provincias = geolocalizador.getProvincias(paises.get(0));

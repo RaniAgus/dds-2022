@@ -1,9 +1,10 @@
 package models.miembro;
 
-import models.api.Distancia;
+import models.geolocalizacion.Distancia;
+import models.geolocalizacion.Geolocalizador;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Trayecto {
   private List<Tramo> tramos;

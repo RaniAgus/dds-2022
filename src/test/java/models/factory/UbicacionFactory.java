@@ -1,6 +1,6 @@
 package models.factory;
 
-import models.Ubicacion;
+import models.geolocalizacion.Ubicacion;
 
 import static org.mockito.Mockito.mock;
 

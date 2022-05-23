@@ -1,7 +1,8 @@
 package models.miembro;
 
-import models.Ubicacion;
-import models.api.Distancia;
+import models.geolocalizacion.Ubicacion;
+import models.geolocalizacion.Distancia;
+import models.geolocalizacion.Geolocalizador;
 import models.mediodetransporte.MedioDeTransporte;
 
 

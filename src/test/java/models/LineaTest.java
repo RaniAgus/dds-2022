@@ -1,5 +1,6 @@
 package models;
 
+import models.geolocalizacion.Ubicacion;
 import models.mediodetransporte.Linea;
 import org.junit.jupiter.api.Test;
 import static models.factory.LineaFactory.subteB;

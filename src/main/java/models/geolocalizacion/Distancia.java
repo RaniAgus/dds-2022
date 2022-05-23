@@ -1,4 +1,4 @@
-package models.api;
+package models.geolocalizacion;
 
 import java.math.BigDecimal;
 
