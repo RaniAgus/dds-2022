@@ -11,13 +11,8 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public class AccuWeather implements ServicioMeteorologico {
-  public static final AccuWeather INSTANCE = new AccuWeather();
-
   private Temperatura temperatura;
   private LocalDateTime ultimaActualizacion;
-
-  private AccuWeather() {
-  }
 
   @Override
   public Temperatura getTemperatura() {

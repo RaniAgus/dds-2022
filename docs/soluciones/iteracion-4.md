@@ -139,18 +139,11 @@ var guardarropas = new Guardarropas(AccuWeather.INSTANCE, ...)
 Dentro de `AccuWeather` se "cachea" la última `Temperatura` obtenida, 
 actualizándose cada 12 horas.
 
-<!--
 ## Cambios post Puesta en Común
 
-### Diagrama de Clases
+### Requerimiento 5
 
-![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-4-cambios.puml)
+Al final lo importante no era hacer que `AccuWeather` sea única y cachee la
+última `Temperatura`, sino el hecho de que su interfaz sea sencilla para poder
+mockearla, por lo que deshice el singleton.
 
-### Requerimiento 1
-
-### Requerimiento 2
-
-...
-
-### Requerimiento N
--->

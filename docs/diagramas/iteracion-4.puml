@@ -17,8 +17,11 @@ ServicioMeteorologico ..> Temperatura
 ServicioMeteorologico <|.right. AccuWeather
 
 class AccuWeather {
+    ultimaActualizacion : LocalDateTime
     getTemperatura()
 }
+
+AccuWeather --> Temperatura
 
 enum Temperatura {
     FRIO,
