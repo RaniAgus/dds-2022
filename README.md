@@ -11,7 +11,7 @@ y a sus gustos en el aspecto estético.
 
 ## Diagrama de Clases
 
-![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-4.puml)
+![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-5.puml)
 
 ## Iteraciones
 
@@ -34,3 +34,8 @@ y a sus gustos en el aspecto estético.
 
 - [Requerimientos](docs/requerimientos/iteracion-4.md)
 - [Solución planteada](docs/soluciones/iteracion-4.md)
+
+### Quinta Iteración
+
+- [Requerimientos](docs/requerimientos/iteracion-5.md)
+- [Solución planteada](docs/soluciones/iteracion-5.md)
