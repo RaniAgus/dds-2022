@@ -1,0 +1,19 @@
+@startuml
+class Tramo {
+Ubicacion Ubicacion1
+Ubicacion Ubicacion2
+}
+Tramo --> Ubicacion
+class Ubicacion {
+}
+Tramo -->CalculadorDeDistancias
+interface CalculadorDeDistancias {
+Doble calcularDistancia(Ubicacion1,Ubicacion2)
+}
+
+CalculadorDeDistancias <|.. Geolocalizador
+Class Geolocalizador {
+
+}
+
+@enduml
