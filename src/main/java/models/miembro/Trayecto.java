@@ -12,8 +12,15 @@ public class Trayecto {
 
 
   public Trayecto(List<Tramo> tramos,List<Miembro> viajantes) {
+    if (!verificarSiEsCompartible(tramos)){
+      throw new RuntimeException();
+    }
     this.tramos = new ArrayList<>(tramos);
     this.viajantes = viajantes;
+  }
+
+  public boolean verificarSiEsCompartible(List<Tramo> tramos){
+    return tramos.stream().allMatch(Tramo::esCompartible);
   }
 
   public List<Miembro> getViajantes() {

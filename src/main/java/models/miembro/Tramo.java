@@ -11,5 +11,6 @@ public interface Tramo {
   Ubicacion ubicacionFinal = null;
   MedioDeTransporte medioDeTransporte = null;
 
+  public boolean esCompartible();
 
 }
