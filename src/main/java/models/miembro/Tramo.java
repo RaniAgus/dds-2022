@@ -6,19 +6,10 @@ import models.geolocalizacion.Geolocalizador;
 import models.mediodetransporte.MedioDeTransporte;
 
 
-public class Tramo {
-  private Ubicacion ubicacionInicial;
-  private Ubicacion ubicacionFinal;
-  private MedioDeTransporte medioDeTransporte;
+public interface Tramo {
+  Ubicacion ubicacionInicial = null;
+  Ubicacion ubicacionFinal = null;
+  MedioDeTransporte medioDeTransporte = null;
 
-  public Tramo(Ubicacion ubicacionInicial,
-               Ubicacion ubicacionFinal,
-               MedioDeTransporte medioDeTransporte) {
-    this.ubicacionInicial = ubicacionInicial;
-    this.ubicacionFinal = ubicacionFinal;
-    this.medioDeTransporte = medioDeTransporte;
-  }
-  public Distancia getDistanciaDelTramo(Geolocalizador apiDistancia){
-    return apiDistancia.medirDistancia(ubicacionInicial,ubicacionFinal);
-  }
+
 }

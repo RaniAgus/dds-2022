@@ -16,6 +16,10 @@ public class Distancia {
     return new Distancia(valor.add(distancia.valor), Unidad.KM);
   }
 
+  public Integer getValor() {
+    return valor.intValue();
+  }
+
   @Override
   public String toString() {
     return "Distancia{" +
