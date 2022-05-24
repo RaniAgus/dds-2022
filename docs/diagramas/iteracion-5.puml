@@ -8,11 +8,49 @@ Usuario --> "*" Guardarropas
 
 class Guardarropas {
   sugerir() : Atuendo
+  solicitar(solicitud)
+  getSolicitudesPendientes() : SolicitudModificacion[]
+  getSolicitudesAceptadas() : SolicitudModificacion[]
+  agregar(prenda)
+  quitar(prenda)
 }
 
 Guardarropas ..> Atuendo
 Guardarropas -right-> "*" Prenda
 Guardarropas -right-> ServicioMeteorologico
+Guardarropas -left-> "*" SolicitudModificacion
+
+abstract class SolicitudModificacion {
+    aceptarEn(guardarropas)
+    rechazar()
+    deshacerEn(guardarropas)
+    {abstract} realizarEn(guardarropas)
+    {abstract} revertirEn(guardarropas)
+}
+
+SolicitudModificacion ..> Guardarropas
+SolicitudModificacion -left-> EstadoModificacion
+
+enum EstadoModificacion {
+    PENDIENTE
+    ACEPTADA
+    RECHAZADA
+}
+
+SolicitudModificacion <|-up- SolicitudAgregar
+SolicitudModificacion <|-up- SolicitudQuitar
+
+class SolicitudAgregar {
+    prenda : Prenda
+    realizarEn(guardarropas)
+    revertirEn(guardarropas)
+}
+
+class SolicitudQuitar {
+    prenda : Prenda
+    realizarEn(guardarropas)
+    revertirEn(guardarropas)
+}
 
 interface ServicioMeteorologico {
     getTemperatura()

@@ -11,26 +11,50 @@ import java.util.stream.Collectors;
 public class Guardarropas {
   private ServicioMeteorologico servicioMeteorologico;
   private List<Prenda> prendas;
+  private List<SolicitudModificacion> solicitudes;
 
   public Guardarropas(ServicioMeteorologico servicioMeteorologico,
-                      List<Prenda> prendas) {
+                      List<Prenda> prendas,
+                      List<SolicitudModificacion> solicitudes) {
     this.servicioMeteorologico = servicioMeteorologico;
     this.prendas = prendas;
+    this.solicitudes = solicitudes;
   }
 
   public Atuendo sugerir() {
     return new Atuendo(
-      sugerirPrenda(Categoria.PARTE_SUPERIOR),
-      sugerirPrenda(Categoria.PARTE_INFERIOR),
-      sugerirPrenda(Categoria.CALZADO),
-      sugerirPrenda(Categoria.ACCESORIO)
+      sugerirAleatoriamente(Categoria.PARTE_SUPERIOR),
+      sugerirAleatoriamente(Categoria.PARTE_INFERIOR),
+      sugerirAleatoriamente(Categoria.CALZADO),
+      sugerirAleatoriamente(Categoria.ACCESORIO)
     );
   }
 
-  private Prenda sugerirPrenda(Categoria categoria) {
+  public void solicitar(SolicitudModificacion solicitud) {
+    solicitudes.add(solicitud);
+  }
+
+  public List<SolicitudModificacion> getSolicitudesPendientes() {
+    return getSolicitudes(EstadoModificacion.PENDIENTE);
+  }
+
+  public List<SolicitudModificacion> getSolicitudesAceptadas() {
+    return getSolicitudes(EstadoModificacion.ACEPTADA);
+  }
+
+  public void agregar(Prenda prenda) {
+    prendas.add(prenda);
+  }
+
+  public void quitar(Prenda prenda) {
+    prendas.remove(prenda);
+  }
+
+  private Prenda sugerirAleatoriamente(Categoria categoria) {
     List<Prenda> prendasPosibles = getPrendasSugeribles(categoria);
-    return prendasPosibles.get(ThreadLocalRandom.current()
-        .nextInt(prendasPosibles.size()) % prendasPosibles.size()
+    return prendasPosibles.get(
+        ThreadLocalRandom.current().nextInt(prendasPosibles.size())
+            % prendasPosibles.size()
     );
   }
 
@@ -39,6 +63,12 @@ public class Guardarropas {
         .filter(Prenda::esSugerible)
         .filter(it -> it.esAptaPara(servicioMeteorologico.getTemperatura()))
         .filter(it -> it.esDeCategoria(categoria))
+        .collect(Collectors.toList());
+  }
+
+  private List<SolicitudModificacion> getSolicitudes(EstadoModificacion estado) {
+    return solicitudes.stream()
+        .filter(it -> it.estaEnEstado(estado))
         .collect(Collectors.toList());
   }
 }
