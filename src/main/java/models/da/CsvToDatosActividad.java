@@ -8,6 +8,6 @@ import java.io.FileNotFoundException;
 
 public class CsvToDatosActividad {
   public List<DatoActividad> leerDeArchivo(String path) throws FileNotFoundException{
-    return new CsvToBeanBuilder(new FileReader(path)).withType(DatoActividad.class).build().parse();
+    return new CsvToBeanBuilder(new FileReader(path)).withType(DatoActividad.class).withSeparator(';').withSkipLines(1).build().parse();
   }
 }

@@ -1,17 +1,26 @@
 package models.da;
 
-import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.*;
+import com.opencsv.bean.processor.PreAssignmentProcessor;
 
 public class DatoActividad {
-  @CsvBindByName(column = "Tipo de consumo", required = true)
+
+  public DatoActividad() {
+  }
+
+  public TipoDeConsumo getTipo() {
+    return tipo;
+  }
+
+  @CsvCustomBindByPosition(position = 0,converter = ConvertToTipoDeConsumo.class)
   private TipoDeConsumo tipo;
 
-  @CsvBindByName(column = "Valor", required = true)
+  @CsvBindByPosition(position = 1)
   private Double valor;
 
-  @CsvBindByName(column = "Periodicidad", required = true)
+  @CsvBindByPosition(position = 2)
   private Periodicidad periodicidad;
 
-  @CsvBindByName(column = "Periodo de imputación", required = true)
+  @CsvBindByPosition(position = 3)
   private String periodo;
 }

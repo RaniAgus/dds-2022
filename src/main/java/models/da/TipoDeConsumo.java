@@ -1,28 +1,35 @@
 package models.da;
 
+import com.sun.jdi.InvalidTypeException;
+
 public enum TipoDeConsumo {
-  GAS_NATURAL(1.0),
-  DIESEL(1.0),
-  GASOIL(1.0),
-  NAFTA(1.0),
-  CARBON(1.0),
-  GASOIL_MOVIL(1.0),
-  NAFTA_MOVIL(1.0),
-  ELECTRICIDAD(1.0),
-  RECORRIDO_CAMION_CARGA(1.0),
-  RECORRIDO_UTILITARIO_LIVIANO(1.0);
+  Gas_Natural(1.0, UnidadDeConsumo.M3),
+  DIESEL(1.0, UnidadDeConsumo.LT),
+  GASOIL(1.0, UnidadDeConsumo.LT),
+  NAFTA(1.0, UnidadDeConsumo.LT),
+  CARBON(1.0, UnidadDeConsumo.KG),
+  GASOIL_MOVIL(1.0, UnidadDeConsumo.LTS),
+  NAFTA_MOVIL(1.0, UnidadDeConsumo.LTS),
+  ELECTRICIDAD(1.0, UnidadDeConsumo.KWH),
+  RECORRIDO_CAMION_CARGA(1.0, UnidadDeConsumo.KM),
+  RECORRIDO_UTILITARIO_LIVIANO(1.0, UnidadDeConsumo.KM);
 
   private Double factorEmision;
-  
-  private TipoDeConsumo(Double factorEmision) {
+  private final UnidadDeConsumo unidadDeConsumo;
+
+  TipoDeConsumo(Double factorEmision, UnidadDeConsumo unidadDeConsumo) {
     this.factorEmision = factorEmision;
+    this.unidadDeConsumo = unidadDeConsumo;
   }
 
   public Double getFactorEmision() {
     return factorEmision;
   }
-  
-  public void setFactorEmision(Double factorEmision) {
+
+  public void setFactorEmision(Double factorEmision, UnidadDeConsumo unidadDeConsumo) {
+    if (!this.unidadDeConsumo.equals(unidadDeConsumo)) {
+      throw new IllegalArgumentException("Medida de factor de emision Erronea");
+    }
     this.factorEmision = factorEmision;
   }
 }
