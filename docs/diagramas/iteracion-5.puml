@@ -42,14 +42,10 @@ SolicitudModificacion <|-up- SolicitudQuitar
 
 class SolicitudAgregar {
     prenda : Prenda
-    realizarEn(guardarropas)
-    revertirEn(guardarropas)
 }
 
 class SolicitudQuitar {
     prenda : Prenda
-    realizarEn(guardarropas)
-    revertirEn(guardarropas)
 }
 
 interface ServicioMeteorologico {
@@ -62,7 +58,6 @@ ServicioMeteorologico <|.right. AccuWeather
 
 class AccuWeather {
     ultimaActualizacion : LocalDateTime
-    getTemperatura()
 }
 
 AccuWeather --> Temperatura
