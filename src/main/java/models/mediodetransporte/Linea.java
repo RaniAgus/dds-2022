@@ -28,12 +28,12 @@ public class Linea {
     return paradas;
   }
 
-  public Distancia distanciaEntreParadas(Parada paradaInicial, Parada paradaFinal){
-    return paradas.subList(paradas.indexOf(paradaInicial),paradas.indexOf(paradaFinal)-1)
+  public Distancia distanciaEntreParadas(Parada paradaInicial, Parada paradaFinal) {
+    return paradas.subList(paradas.indexOf(paradaInicial), paradas.indexOf(paradaFinal))
         .stream()
         .map(Parada::getDistanciaAProximaParada)
-        .reduce(new Distancia(BigDecimal.valueOf(0),Unidad.KM),(distanciaTotal,distancia)->{
-          return distancia.sumar(distanciaTotal);
+        .reduce(new Distancia(BigDecimal.valueOf(0), Unidad.KM), (distanciaTotal, distancia) -> {
+          return distanciaTotal.sumar(distancia);
         });
   }
 }
