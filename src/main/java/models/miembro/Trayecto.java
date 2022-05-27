@@ -27,9 +27,9 @@ public class Trayecto {
     return viajantes;
   }
 
-  public Distancia medirDistanciaTrayecto(Geolocalizador apiDistancia){
+  public Distancia medirDistanciaTrayecto() {
     return tramos.stream()
-        .map(tramo -> tramo.getDistanciaDelTramo(apiDistancia))
+        .map(Tramo::getDistancia)
         .reduce(Distancia.CERO, Distancia::sumar);
   }
 
