@@ -7,9 +7,8 @@ import models.mediodetransporte.MedioDeTransporte;
 
 
 public interface Tramo {
-  Ubicacion ubicacionInicial = null;
-  Ubicacion ubicacionFinal = null;
-  MedioDeTransporte medioDeTransporte = null;
+
+  public Distancia getDistancia();
 
   public boolean esCompartible();
 
