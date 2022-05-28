@@ -27,14 +27,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>31.1-jre</version>
-    </dependency>
-    <dependency>
       <groupId>com.github.RaniAgus</groupId>
       <artifactId>api-accuweather-objetos</artifactId>
       <version>0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>31.1-jre</version>
     </dependency>
     <dependency>
       <groupId>com.squareup.retrofit2</groupId>
@@ -45,6 +45,11 @@
       <groupId>com.squareup.retrofit2</groupId>
       <artifactId>converter-gson</artifactId>
       <version>2.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.cdimascio</groupId>
+      <artifactId>dotenv-java</artifactId>
+      <version>2.2.3</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
