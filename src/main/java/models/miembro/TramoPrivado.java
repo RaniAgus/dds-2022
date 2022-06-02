@@ -6,24 +6,19 @@ import models.geolocalizacion.Ubicacion;
 import models.mediodetransporte.MedioDeTransporte;
 
 public class TramoPrivado implements Tramo {
+  private Ubicacion ubicacionInicial;
+  private Ubicacion ubicacionFinal;
+  private Distancia distancia;
+  private MedioDeTransporte medioDeTransporte;
 
-  Ubicacion ubicacionInicial;
-  Ubicacion ubicacionFinal;
-  Distancia distancia;
-  MedioDeTransporte medioDeTransporte;
-  Geolocalizador calculadorDistancia;
-
-  public TramoPrivado(Geolocalizador calculadorDistancia,
+  public TramoPrivado(Geolocalizador geolocalizador,
                       Ubicacion ubicacionInicial,
                       Ubicacion ubicacionFinal,
                       MedioDeTransporte medioDeTransporte) {
-    this.calculadorDistancia = calculadorDistancia;
     this.ubicacionFinal = ubicacionFinal;
     this.ubicacionInicial = ubicacionInicial;
-    this.distancia = calculadorDistancia.medirDistancia(ubicacionInicial,ubicacionFinal);
+    this.distancia = geolocalizador.medirDistancia(ubicacionInicial, ubicacionFinal);
     this.medioDeTransporte = medioDeTransporte;
-
-
   }
 
   @Override
