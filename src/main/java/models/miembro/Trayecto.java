@@ -1,26 +1,16 @@
 package models.miembro;
 
-import models.geolocalizacion.Distancia;
-import models.geolocalizacion.Geolocalizador;
-
 import java.util.ArrayList;
 import java.util.List;
+import models.geolocalizacion.Distancia;
 
 public class Trayecto {
   private List<Tramo> tramos;
   private List<Miembro> viajantes;
 
-
-  public Trayecto(List<Tramo> tramos,List<Miembro> viajantes) {
-    if (!verificarSiEsCompartible(tramos)){
-      throw new RuntimeException();
-    }
+  public Trayecto(List<Tramo> tramos, List<Miembro> viajantes) {
     this.tramos = new ArrayList<>(tramos);
     this.viajantes = viajantes;
-  }
-
-  public boolean verificarSiEsCompartible(List<Tramo> tramos){
-    return tramos.stream().allMatch(Tramo::esCompartible);
   }
 
   public List<Miembro> getViajantes() {

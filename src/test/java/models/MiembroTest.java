@@ -4,8 +4,6 @@ import models.miembro.Miembro;
 import models.miembro.Trayecto;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static java.util.Collections.singletonList;
 import static models.factory.MiembroFactory.agus;
 import static models.factory.TramoFactory.tramoAPieDesdeMedranoHastaAlem;
@@ -15,8 +13,7 @@ public class MiembroTest {
   @Test
   public void sePuedeDarDeAltaUnNuevoTrayecto() {
     Miembro miembro = agus();
-    Trayecto trayecto = new Trayecto(singletonList(tramoAPieDesdeMedranoHastaAlem()), Arrays.asList(miembro));
-//    miembro.darDeAltaTrayecto(trayecto);
+    Trayecto trayecto = new Trayecto(singletonList(tramoAPieDesdeMedranoHastaAlem()), singletonList(miembro));
     assertThat(trayecto.getViajantes()).containsExactly(miembro);
   }
 }
