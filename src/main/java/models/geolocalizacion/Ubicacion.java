@@ -25,10 +25,10 @@ public class Ubicacion {
 
   @Override
   public String toString() {
-    return "Ubicacion{" +
-        "idLocalidad=" + idLocalidad +
-        ", calle='" + calle + '\'' +
-        ", altura='" + altura + '\'' +
-        '}';
+    return "Ubicacion{"
+        + "idLocalidad=" + idLocalidad
+        + ", calle='" + calle + '\''
+        + ", altura='" + altura + '\''
+        + '}';
   }
 }

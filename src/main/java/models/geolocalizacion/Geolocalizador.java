@@ -1,14 +1,14 @@
 package models.geolocalizacion;
 
 import exceptions.RespuestaNoObtenidaException;
-import retrofit2.Call;
-import retrofit2.Response;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import retrofit2.Call;
+import retrofit2.Response;
+
 
 public class Geolocalizador {
   private String apiKey;
@@ -17,35 +17,35 @@ public class Geolocalizador {
     this.apiKey = apiKey;
   }
 
-  public List<Pais> getPaises(){
+  public List<Pais> getPaises() {
     return consultar(
         GeoddsApi.INSTANCE.getPaises(1, apiKey),
         "No se pudo obtener la lista de países"
     );
   }
 
-  public List<Provincia> getProvincias(Pais pais){
+  public List<Provincia> getProvincias(Pais pais) {
     return consultar(
         GeoddsApi.INSTANCE.getProvincias(1, pais.getId(), apiKey),
         "No se pudo obtener la lista de provincias para " + pais.getNombre()
     );
   }
 
-  public List<Municipio> getMunicipios(Provincia provincia){
+  public List<Municipio> getMunicipios(Provincia provincia) {
     return paginar(
         offset -> GeoddsApi.INSTANCE.getMunicipios(offset, provincia.getId(), apiKey),
         "No se pudo obtener la lista de municipios para " + provincia.getNombre()
     );
   }
 
-  public List<Localidad> getLocalidades(Municipio municipio){
+  public List<Localidad> getLocalidades(Municipio municipio) {
     return paginar(
         offset -> GeoddsApi.INSTANCE.getLocalidades(offset, municipio.getId(), apiKey),
         "No se pudo obtener la lista de localidades para " + municipio.getNombre()
     );
   }
 
-  public Distancia medirDistancia(Ubicacion ubicacionOrigen, Ubicacion ubicacionDestino){
+  public Distancia medirDistancia(Ubicacion ubicacionOrigen, Ubicacion ubicacionDestino) {
     return consultar(
         GeoddsApi.INSTANCE.getDistancia(
             ubicacionOrigen.getIdLocalidad(),

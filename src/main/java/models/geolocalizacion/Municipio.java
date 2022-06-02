@@ -21,10 +21,10 @@ public class Municipio {
 
   @Override
   public String toString() {
-    return "Municipio{" +
-        "id=" + id +
-        ", nombre='" + nombre + '\'' +
-        ", provincia=" + provincia +
-        '}';
+    return "Municipio{"
+        + "id=" + id
+        + ", nombre='" + nombre + '\''
+        + ", provincia=" + provincia
+        + '}';
   }
 }

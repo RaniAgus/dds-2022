@@ -1,9 +1,9 @@
 package models.validador;
 
+import exceptions.ContrasenaDebilException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import exceptions.ContrasenaDebilException;
 
 public class Validador {
   private List<Validacion> validaciones;

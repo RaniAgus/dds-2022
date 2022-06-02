@@ -1,14 +1,10 @@
 package models.miembro;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Miembro {
   private String nombre;
   private String apellido;
   private String documento;
   private TipoDeDocumento tipoDeDocumento;
-  //private List<Trayecto> trayectos;
 
   public Miembro(String nombre,
                  String apellido,
@@ -18,14 +14,5 @@ public class Miembro {
     this.nombre = nombre;
     this.documento = documento;
     this.tipoDeDocumento = tipoDeDocumento;
-    //this.trayectos = new ArrayList<>(trayectos);
   }
-
-  /*public void darDeAltaTrayecto(Trayecto trayecto, List<Miembro> companierosDeViaje) {
-    this.trayectos.add(trayecto);
-  }*/
-
-  /*public List<Trayecto> getTrayectos() {
-    return trayectos;
-  }*/
 }

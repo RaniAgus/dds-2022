@@ -1,6 +1,5 @@
 package models;
 
-import models.geolocalizacion.Ubicacion;
 import models.mediodetransporte.Linea;
 import models.mediodetransporte.Parada;
 import org.junit.jupiter.api.Test;

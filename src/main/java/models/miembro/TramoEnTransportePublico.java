@@ -10,15 +10,15 @@ public class TramoEnTransportePublico implements Tramo {
   private Parada paradaFinal;
   private Linea linea;
 
-  TramoEnTransportePublico(Parada paradaFinal, Parada paradaInicial, Linea linea) {
-    this.linea=linea;
-    this.paradaFinal=paradaFinal;
-    this.paradaInicial=paradaInicial;
+  public TramoEnTransportePublico(Parada paradaFinal, Parada paradaInicial, Linea linea) {
+    this.linea = linea;
+    this.paradaFinal = paradaFinal;
+    this.paradaInicial = paradaInicial;
   }
 
   @Override
   public Distancia getDistancia() {
-    return linea.distanciaEntreParadas(paradaInicial,paradaFinal);
+    return linea.distanciaEntreParadas(paradaInicial, paradaFinal);
   }
 
   @Override

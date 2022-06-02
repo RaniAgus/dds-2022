@@ -1,13 +1,8 @@
 package models.mediodetransporte;
 
-import models.geolocalizacion.Distancia;
-import models.geolocalizacion.Ubicacion;
-import models.geolocalizacion.Unidad;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import models.geolocalizacion.Distancia;
 
 public class Linea {
   private String nombre;
@@ -32,8 +27,6 @@ public class Linea {
     return paradas.subList(paradas.indexOf(paradaInicial), paradas.indexOf(paradaFinal))
         .stream()
         .map(Parada::getDistanciaAProximaParada)
-        .reduce(new Distancia(BigDecimal.valueOf(0), Unidad.KM), (distanciaTotal, distancia) -> {
-          return distanciaTotal.sumar(distancia);
-        });
+        .reduce(Distancia.CERO, Distancia::sumar);
   }
 }

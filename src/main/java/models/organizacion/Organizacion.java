@@ -1,9 +1,8 @@
 package models.organizacion;
 
-import models.geolocalizacion.Ubicacion;
-
 import java.util.ArrayList;
 import java.util.List;
+import models.geolocalizacion.Ubicacion;
 
 public class Organizacion {
   private final String razonSocial;

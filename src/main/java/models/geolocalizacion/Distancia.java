@@ -22,9 +22,9 @@ public class Distancia {
 
   @Override
   public String toString() {
-    return "Distancia{" +
-        "valor=" + valor +
-        ", unidad=" + unidad +
-        '}';
+    return "Distancia{"
+        + "valor=" + valor
+        + ", unidad=" + unidad
+        + '}';
   }
 }
