@@ -23,10 +23,7 @@ public enum TipoDeConsumo {
     return factorEmision;
   }
 
-  public void setFactorEmision(Double factorEmision, UnidadDeConsumo unidadDeConsumo) {
-    if (!this.unidadDeConsumo.equals(unidadDeConsumo)) {
-      throw new IllegalArgumentException("Medida de factor de emision Erronea");
-    }
+  public void setFactorEmision(Double factorEmision) {
     this.factorEmision = factorEmision;
   }
 }
