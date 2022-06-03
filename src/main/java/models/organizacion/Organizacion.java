@@ -1,8 +1,10 @@
 package models.organizacion;
 
+import models.Ubicacion;
+import models.da.DatoActividad;
+
 import java.util.ArrayList;
 import java.util.List;
-import models.geolocalizacion.Ubicacion;
 
 public class Organizacion {
   private final String razonSocial;
@@ -10,16 +12,19 @@ public class Organizacion {
   private final TipoDeOrganizacion tipoDeOrganizacion;
   private final ClasificacionDeOrganizacion clasificacionDeOrganizacion;
   private final List<Sector> sectores;
-
+  private final List<DatoActividad> datosActividad;
+  
   public Organizacion(String razonSocial, Ubicacion ubicacionGeografica,
                       TipoDeOrganizacion tipoDeOrganizacion,
                       ClasificacionDeOrganizacion clasificacionDeOrganizacion,
-                      List<Sector> sectores) {
+                      List<Sector> sectores,
+                      List<DatoActividad> datosActividad) {
     this.razonSocial = razonSocial;
     this.clasificacionDeOrganizacion = clasificacionDeOrganizacion;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.ubicacionGeografica = ubicacionGeografica;
     this.sectores = new ArrayList<>(sectores);
+    this.datosActividad = new ArrayList<>(datosActividad);
   }
 
   public void darDeAltaSector(Sector sector) {
@@ -29,4 +34,9 @@ public class Organizacion {
   public List<Sector> getSectores() {
     return sectores;
   }
+
+  public void agregarDatosActividad(List<DatoActividad> nuevosDatos){
+    this.datosActividad.addAll(nuevosDatos);
+  }
+
 }
