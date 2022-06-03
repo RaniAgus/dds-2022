@@ -1,9 +1,6 @@
 package models.da;
-
-import com.sun.jdi.InvalidTypeException;
-
 public enum TipoDeConsumo {
-  Gas_Natural(1.0, UnidadDeConsumo.M3),
+  GAS_NATURAL(1.0, UnidadDeConsumo.M3),
   DIESEL(1.0, UnidadDeConsumo.LT),
   GASOIL(1.0, UnidadDeConsumo.LT),
   NAFTA(1.0, UnidadDeConsumo.LT),
