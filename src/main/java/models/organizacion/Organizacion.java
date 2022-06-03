@@ -1,7 +1,8 @@
 package models.organizacion;
 
-import models.Ubicacion;
+
 import models.da.DatoActividad;
+import models.geolocalizacion.Ubicacion;
 
 import java.util.ArrayList;
 import java.util.List;
