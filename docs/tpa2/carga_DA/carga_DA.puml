@@ -1,0 +1,27 @@
+@startuml
+
+class Organizacion
+Organizacion ->"*"DatoActividad
+
+class DatoActividad
+DatoActividad --> "1" Periodicidad
+DatoActividad --> "1" TipoDeConsumo
+DatoActividad --> "1" UnidadDeConsumo
+
+class CsvToDatosActividad {
+leerDeArchivo()
+}
+CsvToDatosActividad ..>"carga" DatoActividad
+
+enum TipoDeConsumo {
+setFactorEmision()
+}
+enum Periodicidad
+enum UnidadDeConsumo
+
+class ConvertToTipoDeConsumo {
+convert()
+}
+ConvertToTipoDeConsumo ..> TipoDeConsumo
+
+@enduml
