@@ -15,4 +15,8 @@ public class Parada {
   public Distancia getDistanciaAProximaParada() {
     return distanciaAProximaParada;
   }
+
+  public void setDistanciaAProximaParada(Distancia distanciaAProximaParada) {
+    this.distanciaAProximaParada = distanciaAProximaParada;
+  }
 }

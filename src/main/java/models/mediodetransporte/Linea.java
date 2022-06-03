@@ -15,7 +15,10 @@ public class Linea {
     this.tipo = tipo;
   }
 
-  public void agregarParada(Parada nuevaParada) {
+  public void agregarParada(Parada nuevaParada, Distancia distanciaANuevaParada) {
+    if(!paradas.isEmpty()) {
+      paradas.get(paradas.size() - 1).setDistanciaAProximaParada(distanciaANuevaParada);
+    }
     this.paradas.add(nuevaParada);
   }
 
