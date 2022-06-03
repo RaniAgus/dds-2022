@@ -2,11 +2,10 @@ package models;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
+import exceptions.UsuarioNoDisponibleExeption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import exceptions.UsuarioNoDisponibleExeption;
-
 
 public final class Administradores {
   private static final Administradores instance = new Administradores();

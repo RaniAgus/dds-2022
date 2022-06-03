@@ -1,4 +1,4 @@
-package models.api;
+package models.geolocalizacion;
 
 public class Pais {
   private Integer id;
@@ -13,11 +13,15 @@ public class Pais {
     return id;
   }
 
+  public String getNombre() {
+    return nombre;
+  }
+
   @Override
   public String toString() {
-    return "Pais{" +
-        "id=" + id +
-        ", nombre='" + nombre + '\'' +
-        '}';
+    return "Pais{"
+        + "id=" + id
+        + ", nombre='" + nombre + '\''
+        + '}';
   }
 }

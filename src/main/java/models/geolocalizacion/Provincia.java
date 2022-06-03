@@ -1,4 +1,4 @@
-package models.api;
+package models.geolocalizacion;
 
 public class Provincia {
   private Integer id;
@@ -15,12 +15,16 @@ public class Provincia {
     return id;
   }
 
+  public String getNombre() {
+    return nombre;
+  }
+
   @Override
   public String toString() {
-    return "Provincia{" +
-        "id=" + id +
-        ", nombre='" + nombre + '\'' +
-        ", pais=" + pais +
-        '}';
+    return "Provincia{"
+        + "id=" + id
+        + ", nombre='" + nombre + '\''
+        + ", pais=" + pais
+        + '}';
   }
 }

@@ -11,8 +11,7 @@ public class MiembroFactory {
         "Agustin",
         "Ranieri",
         "0",
-        TipoDeDocumento.DNI,
-        emptyList()
+        TipoDeDocumento.DNI
     );
   }
 }

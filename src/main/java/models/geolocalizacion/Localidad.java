@@ -1,4 +1,4 @@
-package models.api;
+package models.geolocalizacion;
 
 public class Localidad {
   private Integer id;
@@ -19,11 +19,11 @@ public class Localidad {
 
   @Override
   public String toString() {
-    return "Localidad{" +
-        "id=" + id +
-        ", nombre='" + nombre + '\'' +
-        ", codPostal='" + codPostal + '\'' +
-        ", municipio=" + municipio +
-        '}';
+    return "Localidad{"
+        + "id=" + id
+        + ", nombre='" + nombre + '\''
+        + ", codPostal='" + codPostal + '\''
+        + ", municipio=" + municipio
+        + '}';
   }
 }

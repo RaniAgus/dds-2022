@@ -1,21 +1,15 @@
 package models.factory;
 
-import models.Ubicacion;
+import models.geolocalizacion.Ubicacion;
+
+import static org.mockito.Mockito.mock;
 
 public class UbicacionFactory {
   public static Ubicacion medrano() {
-    return new Ubicacion(
-        "Estación Medrano",
-        -34.60290512034288,
-        -58.42095617309308
-    );
+    return mock(Ubicacion.class);
   }
 
   public static Ubicacion alem() {
-    return new Ubicacion(
-        "Estación L.N. Alem",
-        -34.60295045162841,
-        -58.37004823572711
-    );
+    return mock(Ubicacion.class);
   }
 }
