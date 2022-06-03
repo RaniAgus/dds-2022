@@ -1,11 +1,11 @@
 package models.da;
 
 import com.opencsv.bean.*;
-import com.opencsv.bean.processor.PreAssignmentProcessor;
 
 public class DatoActividad {
 
   public DatoActividad() {
+    /* Builder Publico Vacio Para cumplir con bean de OpenCSV */
   }
 
   public TipoDeConsumo getTipo() {
