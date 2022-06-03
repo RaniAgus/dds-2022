@@ -8,10 +8,6 @@ public class DatoActividad {
     /* Builder Publico Vacio Para cumplir con bean de OpenCSV */
   }
 
-  public TipoDeConsumo getTipo() {
-    return tipo;
-  }
-
   @CsvCustomBindByPosition(position = 0,converter = ConvertToTipoDeConsumo.class)
   private TipoDeConsumo tipo;
 
@@ -23,4 +19,17 @@ public class DatoActividad {
 
   @CsvBindByPosition(position = 3)
   private String periodo;
+
+  public Double getValor() {
+    return valor;
+  }
+  public Periodicidad getPeriodicidad() {
+    return periodicidad;
+  }
+  public String getPeriodo() {
+    return periodo;
+  }
+  public TipoDeConsumo getTipo() {
+    return tipo;
+  }
 }
