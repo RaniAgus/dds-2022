@@ -1,19 +1,22 @@
 package models;
 
-import models.da.CsvToDatosActividad;
-import models.da.DatoActividad;
-import models.da.Periodicidad;
-import models.da.TipoDeConsumo;
+
+import models.da.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 public class cargaDATest {
   @Test
   public void sePuedeCargarDAValidos() throws IOException {
-    List<DatoActividad> DAs = CsvToDatosActividad.leerDeArchivo("./src/test/resources/dummy_DA.csv");
+
+    CSVLoader csvLoader = new CSVLoader("./src/test/resources/DA_correcto.csv");
+    DatosActividadesParser DAParser = new DatosActividadesParser(csvLoader).setSkiplines(1);
+    List<DatoActividad> DAs = DAParser.getDatosActividad();
+
     DatoActividad DA1 = DAs.get(0);
     DatoActividad DA2 = DAs.get(1);
 
@@ -26,6 +29,13 @@ public class cargaDATest {
     Assertions.assertEquals(Periodicidad.ANUAL, DA2.getPeriodicidad());
     Assertions.assertEquals("2020", DA2.getPeriodo());
     Assertions.assertEquals(TipoDeConsumo.NAFTA, DA2.getTipo());
+  }
+
+  @Test
+  public void noSePuedenCargarDAsConCamposFaltantes() throws FileNotFoundException {
+    CSVLoader csvLoader = new CSVLoader("./src/test/resources/DA_campos_faltantes.csv");
+    DatosActividadesParser DAParser = new DatosActividadesParser(csvLoader).setSkiplines(1);
+    Assertions.assertThrows(IllegalArgumentException.class, DAParser::getDatosActividad);
   }
 
 }
