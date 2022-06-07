@@ -13,7 +13,7 @@ import java.util.List;
 public class cargaDATest {
   @Test
   public void sePuedeCargarDAValidos() throws IOException {
-    List<DatoActividad> DAs = CsvToDatosActividad.leerDeArchivo("./src/test/java/models/dummy_DA.csv");
+    List<DatoActividad> DAs = CsvToDatosActividad.leerDeArchivo("./src/test/resources/dummy_DA.csv");
     DatoActividad DA1 = DAs.get(0);
     DatoActividad DA2 = DAs.get(1);
 
