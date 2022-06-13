@@ -1,10 +1,10 @@
 @startuml que-me-pongo
 
 class Usuario {
-    agregar(guardarropas)
+    agregar(guardarropa)
 }
 
-Usuario --> "*" Guardarropas
+Usuario --> "*" Guardarropa
 
 class Guardarropa {
   sugerir() : Atuendo
