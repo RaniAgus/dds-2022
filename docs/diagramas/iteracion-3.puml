@@ -43,8 +43,6 @@ class Borrador {
 Borrador .right.> Prenda : <<creates>>
 
 class Prenda {
- colorPrincipal : Color
- colorSecundario : Color
  estaLavandose : boolean
  esDeCategoria(categoria)
  esSugerible()
@@ -53,43 +51,7 @@ class Prenda {
  lavar()
 }
 
-Prenda -right-> Tipo
-Prenda --> Material
-Prenda --> Trama
 Prenda --> Estado
-
-enum Material {
-  ALGODON,
-  CUERO,
-  LANA,
-  JEAN,
-  ...
-}
-
-enum Trama {
-  LISA,
-  RAYADA,
-  LUNARES,
-  CUADROS,
-  ESTAMPADO
-}
-
-enum Tipo {
-  ANTEOJOS,
-  ZAPATOS,
-  ...
-  esMaterialValido(material)
-}
-
-Tipo --> "*" Material
-Tipo --> Categoria
-
-enum Categoria {
-  CALZADO
-  PARTE_SUPERIOR,
-  PARTE_INFERIOR,
-  ACCESORIO
-}
 
 interface Estado {
  esSugerible()

@@ -21,6 +21,11 @@ class AccuWeather {
 }
 
 AccuWeather --> Temperatura
+AccuWeather ..> AccuWeatherAPI
+
+interface AccuWeatherAPI {
+    getWeather(city) : Map<String, Object>
+}
 
 enum Temperatura {
     FRIO,
@@ -29,18 +34,6 @@ enum Temperatura {
     {static} ofCelsius(celsius)
     {static} ofFahrenheit(fahrenheit)
 }
-
-abstract UniformeFactory {
-  crearUniforme()
-  {abstract} getBorradorSuperior()
-  {abstract} getBorradorInferior()
-  {abstract} getBorradorCalzado()
-}
-
-UniformeFactory .right.> Atuendo : <<creates>>
-UniformeFactory ..> Borrador
-UniformeFactory ..> Borrador
-UniformeFactory ..> Borrador
 
 class Atuendo {
    superior
@@ -54,87 +47,13 @@ Atuendo --> Prenda
 Atuendo --> Prenda
 Atuendo --> Prenda
 
-class Borrador {
-  conTipo(tipo)
-  conMaterial(material)
-  conTrama(trama)
-  conColorPrimario(colorPrimario)
-  conColorSecundario(colorSecundario)
-  (...)
-  crearPrenda()
-}
-
-Borrador .right.> Prenda : <<creates>>
-
 class Prenda {
- colorPrincipal : Color
- colorSecundario : Color
- estaLavandose : boolean
  esDeCategoria(categoria)
  esSugerible()
  esAptaPara(temperatura)
- usar()
- ponerALavar()
- lavar()
 }
 
 Prenda -up-> "*" Temperatura : "temperaturasAptas"
-Prenda -right-> Tipo
-Prenda --> Material
-Prenda --> Trama
-Prenda --> Estado
 
-enum Material {
-  ALGODON,
-  CUERO,
-  LANA,
-  JEAN,
-  ...
-}
-
-enum Trama {
-  LISA,
-  RAYADA,
-  LUNARES,
-  CUADROS,
-  ESTAMPADO
-}
-
-enum Tipo {
-  ANTEOJOS,
-  ZAPATOS,
-  ...
-  esMaterialValido(material)
-}
-
-Tipo --> "*" Material
-Tipo --> Categoria
-
-enum Categoria {
-  CALZADO
-  PARTE_SUPERIOR,
-  PARTE_INFERIOR,
-  ACCESORIO
-}
-
-interface Estado {
- esSugerible()
- usar()
- lavar()
-}
-
-Estado <|.. Nueva
-Estado <|.. Usada
-Estado <|.. Sucia
-Estado <|.. Percudida
-
-Nueva .right.> Usada
-Usada .right.> Sucia
-Sucia .left.> Usada
-Sucia .right.> Percudida
-
-class Sucia {
-  usos : Integer
-}
 
 @enduml
