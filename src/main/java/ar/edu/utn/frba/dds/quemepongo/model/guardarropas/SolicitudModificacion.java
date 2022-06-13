@@ -7,8 +7,8 @@ public abstract class SolicitudModificacion {
     return this.estado.equals(estado);
   }
 
-  public void aceptarEn(Guardarropas guardarropas) {
-    realizarEn(guardarropas);
+  public void aceptarEn(Guardarropa guardarropa) {
+    realizarEn(guardarropa);
     estado = EstadoModificacion.ACEPTADA;
   }
 
@@ -16,11 +16,11 @@ public abstract class SolicitudModificacion {
     estado = EstadoModificacion.RECHAZADA;
   }
 
-  public void deshacerEn(Guardarropas guardarropas) {
-    revertirEn(guardarropas);
+  public void deshacerEn(Guardarropa guardarropa) {
+    revertirEn(guardarropa);
     estado = EstadoModificacion.RECHAZADA;
   }
 
-  protected abstract void realizarEn(Guardarropas guardarropas);
-  protected abstract void revertirEn(Guardarropas guardarropas);
+  protected abstract void realizarEn(Guardarropa guardarropa);
+  protected abstract void revertirEn(Guardarropa guardarropa);
 }

@@ -10,12 +10,12 @@ public class SolicitudAgregar extends SolicitudModificacion {
   }
 
   @Override
-  protected void realizarEn(Guardarropas guardarropas) {
-    guardarropas.agregar(prenda);
+  protected void realizarEn(Guardarropa guardarropa) {
+    guardarropa.agregar(prenda);
   }
 
   @Override
-  protected void revertirEn(Guardarropas guardarropas) {
-    guardarropas.quitar(prenda);
+  protected void revertirEn(Guardarropa guardarropa) {
+    guardarropa.quitar(prenda);
   }
 }

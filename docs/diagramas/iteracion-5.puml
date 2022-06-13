@@ -6,7 +6,7 @@ class Usuario {
 
 Usuario --> "*" Guardarropas
 
-class Guardarropas {
+class Guardarropa {
   sugerir() : Atuendo
   solicitar(solicitud)
   getSolicitudesPendientes() : SolicitudModificacion[]
@@ -15,10 +15,10 @@ class Guardarropas {
   quitar(prenda)
 }
 
-Guardarropas ..> Atuendo
-Guardarropas -right-> "*" Prenda
-Guardarropas -right-> ServicioMeteorologico
-Guardarropas -left-> "*" SolicitudModificacion
+Guardarropa ..> Atuendo
+Guardarropa -right-> "*" Prenda
+Guardarropa -right-> ServicioMeteorologico
+Guardarropa -left-> "*" SolicitudModificacion
 
 abstract class SolicitudModificacion {
     aceptarEn(guardarropas)
@@ -28,7 +28,7 @@ abstract class SolicitudModificacion {
     {abstract} revertirEn(guardarropas)
 }
 
-SolicitudModificacion ..> Guardarropas
+SolicitudModificacion ..> Guardarropa
 SolicitudModificacion -left-> EstadoModificacion
 
 enum EstadoModificacion {

@@ -10,12 +10,12 @@ public class SolicitudQuitar extends SolicitudModificacion {
   }
 
   @Override
-  protected void realizarEn(Guardarropas guardarropas) {
-    guardarropas.quitar(prenda);
+  protected void realizarEn(Guardarropa guardarropa) {
+    guardarropa.quitar(prenda);
   }
 
   @Override
-  protected void revertirEn(Guardarropas guardarropas) {
-    guardarropas.agregar(prenda);
+  protected void revertirEn(Guardarropa guardarropa) {
+    guardarropa.agregar(prenda);
   }
 }

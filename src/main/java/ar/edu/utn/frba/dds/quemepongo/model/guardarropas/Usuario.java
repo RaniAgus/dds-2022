@@ -3,13 +3,13 @@ package ar.edu.utn.frba.dds.quemepongo.model.guardarropas;
 import java.util.List;
 
 public class Usuario {
-  private List<Guardarropas> guardarropas;
+  private List<Guardarropa> guardarropas;
 
-  public Usuario(List<Guardarropas> guardarropas) {
+  public Usuario(List<Guardarropa> guardarropas) {
     this.guardarropas = guardarropas;
   }
 
-  public void agregar(Guardarropas guardarropas) {
-    this.guardarropas.add(guardarropas);
+  public void agregar(Guardarropa guardarropa) {
+    guardarropas.add(guardarropa);
   }
 }

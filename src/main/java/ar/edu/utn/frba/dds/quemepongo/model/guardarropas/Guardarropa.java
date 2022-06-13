@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-public class Guardarropas {
+public class Guardarropa {
   private ServicioMeteorologico servicioMeteorologico;
   private List<Prenda> prendas;
   private List<SolicitudModificacion> solicitudes;
 
-  public Guardarropas(ServicioMeteorologico servicioMeteorologico,
-                      List<Prenda> prendas,
-                      List<SolicitudModificacion> solicitudes) {
+  public Guardarropa(ServicioMeteorologico servicioMeteorologico,
+                     List<Prenda> prendas,
+                     List<SolicitudModificacion> solicitudes) {
     this.servicioMeteorologico = servicioMeteorologico;
     this.prendas = prendas;
     this.solicitudes = solicitudes;

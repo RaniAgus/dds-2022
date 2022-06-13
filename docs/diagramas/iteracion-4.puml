@@ -1,12 +1,12 @@
 @startuml iteracion-4
 
-class Guardarropas {
+class Guardarropa {
   sugerir() : Atuendo
 }
 
-Guardarropas ..> Atuendo
-Guardarropas -right-> "*" Prenda
-Guardarropas -right-> ServicioMeteorologico
+Guardarropa ..> Atuendo
+Guardarropa -right-> "*" Prenda
+Guardarropa -right-> ServicioMeteorologico
 
 interface ServicioMeteorologico {
     getTemperatura()

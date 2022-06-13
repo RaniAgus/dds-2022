@@ -1,10 +1,10 @@
 @startuml iteracion-3
 
-class Guardarropas {
+class Guardarropa {
   getPrendasSugeribles(categoria)
 }
 
-Guardarropas --> "*" Prenda
+Guardarropa --> "*" Prenda
 
 abstract UniformeFactory {
   crearUniforme()
