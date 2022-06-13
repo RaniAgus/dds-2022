@@ -8,12 +8,12 @@
 
 ### Requerimiento 1
 
-> Como usuarie de QuéMePongo, quiero poder recibir sugerencias de atuendos que
+> Como usuario/a de QuéMePongo, quiero poder recibir sugerencias de atuendos que
 tengan una prenda para cada categoría, aunque a futuro podrán tener más (Ej.:
 Una remera, un pantalón, zapatos y un gorro).
 
 Continúo utilizando la clase `Atuendo` para modelar una sugerencia, y el
-`Guardarropas` pasa a exponer un mensaje `sugerir()` que devuelve un `Atuendo` 
+`Guardarropas` pasa a exponer un mensaje `sugerir()` que devuelve un `Atuendo`
 aleatorio conformado por cuatro `Prendas` sugeribles, una de cada `Categoria`,
 mientras que `getPrendasSugeribles(categoria)` pasa a ser privado:
 
@@ -29,16 +29,16 @@ class Guardarropas {
 ```
 > Nota: como en Java el `atRandom()` no existe, tuve que implementarlo distinto.
 
-Considerando el principio YAGNI, elijo ignorar el hecho de que a futuro una 
+Considerando el principio YAGNI, elijo ignorar el hecho de que a futuro una
 sugerencia pueda incluir más de un atuendo ya que no es un requerimiento actual.
 
 ### Requerimiento 2
 
-> Como administradore de QuéMePongo, quiero poder configurar fácilmente
+> Como administrador/a de QuéMePongo, quiero poder configurar fácilmente
 diferentes servicios de obtención del clima para ajustarme a las cambiantes
 condiciones económicas.
 
-Se crea una interfaz `ServicioMeteorologico` con un mensaje para obtener la 
+Se crea una interfaz `ServicioMeteorologico` con un mensaje para obtener la
 `Temperatura` en base a él:
 
 ```ts
@@ -49,7 +49,7 @@ interface ServicioMeteorologico {
 
 ### Requerimiento 3
 
-> Como usuarie de QuéMePongo, quiero poder conocer las condiciones climáticas de
+> Como usuario/a de QuéMePongo, quiero poder conocer las condiciones climáticas de
   Buenos Aires en un momento dado para obtener sugerencias acordes.
 
 Se crea una clase `AccuWeather` que convierta la respuesta del SDK provisto a
@@ -60,7 +60,7 @@ class AccuWeather {
   temperatura: Temperatura
 
   actualizarClima(): void {
-    const data = new AccuWeatherAPI().getWeather('Buenos Aires, Argentina')[0];  
+    const data = new AccuWeatherAPI().getWeather('Buenos Aires, Argentina')[0];
 
     this.temperatura = Temperatura.of(data.Temperature.Unit, data.Temperature.Value);
   }
@@ -69,13 +69,13 @@ class AccuWeather {
 
 ### Requerimiento 4
 
-> Como usuarie de QuéMePongo, quiero que al generar una sugerencia las prendas
+> Como usuario/a de QuéMePongo, quiero que al generar una sugerencia las prendas
   sean acordes a la temperatura actual sabiendo que para cada prenda habrá una
   temperatura hasta la cual es adecuada. (Ej.: "Remera de mangas largas" no es
   apta a más de 20°C)
 
 Modelé a la `Temperatura` como un `enum` que dependiendo de la temperatura en
-Celsius o Fahrenheit va a ser `FRIO`, `TEMPLADO` o `CALIDO`. Consideré como 
+Celsius o Fahrenheit va a ser `FRIO`, `TEMPLADO` o `CALIDO`. Consideré como
 alternativa guardarme la temperatura posta y que las `temperaturasAptas` sean un
 rango de valores, pero me pareció una solución demasiado compleja.
 
@@ -97,7 +97,7 @@ enum Temperatura {
 }
 ```
 
-Por su parte, a las `Prenda`s se les agrega una colección de `Temperatura`s 
+Por su parte, a las `Prenda`s se les agrega una colección de `Temperatura`s
 aptas y el mensaje `esAptaPara(temperatura)`:
 
 ```kotlin
@@ -109,12 +109,12 @@ class Prenda {
 ```
 
 Por último, el `Guardarropas` recibe el `ServicioMeteorologico` por inyección de
-dependencias por constructor para luego filtrar las prendas sugeribles según el 
+dependencias por constructor para luego filtrar las prendas sugeribles según el
 clima:
 
 ```kotlin
 class Guardarropas(servicioMeteorologico: ServicioMeteorologico, ...) {
-  
+
   fun getPrendasSugeribles(categoria: Categoria): List<Prenda> => prendas
       .filter { it.esSugerible() }
       .filter { it.esAptaPara(servicioMeteorologico.getTemperatura()) }
@@ -128,15 +128,15 @@ class Guardarropas(servicioMeteorologico: ServicioMeteorologico, ...) {
 > Como stakeholder de QuéMePongo, quiero poder asegurar la calidad de mi
   aplicación sin incurrir en costos innecesarios.
 
-Para que `AccuWeather` sea una única instancia y controlar la cantidad de 
-requests, lo hice singleton (aunque esto no me impide inyectarlo como 
+Para que `AccuWeather` sea una única instancia y controlar la cantidad de
+requests, lo hice singleton (aunque esto no me impide inyectarlo como
 dependencia):
 
 ```kotlin
 var guardarropas = new Guardarropas(AccuWeather.INSTANCE, ...)
 ```
 
-Dentro de `AccuWeather` se "cachea" la última `Temperatura` obtenida, 
+Dentro de `AccuWeather` se "cachea" la última `Temperatura` obtenida,
 actualizándose cada 12 horas.
 
 ## Cambios post Puesta en Común
@@ -146,4 +146,3 @@ actualizándose cada 12 horas.
 Al final lo importante no era hacer que `AccuWeather` sea única y cachee la
 última `Temperatura`, sino el hecho de que su interfaz sea sencilla para poder
 mockearla, por lo que deshice el singleton.
-
