@@ -262,11 +262,17 @@ class Usuario {
   calculen automáticamente sin que un empleado necesite disparar esta acción
   manualmente
 
+Se instala en el sistema operativo un cron job que diariamente ejecute el método
+`main` de la clase `GeneradorDeSugerencias`.
+
 ### Bonus 2
 
 > Como administrador/a de QueMePongo, quiero que las alertas se publiquen en el
   sitio automáticamente sin que un empleado necesite disparar esta acción
   manualmente
+
+Se instala en el sistema operativo un cron job que diariamente ejecute el método
+`main` de la clase `GeneradorDeAlertas`.
 
 <!--
 ## Cambios post Puesta en Común
