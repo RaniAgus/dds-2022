@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo.model.guardarropas;
+package ar.edu.utn.frba.dds.quemepongo.model.usuario;
 
 public abstract class SolicitudModificacion {
   private EstadoModificacion estado = EstadoModificacion.PENDIENTE;

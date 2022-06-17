@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.quemepongo.model.accion;
 import ar.edu.utn.frba.dds.quemepongo.dependencies.NotificationService;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.Alerta;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.Clima;
-import ar.edu.utn.frba.dds.quemepongo.model.guardarropas.Usuario;
+import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 
 public class NotificarGranizo implements Accion {
   private NotificationService notificationService;

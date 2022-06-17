@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo.model.guardarropas;
+package ar.edu.utn.frba.dds.quemepongo.model.usuario;
 
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Prenda;
 

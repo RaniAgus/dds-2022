@@ -35,6 +35,14 @@ interface ServicioMeteorologico {
 }
 
 ServicioMeteorologico ..> Clima
+ServicioMeteorologico <|.. AccuWeather
+
+AccuWeather <-- AccuWeatherAPI
+
+class AccuWeatherAPI {
+    getWeather(city)
+    getAlerts(city)
+}
 
 class Clima {
     horaDeActualizacion
@@ -67,7 +75,6 @@ Usuario --> Atuendo
 Usuario --> "*" Accion
 
 class Guardarropa {
-  solicitar(solicitud)
   getPrendasSugeribles(categoria, temperatura) : Prenda[]
 }
 

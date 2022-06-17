@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.quemepongo.repository;
 
 import ar.edu.utn.frba.dds.quemepongo.model.clima.Clima;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
-import ar.edu.utn.frba.dds.quemepongo.model.guardarropas.Usuario;
+import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
