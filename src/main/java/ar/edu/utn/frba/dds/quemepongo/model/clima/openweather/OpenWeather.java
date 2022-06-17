@@ -1,12 +1,13 @@
-package ar.edu.utn.frba.dds.quemepongo.model.clima;
+package ar.edu.utn.frba.dds.quemepongo.model.clima.openweather;
 
 import ar.edu.utn.frba.dds.quemepongo.exception.TemperaturaNoObtenidaException;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class OpenWeather implements ServicioMeteorologico {
+public class OpenWeather {
   private String key;
   private Temperatura temperatura;
   private LocalDateTime ultimaActualizacion;
@@ -15,7 +16,6 @@ public class OpenWeather implements ServicioMeteorologico {
     this.key = key;
   }
 
-  @Override
   public Temperatura getTemperatura() {
     if (climaEstaDesctualizado()) {
       temperatura = actualizarTemperatura();

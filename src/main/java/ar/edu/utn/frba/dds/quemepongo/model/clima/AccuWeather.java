@@ -7,30 +7,22 @@ import edu.utn.frba.dds.accuweather.AccuWeatherAPI;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class AccuWeather implements ServicioMeteorologico {
-  private Temperatura temperatura;
-  private LocalDateTime ultimaActualizacion;
+  private AccuWeatherAPI api = new AccuWeatherAPI();
 
   @Override
-  public Temperatura getTemperatura() {
-    if (climaEstaDesactualizado()) {
-      temperatura = actualizarTemperatura();
-      ultimaActualizacion = LocalDateTime.now();
-    }
-    return temperatura;
-  }
-
-  private boolean climaEstaDesactualizado() {
-    return ultimaActualizacion == null
-        || ultimaActualizacion.isBefore(LocalDateTime.now().minusHours(2));
+  public Clima getClima() {
+    return new Clima(getTemperatura(), getAlertas(), LocalDateTime.now());
   }
 
   @SuppressWarnings("unchecked")
-  private Temperatura actualizarTemperatura() {
+  public Temperatura getTemperatura() {
     try {
-      Map<String, Object> data = (Map<String, Object>) new AccuWeatherAPI()
+      Map<String, Object> data = (Map<String, Object>) api
           .getWeather("Buenos Aires, Argentina")
           .get(0)
           .get("Temperature");
@@ -42,6 +34,25 @@ public class AccuWeather implements ServicioMeteorologico {
 
       return Objects.requireNonNull(converters.get((String) data.get("Unit")))
           .apply(Double.valueOf((Integer) data.get("Value")));
+
+    } catch (NullPointerException e) {
+      throw new TemperaturaNoObtenidaException(e);
+    }
+  }
+
+  private Set<Alerta> getAlertas() {
+    try {
+      Map<String, Alerta> converters = ImmutableMap.of(
+          "STORM", Alerta.TORMENTA,
+          "HAIL", Alerta.GRANIZO
+      );
+
+      return api
+          .getAlerts("Buenos Aires")
+          .get("CurrentAlerts").stream()
+          .map(converters::get)
+          .collect(Collectors.toSet());
+
     } catch (NullPointerException e) {
       throw new TemperaturaNoObtenidaException(e);
     }

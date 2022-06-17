@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo.model.clima;
+package ar.edu.utn.frba.dds.quemepongo.model.clima.openweather;
 
 public class Weather {
   private Main main;

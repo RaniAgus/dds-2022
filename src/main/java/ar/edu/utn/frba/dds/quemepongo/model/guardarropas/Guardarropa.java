@@ -1,33 +1,21 @@
 package ar.edu.utn.frba.dds.quemepongo.model.guardarropas;
 
+import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Categoria;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Prenda;
-import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Guardarropa {
-  private ServicioMeteorologico servicioMeteorologico;
   private List<Prenda> prendas;
   private List<SolicitudModificacion> solicitudes;
 
-  public Guardarropa(ServicioMeteorologico servicioMeteorologico,
-                     List<Prenda> prendas,
+  public Guardarropa(List<Prenda> prendas,
                      List<SolicitudModificacion> solicitudes) {
-    this.servicioMeteorologico = servicioMeteorologico;
     this.prendas = prendas;
     this.solicitudes = solicitudes;
-  }
-
-  public Atuendo sugerir() {
-    return new Atuendo(
-      sugerirAleatoriamente(Categoria.PARTE_SUPERIOR),
-      sugerirAleatoriamente(Categoria.PARTE_INFERIOR),
-      sugerirAleatoriamente(Categoria.CALZADO),
-      sugerirAleatoriamente(Categoria.ACCESORIO)
-    );
   }
 
   public void solicitar(SolicitudModificacion solicitud) {
@@ -50,20 +38,11 @@ public class Guardarropa {
     prendas.remove(prenda);
   }
 
-  private Prenda sugerirAleatoriamente(Categoria categoria) {
-    List<Prenda> prendasPosibles = getPrendasSugeribles(categoria);
-    return prendasPosibles.get(
-        ThreadLocalRandom.current().nextInt(prendasPosibles.size())
-            % prendasPosibles.size()
-    );
-  }
-
-  private List<Prenda> getPrendasSugeribles(Categoria categoria) {
+  public Stream<Prenda> getPrendasSugeribles(Categoria categoria, Temperatura temperatura) {
     return prendas.stream()
         .filter(Prenda::esSugerible)
-        .filter(it -> it.esAptaPara(servicioMeteorologico.getTemperatura()))
-        .filter(it -> it.esDeCategoria(categoria))
-        .collect(Collectors.toList());
+        .filter(it -> it.esAptaPara(temperatura))
+        .filter(it -> it.esDeCategoria(categoria));
   }
 
   private List<SolicitudModificacion> getSolicitudes(EstadoModificacion estado) {

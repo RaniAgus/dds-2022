@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo.model.clima;
+package ar.edu.utn.frba.dds.quemepongo.model.clima.openweather;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;

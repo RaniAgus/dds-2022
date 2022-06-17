@@ -1,0 +1,112 @@
+@startuml iteracion-6
+
+class GeneradorDeSugerencias {
+    {static} main()
+}
+
+GeneradorDeSugerencias --> RepositorioUsuarios
+GeneradorDeSugerencias --> ServicioMeteorologico
+
+class GeneradorDeAlertas {
+    {static} main()
+}
+
+GeneradorDeAlertas --> RepositorioUsuarios
+GeneradorDeAlertas --> RepositorioClima
+GeneradorDeAlertas --> ServicioMeteorologico
+
+class RepositorioUsuarios {
+    generarSugerencias(temperatura)
+    emitirAlertas(clima)
+}
+
+RepositorioUsuarios --> "*" Usuario
+
+class RepositorioClima {
+    agregarActualizacion(clima)
+    getUltimaActualizacion()
+}
+
+RepositorioClima --> "*" Clima
+
+interface ServicioMeteorologico {
+    getClima()
+    getTemperatura()
+}
+
+ServicioMeteorologico ..> Clima
+
+class Clima {
+    horaDeActualizacion
+}
+
+Clima --> Temperatura
+Clima --> "*" Alerta
+
+enum Temperatura {
+    FRIO,
+    TEMPLADO,
+    CALIDO
+    {static} ofCelsius(celsius)
+    {static} ofFahrenheit(fahrenheit)
+}
+
+enum Alerta {
+    TORMENTA,
+    GRANIZO
+}
+
+class Usuario {
+    agregar(guardarropa)
+    generarSugerencia(temperatura)
+    emitirAlerta(clima)
+}
+
+Usuario --> "*" Guardarropa
+Usuario --> Atuendo
+Usuario --> "*" Accion
+
+class Guardarropa {
+  solicitar(solicitud)
+  getPrendasSugeribles(categoria, temperatura) : Prenda[]
+}
+
+Guardarropa --> "*" Prenda
+
+class Atuendo {
+   superior
+   inferior
+   calzado
+   accesorio
+}
+
+Atuendo --> Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
+Atuendo --> Prenda
+
+interface Accion {
+  emitirA(usuario, clima)
+}
+
+Accion .up.> Usuario
+Accion .up.> Clima
+
+Accion <|.. ActualizarSugerencia
+Accion <|.. NotificarTormenta
+Accion <|.. NotificarGranizo
+Accion <|.. EnviarMailAlerta
+
+NotificarGranizo --> NotificationService
+NotificarTormenta --> NotificationService
+EnviarMailAlerta --> MailSender
+
+class MailSender {
+    send(email, text)
+}
+
+class NotificationService {
+    notify(text)
+}
+
+@enduml

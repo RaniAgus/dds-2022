@@ -9,9 +9,9 @@ lluvia, etc. Asimismo, se busca que estos atuendos se adecuen de la mejor forma
 a las sensibilidades particulares respecto de dichos factores de cada usuario/a
 y a sus gustos en el aspecto estético.
 
-## Diagrama de Clases
+## Diagrama de Clases (última iteración)
 
-![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/que-me-pongo.puml)
+![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-6.puml)
 
 ## Iteraciones
 
