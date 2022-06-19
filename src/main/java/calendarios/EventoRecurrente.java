@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class EventoRecurrente extends Evento {
+public class EventoRecurrente implements Evento {
   private List<EventoSimple> repeticiones;
 
   public EventoRecurrente(List<EventoSimple> repeticiones) {

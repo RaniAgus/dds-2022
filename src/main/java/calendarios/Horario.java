@@ -29,10 +29,6 @@ public class Horario {
     return getInicio().isBefore(fin) && getFin().isAfter(inicio);
   }
 
-  public boolean estaSolapadoCon(Horario horario) {
-    return estaEntreFechas(horario.getInicio(), horario.getFin());
-  }
-
   public Duration cuantoFalta() {
     return Duration.ofMinutes(LocalDateTime.now().until(getInicio(), ChronoUnit.MINUTES));
   }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class EventoSimple extends Evento {
+public class EventoSimple implements Evento, Comparable<EventoSimple> {
   private GugleMapas gugleMapas;
   private String nombre;
   private Horario horario;
@@ -72,5 +72,10 @@ public class EventoSimple extends Evento {
   @Override
   public Duration cuantoFalta() {
     return getHorario().cuantoFalta();
+  }
+
+  @Override
+  public int compareTo(EventoSimple otro) {
+    return cuantoFalta().compareTo(otro.cuantoFalta());
   }
 }
