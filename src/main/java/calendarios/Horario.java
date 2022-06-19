@@ -30,7 +30,7 @@ public class Horario {
   }
 
   public Duration cuantoFalta() {
-    return Duration.ofHours(LocalDateTime.now().until(getInicio(), ChronoUnit.MINUTES));
+    return Duration.ofMinutes(LocalDateTime.now().until(getInicio(), ChronoUnit.MINUTES));
   }
 
   @Override
