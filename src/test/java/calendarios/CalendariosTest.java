@@ -54,7 +54,7 @@ abstract class CalendariosTest {
    * @return un evento sin invtades que no se repite, que tenga el nombre, fecha de inicio y fin, ubicación dados
    */
   protected Evento crearEventoSimple(String nombre, LocalDateTime inicio, LocalDateTime fin, Ubicacion ubicacion, List<Usuario> invitados) {
-    return new Evento(gugleMapas, nombre, inicio, fin, ubicacion, invitados);
+    return new Evento(gugleMapas, nombre, new Horario(inicio, fin), ubicacion, invitados);
   }
 
 }

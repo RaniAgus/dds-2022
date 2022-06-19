@@ -1,31 +1,26 @@
 package calendarios;
 
 import calendarios.servicios.GugleMapas;
-import calendarios.servicios.PositionService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class Evento implements Comparable<Evento> {
   private GugleMapas gugleMapas;
   private String nombre;
-  private LocalDateTime inicio;
-  private LocalDateTime fin;
+  private Horario horario;
   private Ubicacion ubicacion;
   private List<Usuario> invitados;
 
   public Evento(GugleMapas gugleMapas,
                 String nombre,
-                LocalDateTime inicio,
-                LocalDateTime fin,
+                Horario horario,
                 Ubicacion ubicacion,
                 List<Usuario> invitados) {
     this.gugleMapas = gugleMapas;
     this.nombre = nombre;
-    this.inicio = inicio;
-    this.fin = fin;
+    this.horario = horario;
     this.ubicacion = ubicacion;
     this.invitados = invitados;
   }
@@ -35,44 +30,39 @@ public class Evento implements Comparable<Evento> {
   }
 
   public boolean estaEntreFechas(LocalDateTime inicio, LocalDateTime fin) {
-    return getInicio().isBefore(fin) && getFin().isAfter(inicio);
+    return horario.estaEntreFechas(inicio, fin);
   }
 
   public boolean estaSolapadoCon(Evento otro) {
-    return estaEntreFechas(otro.getInicio(), otro.getFin());
+    return horario.estaSolapadoCon(otro.getHorario());
   }
 
   public Duration cuantoFalta() {
-    return Duration.ofHours(LocalDateTime.now().until(getInicio(), ChronoUnit.HOURS));
+    return horario.cuantoFalta();
   }
 
   public boolean llegaATiempoDesde(Ubicacion ubicacion) {
     return gugleMapas.tiempoEstimadoHasta(ubicacion, getUbicacion()).compareTo(cuantoFalta()) <= 0;
   }
 
-  private LocalDateTime getInicio() {
-    return inicio;
-  }
-
-  private LocalDateTime getFin() {
-    return fin;
-  }
-
   private Ubicacion getUbicacion() {
     return ubicacion;
   }
 
+  public Horario getHorario() {
+    return horario;
+  }
+
   @Override
   public int compareTo(Evento otro) {
-    return getInicio().compareTo(otro.getInicio());
+    return getHorario().compareTo(otro.getHorario());
   }
 
   @Override
   public String toString() {
     return "Evento{" +
-        ", nombre='" + nombre + '\'' +
-        ", inicio=" + inicio +
-        ", fin=" + fin +
+        "nombre='" + nombre + '\'' +
+        ", horario=" + horario +
         ", ubicacion=" + ubicacion +
         '}';
   }
