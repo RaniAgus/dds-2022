@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class Horario implements Comparable<Horario> {
+public class Horario {
   private LocalDateTime inicio;
   private LocalDateTime fin;
 
@@ -30,12 +30,7 @@ public class Horario implements Comparable<Horario> {
   }
 
   public Duration cuantoFalta() {
-    return Duration.ofHours(LocalDateTime.now().until(getInicio(), ChronoUnit.HOURS));
-  }
-
-  @Override
-  public int compareTo(Horario otro) {
-    return getInicio().compareTo(otro.getInicio());
+    return Duration.ofHours(LocalDateTime.now().until(getInicio(), ChronoUnit.MINUTES));
   }
 
   @Override

@@ -55,7 +55,7 @@ public class Evento implements Comparable<Evento> {
 
   @Override
   public int compareTo(Evento otro) {
-    return getHorario().compareTo(otro.getHorario());
+    return cuantoFalta().compareTo(otro.cuantoFalta());
   }
 
   @Override
