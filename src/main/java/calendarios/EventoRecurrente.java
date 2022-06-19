@@ -1,7 +1,6 @@
 package calendarios;
 
 import com.google.common.collect.Iterables;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,8 +40,7 @@ public class EventoRecurrente implements Evento {
         .map(EventoSimple::proximoEvento)
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .sorted()
-        .findFirst();
+        .min(EventoSimple::compararProximo);
   }
 
   @Override
@@ -57,6 +55,11 @@ public class EventoRecurrente implements Evento {
     return proximoEvento()
         .map(EventoSimple::cuantoFalta)
         .orElse(Iterables.getLast(repeticiones).cuantoFalta());
+  }
+
+  @Override
+  public void enviarRecordatorios(Usuario owner) {
+    repeticiones.forEach(it -> it.enviarRecordatorios(owner));
   }
 }
 

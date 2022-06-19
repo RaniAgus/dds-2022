@@ -38,7 +38,10 @@ public class Calendario {
         .map(Evento::proximoEvento)
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .sorted()
-        .findFirst();
+        .min(EventoSimple::compararProximo);
+  }
+
+  public void enviarRecordatorios(Usuario owner) {
+    getEventos().forEach(it -> it.enviarRecordatorios(owner));
   }
 }

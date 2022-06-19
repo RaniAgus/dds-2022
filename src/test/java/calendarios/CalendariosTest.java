@@ -55,7 +55,7 @@ abstract class CalendariosTest {
     List<EventoSimple> repeticiones = new ArrayList<>();
     Horario horario = new Horario(inicio, inicio.plus(duracion));
     while (horario.estaAntesDe(limite)) {
-      repeticiones.add(new EventoSimple(gugleMapas, "Seguimiento de TPA", horario, utnCampus, Collections.emptyList()));
+      repeticiones.add(new EventoSimple(gugleMapas, "Seguimiento de TPA", horario, utnCampus, Collections.emptyList(), Collections.emptyList()));
       horario = horario.sumar(frecuencia);
     }
     return new EventoRecurrente(repeticiones);
@@ -65,6 +65,6 @@ abstract class CalendariosTest {
    * @return un evento sin invtades que no se repite, que tenga el nombre, fecha de inicio y fin, ubicación dados
    */
   protected EventoSimple crearEventoSimple(String nombre, LocalDateTime inicio, LocalDateTime fin, Ubicacion ubicacion, List<Usuario> invitados) {
-    return new EventoSimple(gugleMapas, nombre, new Horario(inicio, fin), ubicacion, invitados);
+    return new EventoSimple(gugleMapas, nombre, new Horario(inicio, fin), ubicacion, Collections.emptyList(), invitados);
   }
 }

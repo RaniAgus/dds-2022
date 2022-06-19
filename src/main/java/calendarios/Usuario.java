@@ -1,7 +1,6 @@
 package calendarios;
 
 import calendarios.servicios.PositionService;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +46,15 @@ public class Usuario {
         .orElse(true);
   }
 
+  public void enviarRecordatorios() {
+    calendarios.forEach(it -> it.enviarRecordatorios(this));
+  }
+
   private Optional<EventoSimple> proximoEvento() {
     return calendarios.stream()
         .flatMap(it -> Stream.of(it.proximoEvento()))
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .sorted()
-        .findFirst();
+        .min(EventoSimple::compararProximo);
   }
 }
