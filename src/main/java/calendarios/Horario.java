@@ -21,6 +21,10 @@ public class Horario {
     return fin;
   }
 
+  public boolean estaAntesDe(LocalDateTime fecha) {
+    return getInicio().isBefore(fecha);
+  }
+
   public boolean estaEntreFechas(LocalDateTime inicio, LocalDateTime fin) {
     return getInicio().isBefore(fin) && getFin().isAfter(inicio);
   }
@@ -33,11 +37,7 @@ public class Horario {
     return Duration.ofMinutes(LocalDateTime.now().until(getInicio(), ChronoUnit.MINUTES));
   }
 
-  @Override
-  public String toString() {
-    return "Horario{" +
-        "inicio=" + inicio +
-        ", fin=" + fin +
-        '}';
+  public Horario sumar(Duration duracion) {
+    return new Horario(getInicio().plus(duracion), getFin().plus(duracion));
   }
 }

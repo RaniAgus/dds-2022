@@ -21,7 +21,7 @@ public class CalendarioTest extends CalendariosTest {
   void unCalendarioPermiteAgendarUnEvento() {
     Calendario calendario = crearCalendarioVacio();
 
-    Evento seguimientoDeTP = crearEventoSimpleEnMedrano("Seguimiento de TP", LocalDateTime.of(2021, 10, 1, 15, 30), Duration.of(30, MINUTES));
+    EventoSimple seguimientoDeTP = crearEventoSimpleEnMedrano("Seguimiento de TP", LocalDateTime.of(2021, 10, 1, 15, 30), Duration.of(30, MINUTES));
     calendario.agendar(seguimientoDeTP);
 
     assertTrue(calendario.estaAgendado(seguimientoDeTP));
@@ -32,8 +32,8 @@ public class CalendarioTest extends CalendariosTest {
     Calendario calendario = crearCalendarioVacio();
     LocalDateTime inicio = LocalDateTime.of(2021, 10, 1, 15, 30);
 
-    Evento seguimientoDeTPA = crearEventoSimpleEnMedrano("Seguimiento de TPA", inicio, Duration.of(30, MINUTES));
-    Evento practicaParcial = crearEventoSimpleEnMedrano("Practica para el primer parcial", inicio.plusMinutes(60), Duration.of(90, MINUTES));
+    EventoSimple seguimientoDeTPA = crearEventoSimpleEnMedrano("Seguimiento de TPA", inicio, Duration.of(30, MINUTES));
+    EventoSimple practicaParcial = crearEventoSimpleEnMedrano("Practica para el primer parcial", inicio.plusMinutes(60), Duration.of(90, MINUTES));
 
     calendario.agendar(seguimientoDeTPA);
     calendario.agendar(practicaParcial);
@@ -47,11 +47,11 @@ public class CalendarioTest extends CalendariosTest {
   @Test
   void sePuedeListarUnEventoEntreDosFechasParaUnCalendario() {
     Calendario calendario = crearCalendarioVacio();
-    Evento tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.of(2020, 4, 3, 16, 0), Duration.of(2, HOURS));
+    EventoSimple tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.of(2020, 4, 3, 16, 0), Duration.of(2, HOURS));
 
     calendario.agendar(tpRedes);
 
-    List<Evento> eventos = calendario.eventosEntreFechas(
+    List<EventoSimple> eventos = calendario.eventosEntreFechas(
         LocalDate.of(2020, 4, 1).atStartOfDay(),
         LocalDate.of(2020, 4, 4).atStartOfDay());
 
@@ -62,9 +62,9 @@ public class CalendarioTest extends CalendariosTest {
 
   @Test
   void sePuedeSaberConQueEventosEstaSolapado() {
-    Evento recuperatorioSistemasDeGestion = crearEventoSimpleEnMedrano("Recuperatorio Sistemas de Gestion", LocalDateTime.of(2021, 6, 19, 9, 0), Duration.of(2, HOURS));
-    Evento tpOperativos = crearEventoSimpleEnMedrano("Entrega de Operativos", LocalDateTime.of(2021, 6, 19, 10, 0), Duration.of(2, HOURS));
-    Evento tramiteEnElBanco = crearEventoSimpleEnMedrano("Tramite en el banco", LocalDateTime.of(2021, 6, 19, 9, 0), Duration.of(4, HOURS));
+    EventoSimple recuperatorioSistemasDeGestion = crearEventoSimpleEnMedrano("Recuperatorio Sistemas de Gestion", LocalDateTime.of(2021, 6, 19, 9, 0), Duration.of(2, HOURS));
+    EventoSimple tpOperativos = crearEventoSimpleEnMedrano("Entrega de Operativos", LocalDateTime.of(2021, 6, 19, 10, 0), Duration.of(2, HOURS));
+    EventoSimple tramiteEnElBanco = crearEventoSimpleEnMedrano("Tramite en el banco", LocalDateTime.of(2021, 6, 19, 9, 0), Duration.of(4, HOURS));
 
     Calendario calendario = crearCalendarioVacio();
 
@@ -80,9 +80,9 @@ public class CalendarioTest extends CalendariosTest {
   void sePuedeSaberCualEsElProximoEventoDeUnCalendario() {
     Calendario calendario = crearCalendarioVacio();
 
-    Evento tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.now().minusHours(1), Duration.of(1, HOURS));
-    Evento tpDeGestion = crearEventoSimpleEnMedrano("TP de Gestión", LocalDateTime.now().plusMinutes(30), Duration.of(30, MINUTES));
-    Evento tpDeDds = crearEventoSimpleEnMedrano("TP de DDS", LocalDateTime.now().plusHours(1), Duration.of(1, HOURS));
+    EventoSimple tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.now().minusHours(1), Duration.of(1, HOURS));
+    EventoSimple tpDeGestion = crearEventoSimpleEnMedrano("TP de Gestión", LocalDateTime.now().plusMinutes(30), Duration.of(30, MINUTES));
+    EventoSimple tpDeDds = crearEventoSimpleEnMedrano("TP de DDS", LocalDateTime.now().plusHours(1), Duration.of(1, HOURS));
 
     calendario.agendar(tpDeDds);
     calendario.agendar(tpRedes);

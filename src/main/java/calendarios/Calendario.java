@@ -4,38 +4,41 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Calendario {
   private List<Evento> eventos = new ArrayList<>();
 
+  private List<Evento> getEventos() {
+    return eventos;
+  }
+
   public void agendar(Evento evento) {
-    eventos.add(evento);
+    getEventos().add(evento);
   }
 
   public boolean estaAgendado(Evento evento) {
-    return eventos.contains(evento);
+    return getEventos().contains(evento);
   }
 
-  public List<Evento> eventosEntreFechas(LocalDateTime inicio, LocalDateTime fin) {
-    return getEventos(it -> it.estaEntreFechas(inicio, fin));
+  public List<EventoSimple> eventosEntreFechas(LocalDateTime inicio, LocalDateTime fin) {
+    return getEventos().stream()
+        .flatMap(it -> it.eventosEntreFechas(inicio, fin))
+        .collect(Collectors.toList());
   }
 
-  public List<Evento> eventosSolapadosCon(Evento evento) {
-    return getEventos(it -> it.estaSolapadoCon(evento));
+  public List<EventoSimple> eventosSolapadosCon(Evento evento) {
+    return getEventos().stream()
+        .flatMap(it -> it.eventosSolapadosCon(evento))
+        .collect(Collectors.toList());
   }
 
-  public Optional<Evento> proximoEvento() {
-    return eventos.stream()
-        .filter(it -> !it.cuantoFalta().isNegative())
+  public Optional<EventoSimple> proximoEvento() {
+    return getEventos().stream()
+        .map(Evento::proximoEvento)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
         .sorted()
         .findFirst();
-  }
-
-  private List<Evento> getEventos(Predicate<Evento> filtro) {
-    return eventos.stream()
-        .filter(filtro)
-        .collect(Collectors.toList());
   }
 }

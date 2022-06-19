@@ -39,7 +39,7 @@ public class UsuarioTest extends CalendariosTest  {
 
     calendario.agendar(tpRedes);
 
-    List<Evento> eventos = rene.eventosEntreFechas(
+    List<EventoSimple> eventos = rene.eventosEntreFechas(
         LocalDate.of(2020, 4, 1).atStartOfDay(),
         LocalDate.of(2020, 4, 4).atStartOfDay());
 
@@ -52,11 +52,11 @@ public class UsuarioTest extends CalendariosTest  {
     Calendario calendario = new Calendario();
     dani.agregarCalendario(calendario);
 
-    Evento tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.of(2020, 4, 3, 16, 0), Duration.of(1, HOURS));
+    EventoSimple tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.of(2020, 4, 3, 16, 0), Duration.of(1, HOURS));
 
     calendario.agendar(tpRedes);
 
-    List<Evento> eventos = dani.eventosEntreFechas(
+    List<EventoSimple> eventos = dani.eventosEntreFechas(
         LocalDate.of(2020, 5, 8).atStartOfDay(),
         LocalDate.of(2020, 5, 16).atStartOfDay());
 
@@ -70,15 +70,15 @@ public class UsuarioTest extends CalendariosTest  {
     Calendario calendario = crearCalendarioVacio();
     usuario.agregarCalendario(calendario);
 
-    Evento tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.of(2020, 4, 3, 16, 0), Duration.of(2,  HOURS));
-    Evento tpDeGestion = crearEventoSimpleEnMedrano("TP de Gestión", LocalDateTime.of(2020, 4, 5, 18, 30), Duration.of(2,  HOURS));
-    Evento tpDeDds = crearEventoSimpleEnMedrano("TP de DDS", LocalDateTime.of(2020, 4, 12, 16, 0), Duration.of(2,  HOURS));
+    EventoSimple tpRedes = crearEventoSimpleEnMedrano("TP de Redes", LocalDateTime.of(2020, 4, 3, 16, 0), Duration.of(2,  HOURS));
+    EventoSimple tpDeGestion = crearEventoSimpleEnMedrano("TP de Gestión", LocalDateTime.of(2020, 4, 5, 18, 30), Duration.of(2,  HOURS));
+    EventoSimple tpDeDds = crearEventoSimpleEnMedrano("TP de DDS", LocalDateTime.of(2020, 4, 12, 16, 0), Duration.of(2,  HOURS));
 
     calendario.agendar(tpRedes);
     calendario.agendar(tpDeGestion);
     calendario.agendar(tpDeDds);
 
-    List<Evento> eventos = usuario.eventosEntreFechas(
+    List<EventoSimple> eventos = usuario.eventosEntreFechas(
         LocalDate.of(2020, 4, 1).atStartOfDay(),
         LocalDate.of(2020, 4, 6).atStartOfDay());
 
@@ -100,7 +100,7 @@ public class UsuarioTest extends CalendariosTest  {
     calendario.agendar(tpDeGestion);
     calendario.agendar(tpDeDds);
 
-    List<Evento> eventos = juli.eventosEntreFechas(
+    List<EventoSimple> eventos = juli.eventosEntreFechas(
         LocalDate.of(2020, 4, 1).atStartOfDay(),
         LocalDateTime.of(2020, 4, 12, 21, 0));
 
@@ -125,7 +125,7 @@ public class UsuarioTest extends CalendariosTest  {
     calendarioFacultad.agendar(tpDeGestion);
     calendarioLaboral.agendar(sprintPlanning);
 
-    List<Evento> eventos = juli.eventosEntreFechas(
+    List<EventoSimple> eventos = juli.eventosEntreFechas(
         LocalDate.of(2020, 4, 1).atStartOfDay(),
         LocalDateTime.of(2020, 4, 12, 21, 0));
 

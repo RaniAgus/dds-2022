@@ -5,6 +5,7 @@ import calendarios.servicios.PositionService;
 import org.junit.jupiter.api.BeforeEach;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,23 +39,32 @@ abstract class CalendariosTest {
     return new Calendario();
   }
 
-  protected Evento crearEventoSimpleEnMedrano(String nombre, LocalDateTime inicio, Duration duracion) {
+  protected EventoSimple crearEventoSimpleEnMedrano(String nombre, LocalDateTime inicio, Duration duracion) {
     return crearEventoSimple(nombre, inicio, inicio.plus(duracion), utnMedrano, Collections.emptyList());
   }
 
-  protected Evento crearEventoSimpleEnCampus(String nombre, LocalDateTime inicio, Duration duracion) {
+  protected EventoSimple crearEventoSimpleEnCampus(String nombre, LocalDateTime inicio, Duration duracion) {
     return crearEventoSimple(nombre, inicio, inicio.plus(duracion), utnCampus, Collections.emptyList());
   }
 
-  protected Evento crearEventoSimpleConInvitados(LocalDateTime inicio, Duration duracion, List<Usuario> invitados) {
+  protected EventoSimple crearEventoSimpleConInvitados(LocalDateTime inicio, Duration duracion, List<Usuario> invitados) {
     return crearEventoSimple("Seguimiento de TPA", inicio, inicio.plus(duracion), utnCampus, invitados);
+  }
+
+  protected EventoRecurrente crearEventoRecurrenteEnCampus(LocalDateTime inicio, Duration duracion, Duration frecuencia, LocalDateTime limite) {
+    List<EventoSimple> repeticiones = new ArrayList<>();
+    Horario horario = new Horario(inicio, inicio.plus(duracion));
+    while (horario.estaAntesDe(limite)) {
+      repeticiones.add(new EventoSimple(gugleMapas, "Seguimiento de TPA", horario, utnCampus, Collections.emptyList()));
+      horario = horario.sumar(frecuencia);
+    }
+    return new EventoRecurrente(repeticiones);
   }
 
   /**
    * @return un evento sin invtades que no se repite, que tenga el nombre, fecha de inicio y fin, ubicación dados
    */
-  protected Evento crearEventoSimple(String nombre, LocalDateTime inicio, LocalDateTime fin, Ubicacion ubicacion, List<Usuario> invitados) {
-    return new Evento(gugleMapas, nombre, new Horario(inicio, fin), ubicacion, invitados);
+  protected EventoSimple crearEventoSimple(String nombre, LocalDateTime inicio, LocalDateTime fin, Ubicacion ubicacion, List<Usuario> invitados) {
+    return new EventoSimple(gugleMapas, nombre, new Horario(inicio, fin), ubicacion, invitados);
   }
-
 }

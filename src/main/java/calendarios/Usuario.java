@@ -35,7 +35,7 @@ public class Usuario {
     return calendarios.contains(calendario);
   }
 
-  public List<Evento> eventosEntreFechas(LocalDateTime inicio, LocalDateTime fin) {
+  public List<EventoSimple> eventosEntreFechas(LocalDateTime inicio, LocalDateTime fin) {
     return calendarios.stream()
         .flatMap(it -> it.eventosEntreFechas(inicio, fin).stream())
         .collect(Collectors.toList());
@@ -47,7 +47,7 @@ public class Usuario {
         .orElse(true);
   }
 
-  private Optional<Evento> proximoEvento() {
+  private Optional<EventoSimple> proximoEvento() {
     return calendarios.stream()
         .flatMap(it -> Stream.of(it.proximoEvento()))
         .filter(Optional::isPresent)
