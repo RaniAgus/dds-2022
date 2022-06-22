@@ -14,7 +14,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CalendarioTest extends CalendariosTest {
+public class CalendarioTest extends BaseTest {
   // 2. Permitir que en cada calendario se agenden múltiples eventos
 
   @Test

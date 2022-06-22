@@ -13,7 +13,7 @@ public class Recordatorio {
   }
 
   public boolean debeSerEnviado(Duration cuantoFalta) {
-    return duracion.compareTo(cuantoFalta) == 0;
+    return duracion.minus(cuantoFalta).isZero();
   }
 
   public void enviar(Usuario owner, EventoSimple evento) {

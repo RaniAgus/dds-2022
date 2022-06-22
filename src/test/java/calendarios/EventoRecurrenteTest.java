@@ -10,13 +10,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EventoRecurrenteTest extends CalendariosTest {
+public class EventoRecurrenteTest extends BaseTest {
   // 6. Permitir saber si dos eventos están solapado, y en tal caso, con qué otros eventos del calendario
 
   @Test
   void sePuedeSaberSiUnEventoRecurrenteEstaSolapadoConUnEventoSimple() {
     Evento recuperatorioSistemasDeGestion = crearEventoSimpleEnCampus("Recuperatorio de Gestión", LocalDateTime.now().plusDays(7), Duration.ofHours(1));
-    Evento tpOperativos = crearEventoRecurrenteEnCampus(LocalDateTime.now().minusHours(1), Duration.ofHours(3), Duration.ofDays(7), LocalDateTime.now().plusMonths(1));
+    Evento tpOperativos = crearEventoRecurrente(LocalDateTime.now().minusHours(1), Duration.ofHours(3), Duration.ofDays(7), LocalDateTime.now().plusMonths(1));
 
     assertTrue(recuperatorioSistemasDeGestion.estaSolapadoCon(tpOperativos));
     assertTrue(tpOperativos.estaSolapadoCon(recuperatorioSistemasDeGestion));
@@ -30,7 +30,7 @@ public class EventoRecurrenteTest extends CalendariosTest {
     Calendario calendario = crearCalendarioVacio();
     usuario.agregarCalendario(calendario);
 
-    Evento unRecurrente = crearEventoRecurrenteEnCampus(
+    Evento unRecurrente = crearEventoRecurrente(
         LocalDateTime.of(2020, 9, 1, 19, 0), Duration.ofMinutes(45),
         Duration.ofDays(7), LocalDateTime.of(2020, 11, 1, 19, 0));
     calendario.agendar(unRecurrente);
@@ -44,7 +44,7 @@ public class EventoRecurrenteTest extends CalendariosTest {
 
   @Test
   void unEventoRecurrenteSabeCuantoFaltaParaSuProximaRepeticion() {
-    Evento unRecurrente = crearEventoRecurrenteEnCampus(
+    Evento unRecurrente = crearEventoRecurrente(
         LocalDateTime.now().minusHours(1), Duration.ofHours(1),
         Duration.ofDays(15), LocalDateTime.now().plusMonths(3));
 

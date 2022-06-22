@@ -14,7 +14,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-public class UsuarioTest extends CalendariosTest  {
+public class UsuarioTest extends BaseTest {
   // 1. Permitir que un usuario tenga muchos calendarios
 
   @Test

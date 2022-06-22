@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EventoSimpleTest extends CalendariosTest {
+public class EventoSimpleTest extends BaseTest {
   // 3. Permitir que los eventos registren nombre, fecha y hora de inicio y fin, ubicación, invitades (otros usuaries)
 
   @Test
