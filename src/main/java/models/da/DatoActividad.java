@@ -1,16 +1,16 @@
 package models.da;
 public class DatoActividad {
+  private TipoDeConsumo tipo;
+  private Double valor;
+  private Periodicidad periodicidad;
+  private String periodo;
 
   public DatoActividad(TipoDeConsumo tipo, Double valor, Periodicidad periodicidad, String periodo) {
     this.tipo = tipo;
     this.valor = valor;
     this.periodicidad = periodicidad;
-    this. periodo = periodo;
+    this.periodo = periodo;
   }
-  private TipoDeConsumo tipo;
-  private Double valor;
-  private Periodicidad periodicidad;
-  private String periodo;
 
   public Double getValor() {
     return valor;

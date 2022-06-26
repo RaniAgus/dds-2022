@@ -5,19 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatosActividadesParser {
-  Character separator;
-  Integer skiplines;
-  CSVLoader csvLoader;
+  private Character separator;
+  private Integer skiplines;
+  private CSVLoader csvLoader;
 
   public DatosActividadesParser(CSVLoader loader) {
     this.csvLoader = loader;
     this.skiplines = 0;
     this.separator = ';';
-  }
-
-  public DatosActividadesParser setSeparator(Character separator) {
-    this.separator = separator;
-    return this;
   }
 
   public DatosActividadesParser setSkiplines(Integer skiplines) {

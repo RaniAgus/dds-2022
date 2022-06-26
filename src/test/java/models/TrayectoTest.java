@@ -20,9 +20,9 @@ import static org.mockito.Mockito.*;
 public class TrayectoTest {
   @Test
   public void sePuedeDarDeAltaUnNuevoTrayecto() {
-    Miembro miembro = agus();
-    Trayecto trayecto = new Trayecto(singletonList(tramoAPieDesdeMedranoHastaAlem()), singletonList(miembro));
-    assertThat(trayecto.getViajantes()).containsExactly(miembro);
+    Tramo tramo = tramoAPieDesdeMedranoHastaAlem();
+    Trayecto trayecto = new Trayecto(singletonList(tramo));
+    assertThat(trayecto.getTramos()).containsExactly(tramo);
   }
 
   @Test
@@ -34,7 +34,7 @@ public class TrayectoTest {
     when(primerTramo.getDistancia()).thenReturn(new Distancia(new BigDecimal(50), Unidad.KM));
     when(segundoTramo.getDistancia()).thenReturn(new Distancia(new BigDecimal(200), Unidad.KM));
 
-    Trayecto trayectoTest = new Trayecto(asList(primerTramo, segundoTramo), emptyList());
-    assertEquals(250, trayectoTest.medirDistanciaTrayecto().getValor());
+    Trayecto trayectoTest = new Trayecto(asList(primerTramo, segundoTramo));
+    assertEquals(250, trayectoTest.getDistancia().getValor());
   }
 }

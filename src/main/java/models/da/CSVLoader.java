@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CSVLoader {
-
-  List<String> lineas;
+  private List<String> lineas;
 
   public CSVLoader(String path) throws FileNotFoundException {
-
     File archivo = new File(path);
     validarArchivo(archivo);
 
@@ -34,7 +32,7 @@ public class CSVLoader {
     List<String> lineas = new ArrayList<>();
     Scanner scannerArchivo = new Scanner(archivo);
 
-    while(scannerArchivo.hasNextLine()) {
+    while (scannerArchivo.hasNextLine()) {
       lineas.add(scannerArchivo.nextLine());
     }
 
