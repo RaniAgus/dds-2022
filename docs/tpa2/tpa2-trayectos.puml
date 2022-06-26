@@ -1,9 +1,5 @@
 @startuml
 
-class Miembro {
-    darDeAltaTrayecto(trayecto)
-}
-
 Miembro --> "0..*" Trayecto
 
 class Trayecto {

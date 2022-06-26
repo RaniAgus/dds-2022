@@ -41,10 +41,13 @@ class Miembro {
     apellido : String
     documento : String
     tipoDeDocumento : TipoDeDocumento
-    darDeAltaTrayecto(trayecto)
 }
 
 ' ======= Trayectos =======
+
+class Miembro {
+    darDeAltaTrayecto(trayecto)
+}
 
 Miembro --> "0..*" Trayecto
 

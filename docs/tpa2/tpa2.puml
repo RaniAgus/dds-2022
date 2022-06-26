@@ -41,10 +41,13 @@ class Miembro {
     apellido : String
     documento : String
     tipoDeDocumento : TipoDeDocumento
-    darDeAltaTrayecto(trayecto)
 }
 
 ' ======= Trayectos =======
+
+class Miembro {
+    darDeAltaTrayecto(trayecto)
+}
 
 Miembro --> "0..*" Trayecto
 
@@ -133,5 +136,55 @@ Validacion <|.. ValidarCaracteresConsecutivos
 Validacion <|.. ValidarCaracteresRepetidos
 Validacion <|.. ValidarUsuarioPorDefecto
 
+'======= Datos de actividad =======
+
+class Organizacion {
+    agregarDatosActividad(datosActividad)
+}
+
+Organizacion --> "1..*" DatoActividad
+
+class DatosActividadesParser {
+    separator: Character
+    skipLines: Integer
+    getDatosActividad()
+}
+
+DatosActividadesParser --> CSVLoader
+DatosActividadesParser ..> DatoActividad : <<creates>>
+
+class CSVLoader {
+    getLineas()
+}
+
+class DatoActividad {
+    valor : Double
+    periodo : String
+}
+
+DatoActividad --> TipoDeConsumo
+DatoActividad --> Periodicidad
+
+enum TipoDeConsumo {
+    GAS_NATURAL,
+    DIESEL,
+    GASOIL,
+    ...
+    setFactorDeEmision()
+}
+
+TipoDeConsumo --> UnidadDeConsumo
+
+enum UnidadDeConsumo {
+    M3,
+    KG,
+    KWH,
+    ...
+}
+
+enum Periodicidad {
+    MENSUAL,
+    ANUAL
+}
 
 @enduml
