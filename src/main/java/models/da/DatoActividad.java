@@ -1,4 +1,7 @@
 package models.da;
+
+import java.time.LocalDate;
+
 public class DatoActividad {
 
   public DatoActividad(TipoDeConsumo tipo, Double valor, Periodicidad periodicidad, String periodo) {
@@ -23,5 +26,13 @@ public class DatoActividad {
   }
   public TipoDeConsumo getTipo() {
     return tipo;
+  }
+
+  public Double carbonoEquivalente() {
+    return tipo.getFactorEmision() * valor;
+  }
+
+  public Boolean estaEnPeriodo(LocalDate fecha, Periodicidad periodicidad) {
+    return true; // TODO: cambiar fecha DA a LocalDate e implementar funcion
   }
 }

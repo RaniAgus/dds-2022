@@ -23,4 +23,7 @@ public class Trayecto {
         .reduce(Distancia.CERO, Distancia::sumar);
   }
 
+  public Double carbonoEquivalente(){
+   return tramos.stream().mapToDouble(Tramo::carbonoEquivalente).sum();
+  }
 }

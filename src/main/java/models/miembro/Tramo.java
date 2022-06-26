@@ -8,4 +8,5 @@ public interface Tramo {
 
   boolean esCompartible();
 
+  Double carbonoEquivalente();
 }

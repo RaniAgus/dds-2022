@@ -7,4 +7,7 @@ public class ServicioContratado implements MedioDeTransporte {
     this.tipoDeServicioContratado = tipoDeServicioContratado;
   }
 
+  public Double carbonoEquivalentePorKM() {
+    return tipoDeServicioContratado.carbonoEquivalentePorKM();
+  }
 }

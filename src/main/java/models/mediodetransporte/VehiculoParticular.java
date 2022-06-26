@@ -10,4 +10,7 @@ public class VehiculoParticular implements MedioDeTransporte {
     this.tipoDeCombustible = tipoDeCombustible;
   }
 
+  public Double carbonoEquivalentePorKM() {
+    return tipoDeCombustible.factorEmision() * tipoDeVehiculo.consumoPorKM();
+  }
 }

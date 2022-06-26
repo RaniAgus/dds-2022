@@ -32,4 +32,8 @@ public class Linea {
         .map(Parada::getDistanciaAProximaParada)
         .reduce(Distancia.CERO, Distancia::sumar);
   }
+
+  public Double consumoEntreParadas(Parada paradaInicial, Parada paradaFinal) {
+    return distanciaEntreParadas(paradaInicial, paradaFinal).getValor() * tipo.carbonoEquivalentePorKM();
+  }
 }

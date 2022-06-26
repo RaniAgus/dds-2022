@@ -1,5 +1,6 @@
 package models.miembro;
 
+import models.da.TipoDeConsumo;
 import models.geolocalizacion.Distancia;
 import models.mediodetransporte.Linea;
 import models.mediodetransporte.Parada;
@@ -24,5 +25,9 @@ public class TramoEnTransportePublico implements Tramo {
   @Override
   public boolean esCompartible() {
     return false;
+  }
+
+  public Double carbonoEquivalente() {
+    return linea.consumoEntreParadas(paradaInicial, paradaFinal);
   }
 }
