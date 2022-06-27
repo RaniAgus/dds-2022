@@ -1,5 +1,7 @@
 package models;
 
+import models.da.DatosActividadesParser;
+import models.da.LectorDeArchivos;
 import models.geolocalizacion.Distancia;
 import models.geolocalizacion.Geolocalizador;
 import models.geolocalizacion.Ubicacion;
@@ -21,12 +23,14 @@ import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 
 public abstract class BaseTest {
+  protected LectorDeArchivos lectorDeArchivos;
   protected Geolocalizador geolocalizador;
   protected Ubicacion utnMedrano = new Ubicacion(1, "Medrano", "951");
   protected Ubicacion utnCampus = new Ubicacion(1, "Mozart", "2300");
 
   @BeforeEach
   void init() {
+    lectorDeArchivos = mock(LectorDeArchivos.class);
     geolocalizador = mock(Geolocalizador.class);
   }
 
@@ -95,5 +99,11 @@ public abstract class BaseTest {
 
   protected Trayecto crearTrayectoConTramos(List<Tramo> tramos) {
     return new Trayecto(tramos);
+  }
+
+  // Datos de Actividad
+
+  protected DatosActividadesParser crearParserDatosDeActividad() {
+    return new DatosActividadesParser(lectorDeArchivos, 1, ';');
   }
 }

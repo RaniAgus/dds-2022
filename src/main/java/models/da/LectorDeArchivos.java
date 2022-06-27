@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CSVLoader {
+public class LectorDeArchivos {
   private List<String> lineas;
 
-  public CSVLoader(String path) throws FileNotFoundException {
+  public LectorDeArchivos(String path) {
     File archivo = new File(path);
     validarArchivo(archivo);
 
@@ -28,15 +28,18 @@ public class CSVLoader {
     }
   }
 
-  private List<String> archivoALineas(File archivo) throws FileNotFoundException {
+  private List<String> archivoALineas(File archivo) {
     List<String> lineas = new ArrayList<>();
-    Scanner scannerArchivo = new Scanner(archivo);
+    try {
+      Scanner scannerArchivo = new Scanner(archivo);
+      while (scannerArchivo.hasNextLine()) {
+        lineas.add(scannerArchivo.nextLine());
+      }
 
-    while (scannerArchivo.hasNextLine()) {
-      lineas.add(scannerArchivo.nextLine());
+      return lineas;
+    } catch (FileNotFoundException e) {
+      throw new IllegalArgumentException("El archivo no existe.");
     }
-
-    return lineas;
   }
 
   public List<String> getLineas() {

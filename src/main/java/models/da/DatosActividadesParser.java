@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 public class DatosActividadesParser {
   private Character separator;
   private Integer skiplines;
-  private CSVLoader csvLoader;
+  private LectorDeArchivos lectorDeArchivos;
 
-  public DatosActividadesParser(CSVLoader loader) {
-    this.csvLoader = loader;
-    this.skiplines = 0;
-    this.separator = ';';
+  public DatosActividadesParser(LectorDeArchivos loader, Integer skiplines, Character separator) {
+    this.lectorDeArchivos = loader;
+    this.skiplines = skiplines;
+    this.separator = separator;
   }
 
   public DatosActividadesParser setSkiplines(Integer skiplines) {
@@ -34,7 +34,7 @@ public class DatosActividadesParser {
   }
 
   public List<DatoActividad> getDatosActividad() {
-    List<String> lineas = csvLoader.getLineas();
+    List<String> lineas = lectorDeArchivos.getLineas();
     lineas = lineas.subList(skiplines, lineas.size());
 
     return lineas.stream().map(this::parseLine).collect(Collectors.toList());
