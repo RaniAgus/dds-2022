@@ -27,28 +27,4 @@ public class Distancia {
         + ", unidad=" + unidad
         + '}';
   }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    Distancia distancia = (Distancia) o;
-
-    if (!valor.equals(distancia.valor)) {
-      return false;
-    }
-    return unidad == distancia.unidad;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = valor.hashCode();
-    result = 31 * result + unidad.hashCode();
-    return result;
-  }
 }

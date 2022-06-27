@@ -5,11 +5,13 @@ import models.da.DatoActividad;
 import models.da.DatosActividadesParser;
 import models.da.Periodicidad;
 import models.da.TipoDeConsumo;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
 public class DatosActividadesParserTest extends BaseTest {
@@ -21,12 +23,11 @@ public class DatosActividadesParserTest extends BaseTest {
         "ELECTRICIDAD;122;MENSUAL;03/2002"
     ));
 
-    DatoActividad datoActividad = parser.getDatosActividad().get(0);
+    List<DatoActividad> datosActividad = parser.getDatosActividad();
 
-    Assertions.assertEquals(122, datoActividad.getValor());
-    Assertions.assertEquals(Periodicidad.MENSUAL, datoActividad.getPeriodicidad());
-    Assertions.assertEquals("03/2002", datoActividad.getPeriodo());
-    Assertions.assertEquals(TipoDeConsumo.ELECTRICIDAD, datoActividad.getTipo());
+    assertThat(datosActividad.get(0))
+        .extracting("valor", "periodicidad", "periodo", "tipo")
+        .containsExactly(122.0, Periodicidad.MENSUAL, "03/2002", TipoDeConsumo.ELECTRICIDAD);
   }
 
   @Test
@@ -37,12 +38,11 @@ public class DatosActividadesParserTest extends BaseTest {
         "NAFTA;5;ANUAL;2020"
     ));
 
-    DatoActividad datoActividad = parser.getDatosActividad().get(0);
+    List<DatoActividad> datosActividad = parser.getDatosActividad();
 
-    Assertions.assertEquals(5, datoActividad.getValor());
-    Assertions.assertEquals(Periodicidad.ANUAL, datoActividad.getPeriodicidad());
-    Assertions.assertEquals("2020", datoActividad.getPeriodo());
-    Assertions.assertEquals(TipoDeConsumo.NAFTA, datoActividad.getTipo());
+    assertThat(datosActividad.get(0))
+        .extracting("valor", "periodicidad", "periodo", "tipo")
+        .containsExactly(5.0, Periodicidad.ANUAL, "2020", TipoDeConsumo.NAFTA);
   }
 
   @Test
@@ -54,7 +54,8 @@ public class DatosActividadesParserTest extends BaseTest {
         "NAFTA;5;2020"
     ));
 
-    Assertions.assertThrows(IllegalArgumentException.class, parser::getDatosActividad);
+    assertThatThrownBy(parser::getDatosActividad)
+        .isExactlyInstanceOf(IllegalArgumentException.class)
+        .hasMessage("La linea no tiene el numero adecuado de campos.");
   }
-
 }

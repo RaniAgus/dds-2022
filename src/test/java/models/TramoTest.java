@@ -1,12 +1,13 @@
 package models;
 
+import models.geolocalizacion.Unidad;
 import models.mediodetransporte.Linea;
 import models.mediodetransporte.Parada;
 import models.miembro.Tramo;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 public class TramoTest extends BaseTest {
@@ -19,7 +20,9 @@ public class TramoTest extends BaseTest {
 
     Tramo tramo = crearTramoEnTransportePublico(paradaInicial, paradaFinal, linea);
 
-    assertEquals(crearDistanciaEnKm(40), tramo.getDistancia());
+    assertThat(tramo.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(40, Unidad.KM);
   }
 
   @Test
@@ -29,7 +32,9 @@ public class TramoTest extends BaseTest {
     Tramo tramo = crearTramoEnBicicleta(utnMedrano, utnCampus);
 
     verify(geolocalizador, times(1)).medirDistancia(utnMedrano, utnCampus);
-    assertEquals(crearDistanciaEnKm(50), tramo.getDistancia());
+    assertThat(tramo.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(50, Unidad.KM);
   }
 
 }

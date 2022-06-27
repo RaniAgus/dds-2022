@@ -1,15 +1,13 @@
 package models;
 
-import models.miembro.Miembro;
+import models.geolocalizacion.Unidad;
 import models.miembro.Tramo;
 import models.miembro.Trayecto;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class TrayectoTest extends BaseTest {
@@ -17,6 +15,7 @@ public class TrayectoTest extends BaseTest {
   public void sePuedeDarDeAltaUnNuevoTrayecto() {
     Tramo tramo = crearTramoEnBicicleta(utnMedrano, utnCampus);
     Trayecto trayecto = new Trayecto(singletonList(tramo));
+
     assertThat(trayecto.getTramos()).containsExactly(tramo);
   }
 
@@ -29,6 +28,8 @@ public class TrayectoTest extends BaseTest {
     Tramo segundoTramo = crearTramoEnBicicleta(utnCampus, utnMedrano);
     Trayecto trayecto = new Trayecto(asList(primerTramo, segundoTramo));
 
-    assertEquals(crearDistanciaEnKm(50), trayecto.getDistancia());
+    assertThat(trayecto.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(50, Unidad.KM);
   }
 }
