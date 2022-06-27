@@ -1,36 +1,19 @@
 package models;
 
-import models.organizacion.ClasificacionDeOrganizacion;
 import models.organizacion.Organizacion;
 import models.organizacion.Sector;
-import models.organizacion.TipoDeOrganizacion;
 import org.junit.jupiter.api.Test;
 
-import static java.util.Collections.emptyList;
-import static models.factory.SectorFactory.unSectorVacio;
-import static models.factory.UbicacionFactory.medrano;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OrganizacionTest {
-
+public class OrganizacionTest extends BaseTest {
   @Test
   public void sePuedeDarDeAltaUnSector() {
-    Organizacion utn = utn();
-    Sector unSectorVacio = unSectorVacio();
+    Organizacion utn = crearOrganizacionVacia();
+    Sector unSectorVacio = crearSectorVacio();
 
     utn.darDeAltaSector(unSectorVacio);
 
     assertThat(utn.getSectores()).containsExactly(unSectorVacio);
-  }
-
-  private Organizacion utn() {
-    return new Organizacion(
-        "UTN",
-        medrano(),
-        TipoDeOrganizacion.INSTITUCION,
-        ClasificacionDeOrganizacion.UNIVERSIDAD,
-        emptyList(),
-        emptyList()
-    );
   }
 }

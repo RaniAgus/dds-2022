@@ -2,14 +2,14 @@ package models;
 
 import exceptions.ContrasenaDebilException;
 import exceptions.UsuarioNoDisponibleExeption;
+import models.validador.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import static models.factory.ValidadorFactory.validador;
 
 public class RegistroUsuarioTest {
 
@@ -65,4 +65,13 @@ public class RegistroUsuarioTest {
     Administradores.getInstance().admins = new ArrayList<>();
   }
 
+  private Validador validador() throws FileNotFoundException {
+    ArrayList<Validacion> listaValidaciones = new ArrayList<>();
+    listaValidaciones.add(new Validar8Caracteres());
+    listaValidaciones.add(new Validar10MilContrasenas());
+    listaValidaciones.add(new ValidarCaracteresConsecutivos());
+    listaValidaciones.add(new ValidarCaracteresRepetidos());
+    listaValidaciones.add(new ValidarUsuarioPorDefecto());
+    return new Validador(listaValidaciones);
+  }
 }

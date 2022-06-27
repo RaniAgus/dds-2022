@@ -1,8 +1,9 @@
 package models.mediodetransporte;
 
+import models.geolocalizacion.Distancia;
+
 import java.util.ArrayList;
 import java.util.List;
-import models.geolocalizacion.Distancia;
 
 public class Linea {
   private String nombre;
@@ -16,7 +17,7 @@ public class Linea {
   }
 
   public void agregarParada(Parada nuevaParada, Distancia distanciaANuevaParada) {
-    if(!paradas.isEmpty()) {
+    if (!paradas.isEmpty()) {
       paradas.get(paradas.size() - 1).setDistanciaAProximaParada(distanciaANuevaParada);
     }
     this.paradas.add(nuevaParada);

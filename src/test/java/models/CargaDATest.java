@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-public class cargaDATest {
+public class CargaDATest {
   @Test
   public void sePuedeCargarDAValidos() throws IOException {
 
