@@ -12,9 +12,11 @@ import models.mediodetransporte.Parada;
 import models.mediodetransporte.TipoDeTransportePublico;
 import models.miembro.*;
 import models.organizacion.*;
+import models.validador.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -105,5 +107,23 @@ public abstract class BaseTest {
 
   protected DatosActividadesParser crearParserDatosDeActividad() {
     return new DatosActividadesParser(lectorDeArchivos, 1, ';');
+  }
+
+  // Validadores
+
+  protected Validador crearValidadorConTodasLasValidaciones() {
+    return new Validador(Arrays.asList(
+        new Validar8Caracteres(),
+        new ValidarCaracteresRepetidos(),
+        new Validar10MilContrasenas(lectorDeArchivos),
+        new ValidarCaracteresConsecutivos(),
+        new ValidarUsuarioPorDefecto()
+    ));
+  }
+
+  // Administradores
+
+  protected Administrador crearAdministrador(String contrasenia) {
+    return new Administrador(crearValidadorConTodasLasValidaciones(), "Juancito", contrasenia);
   }
 }
