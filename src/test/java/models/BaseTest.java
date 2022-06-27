@@ -60,7 +60,7 @@ public abstract class BaseTest {
   }
 
   protected Miembro crearMiembro() {
-    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI);
+    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI, crearTrayectoConTramos(emptyList()));
   }
 
   // Lineas
