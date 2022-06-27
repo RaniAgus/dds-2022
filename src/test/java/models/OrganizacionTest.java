@@ -30,7 +30,6 @@ public class OrganizacionTest {
         TipoDeOrganizacion.INSTITUCION,
         ClasificacionDeOrganizacion.UNIVERSIDAD,
         emptyList(),
-        emptyList(),
         emptyList()
     );
   }

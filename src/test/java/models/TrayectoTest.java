@@ -34,7 +34,7 @@ public class TrayectoTest {
     when(primerTramo.getDistancia()).thenReturn(new Distancia(new BigDecimal(50), Unidad.KM));
     when(segundoTramo.getDistancia()).thenReturn(new Distancia(new BigDecimal(200), Unidad.KM));
 
-    Trayecto trayectoTest = new Trayecto(asList(primerTramo, segundoTramo), emptyList());
+    Trayecto trayectoTest = new Trayecto(asList(primerTramo, segundoTramo));
     assertEquals(250, trayectoTest.medirDistanciaTrayecto().getValor());
   }
 }

@@ -4,6 +4,7 @@ package models.organizacion;
 import models.da.DatoActividad;
 import models.da.Periodicidad;
 import models.geolocalizacion.Ubicacion;
+import models.miembro.Miembro;
 import models.miembro.Trayecto;
 
 import java.time.LocalDate;
@@ -17,21 +18,18 @@ public class Organizacion {
   private final ClasificacionDeOrganizacion clasificacionDeOrganizacion;
   private final List<Sector> sectores;
   private final List<DatoActividad> datosActividad;
-  private final List<Trayecto> trayectos;
   
   public Organizacion(String razonSocial, Ubicacion ubicacionGeografica,
                       TipoDeOrganizacion tipoDeOrganizacion,
                       ClasificacionDeOrganizacion clasificacionDeOrganizacion,
                       List<Sector> sectores,
-                      List<DatoActividad> datosActividad,
-                      List<Trayecto> trayectos) {
+                      List<DatoActividad> datosActividad) {
     this.razonSocial = razonSocial;
     this.clasificacionDeOrganizacion = clasificacionDeOrganizacion;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.ubicacionGeografica = ubicacionGeografica;
     this.sectores = new ArrayList<>(sectores);
     this.datosActividad = new ArrayList<>(datosActividad);
-    this.trayectos = new ArrayList<>(trayectos);
   }
 
   public void darDeAltaSector(Sector sector) {
@@ -47,11 +45,16 @@ public class Organizacion {
   }
 
   private Double huellaCarbonoTrayectos(Periodicidad periodicidad){
-    return this.trayectos.stream()
-          .mapToDouble(Trayecto::carbonoEquivalente).sum() * periodicidad.diasLaborales();
+    return this.sectores.stream()
+          .flatMap(s -> s.getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO).stream())
+          .map(Vinculacion::getMiembro)
+          .map(Miembro::getTrayecto)
+          .distinct()
+          .mapToDouble(Trayecto::carbonoEquivalente)
+          .sum() * periodicidad.diasLaborales();
   }
 
-  private Double huellaCarbonoActividades(LocalDate fecha, Periodicidad periodicidad){
+  private Double huellaCarbonoDA(LocalDate fecha, Periodicidad periodicidad){
     return this.datosActividad.stream()
           .filter(da -> da.estaEnPeriodo(fecha, periodicidad))
           .mapToDouble(DatoActividad::carbonoEquivalente).sum();
@@ -59,6 +62,6 @@ public class Organizacion {
 
   public Double huellaCarbono(LocalDate fecha, Periodicidad periodicidad) {
     return huellaCarbonoTrayectos(periodicidad) 
-        + huellaCarbonoActividades(fecha, periodicidad);
+        + huellaCarbonoDA(fecha, periodicidad);
   }
 }

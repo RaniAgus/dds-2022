@@ -11,7 +11,8 @@ public class MiembroFactory {
         "Agustin",
         "Ranieri",
         "0",
-        TipoDeDocumento.DNI
+        TipoDeDocumento.DNI,
+        null
     );
   }
 }
