@@ -27,9 +27,28 @@ public class Linea {
   }
 
   public Distancia distanciaEntreParadas(Parada paradaInicial, Parada paradaFinal) {
-    return paradas.subList(paradas.indexOf(paradaInicial), paradas.indexOf(paradaFinal))
+
+    int posInicial = paradas.indexOf(paradaInicial);
+    int posFinal = paradas.indexOf(paradaFinal);
+
+    if (posInicial < posFinal) {
+      return distanciaParadasIda(posInicial, posFinal);
+    }
+
+    return distanciaParadasVuelta(posInicial, posFinal);
+  }
+
+  private Distancia distanciaParadasIda(int paradaInicial, int paradaFinal) {
+    return paradas.subList(paradaInicial, paradaFinal)
         .stream()
         .map(Parada::getDistanciaAProximaParada)
+        .reduce(Distancia.CERO, Distancia::sumar);
+  }
+
+  private Distancia distanciaParadasVuelta(int paradaInicial, int paradaFinal) {
+    return paradas.subList(paradaInicial + 1, paradaFinal + 1)
+        .stream()
+        .map(Parada::getDistanciaAAnteriorParada)
         .reduce(Distancia.CERO, Distancia::sumar);
   }
 }
