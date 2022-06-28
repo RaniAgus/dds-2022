@@ -28,7 +28,6 @@ public class Linea {
   }
 
   public Distancia distanciaEntreParadas(Parada paradaInicial, Parada paradaFinal) {
-
     int posInicial = paradas.indexOf(paradaInicial);
     int posFinal = paradas.indexOf(paradaFinal);
 
@@ -47,7 +46,7 @@ public class Linea {
   }
 
   private Distancia distanciaParadasVuelta(int paradaInicial, int paradaFinal) {
-    return paradas.subList(paradaInicial + 1, paradaFinal + 1)
+    return paradas.subList(paradaFinal, paradaInicial)
         .stream()
         .map(Parada::getDistanciaAAnteriorParada)
         .reduce(Distancia.CERO, Distancia::sumar);

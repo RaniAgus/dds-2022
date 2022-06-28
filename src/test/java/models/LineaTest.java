@@ -12,7 +12,7 @@ public class LineaTest extends BaseTest {
   @Test
   public void sePuedeDarDeAltaParadas() {
     Linea linea = crearLineaDeSubteVacia();
-    Parada medrano = crearParada(34);
+    Parada medrano = crearParada(0, 34);
 
     linea.agregarParada(medrano, crearDistanciaEnKm(0));
 
@@ -22,8 +22,8 @@ public class LineaTest extends BaseTest {
   @Test
   public void alDarDeAltaUnaParadaSeCambiaLaDistanciaDeLaAnterior() {
     Linea linea = crearLineaDeSubteVacia();
-    Parada medrano = crearParada(0);
-    Parada alem = crearParada(0);
+    Parada medrano = crearParada(0, 0);
+    Parada alem = crearParada(0, 0);
 
     linea.agregarParada(medrano, Distancia.CERO);
     linea.agregarParada(alem, crearDistanciaEnKm(50));

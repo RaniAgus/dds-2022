@@ -66,7 +66,7 @@ public abstract class BaseTest {
   }
 
   protected Miembro crearMiembro() {
-    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI, crearTrayectoConTramos(emptyList()));
+    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI);
   }
 
   // Lineas
@@ -79,8 +79,8 @@ public abstract class BaseTest {
     return new Linea("Subte B", paradas, TipoDeTransportePublico.SUBTE);
   }
 
-  protected Parada crearParada(double distanciaAProxima) {
-    return new Parada(crearDistanciaEnKm(distanciaAProxima), "Parada");
+  protected Parada crearParada(double distanciaAAnterior, double distanciaAProxima) {
+    return new Parada("Parada", crearDistanciaEnKm(distanciaAAnterior), crearDistanciaEnKm(distanciaAProxima));
   }
 
   protected Distancia crearDistanciaEnKm(double kilometros) {

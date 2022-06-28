@@ -13,16 +13,29 @@ import static org.mockito.Mockito.*;
 public class TramoTest extends BaseTest {
 
   @Test
-  public void laDistanciaDeUnTramoPublicoEsLaSumaDeLasDistanciasDeSusParadas(){
-    Parada paradaInicial = crearParada(30);
-    Parada paradaFinal = crearParada(50);
-    Linea linea = crearLineaDeSubteConParadas(asList(paradaInicial, crearParada(10), paradaFinal));
+  public void laDistanciaDeUnTramoPublicoEsLaSumaDeLasDistanciasDeSusParadasALaIda(){
+    Parada paradaInicial = crearParada(0, 30);
+    Parada paradaFinal = crearParada(0, 50);
+    Linea linea = crearLineaDeSubteConParadas(asList(paradaInicial, crearParada(0, 10), paradaFinal));
 
     Tramo tramo = crearTramoEnTransportePublico(paradaInicial, paradaFinal, linea);
 
     assertThat(tramo.getDistancia())
         .extracting("valor", "unidad")
         .containsExactly(40, Unidad.KM);
+  }
+
+  @Test
+  public void laDistanciaDeUnTramoPublicoEsLaSumaDeLasDistanciasDeSusParadasALaVuelta(){
+    Parada paradaInicial = crearParada(30, 0);
+    Parada paradaFinal = crearParada(50, 0);
+    Linea linea = crearLineaDeSubteConParadas(asList(paradaFinal, crearParada(10, 100), paradaInicial));
+
+    Tramo tramo = crearTramoEnTransportePublico(paradaInicial, paradaFinal, linea);
+
+    assertThat(tramo.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(60, Unidad.KM);
   }
 
   @Test
