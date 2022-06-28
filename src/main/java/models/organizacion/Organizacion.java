@@ -3,6 +3,7 @@ package models.organizacion;
 
 import models.da.DatoActividad;
 import models.geolocalizacion.Ubicacion;
+import models.organizacion.notificaciones.ServicioDeNotificacion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,14 @@ public class Organizacion {
   private final ClasificacionDeOrganizacion clasificacionDeOrganizacion;
   private final List<Sector> sectores;
   private final List<DatoActividad> datosActividad;
+  private List<ServicioDeNotificacion> serviciosDeNotificaciones;
+  private List<Contacto> contactos;
+
+  public void enviarGuia(String link) {
+    serviciosDeNotificaciones
+        .forEach(servicioDeNotificacion
+            -> servicioDeNotificacion.enviarGuiaRecomendacion(contactos, link));
+  }
   
   public Organizacion(String razonSocial, Ubicacion ubicacionGeografica,
                       TipoDeOrganizacion tipoDeOrganizacion,

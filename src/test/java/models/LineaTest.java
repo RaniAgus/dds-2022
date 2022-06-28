@@ -26,10 +26,10 @@ public class LineaTest {
   @Test
   public void alDarDeAltaUnaParadaSeCambiaLaDistanciaDeLaAnterior() {
     Linea linea = subteB();
-    Parada primerParada = new Parada(new Distancia(BigDecimal.valueOf(0), Unidad.KM), "primera");
+    Parada primerParada = new Parada(new Distancia(BigDecimal.valueOf(0), Unidad.KM), new Distancia(BigDecimal.valueOf(0), Unidad.KM),"primera");
     linea.agregarParada(primerParada, new Distancia(BigDecimal.valueOf(0), Unidad.KM));
 
-    Parada segundaParada = new Parada(new Distancia(BigDecimal.valueOf(0), Unidad.KM), "primera");
+    Parada segundaParada = new Parada(new Distancia(BigDecimal.valueOf(0), Unidad.KM), new Distancia(BigDecimal.valueOf(0), Unidad.KM),"segunda");
     linea.agregarParada(segundaParada, new Distancia(BigDecimal.valueOf(50), Unidad.KM));
 
     assertThat(primerParada.getDistanciaAProximaParada().getValor()).isEqualTo(50);

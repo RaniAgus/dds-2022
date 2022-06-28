@@ -14,6 +14,6 @@ import static models.factory.UbicacionFactory.medrano;
 
 public class LineaFactory {
   public static Linea subteB() {
-    return new Linea("Subte B", asList(new Parada(new Distancia(new BigDecimal(35.8), Unidad.KM),"medrano"), new Parada(new Distancia(new BigDecimal(35.8), Unidad.KM),"alem")), TipoDeTransportePublico.SUBTE);
+    return new Linea("Subte B", asList(new Parada(new Distancia(new BigDecimal(35.8), Unidad.KM),new Distancia(new BigDecimal(35.8), Unidad.KM),"medrano"), new Parada(new Distancia(new BigDecimal(35.8), Unidad.KM),new Distancia(new BigDecimal(35.8), Unidad.KM),"alem")), TipoDeTransportePublico.SUBTE);
   }
 }
