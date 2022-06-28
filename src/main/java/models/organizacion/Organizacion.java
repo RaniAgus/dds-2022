@@ -5,6 +5,7 @@ import models.da.DatoActividad;
 import models.geolocalizacion.Ubicacion;
 import models.organizacion.notificaciones.ServicioDeNotificacion;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,13 @@ public class Organizacion {
   public void enviarGuia(String link) {
     serviciosDeNotificaciones
         .forEach(servicioDeNotificacion
-            -> servicioDeNotificacion.enviarGuiaRecomendacion(contactos, link));
+            -> {
+          try {
+            servicioDeNotificacion.enviarGuiaRecomendacion(contactos, link);
+          } catch (MessagingException e) {
+            e.printStackTrace();
+          }
+        });
   }
   
   public Organizacion(String razonSocial, Ubicacion ubicacionGeografica,
