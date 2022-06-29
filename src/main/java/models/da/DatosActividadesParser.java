@@ -5,19 +5,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatosActividadesParser {
+  private List<TipoDeConsumo> tiposDeConsumo;
   private Character separator;
   private Integer skiplines;
   private LectorDeArchivos lectorDeArchivos;
 
-  public DatosActividadesParser(LectorDeArchivos loader, Integer skiplines, Character separator) {
+  public DatosActividadesParser(List<TipoDeConsumo> tiposDeConsumo,
+                                LectorDeArchivos loader,
+                                Integer skiplines,
+                                Character separator) {
+    this.tiposDeConsumo = tiposDeConsumo;
     this.lectorDeArchivos = loader;
     this.skiplines = skiplines;
     this.separator = separator;
   }
 
-  public DatosActividadesParser setSkiplines(Integer skiplines) {
-    this.skiplines = skiplines;
-    return this;
+  private TipoDeConsumo getTipoDeConsumo(String nombre) {
+    return tiposDeConsumo.stream()
+        .filter(it -> it.tieneNombre(nombre))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException("El tipo de consumo '" + nombre + "' no es válido."));
   }
 
   private DatoActividad parseLine(String line) {
@@ -25,7 +32,7 @@ public class DatosActividadesParser {
     if (campos.size() != 4) {
       throw new IllegalArgumentException("La linea no tiene el numero adecuado de campos.");
     }
-    TipoDeConsumo tipoDeConsumo = TipoDeConsumo.valueOf(campos.get(0));
+    TipoDeConsumo tipoDeConsumo = getTipoDeConsumo(campos.get(0));
     Double valor = Double.parseDouble(campos.get(1));
     Periodicidad periodicidad = Periodicidad.valueOf(campos.get(2));
     String periodo = campos.get(3);

@@ -40,4 +40,7 @@ public class Organizacion {
     this.datosActividad.addAll(nuevosDatos);
   }
 
+  public List<DatoActividad> getDatosActividad() {
+    return datosActividad;
+  }
 }
