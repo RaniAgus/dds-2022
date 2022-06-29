@@ -7,4 +7,8 @@ public class ServicioContratado implements MedioDeTransporte {
     this.tipoDeServicioContratado = tipoDeServicioContratado;
   }
 
+  @Override
+  public boolean esCompartible() {
+    return true;
+  }
 }

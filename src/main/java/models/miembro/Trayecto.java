@@ -21,4 +21,7 @@ public class Trayecto {
         .reduce(Distancia.CERO, Distancia::sumar);
   }
 
+  public boolean esCompartible() {
+    return tramos.stream().allMatch(Tramo::esCompartible);
+  }
 }
