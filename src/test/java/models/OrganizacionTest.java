@@ -37,9 +37,7 @@ public class OrganizacionTest extends BaseTest {
         "ELECTRICIDAD;122;MENSUAL;03/2002",
         "NAFTA;5;ANUAL;2020"
     ));
-    TipoDeConsumo electricidad = new TipoDeConsumo("ELECTRICIDAD", 1.0, UnidadDeConsumo.M3);
-    TipoDeConsumo nafta = new TipoDeConsumo("NAFTA", 1.0, UnidadDeConsumo.M3);
-    DatosActividadesParser parser = crearParserDatosDeActividad(Arrays.asList(electricidad, nafta));
+    DatosActividadesParser parser = crearParserDatosDeActividad();
 
     organizacion.agregarDatosActividad(parser.getDatosActividad());
 

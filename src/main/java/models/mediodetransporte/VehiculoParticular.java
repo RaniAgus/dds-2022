@@ -1,18 +1,19 @@
 package models.mediodetransporte;
 
+import models.da.TipoDeConsumo;
+
 public class VehiculoParticular implements MedioDeTransporte {
   private final TipoDeVehiculoParticular tipoDeVehiculo;
-  private final TipoDeCombustible tipoDeCombustible;
+  private final TipoDeConsumo tipoDeConsumo;
 
-  public VehiculoParticular(TipoDeVehiculoParticular tipoDeVehiculo,
-                            TipoDeCombustible tipoDeCombustible) {
+  public VehiculoParticular(TipoDeVehiculoParticular tipoDeVehiculo, TipoDeConsumo tipoDeConsumo) {
     this.tipoDeVehiculo = tipoDeVehiculo;
-    this.tipoDeCombustible = tipoDeCombustible;
+    this.tipoDeConsumo = tipoDeConsumo;
   }
 
   @Override
   public Double carbonoEquivalentePorKM() {
-    return tipoDeCombustible.factorEmision() * tipoDeVehiculo.consumoPorKM();
+    return tipoDeConsumo.getFactorEmision() * tipoDeVehiculo.consumoPorKM();
   }
 
   @Override

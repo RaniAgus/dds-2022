@@ -1,12 +1,14 @@
 package models.mediodetransporte;
 
+import models.da.TipoDeConsumo;
+
 public enum TipoDeTransportePublico {
   TREN, SUBTE, COLECTIVO;
 
   private Double consumoPorKM;
-  private TipoDeCombustible tipoDeCombustible;
+  private TipoDeConsumo tipoDeConsumo;
 
-  public Double consumoPorKM() {
+  public Double getConsumoPorKM() {
     return consumoPorKM;
   }
 
@@ -14,15 +16,7 @@ public enum TipoDeTransportePublico {
     this.consumoPorKM = combustiblePorKM;
   }
 
-  public TipoDeCombustible getTipoDeCombustible() {
-    return tipoDeCombustible;
-  }
-
-  public void setTipoDeCombustible(TipoDeCombustible tipoDeCombustible) {
-    this.tipoDeCombustible = tipoDeCombustible;
-  }
-
-  public Double carbonoEquivalentePorKM(){
-    return tipoDeCombustible.factorEmision() * consumoPorKM;
+  public Double carbonoEquivalentePorKM() {
+    return tipoDeConsumo.getFactorEmision() * consumoPorKM;
   }
 }

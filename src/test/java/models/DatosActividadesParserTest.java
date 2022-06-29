@@ -26,8 +26,7 @@ public class DatosActividadesParserTest extends BaseTest {
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "ELECTRICIDAD;122;MENSUAL;03/2002"
     ));
-    TipoDeConsumo electricidad = new TipoDeConsumo("ELECTRICIDAD", 1.0, UnidadDeConsumo.M3);
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.singletonList(electricidad));
+    DatosActividadesParser parser = crearParserDatosDeActividad();
 
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
@@ -42,8 +41,7 @@ public class DatosActividadesParserTest extends BaseTest {
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "NAFTA;5;ANUAL;2020"
     ));
-    TipoDeConsumo nafta = new TipoDeConsumo("NAFTA", 1.0, UnidadDeConsumo.M3);
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.singletonList(nafta));
+    DatosActividadesParser parser = crearParserDatosDeActividad();
 
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
@@ -54,7 +52,7 @@ public class DatosActividadesParserTest extends BaseTest {
 
   @Test
   public void noSePuedenCargarDAsConCamposFaltantes() {
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.emptyList());
+    DatosActividadesParser parser = crearParserDatosDeActividad();
     when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "122;MENSUAL;03/2002",
@@ -68,7 +66,7 @@ public class DatosActividadesParserTest extends BaseTest {
 
   @Test
   public void noSePuedenCargarTiposDeConsumoInexistentes() {
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.emptyList());
+    DatosActividadesParser parser = crearParserDatosDeActividad();
     when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "FANTA;5;ANUAL;2020"

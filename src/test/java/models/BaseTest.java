@@ -1,9 +1,6 @@
 package models;
 
-import models.da.DatosActividadesParser;
-import models.da.LectorDeArchivos;
-import models.da.RepositorioTipoDeConsumo;
-import models.da.TipoDeConsumo;
+import models.da.*;
 import models.geolocalizacion.Distancia;
 import models.geolocalizacion.Geolocalizador;
 import models.geolocalizacion.Ubicacion;
@@ -24,10 +21,14 @@ import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 
 public abstract class BaseTest {
-  protected LectorDeArchivos lectorDeArchivos;
-  protected Geolocalizador geolocalizador;
   protected Ubicacion utnMedrano = new Ubicacion(1, "Medrano", "951");
   protected Ubicacion utnCampus = new Ubicacion(1, "Mozart", "2300");
+
+  protected TipoDeConsumo electricidad = new TipoDeConsumo("ELECTRICIDAD", 1.0, UnidadDeConsumo.M3);
+  protected TipoDeConsumo nafta = new TipoDeConsumo("NAFTA", 1.0, UnidadDeConsumo.LTS);
+
+  protected LectorDeArchivos lectorDeArchivos;
+  protected Geolocalizador geolocalizador;
 
   @BeforeEach
   void init() {
@@ -101,7 +102,7 @@ public abstract class BaseTest {
         geolocalizador,
         utnMedrano,
         utnCampus,
-        new ServicioContratado(TipoDeServicioContratado.TAXI)
+        new ServicioContratado(new TipoDeServicioContratado("Taxi", nafta, 1.0))
     );
   }
 
@@ -110,7 +111,7 @@ public abstract class BaseTest {
         geolocalizador,
         utnMedrano,
         utnCampus,
-        new VehiculoParticular(TipoDeVehiculoParticular.AUTOMOVIL, TipoDeCombustible.ELECTRICO)
+        new VehiculoParticular(TipoDeVehiculoParticular.AUTOMOVIL, nafta)
     );
   }
 
@@ -126,8 +127,11 @@ public abstract class BaseTest {
 
   // Datos de Actividad
 
-  protected DatosActividadesParser crearParserDatosDeActividad(List<TipoDeConsumo> tiposDeConsumo) {
-    return new DatosActividadesParser(new RepositorioTipoDeConsumo(tiposDeConsumo), lectorDeArchivos, 1, ';');
+  protected DatosActividadesParser crearParserDatosDeActividad() {
+    return new DatosActividadesParser(
+        new RepositorioTipoDeConsumo(asList(electricidad, nafta)),
+        lectorDeArchivos, 1, ';'
+    );
   }
 
   // Validadores

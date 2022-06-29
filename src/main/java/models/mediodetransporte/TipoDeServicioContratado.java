@@ -1,22 +1,19 @@
 package models.mediodetransporte;
 
+import models.da.TipoDeConsumo;
+
 public class TipoDeServicioContratado {
   private String nombre;
-  private TipoDeCombustible tipoDeCombustible;
+  private TipoDeConsumo tipoDeConsumo;
   private Double consumoPorKM;
 
-  public TipoDeServicioContratado(String nombre, 
-                                  TipoDeCombustible tipoDeCombustible,
-                                  Double consumoPorKM) {
+  public TipoDeServicioContratado(String nombre, TipoDeConsumo tipoDeConsumo, Double consumoPorKM) {
     this.nombre = nombre;
-    this.tipoDeCombustible = tipoDeCombustible;
+    this.tipoDeConsumo = tipoDeConsumo;
     this.consumoPorKM = consumoPorKM;
   }
 
-  public static final TipoDeServicioContratado TAXI = new TipoDeServicioContratado("Taxi", TipoDeCombustible.NAFTA, 1.0);
-  public static final TipoDeServicioContratado REMIS = new TipoDeServicioContratado("Remis", TipoDeCombustible.NAFTA, 1.0);
-
   public Double carbonoEquivalentePorKM() {
-    return tipoDeCombustible.factorEmision() * consumoPorKM;
+    return tipoDeConsumo.getFactorEmision() * consumoPorKM;
   }
 }
