@@ -13,7 +13,7 @@ class DatosActividadesParser {
 }
 
 DatosActividadesParser --> LectorDeArchivos
-DatosActividadesParser --> "1..*" TipoDeConsumo
+DatosActividadesParser --> RepositorioTipoDeConsumo
 DatosActividadesParser ..> DatoActividad : <<creates>>
 
 class LectorDeArchivos {
@@ -27,6 +27,12 @@ class DatoActividad {
 
 DatoActividad --> TipoDeConsumo
 DatoActividad --> Periodicidad
+
+class RepositorioTipoDeConsumo {
+    buscarPorNombre(nombre)
+}
+
+RepositorioTipoDeConsumo --> "1..*" TipoDeConsumo
 
 class TipoDeConsumo {
     nombre : String

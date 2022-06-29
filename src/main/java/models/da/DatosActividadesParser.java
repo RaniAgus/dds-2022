@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatosActividadesParser {
-  private List<TipoDeConsumo> tiposDeConsumo;
+  private RepositorioTipoDeConsumo tiposDeConsumo;
   private Character separator;
   private Integer skiplines;
   private LectorDeArchivos lectorDeArchivos;
 
-  public DatosActividadesParser(List<TipoDeConsumo> tiposDeConsumo,
+  public DatosActividadesParser(RepositorioTipoDeConsumo tiposDeConsumo,
                                 LectorDeArchivos loader,
                                 Integer skiplines,
                                 Character separator) {
@@ -21,9 +21,7 @@ public class DatosActividadesParser {
   }
 
   private TipoDeConsumo getTipoDeConsumo(String nombre) {
-    return tiposDeConsumo.stream()
-        .filter(it -> it.tieneNombre(nombre))
-        .findFirst()
+    return tiposDeConsumo.buscarPorNombre(nombre)
         .orElseThrow(() -> new IllegalArgumentException("El tipo de consumo '" + nombre + "' no es válido."));
   }
 

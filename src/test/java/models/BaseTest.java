@@ -1,6 +1,9 @@
 package models;
 
-import models.da.*;
+import models.da.DatosActividadesParser;
+import models.da.LectorDeArchivos;
+import models.da.RepositorioTipoDeConsumo;
+import models.da.TipoDeConsumo;
 import models.geolocalizacion.Distancia;
 import models.geolocalizacion.Geolocalizador;
 import models.geolocalizacion.Ubicacion;
@@ -124,7 +127,7 @@ public abstract class BaseTest {
   // Datos de Actividad
 
   protected DatosActividadesParser crearParserDatosDeActividad(List<TipoDeConsumo> tiposDeConsumo) {
-    return new DatosActividadesParser(tiposDeConsumo, lectorDeArchivos, 1, ';');
+    return new DatosActividadesParser(new RepositorioTipoDeConsumo(tiposDeConsumo), lectorDeArchivos, 1, ';');
   }
 
   // Validadores
