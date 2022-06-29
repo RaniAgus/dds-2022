@@ -8,6 +8,7 @@ Miembro --> "*" Trayecto
 
 class Trayecto {
     getDistancia()
+    esCompartible()
 }
 
 Trayecto --> "1..*" Tramo
@@ -26,6 +27,7 @@ class TramoPrivado implements Tramo {
 TramoPrivado --> MedioDeTransporte
 
 interface MedioDeTransporte {
+    esCompartible()
 }
 
 MedioDeTransporte <|.. ServicioContratado
