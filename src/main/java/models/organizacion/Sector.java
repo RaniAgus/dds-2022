@@ -29,7 +29,7 @@ public class Sector {
   public Double huellaCarbono(Periodicidad periodicidad) {
     return getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO).stream()
         .map(Vinculacion::getMiembro)
-        .map(Miembro::getTrayecto)
+        .flatMap(it -> it.getTrayectos().stream())
         .distinct()
         .mapToDouble(Trayecto::carbonoEquivalente)
         .sum() * periodicidad.diasLaborales();
