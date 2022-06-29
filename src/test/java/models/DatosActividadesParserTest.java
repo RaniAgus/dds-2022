@@ -4,6 +4,7 @@ package models;
 import models.da.*;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,8 +32,8 @@ public class DatosActividadesParserTest extends BaseTest {
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodicidad", "periodo", "tipo")
-        .containsExactly(122.0, Periodicidad.MENSUAL, "03/2002", electricidad);
+        .extracting("valor", "periodicidad", "inicioPeriodo", "tipo")
+        .containsExactly(122.0, Periodicidad.MENSUAL, LocalDate.of(2002, 3, 1), electricidad);
   }
 
   @Test
@@ -46,8 +47,8 @@ public class DatosActividadesParserTest extends BaseTest {
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodicidad", "periodo", "tipo")
-        .containsExactly(5.0, Periodicidad.ANUAL, "2020", nafta);
+        .extracting("valor", "periodicidad", "inicioPeriodo", "tipo")
+        .containsExactly(5.0, Periodicidad.ANUAL, LocalDate.of(2020,1,1), nafta);
   }
 
   @Test
