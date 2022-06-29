@@ -1,0 +1,56 @@
+@startuml
+
+class Organizacion {
+    agregarDatosActividad(datosActividad)
+}
+
+Organizacion --> "1..*" DatoActividad
+
+class DatosActividadesParser {
+    separator: Character
+    skipLines: Integer
+    getDatosActividad()
+}
+
+DatosActividadesParser --> LectorDeArchivos
+DatosActividadesParser --> RepositorioTipoDeConsumo
+DatosActividadesParser ..> DatoActividad : <<creates>>
+
+class LectorDeArchivos {
+    getLineas()
+}
+
+class DatoActividad {
+    valor : Double
+    periodo : String
+}
+
+DatoActividad --> TipoDeConsumo
+DatoActividad --> Periodicidad
+
+class RepositorioTipoDeConsumo {
+    buscarPorNombre(nombre)
+}
+
+RepositorioTipoDeConsumo --> "1..*" TipoDeConsumo
+
+class TipoDeConsumo {
+    nombre : String
+    factorDeEmision : Double
+}
+
+TipoDeConsumo --> UnidadDeConsumo
+
+enum UnidadDeConsumo {
+    M3,
+    KG,
+    KWH,
+    ...
+}
+
+enum Periodicidad {
+    MENSUAL,
+    ANUAL
+}
+
+@enduml

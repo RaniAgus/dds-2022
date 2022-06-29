@@ -1,8 +1,9 @@
 package models.mediodetransporte;
 
+import models.geolocalizacion.Distancia;
+
 import java.util.ArrayList;
 import java.util.List;
-import models.geolocalizacion.Distancia;
 
 public class Linea {
   private String nombre;
@@ -16,7 +17,7 @@ public class Linea {
   }
 
   public void agregarParada(Parada nuevaParada, Distancia distanciaANuevaParada) {
-    if(!paradas.isEmpty()) {
+    if (!paradas.isEmpty()) {
       paradas.get(paradas.size() - 1).setDistanciaAProximaParada(distanciaANuevaParada);
     }
     this.paradas.add(nuevaParada);
@@ -27,9 +28,27 @@ public class Linea {
   }
 
   public Distancia distanciaEntreParadas(Parada paradaInicial, Parada paradaFinal) {
-    return paradas.subList(paradas.indexOf(paradaInicial), paradas.indexOf(paradaFinal))
+    int posInicial = paradas.indexOf(paradaInicial);
+    int posFinal = paradas.indexOf(paradaFinal);
+
+    if (posInicial < posFinal) {
+      return distanciaParadasIda(posInicial, posFinal);
+    }
+
+    return distanciaParadasVuelta(posInicial, posFinal);
+  }
+
+  private Distancia distanciaParadasIda(int paradaInicial, int paradaFinal) {
+    return paradas.subList(paradaInicial, paradaFinal)
         .stream()
         .map(Parada::getDistanciaAProximaParada)
+        .reduce(Distancia.CERO, Distancia::sumar);
+  }
+
+  private Distancia distanciaParadasVuelta(int paradaInicial, int paradaFinal) {
+    return paradas.subList(paradaFinal, paradaInicial)
+        .stream()
+        .map(Parada::getDistanciaAAnteriorParada)
         .reduce(Distancia.CERO, Distancia::sumar);
   }
 

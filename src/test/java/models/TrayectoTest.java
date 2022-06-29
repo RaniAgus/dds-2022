@@ -1,40 +1,63 @@
 package models;
-import models.geolocalizacion.Distancia;
+
 import models.geolocalizacion.Unidad;
-import models.miembro.Miembro;
 import models.miembro.Tramo;
 import models.miembro.Trayecto;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static models.factory.MiembroFactory.agus;
-import static models.factory.TramoFactory.tramoAPieDesdeMedranoHastaAlem;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
-public class TrayectoTest {
+public class TrayectoTest extends BaseTest {
+
+  // [TPA1]: Se debe permitir el alta de trayectos teniendo en cuenta que cada uno de éstos puede contener varios tramos.
+
   @Test
   public void sePuedeDarDeAltaUnNuevoTrayecto() {
-    Miembro miembro = agus();
-    Trayecto trayecto = new Trayecto(singletonList(tramoAPieDesdeMedranoHastaAlem()), singletonList(miembro));
-    assertThat(trayecto.getViajantes()).containsExactly(miembro);
+    Tramo tramo = crearTramoEnBicicleta(utnMedrano, utnCampus);
+    Trayecto trayecto = crearTrayectoConTramos(singletonList(tramo));
+
+    assertThat(trayecto.getTramos()).containsExactly(tramo);
   }
+
+  // [TPA2]: Se debe permitir dar a conocer la distancia total de un trayecto.
 
   @Test
   public void laDistanciaDeUnTrayectoEsLaSumaDeSusTramos() {
-    Tramo primerTramo = mock(Tramo.class);
-    Tramo segundoTramo = mock(Tramo.class);
-    when(primerTramo.esCompartible()).thenReturn(true);
-    when(segundoTramo.esCompartible()).thenReturn(true);
-    when(primerTramo.getDistancia()).thenReturn(new Distancia(new BigDecimal(50), Unidad.KM));
-    when(segundoTramo.getDistancia()).thenReturn(new Distancia(new BigDecimal(200), Unidad.KM));
+    when(geolocalizador.medirDistancia(utnMedrano, utnCampus)).thenReturn(crearDistanciaEnKm(20));
+    when(geolocalizador.medirDistancia(utnCampus, utnMedrano)).thenReturn(crearDistanciaEnKm(30));
 
-    Trayecto trayectoTest = new Trayecto(asList(primerTramo, segundoTramo));
-    assertEquals(250, trayectoTest.medirDistanciaTrayecto().getValor());
+    Trayecto trayecto = crearTrayectoConTramos(asList(
+        crearTramoEnBicicleta(utnMedrano, utnCampus),
+        crearTramoEnBicicleta(utnCampus, utnMedrano)
+    ));
+
+    assertThat(trayecto.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(50, Unidad.KM);
+  }
+
+  // [TPA2]: Se debe permitir la carga de Trayectos compartidos entre miembros de una organización.
+
+  @Test
+  public void unTrayectoEsCompartibleCuandoTodosSusTramosLoSon() {
+    Trayecto trayecto = crearTrayectoConTramos(asList(
+        crearTramoEnServicioContratado(),
+        crearTramoEnVehiculoParticular()
+    ));
+
+    assertThat(trayecto.esCompartible()).isTrue();
+  }
+
+  @Test
+  public void unTrayectoNoEsCompartibleCuandoUnTramoNoLoEs() {
+    Trayecto trayecto = crearTrayectoConTramos(asList(
+        crearTramoEnBicicleta(utnCampus, utnMedrano),
+        crearTramoEnVehiculoParticular()
+    ));
+
+    assertThat(trayecto.esCompartible()).isFalse();
   }
 }

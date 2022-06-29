@@ -11,13 +11,21 @@ public class Trayecto {
     this.tramos = new ArrayList<>(tramos);
   }
 
-  public Distancia medirDistanciaTrayecto() {
+  public List<Tramo> getTramos() {
+    return tramos;
+  }
+
+  public Distancia getDistancia() {
     return tramos.stream()
         .map(Tramo::getDistancia)
         .reduce(Distancia.CERO, Distancia::sumar);
   }
 
-  public Double carbonoEquivalente(){
+  public boolean esCompartible() {
+    return tramos.stream().allMatch(Tramo::esCompartible);
+  }
+
+  public Double carbonoEquivalente() {
    return tramos.stream().mapToDouble(Tramo::carbonoEquivalente).sum();
   }
 }

@@ -1,21 +1,18 @@
 package models.da;
-public enum TipoDeConsumo {
-  GAS_NATURAL(UnidadDeConsumo.M3),
-  DIESEL(UnidadDeConsumo.LT),
-  GASOIL(UnidadDeConsumo.LT),
-  NAFTA(UnidadDeConsumo.LT),
-  CARBON(UnidadDeConsumo.KG),
-  GASOIL_MOVIL(UnidadDeConsumo.LTS),
-  NAFTA_MOVIL(UnidadDeConsumo.LTS),
-  ELECTRICIDAD(UnidadDeConsumo.KWH),
-  RECORRIDO_CAMION_CARGA(UnidadDeConsumo.KM),
-  RECORRIDO_UTILITARIO_LIVIANO(UnidadDeConsumo.KM);
 
+public class TipoDeConsumo {
+  private String nombre;
   private Double factorEmision;
-  private final UnidadDeConsumo unidadDeConsumo;
+  private UnidadDeConsumo unidadDeConsumo;
 
-  TipoDeConsumo(UnidadDeConsumo unidadDeConsumo) {
+  public TipoDeConsumo(String nombre, Double factorEmision, UnidadDeConsumo unidadDeConsumo) {
+    this.nombre = nombre;
+    this.factorEmision = factorEmision;
     this.unidadDeConsumo = unidadDeConsumo;
+  }
+
+  public boolean tieneNombre(String nombre) {
+    return this.nombre.equalsIgnoreCase(nombre);
   }
 
   public Double getFactorEmision() {

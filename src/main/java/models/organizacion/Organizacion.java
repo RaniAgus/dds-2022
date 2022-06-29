@@ -40,8 +40,12 @@ public class Organizacion {
     return sectores;
   }
 
-  public void agregarDatosActividad(List<DatoActividad> nuevosDatos){
+  public void agregarDatosActividad(List<DatoActividad> nuevosDatos) {
     this.datosActividad.addAll(nuevosDatos);
+  }
+
+  public List<DatoActividad> getDatosActividad() {
+    return datosActividad;
   }
 
   private Double huellaCarbonoTrayectos(Periodicidad periodicidad){

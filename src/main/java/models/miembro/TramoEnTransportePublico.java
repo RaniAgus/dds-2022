@@ -11,10 +11,10 @@ public class TramoEnTransportePublico implements Tramo {
   private Parada paradaFinal;
   private Linea linea;
 
-  public TramoEnTransportePublico(Parada paradaFinal, Parada paradaInicial, Linea linea) {
-    this.linea = linea;
-    this.paradaFinal = paradaFinal;
+  public TramoEnTransportePublico(Parada paradaInicial, Parada paradaFinal, Linea linea) {
     this.paradaInicial = paradaInicial;
+    this.paradaFinal = paradaFinal;
+    this.linea = linea;
   }
 
   @Override

@@ -28,7 +28,7 @@ public class TramoPrivado implements Tramo {
 
   @Override
   public boolean esCompartible() {
-    return true;
+    return medioDeTransporte.esCompartible();
   }
 
   public Double carbonoEquivalente() {
