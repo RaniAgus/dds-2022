@@ -1,17 +1,16 @@
 @startuml
 
-class Organizacion {
+class Miembro {
     darDeAltaTrayecto(trayecto)
 }
 
-Organizacion --> "*" Trayecto
+Miembro --> "*" Trayecto
 
 class Trayecto {
     getDistancia()
 }
 
 Trayecto --> "1..*" Tramo
-Trayecto --> "1..*" Miembro
 
 interface Tramo {
     getDistancia()
@@ -50,7 +49,7 @@ class TipoDeServicioContratado {
 class TramoEnTransportePublico implements Tramo {
 }
 
-TramoEnTransportePublico --> Linea
+TramoEnTransportePublico -right-> Linea
 TramoEnTransportePublico --> Parada : inicio
 TramoEnTransportePublico --> Parada : fin
 

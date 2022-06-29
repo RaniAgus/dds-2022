@@ -12,10 +12,11 @@ class DatosActividadesParser {
     getDatosActividad()
 }
 
-DatosActividadesParser --> CSVLoader
+DatosActividadesParser --> LectorDeArchivos
+DatosActividadesParser --> "1..*" TipoDeConsumo
 DatosActividadesParser ..> DatoActividad : <<creates>>
 
-class CSVLoader {
+class LectorDeArchivos {
     getLineas()
 }
 
@@ -27,12 +28,9 @@ class DatoActividad {
 DatoActividad --> TipoDeConsumo
 DatoActividad --> Periodicidad
 
-enum TipoDeConsumo {
-    GAS_NATURAL,
-    DIESEL,
-    GASOIL,
-    ...
-    setFactorDeEmision()
+class TipoDeConsumo {
+    nombre : String
+    factorDeEmision : Double
 }
 
 TipoDeConsumo --> UnidadDeConsumo
