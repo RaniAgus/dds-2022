@@ -1,45 +1,56 @@
 package models;
-import models.geolocalizacion.Distancia;
-import models.geolocalizacion.Geolocalizador;
-import models.geolocalizacion.Ubicacion;
+
 import models.geolocalizacion.Unidad;
-import models.mediodetransporte.BicicletaOPie;
 import models.mediodetransporte.Linea;
 import models.mediodetransporte.Parada;
-import models.mediodetransporte.TipoDeTransportePublico;
 import models.miembro.Tramo;
-import models.miembro.TramoPrivado;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-
 import static java.util.Arrays.asList;
-import static models.factory.UbicacionFactory.alem;
-import static models.factory.UbicacionFactory.medrano;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-public class TramoTest {
+public class TramoTest extends BaseTest {
+
+  // [TPA2]: Se debe permitir dar a conocer la distancia entre los puntos intermedios de un trayecto en el caso de que
+  // éstos existan.
 
   @Test
-  public void laDistanciaDeUnTramoPublicoEsLaSumaDeLasDistanciasDeSusParadas(){
-    Parada paradaInicial= mock(Parada.class);
-    Parada paradaIntermedia= mock(Parada.class);
-    Parada paradaFinal = mock(Parada.class);
-    when(paradaFinal.getDistanciaAProximaParada()).thenReturn(new Distancia(new BigDecimal(50), Unidad.KM));
-    when(paradaInicial.getDistanciaAProximaParada()).thenReturn(new Distancia(new BigDecimal(50), Unidad.KM));
-    when(paradaIntermedia.getDistanciaAProximaParada()).thenReturn(new Distancia(new BigDecimal(50), Unidad.KM));
-    Linea subteC=new Linea("subteC",asList(paradaInicial,paradaIntermedia,paradaFinal), TipoDeTransportePublico.SUBTE);
-    assertEquals(100,subteC.distanciaEntreParadas(paradaInicial,paradaFinal).getValor());
+  public void laDistanciaDeUnTramoPublicoEsLaSumaDeLasDistanciasDeSusParadasALaIda(){
+    Parada paradaInicial = crearParada(0, 30);
+    Parada paradaFinal = crearParada(0, 50);
+    Linea linea = crearLineaDeSubteConParadas(asList(paradaInicial, crearParada(0, 10), paradaFinal));
+
+    Tramo tramo = crearTramoEnTransportePublico(paradaInicial, paradaFinal, linea);
+
+    assertThat(tramo.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(40, Unidad.KM);
+  }
+
+  @Test
+  public void laDistanciaDeUnTramoPublicoEsLaSumaDeLasDistanciasDeSusParadasALaVuelta(){
+    Parada paradaInicial = crearParada(30, 0);
+    Parada paradaFinal = crearParada(50, 0);
+    Linea linea = crearLineaDeSubteConParadas(asList(paradaFinal, crearParada(10, 100), paradaInicial));
+
+    Tramo tramo = crearTramoEnTransportePublico(paradaInicial, paradaFinal, linea);
+
+    assertThat(tramo.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(60, Unidad.KM);
   }
 
   @Test
   public void laDistanciaDeUnTramoPrivadoSeCalculaPorAPI() {
-    Geolocalizador geolocalizador=mock(Geolocalizador.class);
-    when(geolocalizador.medirDistancia(any(),any())).thenReturn(new Distancia(new BigDecimal(50), Unidad.KM));
-    Tramo distanciaDelTramo=new TramoPrivado(geolocalizador,medrano(),alem(),new BicicletaOPie());
-    verify(geolocalizador).medirDistancia(any(),any());
-    assertEquals(50,distanciaDelTramo.getDistancia().getValor());
+    when(geolocalizador.medirDistancia(utnMedrano, utnCampus)).thenReturn(crearDistanciaEnKm(50));
+
+    Tramo tramo = crearTramoEnBicicleta(utnMedrano, utnCampus);
+
+    verify(geolocalizador, times(1)).medirDistancia(utnMedrano, utnCampus);
+    assertThat(tramo.getDistancia())
+        .extracting("valor", "unidad")
+        .containsExactly(50, Unidad.KM);
   }
 
 }

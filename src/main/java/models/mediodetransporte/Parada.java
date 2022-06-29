@@ -1,17 +1,16 @@
 package models.mediodetransporte;
 
 import models.geolocalizacion.Distancia;
-import models.geolocalizacion.Ubicacion;
 
 public class Parada {
   private String nombre;
-  private Distancia distanciaAProximaParada;
   private Distancia distanciaAAnteriorParada;
+  private Distancia distanciaAProximaParada;
 
-  public Parada(Distancia distanciaAProximaParada, Distancia distanciaAAnteriorParada, String nombre) {
-    this.distanciaAProximaParada = distanciaAProximaParada;
-    this.distanciaAAnteriorParada=distanciaAAnteriorParada;
+  public Parada(String nombre, Distancia distanciaAAnteriorParada, Distancia distanciaAProximaParada) {
     this.nombre = nombre;
+    this.distanciaAAnteriorParada = distanciaAAnteriorParada;
+    this.distanciaAProximaParada = distanciaAProximaParada;
   }
 
   public Distancia getDistanciaAProximaParada() {

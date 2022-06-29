@@ -10,4 +10,8 @@ public class VehiculoParticular implements MedioDeTransporte {
     this.tipoDeCombustible = tipoDeCombustible;
   }
 
+  @Override
+  public boolean esCompartible() {
+    return true;
+  }
 }

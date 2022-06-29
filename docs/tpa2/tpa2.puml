@@ -1,0 +1,7 @@
+@startuml
+
+!include ../tpa1/tpa1-organizaciones.puml
+!include tpa2-trayectos.puml
+!include tpa2-datos-actividad.puml
+
+@enduml

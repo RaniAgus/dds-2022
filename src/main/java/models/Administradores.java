@@ -1,15 +1,15 @@
 package models;
 
-import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
-
 import exceptions.UsuarioNoDisponibleExeption;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 public final class Administradores {
   private static final Administradores instance = new Administradores();
-  public List<Administrador> admins;
+  private final List<Administrador> admins;
 
   public static Administradores getInstance() {
     return instance;
@@ -27,15 +27,17 @@ public final class Administradores {
     if (!existeAdministrador(usuario)) {
       throw new UsuarioNoDisponibleExeption("No existe el usuario: " +  usuario);
     }
-    Optional<Administrador> administrador = this.admins
-        .stream()
-        .filter(admin -> admin.getUsuario().equals(usuario)
-        && admin.getContrasena().equals(sha256Hex(contrasena))).findFirst();
-    return administrador.orElseThrow(() -> new UsuarioNoDisponibleExeption(
-        "No se pudo validar que sea ese administrador"));
+    return this.admins.stream()
+        .filter(admin -> admin.getUsuario().equals(usuario) && admin.getContrasena().equals(sha256Hex(contrasena)))
+        .findFirst()
+        .orElseThrow(() -> new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
   }
 
   public boolean existeAdministrador(String usuario) {
     return this.admins.stream().anyMatch(admin -> admin.getUsuario().equals(usuario));
+  }
+
+  public void limpiar() {
+    this.admins.clear();
   }
 }

@@ -1,0 +1,45 @@
+@startuml
+
+class Organizacion {
+    razonSocial : String
+    tipo : TipoDeOrganizacion
+    clasificacion : ClasificacionDeOrganizacion
+    ubicacion : Ubicacion
+    darDeAltaSector(sector)
+}
+
+Organizacion --> "1..*" Sector
+
+class Sector {
+    solicitarVinculacion(vinculacion)
+    getVinculacionesSegunEstado(estadoVinculo)
+}
+
+Sector --> "0..*" Vinculacion : vinculaciones
+
+class Vinculacion {
+    aceptar()
+    rechazar()
+}
+
+Vinculacion --> Miembro
+Vinculacion -right-> EstadoVinculo
+
+enum EstadoVinculo {
+    PENDIENTE,
+    ACEPTADO,
+    RECHAZADO
+    aceptar(vinculacion)
+    rechazar(vinculacion)
+}
+EstadoVinculo ..> Vinculacion
+
+class Miembro {
+    nombre : String
+    apellido : String
+    documento : String
+    tipoDeDocumento : TipoDeDocumento
+    darDeAltaTrayecto(trayecto)
+}
+
+@enduml

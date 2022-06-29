@@ -1,37 +1,36 @@
 package models;
 
 import models.geolocalizacion.Distancia;
-import models.geolocalizacion.Unidad;
 import models.mediodetransporte.Linea;
 import models.mediodetransporte.Parada;
 import org.junit.jupiter.api.Test;
-import static models.factory.LineaFactory.subteB;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
-import java.math.BigDecimal;
+public class LineaTest extends BaseTest {
 
-public class LineaTest {
+  // [TPA1]: Se debe permitir el alta de nuevas líneas férreas, subterráneas y de colectivos; así como también el alta
+  // de paradas/estaciones de cada una de ellas.
 
   @Test
   public void sePuedeDarDeAltaParadas() {
-    Linea linea = subteB();
-    Parada nuevaParada = mock(Parada.class);
+    Linea linea = crearLineaDeSubteVacia();
+    Parada medrano = crearParada(0, 34);
 
-    linea.agregarParada(nuevaParada, new Distancia(BigDecimal.valueOf(0), Unidad.KM));
+    linea.agregarParada(medrano, crearDistanciaEnKm(0));
 
-    assertThat(linea.getParadas()).contains(nuevaParada);
+    assertThat(linea.getParadas()).contains(medrano);
   }
 
   @Test
   public void alDarDeAltaUnaParadaSeCambiaLaDistanciaDeLaAnterior() {
-    Linea linea = subteB();
-    Parada primerParada = new Parada(new Distancia(BigDecimal.valueOf(0), Unidad.KM), new Distancia(BigDecimal.valueOf(0), Unidad.KM),"primera");
-    linea.agregarParada(primerParada, new Distancia(BigDecimal.valueOf(0), Unidad.KM));
+    Linea linea = crearLineaDeSubteVacia();
+    Parada medrano = crearParada(0, 0);
+    Parada alem = crearParada(0, 0);
 
-    Parada segundaParada = new Parada(new Distancia(BigDecimal.valueOf(0), Unidad.KM), new Distancia(BigDecimal.valueOf(0), Unidad.KM),"segunda");
-    linea.agregarParada(segundaParada, new Distancia(BigDecimal.valueOf(50), Unidad.KM));
+    linea.agregarParada(medrano, Distancia.CERO);
+    linea.agregarParada(alem, crearDistanciaEnKm(50));
 
-    assertThat(primerParada.getDistanciaAProximaParada().getValor()).isEqualTo(50);
+    assertThat(medrano.getDistanciaAProximaParada().getValor()).isEqualTo(50);
   }
 }

@@ -1,0 +1,72 @@
+@startuml
+
+class Miembro {
+    darDeAltaTrayecto(trayecto)
+}
+
+Miembro --> "*" Trayecto
+
+class Trayecto {
+    getDistancia()
+    esCompartible()
+}
+
+Trayecto --> "1..*" Tramo
+
+interface Tramo {
+    getDistancia()
+    esCompartible()
+}
+
+class TramoPrivado implements Tramo {
+    inicio : Ubicacion
+    fin : Ubicacion
+    distancia : Distancia
+}
+
+TramoPrivado --> MedioDeTransporte
+
+interface MedioDeTransporte {
+    esCompartible()
+}
+
+MedioDeTransporte <|.. ServicioContratado
+MedioDeTransporte <|.. BicicletaOPie
+MedioDeTransporte <|.. VehiculoParticular
+
+class VehiculoParticular {
+    tipo : TipoDeVehiculoParticular
+    combustible : TipoDeCombustible
+}
+
+ServicioContratado --> TipoDeServicioContratado
+
+class TipoDeServicioContratado {
+    nombre : String
+    {static} TAXI
+    {static} REMIS
+}
+
+
+class TramoEnTransportePublico implements Tramo {
+}
+
+TramoEnTransportePublico -right-> Linea
+TramoEnTransportePublico --> Parada : inicio
+TramoEnTransportePublico --> Parada : fin
+
+class Linea {
+    nombre : String
+    tipo : TipoDeTransportePublico
+    agregarParada(ubicacion)
+    distanciaEntreParadas(inicio, fin)
+}
+
+Linea --> "1..*" Parada
+
+class Parada {
+    nombre : String
+    distanciaAProxima : Distancia
+}
+
+@enduml
