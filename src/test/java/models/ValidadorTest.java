@@ -12,14 +12,14 @@ import static org.mockito.Mockito.when;
 
 public class ValidadorTest extends BaseTest {
   @Test
-  void unaContraseniaValidaNoArrojaExcepcionAlValidar() {
+  public void unaContraseniaValidaNoArrojaExcepcionAlValidar() {
     Validador validador = crearValidadorConTodasLasValidaciones();
 
     assertThatCode(() -> validador.validar("user", "password")).doesNotThrowAnyException();
   }
 
   @Test
-  void unaContraseniaInvalidaArrojaExcepcionConTodosLosMensajesAlValidar() {
+  public void unaContraseniaInvalidaArrojaExcepcionConTodosLosMensajesAlValidar() {
     Validador validador = crearValidadorConTodasLasValidaciones();
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("111"));
 

@@ -9,6 +9,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LineaTest extends BaseTest {
 
+  // [TPA1]: Se debe permitir el alta de nuevas líneas férreas, subterráneas y de colectivos; así como también el alta
+  // de paradas/estaciones de cada una de ellas.
+
   @Test
   public void sePuedeDarDeAltaParadas() {
     Linea linea = crearLineaDeSubteVacia();

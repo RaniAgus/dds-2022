@@ -1,25 +1,21 @@
 package models;
 
-import models.da.DatosActividadesParser;
-import models.da.LectorDeArchivos;
+import models.da.*;
 import models.geolocalizacion.Distancia;
 import models.geolocalizacion.Geolocalizador;
 import models.geolocalizacion.Ubicacion;
 import models.geolocalizacion.Unidad;
-import models.mediodetransporte.BicicletaOPie;
-import models.mediodetransporte.Linea;
-import models.mediodetransporte.Parada;
-import models.mediodetransporte.TipoDeTransportePublico;
+import models.mediodetransporte.*;
 import models.miembro.*;
 import models.organizacion.*;
 import models.validador.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
@@ -66,7 +62,7 @@ public abstract class BaseTest {
   }
 
   protected Miembro crearMiembro() {
-    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI);
+    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI, emptyList());
   }
 
   // Lineas
@@ -97,7 +93,29 @@ public abstract class BaseTest {
     return new TramoEnTransportePublico(origen, destino, linea);
   }
 
+  protected Tramo crearTramoEnServicioContratado() {
+    return new TramoPrivado(
+        geolocalizador,
+        utnMedrano,
+        utnCampus,
+        new ServicioContratado(TipoDeServicioContratado.TAXI)
+    );
+  }
+
+  protected Tramo crearTramoEnVehiculoParticular() {
+    return new TramoPrivado(
+        geolocalizador,
+        utnMedrano,
+        utnCampus,
+        new VehiculoParticular(TipoDeVehiculoParticular.AUTOMOVIL, TipoDeCombustible.ELECTRICO)
+    );
+  }
+
   // Trayectos
+
+  protected Trayecto crearTrayecto(Ubicacion origen, Ubicacion destino) {
+    return crearTrayectoConTramos(singletonList(crearTramoEnBicicleta(origen, destino)));
+  }
 
   protected Trayecto crearTrayectoConTramos(List<Tramo> tramos) {
     return new Trayecto(tramos);
@@ -105,14 +123,14 @@ public abstract class BaseTest {
 
   // Datos de Actividad
 
-  protected DatosActividadesParser crearParserDatosDeActividad() {
-    return new DatosActividadesParser(lectorDeArchivos, 1, ';');
+  protected DatosActividadesParser crearParserDatosDeActividad(List<TipoDeConsumo> tiposDeConsumo) {
+    return new DatosActividadesParser(tiposDeConsumo, lectorDeArchivos, 1, ';');
   }
 
   // Validadores
 
   protected Validador crearValidadorConTodasLasValidaciones() {
-    return new Validador(Arrays.asList(
+    return new Validador(asList(
         new Validar8Caracteres(),
         new ValidarCaracteresRepetidos(),
         new Validar10MilContrasenas(lectorDeArchivos),

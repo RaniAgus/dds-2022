@@ -10,6 +10,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SectorTest extends BaseTest {
 
+  // [TPA1]: Se debe permitir que un Miembro se vincule con un sector de la organización.
+  // Las Organizaciones deben aceptar esta vinculación para que las mediciones brindadas por dicho miembro
+  // (como los trayectos) tengan impacto en la Organización.
+
   @Test
   public void unMiembroPuedeSolicitarVincularseAUnSector() {
     Miembro miembro = crearMiembro();

@@ -12,6 +12,9 @@ import static org.mockito.Mockito.*;
 
 public class TramoTest extends BaseTest {
 
+  // [TPA2]: Se debe permitir dar a conocer la distancia entre los puntos intermedios de un trayecto en el caso de que
+  // éstos existan.
+
   @Test
   public void laDistanciaDeUnTramoPublicoEsLaSumaDeLasDistanciasDeSusParadasALaIda(){
     Parada paradaInicial = crearParada(0, 30);

@@ -14,7 +14,7 @@ public class ValidacionTest extends BaseTest {
   // Validar 8 caracteres
 
   @Test
-  void unaContraseniaEsValidaSiTieneMasDeOchoCaracteres() {
+  public void unaContraseniaEsValidaSiTieneMasDeOchoCaracteres() {
     Validacion validacion = new Validar8Caracteres();
 
     Optional<String> resultado = validacion.validar("user", "12345678");
@@ -23,7 +23,7 @@ public class ValidacionTest extends BaseTest {
   }
 
   @Test
-  void unaContraseniaNoEsValidaSiTieneMenosDeOchoCaracteres() {
+  public void unaContraseniaNoEsValidaSiTieneMenosDeOchoCaracteres() {
     Validacion validacion = new Validar8Caracteres();
 
     Optional<String> resultado = validacion.validar("user", "1234567");
@@ -34,7 +34,7 @@ public class ValidacionTest extends BaseTest {
   // Validar 10.000 más usadas
 
   @Test
-  void unaContraseniaEsValidaSiNoSeEncuentraEntreLasDiezMilMasUsadas() {
+  public void unaContraseniaEsValidaSiNoSeEncuentraEntreLasDiezMilMasUsadas() {
     Validacion validacion = new Validar10MilContrasenas(lectorDeArchivos);
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.emptyList());
 
@@ -44,7 +44,7 @@ public class ValidacionTest extends BaseTest {
   }
 
   @Test
-  void unaContraseniaNoEsValidaSiSeEncuentraEntreLasDiezMilMasUsadas() {
+  public void unaContraseniaNoEsValidaSiSeEncuentraEntreLasDiezMilMasUsadas() {
     Validacion validacion = new Validar10MilContrasenas(lectorDeArchivos);
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("password"));
 
@@ -56,7 +56,7 @@ public class ValidacionTest extends BaseTest {
   // Caracteres repetidos
 
   @Test
-  void unaContraseniaEsValidaSiNoTieneTresCaracteresRepetidos() {
+  public void unaContraseniaEsValidaSiNoTieneTresCaracteresRepetidos() {
     Validacion validacion = new ValidarCaracteresRepetidos();
 
     Optional<String> resultado = validacion.validar("user", "11223344");
@@ -65,7 +65,7 @@ public class ValidacionTest extends BaseTest {
   }
 
   @Test
-  void unaContraseniaNoEsValidaSiTieneTresCaracteresRepetidos() {
+  public void unaContraseniaNoEsValidaSiTieneTresCaracteresRepetidos() {
     Validacion validacion = new ValidarCaracteresRepetidos();
 
     Optional<String> resultado = validacion.validar("user", "111");
@@ -76,7 +76,7 @@ public class ValidacionTest extends BaseTest {
   // Caracteres consecutivos
 
   @Test
-  void unaContraseniaEsValidaSiNoTieneCuatroCaracteresConsecutivos() {
+  public void unaContraseniaEsValidaSiNoTieneCuatroCaracteresConsecutivos() {
     Validacion validacion = new ValidarCaracteresConsecutivos();
 
     Optional<String> resultado = validacion.validar("user", "123123");
@@ -85,7 +85,7 @@ public class ValidacionTest extends BaseTest {
   }
 
   @Test
-  void unaContraseniaNoEsValidaSiTieneCuatroCaracteresConsecutivos() {
+  public void unaContraseniaNoEsValidaSiTieneCuatroCaracteresConsecutivos() {
     Validacion validacion = new ValidarCaracteresConsecutivos();
 
     Optional<String> resultado1 = validacion.validar("user", "1234");
@@ -100,7 +100,7 @@ public class ValidacionTest extends BaseTest {
   // Usuario por defecto
 
   @Test
-  void unaContraseniaEsValidaSiNoEsIgualAlNombreDeUsuario() {
+  public void unaContraseniaEsValidaSiNoEsIgualAlNombreDeUsuario() {
     Validacion validacion = new ValidarUsuarioPorDefecto();
 
     Optional<String> resultado = validacion.validar("user", "usern't");
@@ -109,7 +109,7 @@ public class ValidacionTest extends BaseTest {
   }
 
   @Test
-  void unaContraseniaNoEsValidaSiEsIgualAlNombreDeUsuario() {
+  public void unaContraseniaNoEsValidaSiEsIgualAlNombreDeUsuario() {
     Validacion validacion = new ValidarUsuarioPorDefecto();
 
     Optional<String> resultado = validacion.validar("user", "user");

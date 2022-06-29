@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class LectorDeArchivosTest extends BaseTest {
   @Test
-  void sePuedeLeerUnArchivo() {
+  public void sePuedeLeerUnArchivo() {
     LectorDeArchivos lector = new LectorDeArchivos("./src/test/resources/DA_correcto.csv");
 
     assertThat(lector.getLineas()).containsExactly(
