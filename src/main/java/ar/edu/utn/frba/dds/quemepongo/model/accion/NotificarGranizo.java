@@ -6,7 +6,7 @@ import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 
 import java.util.Set;
 
-public class NotificarGranizo implements Accion {
+public class NotificarGranizo implements AccionTrasAlerta {
   private NotificationService notificationService;
 
   public NotificarGranizo(NotificationService notificationService) {

@@ -7,7 +7,7 @@ import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EnviarMailAlerta implements Accion {
+public class EnviarMailAlerta implements AccionTrasAlerta {
   private MailSender mailSender;
 
   public EnviarMailAlerta(MailSender mailSender) {

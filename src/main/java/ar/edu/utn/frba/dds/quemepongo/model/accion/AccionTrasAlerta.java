@@ -5,6 +5,6 @@ import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 
 import java.util.Set;
 
-public interface Accion {
+public interface AccionTrasAlerta {
   void emitirA(Usuario usuario, Set<Alerta> alertas);
 }

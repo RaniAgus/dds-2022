@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.Set;
 
 public class Prenda {
-  private Tipo tipo;
+  private TipoPrenda tipo;
   private Material material;
   private Trama trama;
   private Color colorPrimario;
@@ -16,7 +16,7 @@ public class Prenda {
   private boolean estaLavandose;
   private Set<Temperatura> temperaturasAptas;
 
-  public Prenda(Tipo tipo,
+  public Prenda(TipoPrenda tipo,
                 Material material,
                 Trama trama,
                 Color colorPrimario,

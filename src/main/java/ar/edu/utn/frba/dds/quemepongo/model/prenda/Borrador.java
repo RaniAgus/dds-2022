@@ -2,23 +2,23 @@ package ar.edu.utn.frba.dds.quemepongo.model.prenda;
 
 import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.estado.EstadoPrenda;
-import ar.edu.utn.frba.dds.quemepongo.model.prenda.estado.Nueva;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.estado.EstadoNueva;
 import ar.edu.utn.frba.dds.quemepongo.exception.PrendaInvalidaException;
 
 import java.awt.*;
 import java.util.Set;
 
 public class Borrador {
-  private Tipo tipo;
+  private TipoPrenda tipo;
   private Material material;
   private Trama trama = Trama.LISA;
   private Color colorPrimario;
   private Color colorSecundario;
-  private EstadoPrenda estado = new Nueva();
+  private EstadoPrenda estado = new EstadoNueva();
   private boolean estaLavandose = false;
   private Set<Temperatura> temperaturasAptas;
 
-  public Borrador conTipo(Tipo tipo) {
+  public Borrador conTipo(TipoPrenda tipo) {
     this.tipo = tipo;
     return this;
   }
@@ -78,7 +78,7 @@ public class Borrador {
     return parametro;
   }
 
-  private static Material validarMaterial(Material material, Tipo tipo) {
+  private static Material validarMaterial(Material material, TipoPrenda tipo) {
     validarParametroNoNulo(material, "material");
     if (!tipo.esMaterialValido(material)) {
       throw new PrendaInvalidaException(tipo, material);

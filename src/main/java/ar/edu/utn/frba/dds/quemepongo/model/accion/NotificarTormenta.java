@@ -6,7 +6,7 @@ import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 
 import java.util.Set;
 
-public class NotificarTormenta implements Accion {
+public class NotificarTormenta implements AccionTrasAlerta {
   private NotificationService notificationService;
 
   public NotificarTormenta(NotificationService notificationService) {

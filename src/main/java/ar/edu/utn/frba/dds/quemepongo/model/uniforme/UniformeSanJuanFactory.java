@@ -3,20 +3,20 @@ package ar.edu.utn.frba.dds.quemepongo.model.uniforme;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Borrador;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Material;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
-import ar.edu.utn.frba.dds.quemepongo.model.prenda.Tipo;
+import ar.edu.utn.frba.dds.quemepongo.model.prenda.TipoPrenda;
 import com.google.common.collect.ImmutableSet;
 
 import java.awt.Color;
 
 public class UniformeSanJuanFactory extends UniformeFactory {
   private final Borrador borradorSuperior = new Borrador()
-      .conTipo(Tipo.CHOMBA)
+      .conTipo(TipoPrenda.CHOMBA)
       .conMaterial(Material.PIQUE)
       .conColorPrimario(Color.GREEN)
       .conTemperaturasAptas(ImmutableSet.of(Temperatura.CALIDO));
 
   private final Borrador borradorInferior = new Borrador()
-      .conTipo(Tipo.PANTALON)
+      .conTipo(TipoPrenda.PANTALON)
       .conMaterial(Material.ACETATO)
       .conColorPrimario(Color.GRAY)
       .conTemperaturasAptas(ImmutableSet.of(
@@ -25,7 +25,7 @@ public class UniformeSanJuanFactory extends UniformeFactory {
       ));
 
   private final Borrador borradorCalzado = new Borrador()
-      .conTipo(Tipo.ZAPATILLAS)
+      .conTipo(TipoPrenda.ZAPATILLAS)
       .conMaterial(Material.TELA)
       .conColorPrimario(Color.WHITE)
       .conTemperaturasAptas(ImmutableSet.of(

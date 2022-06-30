@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.quemepongo.model.prenda.estado;
 
-public class Nueva implements EstadoPrenda {
+public class EstadoNueva implements EstadoPrenda {
   @Override
   public boolean esSugerible() {
     return true;
@@ -8,7 +8,7 @@ public class Nueva implements EstadoPrenda {
 
   @Override
   public EstadoPrenda usar() {
-    return new Usada();
+    return new EstadoUsada();
   }
 
   @Override

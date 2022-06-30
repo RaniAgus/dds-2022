@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.quemepongo.model.usuario;
 
-import ar.edu.utn.frba.dds.quemepongo.model.accion.Accion;
+import ar.edu.utn.frba.dds.quemepongo.model.accion.AccionTrasAlerta;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.Alerta;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Categoria;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Prenda;
@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 public class Usuario {
   private String email;
   private List<Guardarropa> guardarropas;
-  private List<Accion> acciones;
+  private List<AccionTrasAlerta> acciones;
   private List<Atuendo> sugerencias;
 
   public Usuario(String email,
                  List<Guardarropa> guardarropas,
-                 List<Accion> acciones,
+                 List<AccionTrasAlerta> acciones,
                  List<Atuendo> sugerencias) {
     this.email = email;
     this.guardarropas = guardarropas;

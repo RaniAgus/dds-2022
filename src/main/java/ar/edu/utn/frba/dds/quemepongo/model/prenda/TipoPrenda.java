@@ -4,7 +4,7 @@ package ar.edu.utn.frba.dds.quemepongo.model.prenda;
 import java.util.Arrays;
 import java.util.List;
 
-public enum Tipo {
+public enum TipoPrenda {
   ZAPATILLAS(
       Categoria.CALZADO,
       Arrays.asList(Material.CUERO, Material.TELA)
@@ -22,7 +22,7 @@ public enum Tipo {
   private final Categoria categoria;
   private final List<Material> materialesValidos;
 
-  Tipo(Categoria categoria, List<Material> materialesValidos) {
+  TipoPrenda(Categoria categoria, List<Material> materialesValidos) {
     this.categoria = categoria;
     this.materialesValidos = materialesValidos;
   }

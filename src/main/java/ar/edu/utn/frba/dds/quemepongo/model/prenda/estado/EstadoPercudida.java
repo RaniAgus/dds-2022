@@ -1,14 +1,14 @@
 package ar.edu.utn.frba.dds.quemepongo.model.prenda.estado;
 
-public class Usada implements EstadoPrenda {
+public class EstadoPercudida implements EstadoPrenda {
   @Override
   public boolean esSugerible() {
-    return true;
+    return false;
   }
 
   @Override
   public EstadoPrenda usar() {
-    return new Sucia(0);
+    return this;
   }
 
   @Override
