@@ -5,9 +5,9 @@ import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 
 import java.util.Set;
 
-public class ActualizarSugerencia implements AccionTrasAlerta {
+public class ActualizarSugerencia implements AccionTrasAlertas {
   @Override
-  public void emitirA(Usuario usuario, Set<Alerta> alertas) {
+  public void anteNuevasAlertas(Usuario usuario, Set<Alerta> alertas) {
     usuario.generarSugerencia();
   }
 }
