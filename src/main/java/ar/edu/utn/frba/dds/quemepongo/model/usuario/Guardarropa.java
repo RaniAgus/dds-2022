@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.quemepongo.model.usuario;
 
-import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Categoria;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Prenda;
 
@@ -9,11 +9,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Guardarropa {
+  private ServicioMeteorologico servicioMeteorologico;
   private List<Prenda> prendas;
   private List<SolicitudModificacion> solicitudes;
 
-  public Guardarropa(List<Prenda> prendas,
+  public Guardarropa(ServicioMeteorologico servicioMeteorologico,
+                     List<Prenda> prendas,
                      List<SolicitudModificacion> solicitudes) {
+    this.servicioMeteorologico = servicioMeteorologico;
     this.prendas = prendas;
     this.solicitudes = solicitudes;
   }
@@ -38,10 +41,10 @@ public class Guardarropa {
     prendas.remove(prenda);
   }
 
-  public Stream<Prenda> getPrendasSugeribles(Categoria categoria, Temperatura temperatura) {
+  public Stream<Prenda> getPrendasSugeribles(Categoria categoria) {
     return prendas.stream()
         .filter(Prenda::esSugerible)
-        .filter(it -> it.esAptaPara(temperatura))
+        .filter(it -> it.esAptaPara(servicioMeteorologico.getTemperatura()))
         .filter(it -> it.esDeCategoria(categoria));
   }
 

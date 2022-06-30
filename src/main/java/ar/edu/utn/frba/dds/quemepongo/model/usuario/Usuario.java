@@ -1,12 +1,12 @@
 package ar.edu.utn.frba.dds.quemepongo.model.usuario;
 
 import ar.edu.utn.frba.dds.quemepongo.model.accion.Accion;
-import ar.edu.utn.frba.dds.quemepongo.model.clima.Clima;
-import ar.edu.utn.frba.dds.quemepongo.model.clima.Temperatura;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.Alerta;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Categoria;
 import ar.edu.utn.frba.dds.quemepongo.model.prenda.Prenda;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -34,22 +34,22 @@ public class Usuario {
     guardarropas.add(guardarropa);
   }
 
-  public void emitirAlerta(Clima clima) {
-    acciones.forEach(accion -> accion.emitirA(this, clima));
+  public void emitirAlertas(Set<Alerta> alertas) {
+    acciones.forEach(accion -> accion.emitirA(this, alertas));
   }
 
-  public void generarSugerencia(Temperatura temperatura) {
+  public void generarSugerencia() {
     sugerencias.add(new Atuendo(
-        sugerirPrendaAleatoria(Categoria.PARTE_SUPERIOR, temperatura),
-        sugerirPrendaAleatoria(Categoria.PARTE_INFERIOR, temperatura),
-        sugerirPrendaAleatoria(Categoria.CALZADO, temperatura),
-        sugerirPrendaAleatoria(Categoria.ACCESORIO, temperatura)
+        sugerirPrendaAleatoria(Categoria.PARTE_SUPERIOR),
+        sugerirPrendaAleatoria(Categoria.PARTE_INFERIOR),
+        sugerirPrendaAleatoria(Categoria.CALZADO),
+        sugerirPrendaAleatoria(Categoria.ACCESORIO)
     ));
   }
 
-  private Prenda sugerirPrendaAleatoria(Categoria categoria, Temperatura temperatura) {
+  private Prenda sugerirPrendaAleatoria(Categoria categoria) {
     List<Prenda> prendasPosibles = guardarropas.stream()
-        .flatMap(it -> it.getPrendasSugeribles(categoria, temperatura))
+        .flatMap(it -> it.getPrendasSugeribles(categoria))
         .collect(Collectors.toList());
 
     return prendasPosibles.get(

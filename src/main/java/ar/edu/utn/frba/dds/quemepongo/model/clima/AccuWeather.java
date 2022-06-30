@@ -14,11 +14,6 @@ import java.util.stream.Collectors;
 public class AccuWeather implements ServicioMeteorologico {
   private AccuWeatherAPI api = new AccuWeatherAPI();
 
-  @Override
-  public Clima getClima() {
-    return new Clima(getTemperatura(), getAlertas(), LocalDateTime.now());
-  }
-
   @SuppressWarnings("unchecked")
   public Temperatura getTemperatura() {
     try {
@@ -40,16 +35,16 @@ public class AccuWeather implements ServicioMeteorologico {
     }
   }
 
-  private Set<Alerta> getAlertas() {
+  @Override
+  public Set<Alerta> getAlertas() {
     try {
       Map<String, Alerta> converters = ImmutableMap.of(
           "STORM", Alerta.TORMENTA,
           "HAIL", Alerta.GRANIZO
       );
 
-      return api
-          .getAlerts("Buenos Aires")
-          .get("CurrentAlerts").stream()
+      return api.getAlerts("Buenos Aires").get("CurrentAlerts")
+          .stream()
           .map(converters::get)
           .collect(Collectors.toSet());
 
