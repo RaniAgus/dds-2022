@@ -1,10 +1,9 @@
 package ar.edu.utn.frba.dds.quemepongo.model.clima;
 
-import ar.edu.utn.frba.dds.quemepongo.exception.TemperaturaNoObtenidaException;
+import ar.edu.utn.frba.dds.quemepongo.exception.ServicioMeteorologicoException;
 import com.google.common.collect.ImmutableMap;
 import edu.utn.frba.dds.accuweather.AccuWeatherAPI;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -31,7 +30,7 @@ public class AccuWeather implements ServicioMeteorologico {
           .apply(Double.valueOf((Integer) data.get("Value")));
 
     } catch (NullPointerException e) {
-      throw new TemperaturaNoObtenidaException(e);
+      throw new ServicioMeteorologicoException(e);
     }
   }
 
@@ -49,7 +48,7 @@ public class AccuWeather implements ServicioMeteorologico {
           .collect(Collectors.toSet());
 
     } catch (NullPointerException e) {
-      throw new TemperaturaNoObtenidaException(e);
+      throw new ServicioMeteorologicoException(e);
     }
   }
 }
