@@ -4,11 +4,11 @@ import ar.edu.utn.frba.dds.quemepongo.jobs.GeneradorDeAlertas;
 import ar.edu.utn.frba.dds.quemepongo.jobs.GeneradorDeSugerencias;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.OpenWeather;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
-import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioAlertas;
-import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioUsuarios;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.ProxyWeather;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -18,8 +18,9 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 public final class QueMePongoApp {
   private static Dotenv env = Dotenv.load();
-  private static ServicioMeteorologico servicioMeteorologico = new OpenWeather(
-      env.get("OPEN_WEATHER_API_KEY")
+  private static ServicioMeteorologico servicioMeteorologico = new ProxyWeather(
+      new OpenWeather(env.get("OPEN_WEATHER_API_KEY")),
+      Duration.ofMinutes(1)
   );
 
   public static void main(String[] args) throws SchedulerException {
@@ -47,7 +48,7 @@ public final class QueMePongoApp {
         .withIdentity(UUID.randomUUID().toString())
         .startAt(horaInicio)
         .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-            .withIntervalInHours(frecuenciaEnHoras)
+            .withIntervalInSeconds(frecuenciaEnHoras)
             .repeatForever())
         .build();
   }
