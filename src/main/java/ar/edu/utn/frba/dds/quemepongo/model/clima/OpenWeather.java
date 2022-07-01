@@ -4,12 +4,13 @@ import ar.edu.utn.frba.dds.quemepongo.exception.ServicioMeteorologicoException;
 import ar.edu.utn.frba.dds.quemepongo.dependencies.clima.OpenWeatherApi;
 import ar.edu.utn.frba.dds.quemepongo.dependencies.clima.OpenWeatherResponse;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
+import retrofit2.Call;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class OpenWeather implements ServicioMeteorologico {
   private OpenWeatherApi api;
@@ -33,15 +34,15 @@ public class OpenWeather implements ServicioMeteorologico {
         "Hail", Alerta.GRANIZO
     );
 
-    return Optional.ofNullable(alertas.get(getWeather().weather.main))
-        .map(ImmutableSet::of)
-        .orElse(ImmutableSet.of());
+    return getWeather().weather.stream()
+        .map(it -> alertas.get(it.main))
+        .collect(Collectors.toSet());
   }
 
   private OpenWeatherResponse getWeather() {
     try {
-      return Optional
-          .ofNullable(api.getWeather("Buenos Aires,ar", "metric", key).execute().body())
+      Call<OpenWeatherResponse> call = api.getWeather("Buenos Aires,ar", "metric", key);
+      return Optional.ofNullable(call.execute().body())
           .orElseThrow(ServicioMeteorologicoException::new);
     } catch (IOException e) {
       throw new ServicioMeteorologicoException(e);

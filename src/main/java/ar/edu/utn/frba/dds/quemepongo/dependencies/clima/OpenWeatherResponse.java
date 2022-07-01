@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.quemepongo.dependencies.clima;
 
+import java.util.List;
+
 public class OpenWeatherResponse {
-  public Weather weather;
+  public List<Weather> weather;
   public Main main;
 
   public static class Weather {
