@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.quemepongo;
 import ar.edu.utn.frba.dds.quemepongo.jobs.GeneradorDeAlertas;
 import ar.edu.utn.frba.dds.quemepongo.jobs.GeneradorDeSugerencias;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.OpenWeather;
+import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
 import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioAlertas;
 import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioUsuarios;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -17,15 +18,13 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 public final class QueMePongoApp {
   private static Dotenv env = Dotenv.load();
-  private static ServiceLocator serviceLocator = new ServiceLocator(
-      RepositorioUsuarios.getInstance(),
-      RepositorioAlertas.getInstance(),
-      new OpenWeather(env.get("OPEN_WEATHER_API_KEY"))
+  private static ServicioMeteorologico servicioMeteorologico = new OpenWeather(
+      env.get("OPEN_WEATHER_API_KEY")
   );
 
   public static void main(String[] args) throws SchedulerException {
     Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-    scheduler.getContext().put("serviceLocator", serviceLocator);
+    scheduler.getContext().put("servicioMeteorologico", servicioMeteorologico);
     scheduler.scheduleJob(
         crearJobDetail(GeneradorDeAlertas.class),
         crearTrigger(new Date(), 3)
