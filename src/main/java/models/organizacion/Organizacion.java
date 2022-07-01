@@ -2,7 +2,7 @@ package models.organizacion;
 
 import models.da.DatoActividad;
 import models.geolocalizacion.Ubicacion;
-import models.organizacion.notificaciones.Notificador;
+import models.notificaciones.Notificador;
 
 import java.util.List;
 

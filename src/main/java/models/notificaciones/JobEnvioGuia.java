@@ -1,4 +1,4 @@
-package models.organizacion.notificaciones;
+package models.notificaciones;
 
 import com.mchange.v2.log.slf4j.Slf4jMLog;
 import models.organizacion.Organizacion;

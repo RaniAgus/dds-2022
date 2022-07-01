@@ -1,4 +1,4 @@
-package models.organizacion.notificaciones;
+package models.notificaciones;
 
 import models.organizacion.Organizacion;
 import org.quartz.*;

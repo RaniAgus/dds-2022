@@ -1,4 +1,4 @@
-import models.organizacion.notificaciones.SchedulerEnviarGuias;
+import models.notificaciones.SchedulerEnviarGuias;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
