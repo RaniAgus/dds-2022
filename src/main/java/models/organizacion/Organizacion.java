@@ -2,44 +2,40 @@ package models.organizacion;
 
 import models.da.DatoActividad;
 import models.geolocalizacion.Ubicacion;
-import models.organizacion.notificaciones.ServicioDeNotificacion;
+import models.organizacion.notificaciones.Notificador;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Organizacion {
-  private final String razonSocial;
-  private final Ubicacion ubicacionGeografica;
-  private final TipoDeOrganizacion tipoDeOrganizacion;
-  private final ClasificacionDeOrganizacion clasificacionDeOrganizacion;
-  private final List<Sector> sectores;
-  private final List<DatoActividad> datosActividad;
-  private List<ServicioDeNotificacion> serviciosDeNotificaciones;
+  private String razonSocial;
+  private Ubicacion ubicacionGeografica;
+  private TipoDeOrganizacion tipoDeOrganizacion;
+  private ClasificacionDeOrganizacion clasificacionDeOrganizacion;
+  private List<Sector> sectores;
+  private List<DatoActividad> datosActividad;
+  private List<Notificador> notificadores;
   private List<Contacto> contactos;
 
-  public Organizacion(String razonSocial, Ubicacion ubicacionGeografica, TipoDeOrganizacion tipoDeOrganizacion, ClasificacionDeOrganizacion clasificacionDeOrganizacion, List<Sector> sectores, List<DatoActividad> datosActividad, List<ServicioDeNotificacion> serviciosDeNotificaciones, List<Contacto> contactos) {
+  public Organizacion(String razonSocial,
+                      Ubicacion ubicacionGeografica,
+                      TipoDeOrganizacion tipoDeOrganizacion,
+                      ClasificacionDeOrganizacion clasificacionDeOrganizacion,
+                      List<Sector> sectores,
+                      List<DatoActividad> datosActividad,
+                      List<Notificador> notificadores,
+                      List<Contacto> contactos) {
     this.razonSocial = razonSocial;
     this.ubicacionGeografica = ubicacionGeografica;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
     this.clasificacionDeOrganizacion = clasificacionDeOrganizacion;
     this.sectores = sectores;
     this.datosActividad = datosActividad;
-    this.serviciosDeNotificaciones = serviciosDeNotificaciones;
+    this.notificadores = notificadores;
     this.contactos = contactos;
   }
 
   public void enviarGuia(String link) {
-    serviciosDeNotificaciones
-        .forEach(servicioDeNotificacion
-            -> {
-          try {
-            servicioDeNotificacion.enviarGuiaRecomendacion(contactos, link);
-          } catch (MessagingException | IOException e) {
-            e.printStackTrace();
-          }
-        });
+    notificadores.forEach(it -> it.enviarGuiaRecomendacion(contactos, link));
   }
 
 
