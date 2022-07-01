@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo.jobs;
+package ar.edu.utn.frba.dds.quemepongo.model.tareaprogramada;
 
 import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
 import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioAlertas;
@@ -8,7 +8,7 @@ import com.mchange.v2.log.slf4j.Slf4jMLog;
 import java.time.LocalTime;
 
 
-public class GenerarAlertas implements Tarea {
+public class GenerarAlertas implements TareaProgramada {
   private RepositorioAlertas repositorioAlertas;
   private RepositorioUsuarios repositorioUsuarios;
   private ServicioMeteorologico servicioMeteorologico;

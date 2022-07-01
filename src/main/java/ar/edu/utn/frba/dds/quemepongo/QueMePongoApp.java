@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.quemepongo;
 
-import ar.edu.utn.frba.dds.quemepongo.jobs.PlanificadorQuartz;
-import ar.edu.utn.frba.dds.quemepongo.jobs.GenerarAlertas;
-import ar.edu.utn.frba.dds.quemepongo.jobs.GenerarSugerencias;
+import ar.edu.utn.frba.dds.quemepongo.model.tareaprogramada.Planificador;
+import ar.edu.utn.frba.dds.quemepongo.model.tareaprogramada.GenerarAlertas;
+import ar.edu.utn.frba.dds.quemepongo.model.tareaprogramada.GenerarSugerencias;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.OpenWeather;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.ProxyWeather;
@@ -22,9 +22,9 @@ public final class QueMePongoApp {
   );
 
   public static void main(String[] args) throws SchedulerException {
-    PlanificadorQuartz planificador = new PlanificadorQuartz()
-        .agregarTarea(new GenerarAlertas(repositorioAlertas, repositorioUsuarios, servicioMeteorologico), "* 57 * * * ?")
-        .agregarTarea(new GenerarSugerencias(repositorioUsuarios),"* 56 * * * ?");
+    Planificador planificador = new Planificador()
+        .agregarTarea(new GenerarAlertas(repositorioAlertas, repositorioUsuarios, servicioMeteorologico), env.get("ALERTAS_CRON"))
+        .agregarTarea(new GenerarSugerencias(repositorioUsuarios), env.get("SUGERENCIAS_CRON"));
 
     planificador.iniciar();
   }

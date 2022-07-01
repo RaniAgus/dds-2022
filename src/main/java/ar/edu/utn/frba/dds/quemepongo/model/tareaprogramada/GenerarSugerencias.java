@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.quemepongo.jobs;
+package ar.edu.utn.frba.dds.quemepongo.model.tareaprogramada;
 
 import ar.edu.utn.frba.dds.quemepongo.model.usuario.Usuario;
 import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioUsuarios;
@@ -6,7 +6,7 @@ import com.mchange.v2.log.slf4j.Slf4jMLog;
 
 import java.time.LocalTime;
 
-public class GenerarSugerencias implements Tarea {
+public class GenerarSugerencias implements TareaProgramada {
   private RepositorioUsuarios repositorioUsuarios;
 
   public GenerarSugerencias(RepositorioUsuarios repositorioUsuarios) {
