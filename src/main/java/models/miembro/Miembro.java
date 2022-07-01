@@ -1,6 +1,5 @@
 package models.miembro;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Miembro {
@@ -19,7 +18,7 @@ public class Miembro {
     this.apellido = apellido;
     this.documento = documento;
     this.tipoDeDocumento = tipoDeDocumento;
-    this.trayectos = new ArrayList<>(trayectos);
+    this.trayectos = trayectos;
   }
 
   public void darDeAltaTrayecto(Trayecto trayecto) {
