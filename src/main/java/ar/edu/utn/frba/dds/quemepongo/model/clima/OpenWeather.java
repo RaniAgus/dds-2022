@@ -13,11 +13,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class OpenWeather implements ServicioMeteorologico {
-  private OpenWeatherApi api;
+  private OpenWeatherApi api = OpenWeatherApi.create();
   private String key;
 
-  public OpenWeather(OpenWeatherApi api, String key) {
-    this.api = api;
+  public OpenWeather(String key) {
     this.key = key;
   }
 

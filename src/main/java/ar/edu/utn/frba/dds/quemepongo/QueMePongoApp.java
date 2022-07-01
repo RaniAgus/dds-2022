@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.quemepongo;
 
-import ar.edu.utn.frba.dds.quemepongo.dependencies.clima.OpenWeatherApi;
 import ar.edu.utn.frba.dds.quemepongo.jobs.GeneradorDeAlertas;
 import ar.edu.utn.frba.dds.quemepongo.jobs.GeneradorDeSugerencias;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.OpenWeather;
@@ -21,7 +20,7 @@ public final class QueMePongoApp {
   private static ServiceLocator serviceLocator = new ServiceLocator(
       RepositorioUsuarios.getInstance(),
       RepositorioAlertas.getInstance(),
-      new OpenWeather(OpenWeatherApi.create(), env.get("OPEN_WEATHER_API_KEY"))
+      new OpenWeather(env.get("OPEN_WEATHER_API_KEY"))
   );
 
   public static void main(String[] args) throws SchedulerException {
