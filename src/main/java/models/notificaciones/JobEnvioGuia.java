@@ -7,6 +7,8 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class JobEnvioGuia implements Job {
@@ -18,6 +20,6 @@ public class JobEnvioGuia implements Job {
     List<Organizacion> listaDeOrganizaciones = (List<Organizacion>) dataMap.get("Organizaciones");
     listaDeOrganizaciones.forEach(it -> it.enviarGuia(link));
 
-    Slf4jMLog.info("Recomendaciones enviadas");
+    Slf4jMLog.info("Recomendaciones enviadas a las " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
   }
 }

@@ -4,39 +4,32 @@ import models.organizacion.Organizacion;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.sql.Date;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
 import static org.quartz.JobBuilder.newJob;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 public class SchedulerEnviarGuias {
-  private LocalTime horaInicio;
-  private Duration intervalo;
+  private String cronExpression;
   private String link;
   private List<Organizacion> organizaciones;
 
-  public SchedulerEnviarGuias(LocalTime horaInicio,
-                              Duration intervalo,
-                              String link,
-                              List<Organizacion> organizaciones) {
-    this.horaInicio = horaInicio;
-    this.intervalo = intervalo;
+  public SchedulerEnviarGuias(String cronExpression, String link, List<Organizacion> organizaciones) {
+    this.cronExpression = cronExpression;
     this.link = link;
     this.organizaciones = organizaciones;
   }
 
-  public Scheduler ejecutar() throws SchedulerException {
-    Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-    scheduler.scheduleJob(crearJob(), crearTrigger());
-    scheduler.start();
-    return scheduler;
+  public Scheduler ejecutar() {
+    try {
+      Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+      scheduler.scheduleJob(crearJob(), crearTrigger());
+      scheduler.start();
+      return scheduler;
+    } catch (SchedulerException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private JobDetail crearJob() {
@@ -53,16 +46,7 @@ public class SchedulerEnviarGuias {
   private Trigger crearTrigger() {
     return newTrigger()
         .withIdentity(UUID.randomUUID().toString(), "MiImpactoAmbientalApp")
-        .startAt(Date.from(
-            this.horaInicio
-                .atDate(LocalDate.now())
-                .toInstant(ZoneOffset.ofHours(-3))
-        ))
-        .withSchedule(
-            simpleSchedule()
-                .withIntervalInHours((int) this.intervalo.toHours())
-                .repeatForever()
-        )
+        .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
         .build();
   }
 }
