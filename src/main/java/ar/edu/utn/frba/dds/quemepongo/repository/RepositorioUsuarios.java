@@ -12,7 +12,7 @@ public class RepositorioUsuarios {
   private RepositorioUsuarios() {
   }
 
-  public static RepositorioUsuarios usuarios() {
+  public static RepositorioUsuarios getInstance() {
     return INSTANCE;
   }
 

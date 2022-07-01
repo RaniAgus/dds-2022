@@ -12,7 +12,7 @@ public class RepositorioAlertas {
   private RepositorioAlertas() {
   }
 
-  public static RepositorioAlertas alertas() {
+  public static RepositorioAlertas getInstance() {
     return INSTANCE;
   }
 
