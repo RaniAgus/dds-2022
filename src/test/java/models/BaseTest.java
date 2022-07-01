@@ -44,6 +44,8 @@ public abstract class BaseTest {
         TipoDeOrganizacion.INSTITUCION,
         ClasificacionDeOrganizacion.UNIVERSIDAD,
         emptyList(),
+        emptyList(),
+        emptyList(),
         emptyList()
     );
   }
