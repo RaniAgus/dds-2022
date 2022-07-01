@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.quemepongo.model.clima;
 
 import ar.edu.utn.frba.dds.quemepongo.exception.ServicioMeteorologicoException;
 import ar.edu.utn.frba.dds.quemepongo.dependencies.clima.OpenWeatherApi;
-import ar.edu.utn.frba.dds.quemepongo.dependencies.clima.OpenWeatherResponse;
+import ar.edu.utn.frba.dds.quemepongo.dependencies.clima.CurrentWeather;
 import com.google.common.collect.ImmutableMap;
 import retrofit2.Call;
 
@@ -38,9 +38,9 @@ public class OpenWeather implements ServicioMeteorologico {
         .collect(Collectors.toSet());
   }
 
-  private OpenWeatherResponse getWeather() {
+  private CurrentWeather getWeather() {
     try {
-      Call<OpenWeatherResponse> call = api.getWeather("Buenos Aires,ar", "metric", key);
+      Call<CurrentWeather> call = api.getCurrentWeather("Buenos Aires,ar", "metric", key);
       return Optional.ofNullable(call.execute().body())
           .orElseThrow(ServicioMeteorologicoException::new);
     } catch (IOException e) {
