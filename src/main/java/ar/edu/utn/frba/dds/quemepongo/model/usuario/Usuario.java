@@ -12,15 +12,18 @@ import java.util.stream.Collectors;
 
 public class Usuario {
   private String email;
+  private String telefono;
   private List<Guardarropa> guardarropas;
   private List<AccionTrasAlertas> acciones;
   private List<Atuendo> sugerencias;
 
   public Usuario(String email,
+                 String telefono,
                  List<Guardarropa> guardarropas,
                  List<AccionTrasAlertas> acciones,
                  List<Atuendo> sugerencias) {
     this.email = email;
+    this.telefono = telefono;
     this.guardarropas = guardarropas;
     this.acciones = acciones;
     this.sugerencias = sugerencias;
@@ -28,6 +31,10 @@ public class Usuario {
 
   public String getEmail() {
     return email;
+  }
+
+  public String getTelefono() {
+    return telefono;
   }
 
   public void agregar(Guardarropa guardarropa) {
