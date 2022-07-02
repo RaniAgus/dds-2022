@@ -41,7 +41,11 @@ public class Planificador {
   public static class TareaProgramadaQuartz implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
-      ((TareaProgramada) jobExecutionContext.getJobDetail().getJobDataMap().get("tarea")).ejecutar();
+      ((TareaProgramada) jobExecutionContext
+          .getJobDetail()
+          .getJobDataMap()
+          .get("tarea"))
+          .ejecutar();
     }
   }
 }

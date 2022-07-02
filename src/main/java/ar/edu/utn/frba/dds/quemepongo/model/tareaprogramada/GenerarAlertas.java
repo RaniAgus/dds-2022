@@ -1,12 +1,13 @@
 package ar.edu.utn.frba.dds.quemepongo.model.tareaprogramada;
 
+import ar.edu.utn.frba.dds.quemepongo.model.clima.Alerta;
 import ar.edu.utn.frba.dds.quemepongo.model.clima.ServicioMeteorologico;
 import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioAlertas;
 import ar.edu.utn.frba.dds.quemepongo.repository.RepositorioUsuarios;
 import com.mchange.v2.log.slf4j.Slf4jMLog;
 
 import java.time.LocalTime;
-
+import java.util.Set;
 
 public class GenerarAlertas implements TareaProgramada {
   private RepositorioAlertas repositorioAlertas;
@@ -23,8 +24,8 @@ public class GenerarAlertas implements TareaProgramada {
 
   @Override
   public void ejecutar() {
-    repositorioAlertas.update(servicioMeteorologico.getAlertas());
-    repositorioUsuarios.getAll().forEach(it -> it.emitirAlertas(repositorioAlertas.getAll()));
+    Set<Alerta> nuevasAlertas = repositorioAlertas.actualizar(servicioMeteorologico.getAlertas());
+    repositorioUsuarios.getAll().forEach(it -> it.emitirAlertas(nuevasAlertas));
     Slf4jMLog.info("ALERTAS GENERADAS CON ÉXITO A LAS " + LocalTime.now().toString());
   }
 }
