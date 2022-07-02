@@ -15,7 +15,9 @@ public class GenerarSugerencias implements TareaProgramada {
 
   @Override
   public void ejecutar() {
-    repositorioUsuarios.getAll().forEach(Usuario::generarSugerencia);
+    repositorioUsuarios.getAll()
+        .parallelStream()
+        .forEach(Usuario::generarSugerencia);
     Slf4jMLog.info("Sugerencias generadas con éxito a las: " + LocalTime.now().toString());
   }
 }
