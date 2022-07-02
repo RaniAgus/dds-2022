@@ -5,7 +5,7 @@ class Planificador {
     iniciar()
 }
 
-Planificador --> TareaProgramada
+Planificador --> "*" TareaProgramada
 
 interface TareaProgramada {
     ejecutar()

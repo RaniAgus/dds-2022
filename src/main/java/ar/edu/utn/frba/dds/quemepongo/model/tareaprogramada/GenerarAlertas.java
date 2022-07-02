@@ -26,6 +26,6 @@ public class GenerarAlertas implements TareaProgramada {
   public void ejecutar() {
     Set<Alerta> nuevasAlertas = repositorioAlertas.actualizar(servicioMeteorologico.getAlertas());
     repositorioUsuarios.getAll().forEach(it -> it.emitirAlertas(nuevasAlertas));
-    Slf4jMLog.info("ALERTAS GENERADAS CON ÉXITO A LAS " + LocalTime.now().toString());
+    Slf4jMLog.info("Alertas generadas con éxito a las: " + LocalTime.now().toString());
   }
 }

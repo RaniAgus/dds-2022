@@ -234,8 +234,8 @@ Ambos `GenerarAlertas` y `GenerarSugerencias` implementan la interfaz
 `TareaProgramada`, que solamente cuenta con el método `ejecutar()`.
 
 En un método `main`, estas tareas programadas se van almacenando en un 
-`Planificador` junto con una expresión cron que indique la frecuencia con la
-cual se van a ejecutar:
+`Planificador` junto con una expresión cron que indique la frecuencia 
+con la cual se van a ejecutar:
 
 ```ts
 const planificador = new Planificador()
@@ -245,9 +245,20 @@ const planificador = new Planificador()
     .agregarTarea(new GenerarSugerencias(...), "0 0 4 * * ?")
 ```
 
-Luego, este planificador se inicia, manteniendo la ejecución de la aplicación
-infinitamente:
+Internamente, este `Planificador` utiliza la biblioteca Quartz, la cual soporta
+este tipo de expresiones cron para planificar tareas internamente en la
+aplicación.
+
+Más adelante en el `main`, este planificador es iniciado, manteniendo la 
+ejecución de la aplicación "infinitamente":
 
 ```ts
 planificador.iniciar()
 ```
+
+Opté por la planificación interna ya que es más fácil de implementar: se puede 
+lograr desde Java sin ninguna configuración en el servidor donde se va a 
+desplegar la aplicación.
+
+Como esta solución puede ser menos robusta, contaría con algún servicio externo
+que reinicie la aplicación inmediatamente ante caídas como Docker o PM2.
