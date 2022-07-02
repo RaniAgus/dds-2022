@@ -1,44 +1,37 @@
 package models.notificaciones;
 
-import com.mchange.v2.log.slf4j.Slf4jMLog;
 import models.organizacion.Contacto;
-import okhttp3.*;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class NotificadorPorWhatsApp implements Notificador {
-  private String token;
+  private WhatsAppApi whatsAppApi;
+  private String apiKey;
 
-  public NotificadorPorWhatsApp(String token) {
-    this.token = token;
+  public NotificadorPorWhatsApp(String phoneNumberId, String apiKey) {
+    this.whatsAppApi = WhatsAppApi.create(phoneNumberId);
+    this.apiKey = apiKey;
   }
 
   @Override
-  public void enviarGuiaRecomendacion(List<Contacto> contactos, String mensaje) {
-    OkHttpClient client = new OkHttpClient();
+  public void enviarGuiaRecomendacion(List<Contacto> contactos, String link) {
+    contactos.forEach(contacto -> enviarMensaje(
+        contacto, "Conocé nuestras últimas recomendaciones sobre cómo reducir el impacto ambiental de tu organización: " + link
+    ));
+  }
 
-    MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-    contactos.forEach(unContacto -> {
-      String content = String.join("&", Arrays.asList(
-          "token=" + token,
-          "to=" + unContacto.getTelefono(),
-          "body=" + mensaje,
-          "priority=10"
-      ));
-      RequestBody body = RequestBody.create(mediaType, content);
-      Request request = new Request.Builder()
-          .url("https://api.ultramsg.com/instance10782/messages/chat")
-          .post(body)
-          .addHeader("content-type", "application/x-www-form-urlencoded")
-          .build();
-      try (Response response = client.newCall(request).execute()) {
-        Slf4jMLog.info(response.toString());
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    });
-
+  private void enviarMensaje(Contacto contacto, String mensaje) {
+    try {
+      Optional.ofNullable(
+          whatsAppApi.sendTextMessage(
+              new TextMessage(contacto.getTelefono(), mensaje),
+              "Bearer " + apiKey
+          ).execute().body()
+      ).orElseThrow(() -> new RuntimeException("No se pudo enviar el mensaje: " + mensaje));
+    } catch (IOException e) {
+      throw new RuntimeException("No se pudo enviar el mensaje: " + mensaje, e);
+    }
   }
 }
