@@ -34,7 +34,9 @@ public class OpenWeather implements ServicioMeteorologico {
     );
 
     return getWeather().weather.stream()
-        .map(it -> alertas.get(it.main))
+        .map(it -> Optional.ofNullable(alertas.get(it.main)))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
         .collect(Collectors.toSet());
   }
 
