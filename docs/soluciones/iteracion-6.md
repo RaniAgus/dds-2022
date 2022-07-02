@@ -1,6 +1,6 @@
 # Sexta Iteración
 
-## Solución planteada
+## Solución planteada (c/cambios post puesta en común)
 
 ### Diagrama de Clases
 
@@ -23,18 +23,18 @@ class Usuario {
   List<Guardarropa> guardarropas;
   Atuendo sugerencia;
 
-  void generarSugerencia(temperatura) {
+  void generarSugerencia() {
     sugerencia = new Atuendo(
-        sugerirPrenda(PARTE_SUPERIOR, temperatura),
-        sugerirPrenda(PARTE_INFERIOR, temperatura),
-        sugerirPrenda(CALZADO, temperatura),
-        sugerirPrenda(ACCESORIO, temperatura)
+        sugerirPrenda(PARTE_SUPERIOR),
+        sugerirPrenda(PARTE_INFERIOR),
+        sugerirPrenda(CALZADO),
+        sugerirPrenda(ACCESORIO)
     )
   }
   
-  private void sugerirPrenda(categoria, temperatura) {
+  private void sugerirPrenda(categoria) {
     return guardarropas
-        .flatMap(it -> it.getPrendasSugeribles(categoria, temperatura))
+        .flatMap(it -> it.getPrendasSugeribles(categoria))
         .atRandom()
   }
 }
@@ -47,33 +47,18 @@ class Usuario {
   diarias para todos los usuarios para poder ejecutar esta acción a principio de
   cada día.
 
-Creo una clase `RepositorioUsuarios` que contenga todos los usuarios del sistema
-y un método `generarSugerencias()` que genere las sugerencias de todos los 
-usuarios.
+Creo una clase `GenerarSugerencias` que cuente con todos los usuarios del 
+sistema a través de un `RepositorioUsuarios` y que al ejecutarse invoque para
+todos el método `generarSugerencia()`:
 
-También será el encargado de tener la instancia de `ServicioMeteorologico` y
-pasarle las condiciones climáticas en un objeto `Clima` para generar la
-sugerencia:
+```ts
+class GenerarSugerencias implements TareaProgramada {
+    usuarios: RepositorioUsuarios
 
-```java
-class RepositorioUsuarios {
-  Set<Usuario> usuarios;
-    
-  void generarSugerencias(Temperatura temperatura) {
-    usuarios.map(it -> it.generarSugerencia(temperatura));
-  }
+    ejecutar() {
+        usuarios.getAll().forEach(it => it.generarSugerencia())
+    }
 }
-```
-
-Este repositorio va a ser instanciado por una clase `GeneradorDeSugerencias` con
-un método `main`, que también va a contener la instancia de 
-`ServicioMeteorologico` para obtener de ahí la `Temperatura` actual:
-
-```js
-const servicioMeteorologico = new AccuWeather()
-const repositorioUsuarios = new RepositorioUsuarios()
-
-repositorioUsuarios.generarSugerencias(servicioMeteorologico.getTemperatura())
 ```
 
 ### Requerimiento 3
@@ -83,24 +68,17 @@ repositorioUsuarios.generarSugerencias(servicioMeteorologico.getTemperatura())
   verlas, por ejemplo, al entrar en quemepongo.com)
 
 Cada consulta por las condiciones climáticas hacia el `ServicioMeteorologico` se
-persiste en un objeto `Clima`, que cuenta con la hora de actualización y una
-colección de `Alerta` en formato `enum`:
+persiste en una colección de `Alerta`s en formato `enum`:
 
 ```java
-class Clima {
-  Temperatura temperatura;
-  Alerta[] alertas;
-  LocalDateTime horaDeActualizacion;
-}
-
 enum Alerta {
   TORMENTA,
   GRANIZO
 }
 ```
 
-Estas consultas se guardan en un `RepositorioClima` para que luego sea posible
-recuperar la última de ellas.
+Estas consultas se guardan en un `RepositorioAlertas` para que luego sea posible
+recuperar las últimas en ser consultadas.
 
 ### Requerimiento 4
 
@@ -108,20 +86,21 @@ recuperar la última de ellas.
   y actualice la lista de alertas publicadas en el sistema para tener control
   sobre cuándo se publican las mismas
 
-Las actualizaciones en `RepositorioClima` se van actualizando con una clase 
-`GeneradorDeAlertas`, la cual tiene un método `main` que consulta el clima
-desde el `ServicioMeteorologico` y la agrega al repositorio:
+Las `Alertas` en `RepositorioAlertas` se van actualizando a través de una tarea
+programada `GenerarAlertas`, la cual también cuenta con un método `ejecutar()` 
+que consulta con el `ServicioMeteorologico`:
 
-```js
-const servicioMeteorologico = new AccuWeather()
-const repositorioClima = new RepositorioClima()
+```ts
+class GenerarAlertas implements TareaProgramada {
+    alertas: RepositorioAlertas
+    servicioMeteorologico: ServicioMeteorologico
+    //...
 
-// ...
-
-const clima = servicioMeteorologico.getClima()
-repositorioClima.agregarActualizacion(clima)
-
-// ...
+    ejecutar() {
+        const nuevasAlertas = alertas.actualizar(servicioMeteorologico.getAlertas())
+        //...
+    }
+}
 ```
 
 ### Requerimiento 5
@@ -130,103 +109,88 @@ repositorioClima.agregarActualizacion(clima)
   las condiciones climáticas actualizadas cuando se genere algún alerta durante
   el día
 
-El método `main` de `GeneradorDeAlertas` también cuenta con una instancia del
+El método `actualizar()` del `RepositorioAlertas` devuelve cuáles de todas las 
+alertas son nuevas, para que en caso de que continúe un alerta existente no se
+vuelva a notificar a los usuarios.
+
+El método `ejecutar()` de `GenerarAlertas` también cuenta con una instancia del
 `RepositorioUsuarios`:
 
 ```js
-// ...
+class GenerarAlertas implements TareaProgramada {
+    alertas: RepositorioAlertas
+    servicioMeteorologico: ServicioMeteorologico
+    usuarios: RepositorioUsuarios
 
-const repositorioUsuarios = new RepositorioUsuarios()
-
-// ...
-
-repositorioUsuarios.emitirAlertas(clima)
-```
-
-Al mismo se le agrega un método `emitirAlertas` que, en caso de que haya alguna
-`Alerta` se emite a cada `Usuario`:
-
-```java
-class RepositorioUsuarios {
-  void emitirAlertas(Clima clima) {
-    if (clima.tieneAlertas()) {
-      usuarios.forEach(it -> it.emitirAlerta(clima));
+    ejecutar() {
+        const nuevasAlertas = alertas.actualizar(servicioMeteorologico.getAlertas())
+        usuarios.getAll().forEach(it => it.generarSugerencia())
     }
-  }
 }
 ```
 
-Este `Usuario` va a tener una lista de acciones a realizar ante una alerta
-(a detallar más adelante). Entre ellas se encuentra `ActualizarSugerencia`, que
+Cada `Usuario` va a tener una lista de acciones a realizar ante una alerta
+(a detallar más adelante). Entre ellas se encuentra `ActualizarSugerencia` que
 dispara el cálculo de sugerencias sobre el `Usuario` correspondiente:
 
 ```java
-class ActualizarSugerencia implements Accion {
-  void emitirA(Usuario usuario, Clima clima) {
-    usuario.generarSugerencia(clima.getTemperatura());
+class ActualizarSugerencia implements AccionTrasAlertas {
+  void anteNuevasAlertas(Usuario usuario, Alerta[] _) {
+    usuario.generarSugerencia();
   }
 }
 ```
 
-### Requerimiento 6
+### Requerimiento 6 y 7
 
 > Como usuario/a de QueMePongo quiero tener la posibilidad de que ante una
   alerta de tormenta la app me notifique que debo llevarme también un paraguas
 
-Se crea otro tipo de `Accion` llamado `NotificarTormenta`, el cual va a hacer
-uso del `NotificationService` en caso de que el clima tenga alerta de 
-`TORMENTA`:
+> Como usuario/a de QueMePongo quiero que ante una alerta meteorológica de
+granizo la app me notifique que evite salir en auto
 
-```java
+Se crea otro tipo de `AccionTrasAlertas` llamado `NotificarAlertas`, el cual va
+a hacer uso del `NotificationService` y va a enviar la notificación
+correspondiente:
+
+```ts
 class NotificarTormenta implements Accion {
   notificationService
+  mensajes: { [s: Alerta]: string }
   
-  void emitirA(Usuario usuario, Clima clima) {
-    if (clima.tieneAlerta(TORMENTA)) {
-      notificationService.notify(
-          "¡Alerta de tormenta! No te olvides de salir con un paraguas.");
-    }
+  void anteNuevasAlertas(Usuario usuario, Alerta[] alertas) {
+    alertas.forEach(it -> notificador.enviarMensaje(usuario, mensajes[it]));
   }
 }
 ```
 
-### Requerimiento 7
-
-> Como usuario/a de QueMePongo quiero que ante una alerta meteorológica de
-  granizo la app me notifique que evite salir en auto
-
-Se crea otro tipo de `Accion` llamado `NotificarGranizo`, el cual va a hacer
-uso del `NotificationService` en caso de que el clima tenga alerta de
-`GRANIZO`:
-
-```java
-class NotificarGranizo implements Accion {
-  notificationService
-
-  void emitirA(Usuario usuario, Clima clima) {
-    if (clima.tieneAlerta(GRANIZO)) {
-      notificationService.notify(
-          "¡Alerta de granizo! Recomendamos evitar salir en auto.");
-    }
-  }
-}
-```
+Los mensajes para cada tipo de `Alerta` son almacenados en un
+`Map<Alerta, String>` para aprovechar el paradigma de objetos y poder soportar
+internacionalización.
 
 ### Requerimiento 8
 
 > Como usuario/a de QueMePongo quiero poder recibir un mail avisándome si se
   generó algún alerta meteorológico y cuál
 
-Se crea otro tipo de `Accion` llamado `EnviarMailAlerta`, el cual va a hacer
-uso del `MailSender` para notificar sobre las alertas:
+Se crea otro tipo de `AccionTrasAlertas` llamado `EnviarMailAlerta`, el cual va
+a hacer uso de un `Mailer` para notificar sobre las alertas:
 
 ```java
 class EnviarMailAlerta implements Accion {
-  mailSender
+  mailer
 
-  void emitirA(Usuario usuario, Clima clima) {
-    mailSender.send(usuario.getEmail(), clima.getAlertas().join(", "));
+  void emitirA(Usuario usuario, Alerta[] alertas) {
+    mailer.send(usuario.getEmail(), alertas);
   }
+}
+```
+
+Este `Mailer` es una adaptación del `MailSender` con una interfaz más amigable:
+
+```java
+interface Mailer {
+  enviarAlertas(String email, Set<Alerta> alertas);
 }
 ```
 
@@ -237,55 +201,53 @@ class EnviarMailAlerta implements Accion {
   de soportar nuevas acciones a futuro. (No nos interesará, sin embargo,
   soportar nuevas alertas)
 
-Todas estas acciones mencionadas implementan la interfaz `Accion` y cada 
-`Usuario` va a tener solamente las que quiera configurar. Se emiten invocando al
-método `emitirAlerta(clima)` previamente mencionado:
+Todas estas acciones mencionadas implementan la interfaz `AccionTrasAlertas` y 
+cada `Usuario` va a tener solamente las que quiera configurar. Se emiten 
+invocando al método `emitirAlertas(alertas)` previamente mencionado:
 
 ```java
 interface Accion {
-  emitirA(usuario, clima)
+  accionTrasAlertas(usuario, alertas)
 }
 
 class Usuario {
-  Accion[] accion
+  AccionTrasAlertas[] acciones
 
-  void emitirAlerta(Clima clima) {
-    acciones.forEach(accion -> accion.emitirA(this, clima));
+  void emitirAlerta(Alerta[] alertas) {
+    acciones.forEach(accion -> accion.emitirA(this, alertas));
   }
 }
 ```
 
 
-### Bonus 1
+### Bonus 1 y 2
 
 > Como administrador/a de QueMePongo, quiero que las sugerencias diarias se
   calculen automáticamente sin que un empleado necesite disparar esta acción
   manualmente
 
-Se instala en el sistema operativo un cron job que diariamente ejecute el método
-`main` de la clase `GeneradorDeSugerencias`.
-
-### Bonus 2
-
 > Como administrador/a de QueMePongo, quiero que las alertas se publiquen en el
   sitio automáticamente sin que un empleado necesite disparar esta acción
   manualmente
 
-Se instala en el sistema operativo un cron job que diariamente ejecute el método
-`main` de la clase `GeneradorDeAlertas`.
+Ambos `GenerarAlertas` y `GenerarSugerencias` implementan la interfaz 
+`TareaProgramada`, que solamente cuenta con el método `ejecutar()`.
 
-<!--
-## Cambios post Puesta en Común
+En un método `main`, estas tareas programadas se van almacenando en un 
+`Planificador` junto con una expresión cron que indique la frecuencia con la
+cual se van a ejecutar:
 
-### Diagrama de Clases
+```ts
+const planificador = new Planificador()
+    // Las alertas se generan cada 3 horas
+    .agregarTarea(new GenerarAlertas(...), "0 0 0/3 * * ?")
+    // Las sugerencias se generan todos los días a las 4AM
+    .agregarTarea(new GenerarSugerencias(...), "0 0 4 * * ?")
+```
 
-![diagrama](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RaniAgus/dds-jv-2022-que-me-pongo/main/docs/diagramas/iteracion-N-cambios.puml)
+Luego, este planificador se inicia, manteniendo la ejecución de la aplicación
+infinitamente:
 
-### Requerimiento 1
-
-### Requerimiento 2
-
-...
-
-### Requerimiento N
--->
+```ts
+planificador.iniciar()
+```

@@ -1,40 +1,43 @@
 @startuml iteracion-6
 
-class GeneradorDeSugerencias {
-    {static} main()
+class Planificador {
+    agregarTarea(tareaProgramada, cron)
+    iniciar()
 }
 
-GeneradorDeSugerencias --> RepositorioUsuarios
-GeneradorDeSugerencias --> ServicioMeteorologico
+Planificador --> TareaProgramada
 
-class GeneradorDeAlertas {
-    {static} main()
+interface TareaProgramada {
+    ejecutar()
 }
 
-GeneradorDeAlertas --> RepositorioUsuarios
-GeneradorDeAlertas --> RepositorioClima
-GeneradorDeAlertas --> ServicioMeteorologico
+TareaProgramada <|.. GenerarSugerencias
+TareaProgramada <|.. GenerarAlertas
+
+GenerarAlertas --> RepositorioAlertas
+GenerarAlertas --> RepositorioUsuarios
+GenerarAlertas -right-> ServicioMeteorologico
+
+GenerarSugerencias --> RepositorioUsuarios
 
 class RepositorioUsuarios {
-    generarSugerencias(temperatura)
-    emitirAlertas(clima)
+    getAll()
 }
 
 RepositorioUsuarios --> "*" Usuario
 
-class RepositorioClima {
-    agregarActualizacion(clima)
-    getUltimaActualizacion()
+class RepositorioAlertas {
+    getAll()
+    actualizar()
 }
 
-RepositorioClima --> "*" Clima
+RepositorioAlertas --> "*" Alerta
 
 interface ServicioMeteorologico {
-    getClima()
-    getTemperatura()
+    getAlertas()
 }
 
-ServicioMeteorologico ..> Clima
+ServicioMeteorologico ..> "*" Alerta
 ServicioMeteorologico <|.. AccuWeather
 
 AccuWeather <-- AccuWeatherAPI
@@ -42,21 +45,6 @@ AccuWeather <-- AccuWeatherAPI
 class AccuWeatherAPI {
     getWeather(city)
     getAlerts(city)
-}
-
-class Clima {
-    horaDeActualizacion
-}
-
-Clima --> Temperatura
-Clima --> "*" Alerta
-
-enum Temperatura {
-    FRIO,
-    TEMPLADO,
-    CALIDO
-    {static} ofCelsius(celsius)
-    {static} ofFahrenheit(fahrenheit)
 }
 
 enum Alerta {
@@ -67,15 +55,15 @@ enum Alerta {
 class Usuario {
     agregar(guardarropa)
     generarSugerencia(temperatura)
-    emitirAlerta(clima)
+    emitirAlertas(clima)
 }
 
-Usuario --> "*" Guardarropa
+Usuario -left-> "*" Guardarropa
 Usuario --> Atuendo
 Usuario --> "*" Accion
 
 class Guardarropa {
-  getPrendasSugeribles(categoria, temperatura) : Prenda[]
+  getPrendasSugeribles(categoria) : Prenda[]
 }
 
 Guardarropa --> "*" Prenda
@@ -93,19 +81,17 @@ Atuendo --> Prenda
 Atuendo --> Prenda
 
 interface Accion {
-  emitirA(usuario, clima)
+  anteNuevasAlertas(usuario, alertas)
 }
 
-Accion .up.> Usuario
-Accion .up.> Clima
+Accion .right.> Usuario
+Accion .right.> "*" Alerta
 
 Accion <|.. ActualizarSugerencia
-Accion <|.. NotificarTormenta
-Accion <|.. NotificarGranizo
+Accion <|.. NotificarAlerta
 Accion <|.. EnviarMailAlerta
 
-NotificarGranizo --> NotificationService
-NotificarTormenta --> NotificationService
+NotificarAlerta --> NotificationService
 EnviarMailAlerta --> MailSender
 
 class MailSender {
