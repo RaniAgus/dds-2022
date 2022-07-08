@@ -2,7 +2,6 @@ package models.mediodetransporte;
 
 import models.geolocalizacion.Distancia;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Linea {
@@ -12,7 +11,7 @@ public class Linea {
 
   public Linea(String nombre, List<Parada> paradas, TipoDeTransportePublico tipo) {
     this.nombre = nombre;
-    this.paradas = new ArrayList<>(paradas);
+    this.paradas = paradas;
     this.tipo = tipo;
   }
 

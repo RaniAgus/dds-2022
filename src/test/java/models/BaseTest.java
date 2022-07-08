@@ -15,11 +15,10 @@ import models.validador.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 
@@ -43,21 +42,21 @@ public abstract class BaseTest {
         utnMedrano,
         TipoDeOrganizacion.INSTITUCION,
         ClasificacionDeOrganizacion.UNIVERSIDAD,
-        emptyList(),
-        emptyList(),
-        emptyList(),
-        emptyList()
+        new ArrayList<>(),
+        new ArrayList<>(),
+        new ArrayList<>(),
+        new ArrayList<>()
     );
   }
 
   // Sectores
 
   public Sector crearSectorVacio() {
-    return new Sector(emptyList());
+    return new Sector(new ArrayList<>());
   }
 
   public Sector crearSectorConUnaVinculacion(Vinculacion vinculacion) {
-    return new Sector(singletonList(vinculacion));
+    return new Sector(new ArrayList<>(singletonList(vinculacion)));
   }
 
   // Miembros
@@ -67,17 +66,17 @@ public abstract class BaseTest {
   }
 
   protected Miembro crearMiembro() {
-    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI, emptyList());
+    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI, new ArrayList<>());
   }
 
   // Lineas
 
   protected Linea crearLineaDeSubteVacia() {
-    return crearLineaDeSubteConParadas(Collections.emptyList());
+    return crearLineaDeSubteConParadas(new ArrayList<>());
   }
 
   protected Linea crearLineaDeSubteConParadas(List<Parada> paradas) {
-    return new Linea("Subte B", paradas, TipoDeTransportePublico.SUBTE);
+    return new Linea("Subte B", new ArrayList<>(paradas), TipoDeTransportePublico.SUBTE);
   }
 
   protected Parada crearParada(double distanciaAAnterior, double distanciaAProxima) {
@@ -123,7 +122,7 @@ public abstract class BaseTest {
   }
 
   protected Trayecto crearTrayectoConTramos(List<Tramo> tramos) {
-    return new Trayecto(tramos);
+    return new Trayecto(new ArrayList<>(tramos));
   }
 
   // Datos de Actividad

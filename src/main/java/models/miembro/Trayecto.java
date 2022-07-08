@@ -1,14 +1,14 @@
 package models.miembro;
 
-import java.util.ArrayList;
-import java.util.List;
 import models.geolocalizacion.Distancia;
+
+import java.util.List;
 
 public class Trayecto {
   private List<Tramo> tramos;
 
   public Trayecto(List<Tramo> tramos) {
-    this.tramos = new ArrayList<>(tramos);
+    this.tramos = tramos;
   }
 
   public List<Tramo> getTramos() {
