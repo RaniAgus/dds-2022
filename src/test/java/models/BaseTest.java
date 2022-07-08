@@ -16,9 +16,11 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 
@@ -44,8 +46,7 @@ public abstract class BaseTest {
         ClasificacionDeOrganizacion.UNIVERSIDAD,
         new ArrayList<>(),
         new ArrayList<>(),
-        new ArrayList<>(),
-        new ArrayList<>()
+        new ArrayList<Contacto>()
     );
   }
 
@@ -56,7 +57,7 @@ public abstract class BaseTest {
   }
 
   public Sector crearSectorConUnaVinculacion(Vinculacion vinculacion) {
-    return new Sector(new ArrayList<>(singletonList(vinculacion)));
+    return new Sector(singletonList(vinculacion));
   }
 
   // Miembros
@@ -76,7 +77,7 @@ public abstract class BaseTest {
   }
 
   protected Linea crearLineaDeSubteConParadas(List<Parada> paradas) {
-    return new Linea("Subte B", new ArrayList<>(paradas), TipoDeTransportePublico.SUBTE);
+    return new Linea("Subte B", paradas, TipoDeTransportePublico.SUBTE);
   }
 
   protected Parada crearParada(double distanciaAAnterior, double distanciaAProxima) {
@@ -122,7 +123,7 @@ public abstract class BaseTest {
   }
 
   protected Trayecto crearTrayectoConTramos(List<Tramo> tramos) {
-    return new Trayecto(new ArrayList<>(tramos));
+    return new Trayecto(tramos);
   }
 
   // Datos de Actividad

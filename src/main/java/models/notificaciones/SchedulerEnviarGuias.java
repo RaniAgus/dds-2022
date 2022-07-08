@@ -38,14 +38,14 @@ public class SchedulerEnviarGuias {
     dataMap.put("Organizaciones", this.organizaciones);
 
     return newJob(JobEnvioGuia.class)
-        .withIdentity(UUID.randomUUID().toString(), "MiImpactoAmbientalApp")
+        .withIdentity("job1", "MiImpactoAmbientalApp")
         .usingJobData(dataMap)
         .build();
   }
 
   private Trigger crearTrigger() {
     return newTrigger()
-        .withIdentity(UUID.randomUUID().toString(), "MiImpactoAmbientalApp")
+        .withIdentity("job1", "MiImpactoAmbientalApp")
         .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
         .build();
   }
