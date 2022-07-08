@@ -39,10 +39,8 @@ public class EjemploRetrofit {
 
   private static void probarWhatsApp() {
     Notificador n = new NotificadorPorWhatsApp(System.getenv("WHATSAPP_ID"), System.getenv("WHATSAPP_API_KEY"));
-    List<Contacto> contactos = Arrays.asList(
-        new Contacto("", "<completar>")
-    );
-    n.enviarGuiaRecomendacion(contactos, System.getenv("RECOMENDACIONES_URL"));
+    Contacto contacto = new Contacto("", "<completar>");
+    n.enviarGuiaRecomendacion(contacto, System.getenv("RECOMENDACIONES_URL"));
   }
 
 }

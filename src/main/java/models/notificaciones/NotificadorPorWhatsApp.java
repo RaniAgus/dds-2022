@@ -16,10 +16,12 @@ public class NotificadorPorWhatsApp implements Notificador {
   }
 
   @Override
-  public void enviarGuiaRecomendacion(List<Contacto> contactos, String link) {
-    contactos.forEach(contacto -> enviarMensaje(
-        contacto, "Conocé nuestras últimas recomendaciones sobre cómo reducir el impacto ambiental de tu organización: " + link
-    ));
+  public void enviarGuiaRecomendacion(Contacto contacto, String link) {
+    enviarMensaje(
+        contacto,
+        "Conocé nuestras últimas recomendaciones sobre cómo reducir el impacto ambiental de tu organización: "
+            + link
+    );
   }
 
   private void enviarMensaje(Contacto contacto, String mensaje) {

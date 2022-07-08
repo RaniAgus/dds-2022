@@ -21,7 +21,7 @@ public class NotificadorPorMail implements Notificador {
   }
 
   @Override
-  public void enviarGuiaRecomendacion(List<Contacto> contactos, String mensaje) {
+  public void enviarGuiaRecomendacion(Contacto contacto, String mensaje) {
     Properties props = System.getProperties();
     props.setProperty("mail.smtp.host", "smtp.gmail.com");
     props.setProperty("mail.smtp.auth", "true");
@@ -33,7 +33,7 @@ public class NotificadorPorMail implements Notificador {
     MimeMessage message = new MimeMessage(session);
     try {
       message.setFrom(new InternetAddress(remitente));
-      message.addRecipients(Message.RecipientType.BCC, this.obtenerDestinatarios(contactos));
+      message.addRecipient(Message.RecipientType.BCC, new InternetAddress(contacto.getEmail()));
       message.setSubject("Guía Recomendaciones");
       message.setText(mensaje);
 
