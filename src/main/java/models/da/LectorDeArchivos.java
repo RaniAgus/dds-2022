@@ -29,14 +29,15 @@ public class LectorDeArchivos {
   }
 
   private List<String> archivoALineas(File archivo) {
-    List<String> lineas = new ArrayList<>();
+    List<String> nuevasLineas = new ArrayList<>();
     try {
       Scanner scannerArchivo = new Scanner(archivo);
       while (scannerArchivo.hasNextLine()) {
-        lineas.add(scannerArchivo.nextLine());
+        nuevasLineas.add(scannerArchivo.nextLine());
       }
 
-      return lineas;
+      scannerArchivo.close();
+      return nuevasLineas;
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("El archivo no existe.");
     }

@@ -24,4 +24,8 @@ public class Trayecto {
   public boolean esCompartible() {
     return tramos.stream().allMatch(Tramo::esCompartible);
   }
+
+  public Double carbonoEquivalente() {
+   return tramos.stream().mapToDouble(Tramo::carbonoEquivalente).sum();
+  }
 }

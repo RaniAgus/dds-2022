@@ -8,6 +8,11 @@ public class ServicioContratado implements MedioDeTransporte {
   }
 
   @Override
+  public Double carbonoEquivalentePorKM() {
+    return tipoDeServicioContratado.carbonoEquivalentePorKM();
+  }
+  
+  @Override
   public boolean esCompartible() {
     return true;
   }

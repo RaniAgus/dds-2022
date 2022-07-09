@@ -4,14 +4,12 @@ package models;
 import models.da.*;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class DatosActividadesParserTest extends BaseTest {
@@ -26,14 +24,13 @@ public class DatosActividadesParserTest extends BaseTest {
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "ELECTRICIDAD;122;MENSUAL;03/2002"
     ));
-    TipoDeConsumo electricidad = new TipoDeConsumo("ELECTRICIDAD", 1.0, UnidadDeConsumo.M3);
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.singletonList(electricidad));
+    DatosActividadesParser parser = crearParserDatosDeActividad();
 
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodicidad", "periodo", "tipo")
-        .containsExactly(122.0, Periodicidad.MENSUAL, "03/2002", electricidad);
+        .extracting("valor", "periodicidad", "inicioPeriodo", "tipo")
+        .containsExactly(122.0, Periodicidad.MENSUAL, LocalDate.of(2002, 3, 1), electricidad);
   }
 
   @Test
@@ -42,19 +39,18 @@ public class DatosActividadesParserTest extends BaseTest {
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "NAFTA;5;ANUAL;2020"
     ));
-    TipoDeConsumo nafta = new TipoDeConsumo("NAFTA", 1.0, UnidadDeConsumo.M3);
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.singletonList(nafta));
+    DatosActividadesParser parser = crearParserDatosDeActividad();
 
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodicidad", "periodo", "tipo")
-        .containsExactly(5.0, Periodicidad.ANUAL, "2020", nafta);
+        .extracting("valor", "periodicidad", "inicioPeriodo", "tipo")
+        .containsExactly(5.0, Periodicidad.ANUAL, LocalDate.of(2020,1,1), nafta);
   }
 
   @Test
   public void noSePuedenCargarDAsConCamposFaltantes() {
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.emptyList());
+    DatosActividadesParser parser = crearParserDatosDeActividad();
     when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "122;MENSUAL;03/2002",
@@ -68,7 +64,7 @@ public class DatosActividadesParserTest extends BaseTest {
 
   @Test
   public void noSePuedenCargarTiposDeConsumoInexistentes() {
-    DatosActividadesParser parser = crearParserDatosDeActividad(Collections.emptyList());
+    DatosActividadesParser parser = crearParserDatosDeActividad();
     when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "FANTA;5;ANUAL;2020"

@@ -1,5 +1,6 @@
 package models.da;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,9 +34,18 @@ public class DatosActividadesParser {
     TipoDeConsumo tipoDeConsumo = getTipoDeConsumo(campos.get(0));
     Double valor = Double.parseDouble(campos.get(1));
     Periodicidad periodicidad = Periodicidad.valueOf(campos.get(2));
+
+    LocalDate inicioPeriodo;
     String periodo = campos.get(3);
 
-    return new DatoActividad(tipoDeConsumo, valor, periodicidad, periodo);
+    if (periodicidad == Periodicidad.ANUAL) {
+      inicioPeriodo = LocalDate.of(Integer.parseInt(periodo), 1, 1);
+    } else {
+      String[] partesFecha = periodo.split("/");
+      inicioPeriodo = LocalDate.of(Integer.parseInt(partesFecha[1]), Integer.parseInt(partesFecha[0]), 1);
+    }
+
+    return new DatoActividad(tipoDeConsumo, valor, periodicidad, inicioPeriodo);
   }
 
   public List<DatoActividad> getDatosActividad() {

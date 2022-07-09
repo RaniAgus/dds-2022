@@ -1,8 +1,11 @@
 package models.organizacion;
 
 import models.da.DatoActividad;
+import models.da.Periodicidad;
 import models.geolocalizacion.Ubicacion;
+import models.miembro.Trayecto;
 
+import java.time.LocalDate;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,4 +52,25 @@ public class Organizacion {
   }
 
   public void agregarContacto(Contacto contacto) { this.contactos.add(contacto); }
+
+  public Double huellaCarbonoTrayectos(Periodicidad periodicidad){
+    return this.sectores.stream()
+          .flatMap(s -> s.getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO).stream())
+          .map(Vinculacion::getMiembro)
+          .flatMap(it -> it.getTrayectos().stream())
+          .distinct()
+          .mapToDouble(Trayecto::carbonoEquivalente)
+          .sum() * periodicidad.diasLaborales();
+  }
+
+  public Double huellaCarbonoDA(LocalDate fecha, Periodicidad periodicidad){
+    return this.datosActividad.stream()
+          .filter(da -> da.estaEnPeriodo(fecha, periodicidad))
+          .mapToDouble(DatoActividad::carbonoEquivalente).sum();
+  }
+
+  public Double huellaCarbono(LocalDate fecha, Periodicidad periodicidad) {
+    return huellaCarbonoTrayectos(periodicidad) 
+        + huellaCarbonoDA(fecha, periodicidad);
+  }
 }

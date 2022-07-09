@@ -50,4 +50,8 @@ public class Linea {
         .map(Parada::getDistanciaAAnteriorParada)
         .reduce(Distancia.CERO, Distancia::sumar);
   }
+
+  public Double consumoEntreParadas(Parada paradaInicial, Parada paradaFinal) {
+    return distanciaEntreParadas(paradaInicial, paradaFinal).getValor() * tipo.carbonoEquivalentePorKM();
+  }
 }

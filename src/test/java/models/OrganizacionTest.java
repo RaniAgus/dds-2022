@@ -1,13 +1,10 @@
 package models;
 
 import models.da.DatosActividadesParser;
-import models.da.TipoDeConsumo;
-import models.da.UnidadDeConsumo;
 import models.organizacion.Organizacion;
 import models.organizacion.Sector;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -37,9 +34,7 @@ public class OrganizacionTest extends BaseTest {
         "ELECTRICIDAD;122;MENSUAL;03/2002",
         "NAFTA;5;ANUAL;2020"
     ));
-    TipoDeConsumo electricidad = new TipoDeConsumo("ELECTRICIDAD", 1.0, UnidadDeConsumo.M3);
-    TipoDeConsumo nafta = new TipoDeConsumo("NAFTA", 1.0, UnidadDeConsumo.M3);
-    DatosActividadesParser parser = crearParserDatosDeActividad(Arrays.asList(electricidad, nafta));
+    DatosActividadesParser parser = crearParserDatosDeActividad();
 
     organizacion.agregarDatosActividad(parser.getDatosActividad());
 

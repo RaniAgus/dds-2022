@@ -30,4 +30,8 @@ public class TramoPrivado implements Tramo {
   public boolean esCompartible() {
     return medioDeTransporte.esCompartible();
   }
+
+  public Double carbonoEquivalente() {
+    return medioDeTransporte.carbonoEquivalentePorKM() * distancia.getValor();
+  }
 }

@@ -1,6 +1,10 @@
 package models.miembro;
 
+import models.da.Periodicidad;
+import models.organizacion.Organizacion;
+import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class Miembro {
   private String nombre;
@@ -21,11 +25,22 @@ public class Miembro {
     this.trayectos = trayectos;
   }
 
-  public void darDeAltaTrayecto(Trayecto trayecto) {
-    trayectos.add(trayecto);
-  }
-
   public List<Trayecto> getTrayectos() {
     return trayectos;
+  }
+
+  public Double huellaCarbonoPersonal(Periodicidad periodicidad) {
+    return getTrayectos().stream()
+      .mapToDouble(Trayecto::carbonoEquivalente)
+      .sum() * periodicidad.diasLaborales();
+  }
+
+  public Double impactoCarbonoEnOrganizacion(Organizacion organizacion, LocalDate fecha, Periodicidad periodicidad) {
+    return huellaCarbonoPersonal(periodicidad)
+          /organizacion.huellaCarbono(fecha, periodicidad);
+  }
+
+  public void darDeAltaTrayecto(Trayecto trayecto) {
+    trayectos.add(trayecto);
   }
 }
