@@ -1,13 +1,10 @@
 package models;
 
 import models.da.DatosActividadesParser;
-import models.da.TipoDeConsumo;
-import models.da.UnidadDeConsumo;
 import models.organizacion.Organizacion;
 import models.organizacion.Sector;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;

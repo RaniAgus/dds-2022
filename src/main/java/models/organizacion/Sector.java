@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import models.da.Periodicidad;
-import models.miembro.Miembro;
 import models.miembro.Trayecto;
 
 public class Sector {
