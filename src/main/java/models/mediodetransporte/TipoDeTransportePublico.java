@@ -9,7 +9,20 @@ public enum TipoDeTransportePublico {
   private TipoDeConsumo tipoDeConsumo;
 
   public Double getConsumoPorKM() {
+    if (consumoPorKM == null) {
+      throw new IllegalStateException("El dato de consumo por KM para " + this.toString() + " no fue cargado.");
+    }
     return consumoPorKM;
+  }
+
+  public TipoDeConsumo getTipoDeConsumo() {
+    if (tipoDeConsumo == null) {
+      throw new IllegalStateException("El tipo de consumo para " + this.toString() + " no fue cargado.");
+    }
+    return tipoDeConsumo;
+  }
+  public void setTipoDeConsumo(TipoDeConsumo tipoDeConsumo) {
+    this.tipoDeConsumo = tipoDeConsumo;
   }
 
   public void setConsumoPorKM(Double combustiblePorKM) {
