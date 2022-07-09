@@ -4,7 +4,6 @@ package models.organizacion;
 import models.da.DatoActividad;
 import models.da.Periodicidad;
 import models.geolocalizacion.Ubicacion;
-import models.miembro.Miembro;
 import models.miembro.Trayecto;
 
 import java.time.LocalDate;
@@ -48,7 +47,7 @@ public class Organizacion {
     return datosActividad;
   }
 
-  private Double huellaCarbonoTrayectos(Periodicidad periodicidad){
+  public Double huellaCarbonoTrayectos(Periodicidad periodicidad){
     return this.sectores.stream()
           .flatMap(s -> s.getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO).stream())
           .map(Vinculacion::getMiembro)
@@ -58,7 +57,7 @@ public class Organizacion {
           .sum() * periodicidad.diasLaborales();
   }
 
-  private Double huellaCarbonoDA(LocalDate fecha, Periodicidad periodicidad){
+  public Double huellaCarbonoDA(LocalDate fecha, Periodicidad periodicidad){
     return this.datosActividad.stream()
           .filter(da -> da.estaEnPeriodo(fecha, periodicidad))
           .mapToDouble(DatoActividad::carbonoEquivalente).sum();
