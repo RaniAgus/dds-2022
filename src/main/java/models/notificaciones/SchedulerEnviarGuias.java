@@ -45,7 +45,7 @@ public class SchedulerEnviarGuias {
 
   private Trigger crearTrigger() {
     return newTrigger()
-        .withIdentity("job1", "MiImpactoAmbientalApp")
+        .withIdentity("trigger1", "MiImpactoAmbientalApp")
         .withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
         .build();
   }
