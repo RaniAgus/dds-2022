@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.RespuestaNoObtenidaException;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpRequestException;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -72,7 +72,7 @@ public class Geolocalizador {
       total.addAll(res);
     }
     if (total.isEmpty()) {
-      throw new RespuestaNoObtenidaException(message);
+      throw new HttpRequestException(message);
     }
     return total;
   }
@@ -81,9 +81,9 @@ public class Geolocalizador {
     try {
       Response<T> response = call.execute();
       return Optional.ofNullable(response.body())
-          .orElseThrow(() -> new RespuestaNoObtenidaException(message));
+          .orElseThrow(() -> new HttpRequestException(message));
     } catch (IOException e) {
-      throw new RespuestaNoObtenidaException(message, e);
+      throw new HttpRequestException(message, e);
     }
   }
 }

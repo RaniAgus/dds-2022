@@ -1,38 +1,38 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpRequestException;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Contacto;
+import com.google.gson.Gson;
+import retrofit2.Response;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class NotificadorPorWhatsApp implements Notificador {
   private WhatsAppApi whatsAppApi;
   private String apiKey;
+  private String recomendacionesTemplate;
 
-  public NotificadorPorWhatsApp(String phoneNumberId, String apiKey) {
+  public NotificadorPorWhatsApp(String phoneNumberId, String apiKey, String recomendacionesTemplate) {
     this.whatsAppApi = WhatsAppApi.create(phoneNumberId);
     this.apiKey = apiKey;
+    this.recomendacionesTemplate = recomendacionesTemplate;
   }
 
   @Override
   public void enviarGuiaRecomendacion(Contacto contacto, String link) {
-    enviarMensaje(
-        contacto,
-        "Conocé nuestras últimas recomendaciones sobre cómo reducir el impacto ambiental de tu organización: "
-            + link
-    );
-  }
-
-  private void enviarMensaje(Contacto contacto, String mensaje) {
+    WhatsAppTemplate template = new WhatsAppTemplate(recomendacionesTemplate, contacto.getTelefono(), link);
     try {
-      Optional.ofNullable(
-          whatsAppApi.sendTextMessage(
-              new TextMessage(contacto.getTelefono(), mensaje),
-              "Bearer " + apiKey
-          ).execute().body()
-      ).orElseThrow(() -> new RuntimeException("No se pudo enviar el mensaje: " + mensaje));
+      Response<?> response = whatsAppApi
+          .sendTemplate(template, "Bearer " + apiKey)
+          .execute();
+
+      if (response.body() == null) {
+        throw new HttpRequestException(new Gson()
+            .fromJson(response.errorBody().charStream(), WhatsAppError.class)
+            .getErrorMessage());
+      }
     } catch (IOException e) {
-      throw new RuntimeException("No se pudo enviar el mensaje: " + mensaje, e);
+      throw new HttpRequestException("Ocurrió un error al interactuar con WhatsApp API", e);
     }
   }
 }
