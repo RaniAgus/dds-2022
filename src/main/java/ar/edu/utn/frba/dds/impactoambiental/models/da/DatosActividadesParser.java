@@ -45,7 +45,7 @@ public class DatosActividadesParser {
       inicioPeriodo = LocalDate.of(Integer.parseInt(partesFecha[1]), Integer.parseInt(partesFecha[0]), 1);
     }
 
-    return new DatoActividad(tipoDeConsumo, valor, periodicidad, inicioPeriodo);
+    return new DatoActividad(tipoDeConsumo, valor, new Periodo(inicioPeriodo, periodicidad));
   }
 
   public List<DatoActividad> getDatosActividad() {

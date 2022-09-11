@@ -1,9 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class SectorTerritorial {
@@ -19,9 +18,9 @@ public class SectorTerritorial {
     organizaciones.add(organizacion);
   }
 
-  public Double huellaCarbono(LocalDate fecha, Periodicidad periodicidad) {
+  public Double huellaCarbono(Periodo periodo) {
     return organizaciones.stream()
-          .mapToDouble(o -> o.huellaCarbono(fecha, periodicidad))
+          .mapToDouble(o -> o.huellaCarbono(periodo))
           .sum();
   }
 }

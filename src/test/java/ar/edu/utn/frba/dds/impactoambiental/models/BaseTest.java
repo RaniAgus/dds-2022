@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.validador.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,7 +123,7 @@ public abstract class BaseTest {
   }
 
   protected Trayecto crearTrayectoConTramos(List<Tramo> tramos) {
-    return new Trayecto(tramos);
+    return new Trayecto(LocalDate.now(), tramos);
   }
 
   // Datos de Actividad

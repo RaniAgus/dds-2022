@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
@@ -31,7 +30,7 @@ public class DatosActividadesParserTest extends BaseTest {
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodicidad", "inicioPeriodo", "tipo")
+        .extracting("valor", "periodo.periodicidad", "periodo.inicioPeriodo", "tipo")
         .containsExactly(122.0, Periodicidad.MENSUAL, LocalDate.of(2002, 3, 1), electricidad);
   }
 
@@ -46,7 +45,7 @@ public class DatosActividadesParserTest extends BaseTest {
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodicidad", "inicioPeriodo", "tipo")
+        .extracting("valor", "periodo.periodicidad","periodo.inicioPeriodo", "tipo")
         .containsExactly(5.0, Periodicidad.ANUAL, LocalDate.of(2020,1,1), nafta);
   }
 

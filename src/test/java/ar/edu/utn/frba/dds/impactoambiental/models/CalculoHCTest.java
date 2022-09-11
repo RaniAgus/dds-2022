@@ -2,15 +2,16 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.EstadoVinculo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -24,6 +25,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class CalculoHCTest extends BaseTest {
+
+  private Periodo periodoMensual;
+  private Periodo periodoAnual;
+
+  @BeforeEach
+  public void setup() {
+     periodoMensual = new Periodo(LocalDate.now(), Periodicidad.MENSUAL);
+     periodoAnual = new Periodo(LocalDate.now(), Periodicidad.ANUAL);
+  }
   
   // TPA3 - Calculos HC de Tramo
   @Test
@@ -47,42 +57,37 @@ public class CalculoHCTest extends BaseTest {
     assertThat(trayecto.carbonoEquivalente()).isEqualTo(60.0);
   }
 
-  // TPA3 - Calculos HC de Miembro Mensual
+  // TPA3 - Calculos HC de Miembro Mensual y Anual
   @Test
-  public void elHCMensualDeUnMiembroEsLaSumaDeSusTrayectosPorDiasLaboralesDeUnMes() {
+  public void elHCDeUnMiembroEsLaSumaDeSusTrayectosDuranteElPeriodo() {
     Trayecto primerTrayecto = mock(Trayecto.class);
     when(primerTrayecto.carbonoEquivalente()).thenReturn(10.0);
+    when(primerTrayecto.estaEnPeriodo(periodoMensual)).thenReturn(true);
+
     Trayecto segundoTrayecto = mock(Trayecto.class);
     when(segundoTrayecto.carbonoEquivalente()).thenReturn(20.0);
-    
+    when(segundoTrayecto.estaEnPeriodo(periodoMensual)).thenReturn(true);
+
+    Trayecto tercerTrayecto = mock(Trayecto.class);
+    when(tercerTrayecto.carbonoEquivalente()).thenReturn(35.0);
+    when(tercerTrayecto.estaEnPeriodo(periodoMensual)).thenReturn(false);
+
     Miembro miembro = crearMiembro();
     miembro.darDeAltaTrayecto(primerTrayecto);
     miembro.darDeAltaTrayecto(segundoTrayecto);
+    miembro.darDeAltaTrayecto(tercerTrayecto);
 
-    assertThat(miembro.huellaCarbonoPersonal(Periodicidad.MENSUAL)).isEqualTo(30.0 * 20);
-  }
-
-  // TPA3 - Calculos HC de Miembro Anual
-  @Test
-  public void elHCAnualDeUnMiembroEsLaSumaDeLosTrayectosPorDiasLaboralesDeUnAnio() {
-    Trayecto primerTrayecto = mock(Trayecto.class);
-    when(primerTrayecto.carbonoEquivalente()).thenReturn(10.0);
-    Trayecto segundoTrayecto = mock(Trayecto.class);
-    when(segundoTrayecto.carbonoEquivalente()).thenReturn(20.0);
-    
-    Miembro miembro = crearMiembro();
-    miembro.darDeAltaTrayecto(primerTrayecto);
-    miembro.darDeAltaTrayecto(segundoTrayecto);
-
-    assertThat(miembro.huellaCarbonoPersonal(Periodicidad.ANUAL)).isEqualTo(30.0 * 240);
+    assertThat(miembro.huellaCarbonoPersonal(periodoMensual)).isEqualTo(30.0);
   }
 
   @Test
   public void elHCDeUnSectorEsLaSumatoriaDeTodosLosTrayectosDeSusMiembros() {
     Trayecto primerTrayecto = mock(Trayecto.class);
     when(primerTrayecto.carbonoEquivalente()).thenReturn(10.0);
+    when(primerTrayecto.estaEnPeriodo(periodoAnual)).thenReturn(true);
     Trayecto segundoTrayecto = mock(Trayecto.class);
     when(segundoTrayecto.carbonoEquivalente()).thenReturn(20.0);
+    when(segundoTrayecto.estaEnPeriodo(periodoAnual)).thenReturn(true);
     
     Miembro miembro = crearMiembro();
     miembro.darDeAltaTrayecto(primerTrayecto);
@@ -90,6 +95,7 @@ public class CalculoHCTest extends BaseTest {
     
     Trayecto tercerTrayecto = mock(Trayecto.class);
     when(tercerTrayecto.carbonoEquivalente()).thenReturn(50.0);
+    when(tercerTrayecto.estaEnPeriodo(periodoAnual)).thenReturn(true);
     
     Miembro otroMiembro = crearMiembro();
     otroMiembro.darDeAltaTrayecto(tercerTrayecto);
@@ -97,17 +103,19 @@ public class CalculoHCTest extends BaseTest {
     Sector sector = crearSectorVacio();
     sector.solicitarVinculacion(crearVinculacionPendiente(miembro));
     sector.solicitarVinculacion(crearVinculacionPendiente(otroMiembro));
-    sector.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE).forEach(Vinculacion::aceptar);
+    sector.getVinculacionesPendientes().forEach(Vinculacion::aceptar);
     
-    assertThat(sector.huellaCarbono(Periodicidad.ANUAL)).isEqualTo((10.0 + 20.0 + 50.0) * 240);
+    assertThat(sector.huellaCarbono(periodoAnual)).isEqualTo(10.0 + 20.0 + 50.0);
   }
   
   @Test
   public void sePuedeSaberElHCPromedioDeUnSector() {
     Trayecto primerTrayecto = mock(Trayecto.class);
     when(primerTrayecto.carbonoEquivalente()).thenReturn(10.0);
+    when(primerTrayecto.estaEnPeriodo(periodoAnual)).thenReturn(true);
     Trayecto segundoTrayecto = mock(Trayecto.class);
     when(segundoTrayecto.carbonoEquivalente()).thenReturn(20.0);
+    when(segundoTrayecto.estaEnPeriodo(periodoAnual)).thenReturn(true);
     
     Miembro miembro = crearMiembro();
     miembro.darDeAltaTrayecto(primerTrayecto);
@@ -115,6 +123,7 @@ public class CalculoHCTest extends BaseTest {
     
     Trayecto tercerTrayecto = mock(Trayecto.class);
     when(tercerTrayecto.carbonoEquivalente()).thenReturn(50.0);
+    when(tercerTrayecto.estaEnPeriodo(periodoAnual)).thenReturn(true);
     
     Miembro otroMiembro = crearMiembro();
     otroMiembro.darDeAltaTrayecto(tercerTrayecto);
@@ -122,9 +131,9 @@ public class CalculoHCTest extends BaseTest {
     Sector sector = crearSectorVacio();
     sector.solicitarVinculacion(crearVinculacionPendiente(miembro));
     sector.solicitarVinculacion(crearVinculacionPendiente(otroMiembro));
-    sector.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE).forEach(Vinculacion::aceptar);
+    sector.getVinculacionesPendientes().forEach(Vinculacion::aceptar);
     
-    assertThat(sector.huellaCarbonoPorMiembro(Periodicidad.ANUAL)).isEqualTo((10.0 + 20.0 + 50.0) * 240 / 2);
+    assertThat(sector.huellaCarbonoPorMiembro(periodoAnual)).isEqualTo((10.0 + 20.0 + 50.0) / 2);
   }
 
   // TPA3 - Calculos HC de Sector considerando tramos compartidos
@@ -142,12 +151,12 @@ public class CalculoHCTest extends BaseTest {
     Sector sector = crearSectorVacio();
     sector.solicitarVinculacion(crearVinculacionPendiente(m1));
     sector.solicitarVinculacion(crearVinculacionPendiente(m2));
-    sector.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE).forEach(Vinculacion::aceptar);
+    sector.getVinculacionesPendientes().forEach(Vinculacion::aceptar);
 
     m1.darDeAltaTrayecto(trayectoCompartido);
     m2.darDeAltaTrayecto(trayectoCompartido);
 
-    assertThat(sector.huellaCarbono(Periodicidad.MENSUAL)).isEqualTo(200.0);
+    assertThat(sector.huellaCarbono(periodoMensual)).isEqualTo(10.0);
   }
 
   // TPA3 - Calculos HC de Organizacion considerando tramos compartidos
@@ -166,10 +175,9 @@ public class CalculoHCTest extends BaseTest {
     sector1.solicitarVinculacion(crearVinculacionPendiente(m1));
     Sector sector2 = crearSectorVacio();
     sector2.solicitarVinculacion(crearVinculacionPendiente(m2));
-    
-    sector1.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE).forEach(Vinculacion::aceptar);
-    sector2.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE).forEach(Vinculacion::aceptar);
 
+    sector1.getVinculacionesPendientes().forEach(Vinculacion::aceptar);
+    sector2.getVinculacionesPendientes().forEach(Vinculacion::aceptar);
 
     m1.darDeAltaTrayecto(trayectoCompartido);
     m2.darDeAltaTrayecto(trayectoCompartido);
@@ -178,12 +186,12 @@ public class CalculoHCTest extends BaseTest {
     org.darDeAltaSector(sector1);
     org.darDeAltaSector(sector2);
 
-    assertThat(org.huellaCarbonoTrayectos(Periodicidad.MENSUAL)).isEqualTo(200.0);
+    assertThat(org.huellaCarbonoTrayectos(periodoMensual)).isEqualTo(10.0);
   }
 
   @Test
   public void laHCDeUnDatoActividadEsSuCantidadConsumidaPorElFE(){
-    DatoActividad dato = new DatoActividad(nafta, 10.0, Periodicidad.MENSUAL, LocalDate.now());
+    DatoActividad dato = new DatoActividad(nafta, 10.0, periodoMensual);
     assertThat(dato.carbonoEquivalente()).isEqualTo(10.0  * nafta.getFactorEmision());
   }
 
@@ -214,16 +222,16 @@ public class CalculoHCTest extends BaseTest {
     org.darDeAltaSector(sector2);
     
     DatoActividad DA1 = mock(DatoActividad.class);
-    when(DA1.estaEnPeriodo(any(), any())).thenReturn(true);
+    when(DA1.estaEnPeriodo(any())).thenReturn(true);
     when(DA1.carbonoEquivalente()).thenReturn(10.0);
 
     DatoActividad DA2 = mock(DatoActividad.class);
-    when(DA2.estaEnPeriodo(any(), any())).thenReturn(true);
+    when(DA2.estaEnPeriodo(any())).thenReturn(true);
     when(DA2.carbonoEquivalente()).thenReturn(12.0);
 
     org.agregarDatosActividad(asList(DA1, DA2));
 
-    Assertions.assertEquals(300.0 + 22.0, org.huellaCarbono(LocalDate.now(), Periodicidad.MENSUAL));
+    Assertions.assertEquals(15.0 + 22.0, org.huellaCarbono(periodoMensual));
   }
 
   @Test
@@ -239,7 +247,6 @@ public class CalculoHCTest extends BaseTest {
     m1.darDeAltaTrayecto(trayecto1);
     m2.darDeAltaTrayecto(trayecto2);
 
-
     Vinculacion vinculacion = new Vinculacion(m1);
     Vinculacion vinculacion2 = new Vinculacion(m2);
     Sector sector = crearSectorConUnaVinculacion(vinculacion);
@@ -252,31 +259,31 @@ public class CalculoHCTest extends BaseTest {
     org.darDeAltaSector(sector2);
     
     DatoActividad DA1 = mock(DatoActividad.class);
-    when(DA1.estaEnPeriodo(any(), any())).thenReturn(true);
+    when(DA1.estaEnPeriodo(any())).thenReturn(true);
     when(DA1.carbonoEquivalente()).thenReturn(25.0);
 
     DatoActividad DA2 = mock(DatoActividad.class);
-    when(DA2.estaEnPeriodo(any(), any())).thenReturn(true);
+    when(DA2.estaEnPeriodo(any())).thenReturn(true);
     when(DA2.carbonoEquivalente()).thenReturn(25.0);
 
     org.agregarDatosActividad(asList(DA1, DA2));
 
-    assertThat(m1.impactoCarbonoEnOrganizacion(org, LocalDate.now(), Periodicidad.MENSUAL))
-      .isEqualTo(200.0 / (200.0 + 100.0 + 25.0 + 25.0));
+    assertThat(m1.impactoCarbonoEnOrganizacion(org, periodoMensual))
+      .isEqualTo(10.0 / (10.0 + 5.0 + 25.0 + 25.0));
   }
 
   @Test
   public void laHCDeUnSectorTerritorialEsLaSumaDeLaHCDeSusOrganizaciones() {
 
     Organizacion org1 = Mockito.mock(Organizacion.class);
-    when(org1.huellaCarbono(any(), any())).thenReturn(20.0);
+    when(org1.huellaCarbono(any())).thenReturn(20.0);
 
     Organizacion org2 = Mockito.mock(Organizacion.class);
-    when(org2.huellaCarbono(any(), any())).thenReturn(7.0);
+    when(org2.huellaCarbono(any())).thenReturn(7.0);
 
     SectorTerritorial sectorTerritorial = new SectorTerritorial("sector de prueba", asList(org1, org2));
 
-    Assertions.assertEquals(27, sectorTerritorial.huellaCarbono(LocalDate.now(), Periodicidad.MENSUAL));
+    Assertions.assertEquals(27, sectorTerritorial.huellaCarbono(periodoMensual));
   }  
 
 }

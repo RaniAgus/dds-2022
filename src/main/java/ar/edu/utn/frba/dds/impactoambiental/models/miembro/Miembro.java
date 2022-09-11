@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Miembro {
   private String nombre;
@@ -29,15 +29,20 @@ public class Miembro {
     return trayectos;
   }
 
-  public Double huellaCarbonoPersonal(Periodicidad periodicidad) {
+  public List<Trayecto> getTrayectosEnPeriodo(Periodo periodo) {
     return getTrayectos().stream()
-      .mapToDouble(Trayecto::carbonoEquivalente)
-      .sum() * periodicidad.diasLaborales();
+        .filter(trayecto -> trayecto.estaEnPeriodo(periodo))
+        .collect(Collectors.toList());
   }
 
-  public Double impactoCarbonoEnOrganizacion(Organizacion organizacion, LocalDate fecha, Periodicidad periodicidad) {
-    return huellaCarbonoPersonal(periodicidad)
-          /organizacion.huellaCarbono(fecha, periodicidad);
+  public Double huellaCarbonoPersonal(Periodo periodo) {
+    return getTrayectosEnPeriodo(periodo).stream()
+      .mapToDouble(Trayecto::carbonoEquivalente)
+      .sum();
+  }
+
+  public Double impactoCarbonoEnOrganizacion(Organizacion organizacion, Periodo periodo) {
+    return huellaCarbonoPersonal(periodo) / organizacion.huellaCarbono(periodo);
   }
 
   public void darDeAltaTrayecto(Trayecto trayecto) {

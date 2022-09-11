@@ -1,11 +1,10 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class Organizacion {
@@ -17,7 +16,13 @@ public class Organizacion {
   private final List<DatoActividad> datosActividad;
   private List<Contacto> contactos;
 
-  public Organizacion(String razonSocial, Ubicacion ubicacionGeografica, TipoDeOrganizacion tipoDeOrganizacion, ClasificacionDeOrganizacion clasificacionDeOrganizacion, List<Sector> sectores, List<DatoActividad> datosActividad, List<Contacto> contactos) {
+  public Organizacion(String razonSocial,
+                      Ubicacion ubicacionGeografica,
+                      TipoDeOrganizacion tipoDeOrganizacion,
+                      ClasificacionDeOrganizacion clasificacionDeOrganizacion,
+                      List<Sector> sectores,
+                      List<DatoActividad> datosActividad,
+                      List<Contacto> contactos) {
     this.razonSocial = razonSocial;
     this.ubicacionGeografica = ubicacionGeografica;
     this.tipoDeOrganizacion = tipoDeOrganizacion;
@@ -30,7 +35,6 @@ public class Organizacion {
   public void enviarGuia(String link) {
     contactos.forEach(contacto -> contacto.enviarGuia(link));
   }
-
 
   public void darDeAltaSector(Sector sector) {
     this.sectores.add(sector);
@@ -48,26 +52,25 @@ public class Organizacion {
     return datosActividad;
   }
 
-  public void agregarContacto(Contacto contacto) { this.contactos.add(contacto); }
-
-  public Double huellaCarbonoTrayectos(Periodicidad periodicidad){
-    return this.sectores.stream()
-          .flatMap(s -> s.getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO).stream())
-          .map(Vinculacion::getMiembro)
-          .flatMap(it -> it.getTrayectos().stream())
-          .distinct()
-          .mapToDouble(Trayecto::carbonoEquivalente)
-          .sum() * periodicidad.diasLaborales();
+  public void agregarContacto(Contacto contacto) {
+    this.contactos.add(contacto);
   }
 
-  public Double huellaCarbonoDA(LocalDate fecha, Periodicidad periodicidad){
+  public Double huellaCarbonoTrayectos(Periodo periodo) {
+    return this.sectores.stream()
+          .flatMap(sector -> sector.getTrayectosEnPeriodo(periodo).stream())
+          .distinct()
+          .mapToDouble(Trayecto::carbonoEquivalente)
+          .sum();
+  }
+
+  public Double huellaCarbonoDA(Periodo periodo) {
     return this.datosActividad.stream()
-          .filter(da -> da.estaEnPeriodo(fecha, periodicidad))
+          .filter(da -> da.estaEnPeriodo(periodo))
           .mapToDouble(DatoActividad::carbonoEquivalente).sum();
   }
 
-  public Double huellaCarbono(LocalDate fecha, Periodicidad periodicidad) {
-    return huellaCarbonoTrayectos(periodicidad) 
-        + huellaCarbonoDA(fecha, periodicidad);
+  public Double huellaCarbono(Periodo periodo) {
+    return huellaCarbonoTrayectos(periodo) + huellaCarbonoDA(periodo);
   }
 }

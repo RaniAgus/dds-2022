@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.EstadoVinculo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ public class SectorTest extends BaseTest {
     Vinculacion vinculacion = crearVinculacionPendiente(miembro);
     sector.solicitarVinculacion(vinculacion);
 
-    assertThat(sector.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE)).containsExactly(vinculacion);
+    assertThat(sector.getVinculacionesPendientes()).containsExactly(vinculacion);
   }
 
   @Test
@@ -33,7 +32,7 @@ public class SectorTest extends BaseTest {
 
     vinculacion.aceptar();
 
-    assertThat(sector.getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO)).containsExactly(vinculacion);
+    assertThat(sector.getMiembros()).containsExactly(miembro);
   }
 
   @Test
@@ -44,6 +43,6 @@ public class SectorTest extends BaseTest {
 
     vinculacion.aceptar();
 
-    assertThat(sector.getVinculacionesSegunEstado(EstadoVinculo.PENDIENTE)).doesNotContain(vinculacion);
+    assertThat(sector.getVinculacionesPendientes()).doesNotContain(vinculacion);
   }
 }

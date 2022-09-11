@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 
 import java.util.HashSet;
@@ -19,22 +20,33 @@ public class Sector {
     this.vinculaciones.add(vinculacion);
   }
 
-  public List<Vinculacion> getVinculacionesSegunEstado(EstadoVinculo estado) {
+  public List<Vinculacion> getVinculacionesPendientes() {
     return this.vinculaciones.stream()
-        .filter(vinculacion -> vinculacion.getEstado() == estado)
+        .filter(vinculacion -> vinculacion.getEstado() == EstadoVinculo.PENDIENTE)
         .collect(Collectors.toList());
   }
 
-  public Double huellaCarbono(Periodicidad periodicidad) {
-    return getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO).stream()
+  public List<Miembro> getMiembros() {
+    return this.vinculaciones.stream()
+        .filter(vinculacion -> vinculacion.getEstado() == EstadoVinculo.ACEPTADO)
         .map(Vinculacion::getMiembro)
-        .flatMap(it -> it.getTrayectos().stream())
-        .distinct()
-        .mapToDouble(Trayecto::carbonoEquivalente)
-        .sum() * periodicidad.diasLaborales();
+        .collect(Collectors.toList());
   }
 
-  public Double huellaCarbonoPorMiembro(Periodicidad periodicidad){
-    return huellaCarbono(periodicidad) / getVinculacionesSegunEstado(EstadoVinculo.ACEPTADO).size();
+  public List<Trayecto> getTrayectosEnPeriodo(Periodo periodo) {
+    return getMiembros().stream()
+        .flatMap(miembro -> miembro.getTrayectosEnPeriodo(periodo).stream())
+        .distinct()
+        .collect(Collectors.toList());
+  }
+
+  public Double huellaCarbono(Periodo periodo) {
+    return getTrayectosEnPeriodo(periodo).stream()
+        .mapToDouble(Trayecto::carbonoEquivalente)
+        .sum();
+  }
+
+  public Double huellaCarbonoPorMiembro(Periodo periodo) {
+    return huellaCarbono(periodo) / getMiembros().size();
   }
 }
