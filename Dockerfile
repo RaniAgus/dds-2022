@@ -11,6 +11,21 @@ COPY . ./
 RUN mvn package
 
 
+FROM openjdk:8-jdk-alpine as cron
+
+ADD crontab /etc/cron.d/cronjob
+
+RUN chmod 0644 /etc/cron.d/cronjob
+
+RUN crontab /etc/cron.d/cronjob
+
+WORKDIR /usr/src/target
+
+COPY --from=builder /usr/src/target ./
+
+ENTRYPOINT ["crond", "-f"]
+
+
 FROM openjdk:8-jdk-alpine as java
 
 WORKDIR /usr/src/target
