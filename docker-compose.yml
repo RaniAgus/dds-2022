@@ -1,23 +1,16 @@
 services:
-#  java:
-#    build: .
-#    container_name: impactoambiental-java
-#    command: impactoambiental-1.0-SNAPSHOT-jar-with-dependencies.jar
-#    environment:
-#      - GEODDS_API_KEY=${GEODDS_API_KEY:?}
-#      - POSTGRES_DB=${POSTGRES_DB:?}
-#      - POSTGRES_USER=${POSTGRES_USER:?}
-#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?}
-#      - POSTGRES_SERVICE=db:5432
-#      - RECOMENDACIONES_CRON=${RECOMENDACIONES_CRON:?}
-#      - RECOMENDACIONES_TEMPLATE=${RECOMENDACIONES_TEMPLATE:?}
-#      - RECOMENDACIONES_URL=${RECOMENDACIONES_URL:?}
-#      - SMTP_USER=${SMTP_USER:?}
-#      - SMTP_PASSWORD=${SMTP_PASSWORD:?}
-#      - WHATSAPP_API_KEY=${WHATSAPP_API_KEY:?}
-#      - WHATSAPP_ID=${WHATSAPP_ID:?}
-#    depends_on:
-#      - db
+  java:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: java
+    container_name: impactoambiental-java
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_SERVICE=db:5432
+    depends_on:
+      - db
 
   db:
     image: postgres:9.3-alpine
