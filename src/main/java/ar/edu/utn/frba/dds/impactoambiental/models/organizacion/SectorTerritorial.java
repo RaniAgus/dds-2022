@@ -1,7 +1,6 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
+package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
 import java.util.List;
 

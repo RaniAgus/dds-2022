@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
