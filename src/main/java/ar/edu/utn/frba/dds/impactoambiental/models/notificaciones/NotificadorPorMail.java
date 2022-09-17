@@ -12,10 +12,15 @@ import java.util.stream.Collectors;
 
 
 public class NotificadorPorMail implements Notificador {
+  public static final NotificadorPorMail INSTANCE = new NotificadorPorMail(
+      System.getenv("SMTP_USER"),
+      System.getenv("SMTP_PASSWORD")
+  );
+
   private String remitente;
   private String clave;
 
-  public NotificadorPorMail(String remitente, String clave) {
+  private NotificadorPorMail(String remitente, String clave) {
     this.remitente = remitente;
     this.clave = clave;
   }

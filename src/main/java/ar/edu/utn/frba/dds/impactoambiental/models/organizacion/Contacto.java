@@ -2,19 +2,17 @@ package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
 
 
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Notificador;
-
 import java.util.List;
 
 public class Contacto {
   private String email;
   private String telefono;
-  private List<Notificador> notificadores;
+  private List<MedioDeNotificacion> mediosDeNotificacion;
 
-  public Contacto(String email, String telefono, List<Notificador> notificadores) {
+  public Contacto(String email, String telefono, List<MedioDeNotificacion> mediosDeNotificacion) {
     this.email = email;
     this.telefono = telefono;
-    this.notificadores = notificadores;
+    this.mediosDeNotificacion = mediosDeNotificacion;
   }
 
   public Contacto(String email, String telefono) {
@@ -40,7 +38,7 @@ public class Contacto {
   }
 
   public void enviarGuia(String link) {
-    notificadores
+    mediosDeNotificacion
         .forEach(servicioDeNotificacion -> {
           servicioDeNotificacion.enviarGuiaRecomendacion(this, link);
         });

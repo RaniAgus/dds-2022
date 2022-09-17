@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.*;
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Notificador;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Contacto;
 
@@ -39,13 +38,8 @@ public class EjemploRetrofit {
   }
 
   private static void probarWhatsApp() {
-    Notificador n = new NotificadorPorWhatsApp(
-        System.getenv("WHATSAPP_ID"),
-        System.getenv("WHATSAPP_API_KEY"),
-        System.getenv("RECOMENDACIONES_TEMPLATE")
-    );
     Contacto contacto = new Contacto("", "<completar>");
-    n.enviarGuiaRecomendacion(contacto, System.getenv("RECOMENDACIONES_URL"));
+    NotificadorPorWhatsApp.INSTANCE.enviarGuiaRecomendacion(contacto, System.getenv("RECOMENDACIONES_URL"));
   }
 
 }

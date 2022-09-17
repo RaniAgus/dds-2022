@@ -8,11 +8,17 @@ import retrofit2.Response;
 import java.io.IOException;
 
 public class NotificadorPorWhatsApp implements Notificador {
+  public static final NotificadorPorWhatsApp INSTANCE = new NotificadorPorWhatsApp(
+      System.getenv("WHATSAPP_ID"),
+      System.getenv("WHATSAPP_API_KEY"),
+      System.getenv("RECOMENDACIONES_TEMPLATE")
+  );
+
   private WhatsAppApi whatsAppApi;
   private String apiKey;
   private String recomendacionesTemplate;
 
-  public NotificadorPorWhatsApp(String phoneNumberId, String apiKey, String recomendacionesTemplate) {
+  private NotificadorPorWhatsApp(String phoneNumberId, String apiKey, String recomendacionesTemplate) {
     this.whatsAppApi = WhatsAppApi.create(phoneNumberId);
     this.apiKey = apiKey;
     this.recomendacionesTemplate = recomendacionesTemplate;
