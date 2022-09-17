@@ -1,8 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorMail;
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Contacto;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.MedioDeNotificacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,8 +18,8 @@ public class ServicioDeNotificacionTest  extends BaseTest {
 
   @Test
   public void verificarComunicacionEntreNotificadores() throws MessagingException, IOException {
-    NotificadorPorMail mockMail = mock(NotificadorPorMail.class);
-    NotificadorPorWhatsApp mockWpp = mock(NotificadorPorWhatsApp.class);
+    MedioDeNotificacion mockMail = mock(MedioDeNotificacion.class);
+    MedioDeNotificacion mockWpp = mock(MedioDeNotificacion.class);
 
     Contacto primerContacto = new Contacto("mailito@dds.com", "1163562354", asList(mockMail, mockWpp));
     Contacto segundoContacto = new Contacto("mailito@dds.com", "1163562354", asList(mockMail, mockWpp));
