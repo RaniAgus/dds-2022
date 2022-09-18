@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
 import java.util.List;
@@ -54,4 +55,8 @@ public class Linea {
   public Double consumoEntreParadas(Parada paradaInicial, Parada paradaFinal) {
     return distanciaEntreParadas(paradaInicial, paradaFinal).getValor() * tipo.carbonoEquivalentePorKM();
   }
+
+  public TipoDeConsumo getTipoDeConsumo() {
+    return tipo.getTipoDeConsumo();
+  } 
 }

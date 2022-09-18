@@ -20,4 +20,9 @@ public class VehiculoParticular implements MedioDeTransporte {
   public boolean esCompartible() {
     return true;
   }
+
+  @Override
+  public TipoDeConsumo getTipoDeConsumo() {
+    return tipoDeConsumo;
+  }
 }

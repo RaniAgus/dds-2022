@@ -16,4 +16,8 @@ public class TipoDeServicioContratado {
   public Double carbonoEquivalentePorKM() {
     return tipoDeConsumo.getFactorEmision() * consumoPorKM;
   }
+
+  public TipoDeConsumo getTipoDeConsumo() {
+    return tipoDeConsumo;
+  }
 }

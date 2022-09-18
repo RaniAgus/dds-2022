@@ -23,6 +23,10 @@ public class DatoActividad {
     return periodo.estaEnPeriodo(periodo);
   }
 
+  public TipoDeConsumo getTipoDeConsumo() {
+    return tipo;
+  }
+
 }
 
 

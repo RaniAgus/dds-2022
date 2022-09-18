@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
 import java.time.LocalDate;
@@ -35,5 +36,12 @@ public class Trayecto {
 
   public Double carbonoEquivalente() {
    return tramos.stream().mapToDouble(Tramo::carbonoEquivalente).sum();
+  }
+
+  public Double carbonoEquivalenteSegunConsumo(TipoDeConsumo tipoDeConsumo) {
+    return tramos.stream()
+        .filter(tramo -> tramo.getTipoDeConsumo().equals(tipoDeConsumo))
+        .mapToDouble(Tramo::carbonoEquivalente)
+        .sum();
   }
 }

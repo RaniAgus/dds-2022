@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
@@ -33,5 +34,10 @@ public class TramoPrivado implements Tramo {
 
   public Double carbonoEquivalente() {
     return medioDeTransporte.carbonoEquivalentePorKM() * distancia.getValor();
+  }
+
+  @Override
+  public TipoDeConsumo getTipoDeConsumo() {
+    return this.medioDeTransporte.getTipoDeConsumo();
   }
 }
