@@ -56,7 +56,7 @@ public class Linea {
     return distanciaEntreParadas(paradaInicial, paradaFinal).getValor() * tipo.carbonoEquivalentePorKM();
   }
 
-  public TipoDeConsumo getTipoDeConsumo() {
-    return tipo.getTipoDeConsumo();
-  } 
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    return this.tipo.tieneTipoDeConsumo(tipo);
+  }
 }

@@ -22,7 +22,9 @@ public class VehiculoParticular implements MedioDeTransporte {
   }
 
   @Override
-  public TipoDeConsumo getTipoDeConsumo() {
-    return tipoDeConsumo;
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    if (tipoDeConsumo == null)
+      return false;
+    return tipoDeConsumo.equals(tipo);
   }
 }

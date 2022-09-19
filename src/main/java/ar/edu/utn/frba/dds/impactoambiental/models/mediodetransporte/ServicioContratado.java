@@ -20,7 +20,7 @@ public class ServicioContratado implements MedioDeTransporte {
   }
 
   @Override
-  public TipoDeConsumo getTipoDeConsumo() {
-    return tipoDeServicioContratado.getTipoDeConsumo();
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    return tipoDeServicioContratado.tieneTipoDeConsumo(tipo);
   }
 }

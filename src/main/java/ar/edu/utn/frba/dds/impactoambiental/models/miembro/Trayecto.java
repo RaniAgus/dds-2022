@@ -40,7 +40,7 @@ public class Trayecto {
 
   public Double carbonoEquivalenteSegunConsumo(TipoDeConsumo tipoDeConsumo) {
     return tramos.stream()
-        .filter(tramo -> tramo.getTipoDeConsumo().equals(tipoDeConsumo))
+        .filter(tramo -> tramo.tieneTipoDeConsumo(tipoDeConsumo))
         .mapToDouble(Tramo::carbonoEquivalente)
         .sum();
   }

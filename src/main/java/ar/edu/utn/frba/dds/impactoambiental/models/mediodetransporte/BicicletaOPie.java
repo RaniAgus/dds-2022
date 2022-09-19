@@ -14,8 +14,7 @@ public class BicicletaOPie implements MedioDeTransporte {
   }
 
   @Override
-  public TipoDeConsumo getTipoDeConsumo() {
-    // Null porque no hay consumo ni se usa, controlar si genera problemas
-    return null;
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    return false;
   }
 }

@@ -82,7 +82,7 @@ public class Organizacion {
   public Double huellaCarbonoDASegunConsumo(Periodo periodo, TipoDeConsumo tipoDeConsumo) {
     return this.datosActividad.stream()
           .filter(da -> da.estaEnPeriodo(periodo))
-          .filter(da -> da.getTipoDeConsumo().equals(tipoDeConsumo))
+          .filter(da -> da.tieneTipoDeConsumo(tipoDeConsumo))
           .mapToDouble(DatoActividad::carbonoEquivalente).sum();
   }
 

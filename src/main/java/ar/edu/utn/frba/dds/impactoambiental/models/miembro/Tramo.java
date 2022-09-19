@@ -11,6 +11,6 @@ public interface Tramo {
 
   Double carbonoEquivalente();
 
-  TipoDeConsumo getTipoDeConsumo();
+  Boolean tieneTipoDeConsumo(TipoDeConsumo tipo);
   
 }

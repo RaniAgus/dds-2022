@@ -17,7 +17,9 @@ public class TipoDeServicioContratado {
     return tipoDeConsumo.getFactorEmision() * consumoPorKM;
   }
 
-  public TipoDeConsumo getTipoDeConsumo() {
-    return tipoDeConsumo;
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    if (tipoDeConsumo == null)
+      return false;
+    return tipoDeConsumo.equals(tipo);
   }
 }

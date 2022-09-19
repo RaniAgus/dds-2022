@@ -32,7 +32,7 @@ public class TramoEnTransportePublico implements Tramo {
   }
 
   @Override
-  public TipoDeConsumo getTipoDeConsumo() {
-    return this.linea.getTipoDeConsumo();
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    return this.linea.tieneTipoDeConsumo(tipo);
   }
 }

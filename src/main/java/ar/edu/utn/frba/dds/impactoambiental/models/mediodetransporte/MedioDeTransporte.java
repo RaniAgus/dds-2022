@@ -5,5 +5,5 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 public interface MedioDeTransporte {
   Double carbonoEquivalentePorKM();
   boolean esCompartible();
-  TipoDeConsumo getTipoDeConsumo();
+  Boolean tieneTipoDeConsumo(TipoDeConsumo tipo);
 }

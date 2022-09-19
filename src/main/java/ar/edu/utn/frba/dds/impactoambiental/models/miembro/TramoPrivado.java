@@ -37,7 +37,7 @@ public class TramoPrivado implements Tramo {
   }
 
   @Override
-  public TipoDeConsumo getTipoDeConsumo() {
-    return this.medioDeTransporte.getTipoDeConsumo();
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    return this.medioDeTransporte.tieneTipoDeConsumo(tipo);
   }
 }

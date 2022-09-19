@@ -23,8 +23,8 @@ public class DatoActividad {
     return periodo.estaEnPeriodo(periodo);
   }
 
-  public TipoDeConsumo getTipoDeConsumo() {
-    return tipo;
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    return this.tipo.equals(tipo);
   }
 
 }

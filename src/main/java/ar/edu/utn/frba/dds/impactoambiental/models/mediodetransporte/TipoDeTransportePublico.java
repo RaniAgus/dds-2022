@@ -21,6 +21,7 @@ public enum TipoDeTransportePublico {
     }
     return tipoDeConsumo;
   }
+
   public void setTipoDeConsumo(TipoDeConsumo tipoDeConsumo) {
     this.tipoDeConsumo = tipoDeConsumo;
   }
@@ -32,4 +33,11 @@ public enum TipoDeTransportePublico {
   public Double carbonoEquivalentePorKM() {
     return tipoDeConsumo.getFactorEmision() * consumoPorKM;
   }
+
+  public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
+    if (tipoDeConsumo == null)
+      return false;
+    return tipoDeConsumo.equals(tipo);
+  }
+
 }
