@@ -1,9 +1,15 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Ubicacion {
   private Integer idLocalidad;
   private String calle;
   private String altura;
+
+  protected Ubicacion() {
+  }
 
   public Ubicacion(Integer idLocalidad, String calle, String altura) {
     this.idLocalidad = idLocalidad;

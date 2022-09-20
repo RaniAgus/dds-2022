@@ -1,20 +1,18 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.List;
 @Entity
-public class SectorTerritorial {
-  @Id
-  @GeneratedValue
-  private long id;
+public class SectorTerritorial extends EntidadPersistente {
   private String nombre;
   @OneToMany
+  @JoinColumn(name = "sector_territorial_id")
   private List<Organizacion> organizaciones;
 
   public SectorTerritorial(String nombre, List<Organizacion> organizaciones) {

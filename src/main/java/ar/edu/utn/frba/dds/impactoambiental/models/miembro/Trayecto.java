@@ -1,21 +1,18 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.ManyToMany;
 import java.time.LocalDate;
 import java.util.List;
+
 @Entity
-public class Trayecto {
-  @Id
-  @GeneratedValue
-  private long id;
-  @Transient  //manny to manny @TODO
+public class Trayecto extends EntidadPersistente {
+  @ManyToMany
   private List<Tramo> tramos;
   private LocalDate fecha;
 

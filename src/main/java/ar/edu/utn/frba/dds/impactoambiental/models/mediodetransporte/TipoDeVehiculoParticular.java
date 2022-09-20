@@ -1,21 +1,19 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 @Entity
-public enum TipoDeVehiculoParticular {
-  AUTOMOVIL, CAMIONETA, MOTOCICLETA;
+public class TipoDeVehiculoParticular extends EntidadPersistente {
+  private String nombre;
   private Double consumoPorKM;
-  @Id
-  @GeneratedValue
-  private long id;
+
+  public String getNombre() {
+    return nombre;
+  }
 
   public Double consumoPorKM() {
-    if(consumoPorKM == null) {
-      throw new IllegalStateException("El dato de consumo por KM para " + this.toString() + " no fue cargado.");
-    }
     return consumoPorKM;
   }
 

@@ -1,14 +1,12 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
 import javax.persistence.*;
 
 @Entity
-public class Parada {
-  @Id
-  @GeneratedValue
-  private long id;
+public class Parada extends EntidadPersistente {
   private String nombre;
   @Embedded
   private Distancia distanciaAAnteriorParada;
@@ -20,13 +18,13 @@ public class Parada {
   })
   private Distancia distanciaAProximaParada;
 
+  protected Parada() {
+  }
+
   public Parada(String nombre, Distancia distanciaAAnteriorParada, Distancia distanciaAProximaParada) {
     this.nombre = nombre;
     this.distanciaAAnteriorParada = distanciaAAnteriorParada;
     this.distanciaAProximaParada = distanciaAProximaParada;
-  }
-
-  public Parada() {
   }
 
   public Distancia getDistanciaAProximaParada() {

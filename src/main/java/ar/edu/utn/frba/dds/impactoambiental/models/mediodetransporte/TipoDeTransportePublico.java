@@ -1,33 +1,27 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.ManyToOne;
 
 @Entity
-public enum TipoDeTransportePublico {
-  TREN, SUBTE, COLECTIVO;
-  @Id
-  @GeneratedValue
-  private long  id;
+public class TipoDeTransportePublico extends EntidadPersistente {
+  private String nombre;
   private Double consumoPorKM;
-  @Transient //@TODO
+  @ManyToOne
   private TipoDeConsumo tipoDeConsumo;
 
+  public String getNombre() {
+    return nombre;
+  }
+
   public Double getConsumoPorKM() {
-    if (consumoPorKM == null) {
-      throw new IllegalStateException("El dato de consumo por KM para " + this.toString() + " no fue cargado.");
-    }
     return consumoPorKM;
   }
 
   public TipoDeConsumo getTipoDeConsumo() {
-    if (tipoDeConsumo == null) {
-      throw new IllegalStateException("El tipo de consumo para " + this.toString() + " no fue cargado.");
-    }
     return tipoDeConsumo;
   }
 
@@ -44,9 +38,6 @@ public enum TipoDeTransportePublico {
   }
 
   public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
-    if (tipoDeConsumo == null)
-      return false;
     return tipoDeConsumo.equals(tipo);
   }
-
 }

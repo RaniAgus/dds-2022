@@ -3,11 +3,17 @@ package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class VehiculoParticular extends MedioDeTransporte {
-  private final TipoDeVehiculoParticular tipoDeVehiculo;
-  private final TipoDeConsumo tipoDeConsumo;
+  @ManyToOne
+  private TipoDeVehiculoParticular tipoDeVehiculo;
+  @ManyToOne
+  private TipoDeConsumo tipoDeConsumo;
+
+  protected VehiculoParticular() {
+  }
 
   public VehiculoParticular(TipoDeVehiculoParticular tipoDeVehiculo, TipoDeConsumo tipoDeConsumo) {
     this.tipoDeVehiculo = tipoDeVehiculo;
@@ -26,8 +32,6 @@ public class VehiculoParticular extends MedioDeTransporte {
 
   @Override
   public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
-    if (tipoDeConsumo == null)
-      return false;
     return tipoDeConsumo.equals(tipo);
   }
 }

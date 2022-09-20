@@ -3,25 +3,28 @@ package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.math.BigDecimal;
+
 @Embeddable
 public class Distancia {
-  public static Distancia CERO = new Distancia(BigDecimal.ZERO, Unidad.KM);
-  private BigDecimal valor;
+  public static Distancia CERO = new Distancia(0, Unidad.KM);
+  private Integer valor;
   @Enumerated(EnumType.STRING)
   private Unidad unidad;
 
-  public Distancia(BigDecimal valor, Unidad unidad) {
+  protected Distancia() {
+  }
+
+  public Distancia(Integer valor, Unidad unidad) {
     this.valor = valor;
     this.unidad = unidad;
   }
 
   public Distancia sumar(Distancia distancia) {
-    return new Distancia(valor.add(distancia.valor), Unidad.KM);
+    return new Distancia(valor + distancia.getValor(), Unidad.KM);
   }
 
   public Integer getValor() {
-    return valor.intValue();
+    return valor;
   }
 
   @Override

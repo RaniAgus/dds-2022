@@ -1,19 +1,15 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class TipoDeServicioContratado {
-  @Id
-  @GeneratedValue
-  private long id;
+public class TipoDeServicioContratado extends EntidadPersistente {
   private String nombre;
-  @Transient //@TODO
+  @ManyToOne
   private TipoDeConsumo tipoDeConsumo;
   private Double consumoPorKM;
 
@@ -28,8 +24,6 @@ public class TipoDeServicioContratado {
   }
 
   public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
-    if (tipoDeConsumo == null)
-      return false;
     return tipoDeConsumo.equals(tipo);
   }
 }

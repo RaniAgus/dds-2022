@@ -1,34 +1,33 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
+
 @Entity
-public class Organizacion {
-  @Id
-  @GeneratedValue
-  private long id;
-  private final String razonSocial;
-  @Transient
-  private final Ubicacion ubicacionGeografica;
+public class Organizacion extends EntidadPersistente {
+  private String razonSocial;
   @Embedded
-  private final TipoDeOrganizacion tipoDeOrganizacion;
-  @Embedded
-  private final ClasificacionDeOrganizacion clasificacionDeOrganizacion;
+  private Ubicacion ubicacionGeografica;
+  private TipoDeOrganizacion tipoDeOrganizacion;
+  private ClasificacionDeOrganizacion clasificacionDeOrganizacion;
   @OneToMany
-  private final List<Sector> sectores;
+  @JoinColumn(name = "organizacion_id")
+  private List<Sector> sectores;
   @OneToMany
-  private final List<DatoActividad> datosActividad;
+  @JoinColumn(name = "organizacion_id")
+  private List<DatoActividad> datosActividad;
   @ManyToMany
   private List<Contacto> contactos;
 
+  protected Organizacion() {
+  }
 
   public Organizacion(String razonSocial,
                       Ubicacion ubicacionGeografica,
@@ -44,16 +43,6 @@ public class Organizacion {
     this.sectores = sectores;
     this.datosActividad = datosActividad;
     this.contactos = contactos;
-  }
-  public Organizacion() {
-    this.razonSocial = null;
-    this.ubicacionGeografica=null;
-    this.tipoDeOrganizacion = null;
-    this.clasificacionDeOrganizacion = null;
-    this.sectores = new ArrayList<>();
-    this.datosActividad = new ArrayList<>();
-    this.contactos = new ArrayList<>();
-
   }
 
   public void enviarGuia(String link) {

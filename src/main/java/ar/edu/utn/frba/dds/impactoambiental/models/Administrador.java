@@ -3,16 +3,10 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validador;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 @Entity
-public class Administrador {
-  @Id
-  @GeneratedValue
-  private long id;
+public class Administrador extends EntidadPersistente{
   private String usuario;
   private String contrasena;
 

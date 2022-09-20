@@ -1,14 +1,20 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.da;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 
-@Embeddable
-public class TipoDeConsumo {
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+@Entity
+public class TipoDeConsumo extends EntidadPersistente {
   private String nombre;
   private Double factorEmision;
-  @Embedded
+  @Enumerated(EnumType.STRING)
   private UnidadDeConsumo unidadDeConsumo;
+
+  protected TipoDeConsumo() {
+  }
 
   public TipoDeConsumo(String nombre, Double factorEmision, UnidadDeConsumo unidadDeConsumo) {
     this.nombre = nombre;

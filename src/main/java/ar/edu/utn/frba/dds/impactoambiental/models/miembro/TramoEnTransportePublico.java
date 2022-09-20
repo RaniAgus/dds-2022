@@ -6,15 +6,15 @@ import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class TramoEnTransportePublico extends Tramo {
-  @OneToOne(targetEntity = Parada.class)
+  @ManyToOne
   private Parada paradaInicial;
-  @OneToOne(targetEntity = Parada.class)
+  @ManyToOne
   private Parada paradaFinal;
-  @OneToOne(targetEntity = Linea.class)
+  @ManyToOne
   private Linea linea;
 
   public TramoEnTransportePublico(Parada paradaInicial, Parada paradaFinal, Linea linea) {

@@ -1,20 +1,26 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.List;
+
 @Entity
-public class Linea {
-  @Id
-  @GeneratedValue
-  private long id;
+public class Linea extends EntidadPersistente {
   private String nombre;
   @OneToMany
+  @JoinColumn(name = "linea_id")
   private List<Parada> paradas;
-  @Transient //@TODO
+  @ManyToOne
   private TipoDeTransportePublico tipo;
+
+  protected Linea() {
+  }
 
   public Linea(String nombre, List<Parada> paradas, TipoDeTransportePublico tipo) {
     this.nombre = nombre;

@@ -4,20 +4,23 @@ import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Notificador;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorMail;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 public enum MedioDeNotificacion {
-  WHATSAPP(NotificadorPorWhatsApp.INSTANCE),
-  MAIL(NotificadorPorMail.INSTANCE);
-
-  private Notificador notificador;
-
-  MedioDeNotificacion(Notificador notificador) {
-    this.notificador = notificador;
-  }
+  WHATSAPP() {
+    @Override
+    protected Notificador getNotificador() {
+      return NotificadorPorWhatsApp.INSTANCE;
+    }
+  },
+  MAIL() {
+    @Override
+    protected Notificador getNotificador() {
+      return NotificadorPorMail.INSTANCE;
+    }
+  };
 
   public void enviarGuiaRecomendacion(Contacto contacto, String link) {
-    notificador.enviarGuiaRecomendacion(contacto, link);
+    getNotificador().enviarGuiaRecomendacion(contacto, link);
   }
+
+  protected abstract Notificador getNotificador();
 }

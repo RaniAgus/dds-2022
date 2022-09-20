@@ -1,20 +1,19 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 
-
-import javax.persistence.Embedded;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
+
 @Entity
-public class Contacto {
-  @Id
-  @GeneratedValue
-  private long id;
+public class Contacto extends EntidadPersistente {
   private String email;
   private String telefono;
-  @Embedded
+  @ElementCollection
+  @Enumerated(EnumType.STRING)
   private List<MedioDeNotificacion> mediosDeNotificacion;
 
   public Contacto(String email, String telefono, List<MedioDeNotificacion> mediosDeNotificacion) {

@@ -1,23 +1,24 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.util.List;
 import java.util.stream.Collectors;
 @Entity
-public class Miembro {
-  @Id
-  @GeneratedValue
-  private long id;
+public class Miembro extends EntidadPersistente {
   private String nombre;
   private String apellido;
   private String documento;
-  @Embedded
   private TipoDeDocumento tipoDeDocumento;
   @ManyToMany
   private List<Trayecto> trayectos;
+
+  public Miembro() {
+  }
 
   public Miembro(String nombre,
                  String apellido,
@@ -31,8 +32,6 @@ public class Miembro {
     this.trayectos = trayectos;
   }
 
-  public Miembro() {
-  }
 
   public List<Trayecto> getTrayectos() {
     return trayectos;

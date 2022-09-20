@@ -14,7 +14,7 @@ public class ServicioContratado extends MedioDeTransporte {
     this.tipoDeServicioContratado = tipoDeServicioContratado;
   }
 
-  public ServicioContratado() {
+  protected ServicioContratado() {
   }
 
   @Override

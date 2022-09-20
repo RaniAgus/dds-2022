@@ -6,16 +6,23 @@ import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizado
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 public class TramoPrivado extends Tramo {
-  @Transient //@TODO
+  @Embedded
+  @AttributeOverrides({
+      @AttributeOverride(name = "idLocalidad", column = @Column(name = "ubicacion_inicial_localidad")),
+      @AttributeOverride(name = "calle", column = @Column(name = "ubicacion_inicial_calle")),
+      @AttributeOverride(name = "altura", column = @Column(name = "ubicacion_inicial_altura"))
+  })
   private Ubicacion ubicacionInicial;
-  @Transient //@TODO
+  @Embedded
+  @AttributeOverrides({
+      @AttributeOverride(name = "idLocalidad", column = @Column(name = "ubicacion_final_localidad")),
+      @AttributeOverride(name = "calle", column = @Column(name = "ubicacion_final_calle")),
+      @AttributeOverride(name = "altura", column = @Column(name = "ubicacion_final_altura"))
+  })
   private Ubicacion ubicacionFinal;
   @Embedded
   private Distancia distancia;
