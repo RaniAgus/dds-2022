@@ -5,6 +5,8 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +15,7 @@ public class Miembro extends EntidadPersistente {
   private String nombre;
   private String apellido;
   private String documento;
+  @Enumerated(EnumType.STRING)
   private TipoDeDocumento tipoDeDocumento;
   @ManyToMany
   private List<Trayecto> trayectos;

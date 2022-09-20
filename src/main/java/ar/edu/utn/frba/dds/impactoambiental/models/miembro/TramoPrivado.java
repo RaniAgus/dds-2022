@@ -25,8 +25,12 @@ public class TramoPrivado extends Tramo {
   })
   private Ubicacion ubicacionFinal;
   @Embedded
+  @AttributeOverrides({
+      @AttributeOverride(name = "valor", column = @Column(name = "distancia_valor")),
+      @AttributeOverride(name = "unidad", column = @Column(name = "distancia_unidad")),
+  })
   private Distancia distancia;
-  @OneToOne(targetEntity = MedioDeTransporte.class)
+  @ManyToOne
   private MedioDeTransporte medioDeTransporte;
 
   public TramoPrivado(Geolocalizador geolocalizador,

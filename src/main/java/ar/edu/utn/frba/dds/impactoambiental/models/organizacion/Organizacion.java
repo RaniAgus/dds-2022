@@ -15,8 +15,10 @@ public class Organizacion extends EntidadPersistente {
   private String razonSocial;
   @Embedded
   private Ubicacion ubicacionGeografica;
-  private TipoDeOrganizacion tipoDeOrganizacion;
-  private ClasificacionDeOrganizacion clasificacionDeOrganizacion;
+  @Enumerated(EnumType.STRING)
+  private TipoDeOrganizacion tipo;
+  @Enumerated(EnumType.STRING)
+  private ClasificacionDeOrganizacion clasificacion;
   @OneToMany
   @JoinColumn(name = "organizacion_id")
   private List<Sector> sectores;
@@ -31,15 +33,15 @@ public class Organizacion extends EntidadPersistente {
 
   public Organizacion(String razonSocial,
                       Ubicacion ubicacionGeografica,
-                      TipoDeOrganizacion tipoDeOrganizacion,
-                      ClasificacionDeOrganizacion clasificacionDeOrganizacion,
+                      TipoDeOrganizacion tipo,
+                      ClasificacionDeOrganizacion clasificacion,
                       List<Sector> sectores,
                       List<DatoActividad> datosActividad,
                       List<Contacto> contactos) {
     this.razonSocial = razonSocial;
     this.ubicacionGeografica = ubicacionGeografica;
-    this.tipoDeOrganizacion = tipoDeOrganizacion;
-    this.clasificacionDeOrganizacion = clasificacionDeOrganizacion;
+    this.tipo = tipo;
+    this.clasificacion = clasificacion;
     this.sectores = sectores;
     this.datosActividad = datosActividad;
     this.contactos = contactos;

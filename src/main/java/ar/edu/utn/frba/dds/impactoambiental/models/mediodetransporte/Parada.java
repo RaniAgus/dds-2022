@@ -9,11 +9,14 @@ import javax.persistence.*;
 public class Parada extends EntidadPersistente {
   private String nombre;
   @Embedded
+  @AttributeOverrides({
+      @AttributeOverride(name="valor",column=@Column(name="distancia_anterior_parada")),
+      @AttributeOverride(name="unidad",column=@Column(name="unidad_anterior_parada"))
+  })
   private Distancia distanciaAAnteriorParada;
   @Embedded
   @AttributeOverrides({
-      @AttributeOverride(name="CERO",column=@Column(name="CERO_proxima_parada")),
-      @AttributeOverride(name="valor",column=@Column(name="valor_proxima_parada")),
+      @AttributeOverride(name="valor",column=@Column(name="distancia_proxima_parada")),
       @AttributeOverride(name="unidad",column=@Column(name="unidad_proxima_parada"))
   })
   private Distancia distanciaAProximaParada;
