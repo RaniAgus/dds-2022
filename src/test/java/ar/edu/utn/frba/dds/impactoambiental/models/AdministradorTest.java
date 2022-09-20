@@ -32,7 +32,7 @@ public class AdministradorTest extends BaseTest {
 
 
   @Test
-  public void sePuedeObtenerUnUsuarioIngresandoLaContraseniaCorrecta() {
+  public void sePuedeObtenerUnUsuarioIngresandoLaContraseniaCorrecta() throws Throwable {
     Administrador administrador = crearAdministrador("ContraSUper*MegaS3gUr4");
 
     Administradores.getInstance().agregarAdministrador(administrador);

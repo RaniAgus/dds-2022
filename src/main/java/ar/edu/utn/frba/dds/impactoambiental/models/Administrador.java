@@ -2,9 +2,17 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validador;
 
-import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
+@Entity
 public class Administrador {
+  @Id
+  @GeneratedValue
+  private long id;
   private String usuario;
   private String contrasena;
 

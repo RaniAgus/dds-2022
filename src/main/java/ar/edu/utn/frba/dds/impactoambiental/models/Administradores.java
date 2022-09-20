@@ -1,15 +1,18 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
+import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 
-import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
+
 
 public final class Administradores {
   private static final Administradores instance = new Administradores();
   private final List<Administrador> admins;
+  private EntityManager entityManager;
 
   public static Administradores getInstance() {
     return instance;
@@ -20,21 +23,31 @@ public final class Administradores {
   }
 
   public void agregarAdministrador(Administrador administrador) {
-    admins.add(administrador);
+    if (existeAdministrador(administrador.getUsuario())) {
+      throw new UsuarioNoDisponibleExeption("Nombre de usuario no disponible");
+    }
+    entityManager.persist(administrador);
   }
 
-  public Administrador obtenerAdministrador(String usuario, String contrasena) {
+  public Administrador obtenerAdministrador(String usuario, String contrasena) throws Throwable {
     if (!existeAdministrador(usuario)) {
       throw new UsuarioNoDisponibleExeption("No existe el usuario: " +  usuario);
     }
-    return this.admins.stream()
-        .filter(admin -> admin.getUsuario().equals(usuario) && admin.getContrasena().equals(sha256Hex(contrasena)))
+
+    return (Administrador) this.entityManager.createQuery("SELECT administrador from Administrador"
+            + " where administrador.usuario = ?1 " + "and administrador.contraseña = ? 2")
+        .setParameter("1", usuario)
+        .setParameter("2", sha256Hex(contrasena))
+        .getResultList().stream()
         .findFirst()
-        .orElseThrow(() -> new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
+        .orElseThrow(() ->
+            new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
   }
 
   public boolean existeAdministrador(String usuario) {
-    return this.admins.stream().anyMatch(admin -> admin.getUsuario().equals(usuario));
+    return !entityManager
+        .createQuery("SELECT administrador from Administrador where administrador.usuario = ?1")
+        .setParameter("1", usuario).getResultList().isEmpty();
   }
 
   public void limpiar() {
