@@ -1,9 +1,14 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.da;
 
+import javax.persistence.Embedded;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
 
 public class Periodo {
   private LocalDate inicioPeriodo;
+  @Embedded
+  @Enumerated(EnumType.STRING)
   private Periodicidad periodicidad;
 
   public Periodo(LocalDate inicioPeriodo, Periodicidad periodicidad) {

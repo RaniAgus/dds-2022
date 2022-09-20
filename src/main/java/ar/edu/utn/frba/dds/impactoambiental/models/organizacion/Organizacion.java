@@ -6,16 +6,29 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 
-import java.util.List;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+@Entity
 public class Organizacion {
+  @Id
+  @GeneratedValue
+  private long id;
   private final String razonSocial;
+  @Transient
   private final Ubicacion ubicacionGeografica;
+  @Embedded
   private final TipoDeOrganizacion tipoDeOrganizacion;
+  @Embedded
   private final ClasificacionDeOrganizacion clasificacionDeOrganizacion;
+  @OneToMany
   private final List<Sector> sectores;
+  @OneToMany
   private final List<DatoActividad> datosActividad;
+  @ManyToMany
   private List<Contacto> contactos;
+
 
   public Organizacion(String razonSocial,
                       Ubicacion ubicacionGeografica,
@@ -31,6 +44,16 @@ public class Organizacion {
     this.sectores = sectores;
     this.datosActividad = datosActividad;
     this.contactos = contactos;
+  }
+  public Organizacion() {
+    this.razonSocial = null;
+    this.ubicacionGeografica=null;
+    this.tipoDeOrganizacion = null;
+    this.clasificacionDeOrganizacion = null;
+    this.sectores = new ArrayList<>();
+    this.datosActividad = new ArrayList<>();
+    this.contactos = new ArrayList<>();
+
   }
 
   public void enviarGuia(String link) {

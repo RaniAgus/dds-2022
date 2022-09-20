@@ -1,8 +1,13 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.da;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+
+@Embeddable
 public class TipoDeConsumo {
   private String nombre;
   private Double factorEmision;
+  @Embedded
   private UnidadDeConsumo unidadDeConsumo;
 
   public TipoDeConsumo(String nombre, Double factorEmision, UnidadDeConsumo unidadDeConsumo) {

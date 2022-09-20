@@ -2,15 +2,31 @@ package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
+import javax.persistence.*;
+
+@Entity
 public class Parada {
+  @Id
+  @GeneratedValue
+  private long id;
   private String nombre;
+  @Embedded
   private Distancia distanciaAAnteriorParada;
+  @Embedded
+  @AttributeOverrides({
+      @AttributeOverride(name="CERO",column=@Column(name="CERO_proxima_parada")),
+      @AttributeOverride(name="valor",column=@Column(name="valor_proxima_parada")),
+      @AttributeOverride(name="unidad",column=@Column(name="unidad_proxima_parada"))
+  })
   private Distancia distanciaAProximaParada;
 
   public Parada(String nombre, Distancia distanciaAAnteriorParada, Distancia distanciaAProximaParada) {
     this.nombre = nombre;
     this.distanciaAAnteriorParada = distanciaAAnteriorParada;
     this.distanciaAProximaParada = distanciaAProximaParada;
+  }
+
+  public Parada() {
   }
 
   public Distancia getDistanciaAProximaParada() {

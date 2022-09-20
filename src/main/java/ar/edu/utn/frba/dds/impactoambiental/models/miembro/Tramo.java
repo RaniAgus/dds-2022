@@ -3,14 +3,21 @@ package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
-public interface Tramo {
+import javax.persistence.*;
 
-  Distancia getDistancia();
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Tramo {
+  @Id
+  @GeneratedValue
+  private long id;
 
-  boolean esCompartible();
+  public abstract Distancia getDistancia();
 
-  Double carbonoEquivalente();
+  public abstract boolean esCompartible();
 
-  Boolean tieneTipoDeConsumo(TipoDeConsumo tipo);
+  public abstract Double carbonoEquivalente();
+
+  public abstract Boolean tieneTipoDeConsumo(TipoDeConsumo tipo);
   
 }

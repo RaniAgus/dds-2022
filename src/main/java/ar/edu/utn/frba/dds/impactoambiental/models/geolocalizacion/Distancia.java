@@ -1,10 +1,14 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
-
+@Embeddable
 public class Distancia {
   public static Distancia CERO = new Distancia(BigDecimal.ZERO, Unidad.KM);
   private BigDecimal valor;
+  @Enumerated(EnumType.STRING)
   private Unidad unidad;
 
   public Distancia(BigDecimal valor, Unidad unidad) {

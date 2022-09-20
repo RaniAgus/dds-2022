@@ -5,10 +5,16 @@ import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 
-public class TramoEnTransportePublico implements Tramo {
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
+@Entity
+public class TramoEnTransportePublico extends Tramo {
+  @OneToOne(targetEntity = Parada.class)
   private Parada paradaInicial;
+  @OneToOne(targetEntity = Parada.class)
   private Parada paradaFinal;
+  @OneToOne(targetEntity = Linea.class)
   private Linea linea;
 
   public TramoEnTransportePublico(Parada paradaInicial, Parada paradaFinal, Linea linea) {

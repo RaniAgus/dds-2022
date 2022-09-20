@@ -3,11 +3,17 @@ package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
+import javax.persistence.*;
 import java.util.List;
-
+@Entity
 public class Linea {
+  @Id
+  @GeneratedValue
+  private long id;
   private String nombre;
+  @OneToMany
   private List<Parada> paradas;
+  @Transient //@TODO
   private TipoDeTransportePublico tipo;
 
   public Linea(String nombre, List<Parada> paradas, TipoDeTransportePublico tipo) {

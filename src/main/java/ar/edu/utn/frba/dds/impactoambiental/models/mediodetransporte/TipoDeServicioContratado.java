@@ -2,8 +2,18 @@ package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity
 public class TipoDeServicioContratado {
+  @Id
+  @GeneratedValue
+  private long id;
   private String nombre;
+  @Transient //@TODO
   private TipoDeConsumo tipoDeConsumo;
   private Double consumoPorKM;
 

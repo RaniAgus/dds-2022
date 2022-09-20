@@ -3,14 +3,20 @@ package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Entity
 public class Miembro {
+  @Id
+  @GeneratedValue
+  private long id;
   private String nombre;
   private String apellido;
   private String documento;
+  @Embedded
   private TipoDeDocumento tipoDeDocumento;
+  @ManyToMany
   private List<Trayecto> trayectos;
 
   public Miembro(String nombre,
@@ -23,6 +29,9 @@ public class Miembro {
     this.documento = documento;
     this.tipoDeDocumento = tipoDeDocumento;
     this.trayectos = trayectos;
+  }
+
+  public Miembro() {
   }
 
   public List<Trayecto> getTrayectos() {

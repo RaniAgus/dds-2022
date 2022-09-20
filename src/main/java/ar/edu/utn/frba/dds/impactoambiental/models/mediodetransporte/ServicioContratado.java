@@ -2,11 +2,19 @@ package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
-public class ServicioContratado implements MedioDeTransporte {
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+
+@Entity
+public class ServicioContratado extends MedioDeTransporte {
+  @OneToOne(targetEntity = TipoDeServicioContratado.class)
   private TipoDeServicioContratado tipoDeServicioContratado;
 
   public ServicioContratado(TipoDeServicioContratado tipoDeServicioContratado) {
     this.tipoDeServicioContratado = tipoDeServicioContratado;
+  }
+
+  public ServicioContratado() {
   }
 
   @Override

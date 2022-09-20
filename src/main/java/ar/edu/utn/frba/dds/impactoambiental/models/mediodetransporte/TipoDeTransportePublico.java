@@ -2,10 +2,19 @@ package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
+@Entity
 public enum TipoDeTransportePublico {
   TREN, SUBTE, COLECTIVO;
-
+  @Id
+  @GeneratedValue
+  private long  id;
   private Double consumoPorKM;
+  @Transient //@TODO
   private TipoDeConsumo tipoDeConsumo;
 
   public Double getConsumoPorKM() {

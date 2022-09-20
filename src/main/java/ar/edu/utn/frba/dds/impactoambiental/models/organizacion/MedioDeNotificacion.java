@@ -4,6 +4,9 @@ import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Notificador;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorMail;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public enum MedioDeNotificacion {
   WHATSAPP(NotificadorPorWhatsApp.INSTANCE),
   MAIL(NotificadorPorMail.INSTANCE);

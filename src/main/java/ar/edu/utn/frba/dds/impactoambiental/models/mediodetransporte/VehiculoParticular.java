@@ -2,7 +2,10 @@ package ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 
-public class VehiculoParticular implements MedioDeTransporte {
+import javax.persistence.Entity;
+
+@Entity
+public class VehiculoParticular extends MedioDeTransporte {
   private final TipoDeVehiculoParticular tipoDeVehiculo;
   private final TipoDeConsumo tipoDeConsumo;
 

@@ -4,12 +4,20 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Entity
 public class Sector {
+  @Id
+  @GeneratedValue
+  private long id;
+  @OneToMany
   private Set<Vinculacion> vinculaciones;
 
   public Sector(List<Vinculacion> vinculaciones) {

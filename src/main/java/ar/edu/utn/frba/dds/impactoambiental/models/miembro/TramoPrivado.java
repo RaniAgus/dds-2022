@@ -6,10 +6,20 @@ import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizado
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
 
-public class TramoPrivado implements Tramo {
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+@Entity
+public class TramoPrivado extends Tramo {
+  @Transient //@TODO
   private Ubicacion ubicacionInicial;
+  @Transient //@TODO
   private Ubicacion ubicacionFinal;
+  @Embedded
   private Distancia distancia;
+  @OneToOne(targetEntity = MedioDeTransporte.class)
   private MedioDeTransporte medioDeTransporte;
 
   public TramoPrivado(Geolocalizador geolocalizador,

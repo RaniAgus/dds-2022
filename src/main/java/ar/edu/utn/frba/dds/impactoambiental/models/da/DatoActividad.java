@@ -1,8 +1,16 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.da;
 
+import javax.persistence.*;
+
+@Entity
 public class DatoActividad {
+  @Id
+  @GeneratedValue
+  private long id;
+  @Embedded
   private TipoDeConsumo tipo;
   private Double valor;
+  @Transient // @TODO
   private Periodo periodo;
 
   public DatoActividad(TipoDeConsumo tipo, Double valor, Periodo periodo) {
