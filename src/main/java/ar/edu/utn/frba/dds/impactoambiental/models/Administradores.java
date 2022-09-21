@@ -28,9 +28,9 @@ public final class Administradores implements WithGlobalEntityManager {
     }
 
     return entityManager().createQuery("SELECT administrador from Administrador administrador"
-            + " where administrador.usuario = ?1 " + "and administrador.contrasena = ?2", Administrador.class)
-        .setParameter("1", usuario)
-        .setParameter("2", sha256Hex(contrasena))
+            + " where administrador.usuario = :u " + "and administrador.contrasena = :c", Administrador.class)
+        .setParameter("u", usuario)
+        .setParameter("c", sha256Hex(contrasena))
         .getResultList().stream()
         .findFirst()
         .orElseThrow(() ->
