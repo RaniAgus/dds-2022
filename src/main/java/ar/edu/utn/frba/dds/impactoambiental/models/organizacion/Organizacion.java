@@ -26,6 +26,7 @@ public class Organizacion extends EntidadPersistente {
   @JoinColumn(name = "organizacion_id")
   private List<DatoActividad> datosActividad;
   @OneToMany
+  @JoinColumn(name = "organizacion_id")
   private List<Contacto> contactos;
 
   protected Organizacion() {
