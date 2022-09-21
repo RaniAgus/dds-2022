@@ -6,13 +6,15 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 public class Trayecto extends EntidadPersistente {
-  @ManyToMany
+  @OneToMany
+  @JoinColumn(name = "trayecto_id")
   private List<Tramo> tramos;
   private LocalDate fecha;
 
