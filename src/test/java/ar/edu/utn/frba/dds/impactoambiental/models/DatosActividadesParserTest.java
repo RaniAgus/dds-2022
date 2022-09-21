@@ -30,7 +30,7 @@ public class DatosActividadesParserTest extends BaseTest {
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodo.periodicidad", "periodo.inicioPeriodo", "tipo")
+        .extracting("valor", "periodo.periodicidad", "periodo.inicioPeriodo", "tipoDeConsumo")
         .containsExactly(122.0, Periodicidad.MENSUAL, LocalDate.of(2002, 3, 1), electricidad);
   }
 
@@ -45,7 +45,7 @@ public class DatosActividadesParserTest extends BaseTest {
     List<DatoActividad> datosActividad = parser.getDatosActividad();
 
     assertThat(datosActividad.get(0))
-        .extracting("valor", "periodo.periodicidad","periodo.inicioPeriodo", "tipo")
+        .extracting("valor", "periodo.periodicidad","periodo.inicioPeriodo", "tipoDeConsumo")
         .containsExactly(5.0, Periodicidad.ANUAL, LocalDate.of(2020,1,1), nafta);
   }
 

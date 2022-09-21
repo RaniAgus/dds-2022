@@ -1,17 +1,42 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.da.*;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.RepositorioTipoDeConsumo;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.UnidadDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Unidad;
-import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.*;
-import ar.edu.utn.frba.dds.impactoambiental.models.miembro.*;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.*;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.*;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.TipoDeTransporte;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.ClasificacionDeOrganizacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validador;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar10MilContrasenas;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar8Caracteres;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresConsecutivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresRepetidos;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarUsuarioPorDefecto;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +45,18 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 
-public abstract class BaseTest {
+public abstract class BaseTest extends AbstractPersistenceTest
+    implements WithGlobalEntityManager, EntityManagerOps, TransactionalOps {
   protected Ubicacion utnMedrano = new Ubicacion(1, "Medrano", "951");
   protected Ubicacion utnCampus = new Ubicacion(1, "Mozart", "2300");
 
   protected TipoDeConsumo electricidad = new TipoDeConsumo("ELECTRICIDAD", 1.0, UnidadDeConsumo.M3);
   protected TipoDeConsumo nafta = new TipoDeConsumo("NAFTA", 1.0, UnidadDeConsumo.LTS);
+
+  protected MedioDeTransporte bicicleta = new MedioDeTransporte("BICICLETA", 0.0, null, TipoDeTransporte.BICICLETA_O_PIE);
+  protected MedioDeTransporte taxi = new MedioDeTransporte("TAXI", 1.0, nafta, TipoDeTransporte.SERVICIO_CONTRATADO);
+  protected MedioDeTransporte subte = new MedioDeTransporte("SUBTE", 10.0, nafta, TipoDeTransporte.TRANSPORTE_PUBLICO);
+  protected MedioDeTransporte automovil = new MedioDeTransporte("AUTOMOVIL", 1.0, nafta, TipoDeTransporte.VEHICULO_PARTICULAR);
 
   protected LectorDeArchivos lectorDeArchivos;
   protected Geolocalizador geolocalizador;
@@ -34,6 +65,12 @@ public abstract class BaseTest {
   void init() {
     lectorDeArchivos = mock(LectorDeArchivos.class);
     geolocalizador = mock(Geolocalizador.class);
+    super.setup();
+  }
+
+  @AfterEach
+  void teardown() {
+    super.tearDown();
   }
 
   // Organizaciones
@@ -46,7 +83,7 @@ public abstract class BaseTest {
         ClasificacionDeOrganizacion.UNIVERSIDAD,
         new ArrayList<>(),
         new ArrayList<>(),
-        new ArrayList<Contacto>()
+        new ArrayList<>()
     );
   }
 
@@ -77,21 +114,21 @@ public abstract class BaseTest {
   }
 
   protected Linea crearLineaDeSubteConParadas(List<Parada> paradas) {
-    return new Linea("Subte B", paradas, TipoDeTransportePublico.SUBTE);
+    return new Linea("Subte B", paradas, subte);
   }
 
-  protected Parada crearParada(double distanciaAAnterior, double distanciaAProxima) {
+  protected Parada crearParada(int distanciaAAnterior, int distanciaAProxima) {
     return new Parada("Parada", crearDistanciaEnKm(distanciaAAnterior), crearDistanciaEnKm(distanciaAProxima));
   }
 
-  protected Distancia crearDistanciaEnKm(double kilometros) {
-    return new Distancia(BigDecimal.valueOf(kilometros), Unidad.KM);
+  protected Distancia crearDistanciaEnKm(int kilometros) {
+    return new Distancia(kilometros, Unidad.KM);
   }
 
   // Tramos
 
   protected Tramo crearTramoEnBicicleta(Ubicacion origen, Ubicacion destino) {
-    return new TramoPrivado(geolocalizador, origen, destino, new BicicletaOPie());
+    return new TramoPrivado(geolocalizador, origen, destino, bicicleta);
   }
 
   protected Tramo crearTramoEnTransportePublico(Parada origen, Parada destino, Linea linea) {
@@ -99,21 +136,11 @@ public abstract class BaseTest {
   }
 
   protected Tramo crearTramoEnServicioContratado() {
-    return new TramoPrivado(
-        geolocalizador,
-        utnMedrano,
-        utnCampus,
-        new ServicioContratado(new TipoDeServicioContratado("Taxi", nafta, 1.0))
-    );
+    return new TramoPrivado(geolocalizador, utnMedrano, utnCampus, taxi);
   }
 
   protected Tramo crearTramoEnVehiculoParticular() {
-    return new TramoPrivado(
-        geolocalizador,
-        utnMedrano,
-        utnCampus,
-        new VehiculoParticular(TipoDeVehiculoParticular.AUTOMOVIL, nafta)
-    );
+    return new TramoPrivado(geolocalizador, utnMedrano, utnCampus, automovil);
   }
 
   // Trayectos
@@ -129,8 +156,10 @@ public abstract class BaseTest {
   // Datos de Actividad
 
   protected DatosActividadesParser crearParserDatosDeActividad() {
+    persist(electricidad);
+    persist(nafta);
     return new DatosActividadesParser(
-        new RepositorioTipoDeConsumo(asList(electricidad, nafta)),
+        new RepositorioTipoDeConsumo(),
         lectorDeArchivos, 1, ';'
     );
   }

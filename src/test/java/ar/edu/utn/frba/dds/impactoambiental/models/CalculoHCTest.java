@@ -40,7 +40,7 @@ public class CalculoHCTest extends BaseTest {
   @Test
   public void elHCDeUnTramoEsSuDistanciaPorElFactorDelTransporte(){
     when(geolocalizador.medirDistancia(utnMedrano, utnCampus)).thenReturn(crearDistanciaEnKm(50));
-    assertThat(crearTramoEnServicioContratado().carbonoEquivalente()).isEqualTo(50.0);
+    assertThat(crearTramoEnServicioContratado().carbonoEquivalente()).isEqualTo(50);
   }
   
   // TPA3 - Calculos HC de Trayecto

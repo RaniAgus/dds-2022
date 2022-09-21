@@ -27,8 +27,8 @@ public final class Administradores implements WithGlobalEntityManager {
       throw new UsuarioNoDisponibleExeption("No existe el usuario: " +  usuario);
     }
 
-    return entityManager().createQuery("SELECT administrador from Administrador"
-            + " where administrador.usuario = ?1 " + "and administrador.contraseña = ? 2", Administrador.class)
+    return entityManager().createQuery("SELECT administrador from Administrador administrador"
+            + " where administrador.usuario = ?1 " + "and administrador.contrasena = ?2", Administrador.class)
         .setParameter("1", usuario)
         .setParameter("2", sha256Hex(contrasena))
         .getResultList().stream()
@@ -39,7 +39,7 @@ public final class Administradores implements WithGlobalEntityManager {
 
   public boolean existeAdministrador(String usuario) {
     return !entityManager()
-        .createQuery("SELECT administrador from Administrador where administrador.usuario = ?1")
+        .createQuery("SELECT administrador from Administrador administrador where administrador.usuario = ?1")
         .setParameter("1", usuario).getResultList().isEmpty();
   }
 
