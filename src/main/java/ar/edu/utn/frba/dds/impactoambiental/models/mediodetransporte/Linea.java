@@ -17,15 +17,15 @@ public class Linea extends EntidadPersistente {
   @JoinColumn(name = "linea_id")
   private List<Parada> paradas;
   @ManyToOne
-  private TipoDeTransportePublico tipo;
+  private MedioDeTransporte medioDeTransporte;
 
   protected Linea() {
   }
 
-  public Linea(String nombre, List<Parada> paradas, TipoDeTransportePublico tipo) {
+  public Linea(String nombre, List<Parada> paradas, MedioDeTransporte medioDeTransporte) {
     this.nombre = nombre;
     this.paradas = paradas;
-    this.tipo = tipo;
+    this.medioDeTransporte = medioDeTransporte;
   }
 
   public void agregarParada(Parada nuevaParada, Distancia distanciaANuevaParada) {
@@ -65,10 +65,10 @@ public class Linea extends EntidadPersistente {
   }
 
   public Double consumoEntreParadas(Parada paradaInicial, Parada paradaFinal) {
-    return distanciaEntreParadas(paradaInicial, paradaFinal).getValor() * tipo.carbonoEquivalentePorKM();
+    return distanciaEntreParadas(paradaInicial, paradaFinal).getValor() * medioDeTransporte.carbonoEquivalentePorKM();
   }
 
   public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
-    return this.tipo.tieneTipoDeConsumo(tipo);
+    return medioDeTransporte.tieneTipoDeConsumo(tipo);
   }
 }
