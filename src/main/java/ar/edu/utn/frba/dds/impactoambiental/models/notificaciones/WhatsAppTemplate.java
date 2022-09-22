@@ -11,10 +11,10 @@ public class WhatsAppTemplate {
   private String type = "template";
   private Map<String, Object> template;
 
-  public WhatsAppTemplate(String template, String phoneNumber, String link) {
+  public WhatsAppTemplate(String templateName, String phoneNumber, String relativeUrl) {
     this.to = phoneNumber;
     this.template = ImmutableMap.of(
-        "name", template,
+        "name", templateName,
         "language", ImmutableMap.of("code", "es_AR"),
         "components", ImmutableList.of(ImmutableMap.of(
             "type", "button",
@@ -22,7 +22,7 @@ public class WhatsAppTemplate {
             "index", 0,
             "parameters", ImmutableList.of(ImmutableMap.of(
                 "type", "text",
-                "text", link
+                "text", relativeUrl
             ))
         ))
     );

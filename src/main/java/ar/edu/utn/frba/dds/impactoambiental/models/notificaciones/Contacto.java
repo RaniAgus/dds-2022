@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
+package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 

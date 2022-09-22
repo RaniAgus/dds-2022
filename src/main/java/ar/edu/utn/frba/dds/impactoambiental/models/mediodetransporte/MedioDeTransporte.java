@@ -6,12 +6,9 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class MedioDeTransporte extends EntidadPersistente {
   private String nombre;
   private Double consumoPorKm;

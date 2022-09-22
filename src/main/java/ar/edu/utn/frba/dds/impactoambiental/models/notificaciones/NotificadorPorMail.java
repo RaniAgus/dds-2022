@@ -1,8 +1,12 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Contacto;
-
-import javax.mail.*;
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -17,16 +21,16 @@ public class NotificadorPorMail implements Notificador {
       System.getenv("SMTP_PASSWORD")
   );
 
-  private String remitente;
-  private String clave;
+  private String smtpUser;
+  private String smtpPassword;
 
-  private NotificadorPorMail(String remitente, String clave) {
-    this.remitente = remitente;
-    this.clave = clave;
+  private NotificadorPorMail(String smtpUser, String smtpPassword) {
+    this.smtpUser = smtpUser;
+    this.smtpPassword = smtpPassword;
   }
 
   @Override
-  public void enviarGuiaRecomendacion(Contacto contacto, String mensaje) {
+  public void enviarGuiaRecomendacion(Contacto contacto, String link) {
     Properties props = System.getProperties();
     props.setProperty("mail.smtp.host", "smtp.gmail.com");
     props.setProperty("mail.smtp.auth", "true");
@@ -34,13 +38,13 @@ public class NotificadorPorMail implements Notificador {
     props.setProperty("mail.smtp.port", "587");
     props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 
-    Session session = Session.getInstance(props, this.getPasswordAuthentication(remitente, clave));
+    Session session = Session.getInstance(props, this.getPasswordAuthentication(smtpUser, smtpPassword));
     MimeMessage message = new MimeMessage(session);
     try {
-      message.setFrom(new InternetAddress(remitente));
+      message.setFrom(new InternetAddress(smtpUser));
       message.addRecipient(Message.RecipientType.BCC, new InternetAddress(contacto.getEmail()));
       message.setSubject("Guía Recomendaciones");
-      message.setText(mensaje);
+      message.setText(link);
 
       Transport transport = session.getTransport("smtp");
       Transport.send(message);

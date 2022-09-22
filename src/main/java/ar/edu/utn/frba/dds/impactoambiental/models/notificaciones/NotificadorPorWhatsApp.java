@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpRequestException;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Contacto;
 import com.google.gson.Gson;
 import retrofit2.Response;
 

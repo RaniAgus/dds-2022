@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Entity
 public class Miembro extends EntidadPersistente {
   private String nombre;

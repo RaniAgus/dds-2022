@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Contacto;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.MedioDeNotificacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
+import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.MedioDeNotificacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
