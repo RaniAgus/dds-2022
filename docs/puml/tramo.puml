@@ -1,0 +1,67 @@
+@startuml
+
+!include trayecto.puml
+
+Trayecto --> "*" Tramo
+
+abstract class Tramo {
+    {abstract} getDistancia() : Distancia
+    {abstract} esCompartible() : Boolean
+    {abstract} carbonoEquivalente() : Double
+    {abstract} tieneTipoDeConsumo() : Boolean
+}
+
+
+class TramoEnTransportePublico extends Tramo {
+     paradaInicial : Parada
+     paradaFinal : Parada
+}
+
+TramoEnTransportePublico --> Parada
+TramoEnTransportePublico --> Parada
+TramoEnTransportePublico --> Linea
+
+class TramoPrivado extends Tramo {
+    ubicacionInicial : Ubicacion
+    ubicacionFinal : Ubicacion
+    distancia : Distancia
+}
+
+TramoPrivado --> MedioDeTransporte
+
+class Linea {
+    nombre : String
+    distanciaEntreParadas(inicial, final) : Distancia
+    consumoEntreParadas(inicial, final) : Double
+}
+
+Linea --> MedioDeTransporte
+Linea --> "*" Parada
+
+class MedioDeTransporte {
+    nombre : String
+    consumoPorKm : Double
+    carbonoEquivalentePorKm() : Double
+    esCompartible() : Boolean
+}
+
+MedioDeTransporte --> TipoDeConsumo
+MedioDeTransporte --> TipoDeTransporte
+
+class Parada {
+    nombre : String
+    distanciaAAnterior : Distancia
+    distanciaAProxima : Distancia
+}
+
+enum TipoDeTransporte {
+    BICICLETA_O_PIE
+    TRANSPORTE_PUBLICO
+    SERVICIO_CONTRATADO
+    VEHICULO_PARTICULAR
+    esCompartible() : Boolean
+}
+
+!include tipo-de-consumo.puml
+
+@enduml

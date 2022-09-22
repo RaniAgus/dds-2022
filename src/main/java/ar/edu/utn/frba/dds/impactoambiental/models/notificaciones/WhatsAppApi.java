@@ -17,6 +17,6 @@ public interface WhatsAppApi {
   }
 
   @POST("messages")
-  Call<Object> sendTemplate(@Body WhatsAppTemplate whatsAppTemplate,
+  Call<Object> sendTemplate(@Body WhatsAppTemplate template,
                             @Header("Authorization") String authorization);
 }

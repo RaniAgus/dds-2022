@@ -1,8 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
-
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Notificador;
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorMail;
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
+package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
 public enum MedioDeNotificacion {
   WHATSAPP() {

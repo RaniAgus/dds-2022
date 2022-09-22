@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class TramoTest extends BaseTest {
 
@@ -25,7 +27,7 @@ public class TramoTest extends BaseTest {
 
     assertThat(tramo.getDistancia())
         .extracting("valor", "unidad")
-        .containsExactly(40, Unidad.KM);
+        .containsExactly(40., Unidad.KM);
   }
 
   @Test
@@ -38,7 +40,7 @@ public class TramoTest extends BaseTest {
 
     assertThat(tramo.getDistancia())
         .extracting("valor", "unidad")
-        .containsExactly(60, Unidad.KM);
+        .containsExactly(60., Unidad.KM);
   }
 
   @Test
@@ -50,7 +52,7 @@ public class TramoTest extends BaseTest {
     verify(geolocalizador, times(1)).medirDistancia(utnMedrano, utnCampus);
     assertThat(tramo.getDistancia())
         .extracting("valor", "unidad")
-        .containsExactly(50, Unidad.KM);
+        .containsExactly(50., Unidad.KM);
   }
 
 }

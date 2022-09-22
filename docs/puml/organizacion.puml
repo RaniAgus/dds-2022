@@ -1,0 +1,69 @@
+@startuml
+
+enum EstadoVinculo {
+    PENDIENTE
+    ACEPTADO
+    RECHAZADO
+    aceptar(vinculacion)
+    rechazar(vinculacion)
+}
+
+Vinculacion <.. EstadoVinculo
+
+class Organizacion {
+    razonSocial : String
+    ubicacionGeografica : Ubicacion
+    tipo : TipoDeOrganizacion
+    clasificacion : ClasificacionDeOrganizacion
+    huellaCarbono(periodo)
+    huellaCarbonoSegunConsumo(periodo, tipoDeConsumo)
+}
+
+Organizacion --> "*" DatoActividad
+Organizacion --> "*" Sector
+
+class Sector {
+    solicitarVinculacion()
+    getVinculacionesPendientes()
+    getMiembros() : Miembro[]
+    getTrayectosEnPeriodo() : Trayecto[]
+    huellaCarbono(periodo) : Double
+    huellaCarbonoPorMiembro(periodo) : Double
+}
+
+Sector --> "*" Vinculacion
+
+class SectorTerritorial {
+    nombre : String
+    huellaCarbono(periodo) : Double
+    huellaCarbonoSegunConsumo(periodo, tipoDeConsumo) : Double
+}
+
+SectorTerritorial --> "*" Organizacion
+
+class Vinculacion {
+    aceptar()
+    rechazar()
+}
+
+Vinculacion --> EstadoVinculo
+Vinculacion --> Miembro
+
+!include da.puml
+
+class Miembro {
+    nombre : String
+    apellido : String
+    documento : String
+    tipoDeDocumento : TipoDeDocumento
+    getTrayectosEnPeriodo(periodo)
+    huellaCarbonoPersonal(periodo)
+    impactoCarbonoEnOrganizacion(organizacion, periodo)
+}
+
+Organizacion <.. Miembro
+Miembro --> "*" Trayecto
+
+!include trayecto.puml
+
+@enduml
