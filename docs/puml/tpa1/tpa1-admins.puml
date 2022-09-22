@@ -13,14 +13,14 @@ class Administrador {
     contrasena : String
 }
 
-Administrador ..> Validador
+Administrador .right.> Validador
 
 class Validador {
     agregarValidacion()
     validar(usuario, contrasena)
 }
 
-Validador --> "0..*" Validacion
+Validador -right-> "0..*" Validacion
 
 interface Validacion {
     validar(usuario, contrasena)

@@ -1,0 +1,13 @@
+@startuml
+
+class DatoActividad {
+    valor : Double
+    periodo : Periodo
+    carbonoEquivalente() : Double
+}
+
+DatoActividad --> TipoDeConsumo
+
+!include tipo-de-consumo.puml
+
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+
+class Trayecto {
+    fecha : LocalDate
+    estaEnPeriodo(periodo) : Boolean
+    getDistancia() : Double
+    esCompartible() : Boolean
+    carbonoEquivalente() : Double
+    carbonoEquivalenteSegunConsumo(tipoDeConsumo) : Double
+}
+
+
+@enduml

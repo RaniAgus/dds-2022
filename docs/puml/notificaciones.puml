@@ -1,0 +1,54 @@
+@startuml
+
+class Organizacion {
+    enviarGuia(link)
+}
+
+Organizacion --> "*" Contacto
+
+class Contacto {
+    email
+    telefono
+    enviarGuia(link)
+}
+
+Contacto -right-> "*" MedioDeNotificacion
+
+enum MedioDeNotificacion {
+    WHATSAPP
+    MAIL
+    enviarGuiaRecomendacion(contacto, link)
+}
+
+MedioDeNotificacion --> Notificador
+Contacto <.. MedioDeNotificacion
+
+interface Notificador {
+    {abstract} enviarGuiaRecomendacion(contacto, link)
+}
+
+class NotificadorPorMail implements Notificador {
+    smtpUser
+    smtpPassword
+}
+
+class NotificadorPorWhatsApp implements Notificador {
+    apiKey
+}
+
+NotificadorPorWhatsApp --> WhatsAppApi
+NotificadorPorWhatsApp ..> WhatsAppTemplate
+
+class WhatsAppApi {
+    sendTemplate(template, authorization)
+}
+
+WhatsAppTemplate <.left. WhatsAppApi
+
+class WhatsAppTemplate {
+    templateName
+    phoneNumber
+    relativeUrl
+}
+
+@enduml

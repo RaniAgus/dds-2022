@@ -1,0 +1,37 @@
+@startuml
+
+class Geolocalizador {
+    getPaises(): Pais[]
+    getProvincias(): Provincia[]
+    getMunicipios(): Municipio[]
+    getLocalidades(): Localidad[]
+    medirDistancia(origen, destino): Distancia
+}
+
+Geolocalizador --> GeoddsApi
+Geolocalizador ..> Distancia : <<creates>>
+Geolocalizador ..> Ubicacion
+
+class GeoddsApi {
+    getPaises(offset, auth)
+    getProvincias(offset, paisId, auth)
+    getMunicipios(offset, provinciaId, auth)
+    getLocalidades(offset, municipioId, auth)
+    getDistancia(offset, localidadOrigenId, calleOrigen, alturaOrigen,
+    \t\tlocalidadDestino, calleDestino, alturaDestino, auth)
+}
+
+class Distancia {
+    {static} CERO : Distancia
+    valor : Double
+    unidad : Unidad
+    sumar(distancia) : Distancia
+}
+
+class Ubicacion {
+    idLocalidad : Integer
+    calle : String
+    altura : String
+}
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+!include da.puml
+
+class DatosActividadesParser {
+    separator : Character
+    skipLines : Integer
+    getDatosActividad() : DatoActividad[]
+}
+
+DatosActividadesParser --> TiposDeConsumo
+DatosActividadesParser --> LectorDeArchivos
+DatosActividadesParser ..> DatoActividad
+
+class LectorDeArchivos {
+    path : String
+    getLineas() : String[]
+}
+
+class TiposDeConsumo {
+    buscarPorNombre(nombre)
+}
+
+TiposDeConsumo --> "*" TipoDeConsumo
+
+@enduml

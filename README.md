@@ -1,10 +1,14 @@
 # 2022-tpa-vi-no-grupo-16
 
+## Documentación
+
+La documentación se encuentra en la carpeta [docs](docs/README.md).
+
 ## Dependencias
 
 - Java 8
 - Maven 3.8 o superior
-- Docker
+- Docker (con Docker Compose plugin)
 
 ## Setup del Docker
 
