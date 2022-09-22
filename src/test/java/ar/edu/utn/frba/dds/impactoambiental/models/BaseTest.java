@@ -121,7 +121,7 @@ public abstract class BaseTest extends AbstractPersistenceTest
     return new Parada("Parada", crearDistanciaEnKm(distanciaAAnterior), crearDistanciaEnKm(distanciaAProxima));
   }
 
-  protected Distancia crearDistanciaEnKm(int kilometros) {
+  protected Distancia crearDistanciaEnKm(double kilometros) {
     return new Distancia(kilometros, Unidad.KM);
   }
 

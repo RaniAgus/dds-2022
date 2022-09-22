@@ -36,7 +36,7 @@ public class TrayectoTest extends BaseTest {
 
     assertThat(trayecto.getDistancia())
         .extracting("valor", "unidad")
-        .containsExactly(50, Unidad.KM);
+        .containsExactly(50., Unidad.KM);
   }
 
   // [TPA2]: Se debe permitir la carga de Trayectos compartidos entre miembros de una organización.

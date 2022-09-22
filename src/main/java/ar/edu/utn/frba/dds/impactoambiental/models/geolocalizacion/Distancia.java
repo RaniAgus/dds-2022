@@ -6,15 +6,15 @@ import javax.persistence.Enumerated;
 
 @Embeddable
 public class Distancia {
-  public static Distancia CERO = new Distancia(0, Unidad.KM);
-  private Integer valor;
+  public static Distancia CERO = new Distancia(.0, Unidad.KM);
+  private Double valor;
   @Enumerated(EnumType.STRING)
   private Unidad unidad;
 
   protected Distancia() {
   }
 
-  public Distancia(Integer valor, Unidad unidad) {
+  public Distancia(Double valor, Unidad unidad) {
     this.valor = valor;
     this.unidad = unidad;
   }
@@ -23,7 +23,7 @@ public class Distancia {
     return new Distancia(valor + distancia.getValor(), Unidad.KM);
   }
 
-  public Integer getValor() {
+  public Double getValor() {
     return valor;
   }
 
