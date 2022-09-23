@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatosActividadesParser {
-  private TiposDeConsumo tiposDeConsumo;
-  private Character separator;
-  private Integer skiplines;
-  private LectorDeArchivos lectorDeArchivos;
+  private final TiposDeConsumo tiposDeConsumo;
+  private final Character separator;
+  private final Integer skiplines;
+  private final LectorDeArchivos lectorDeArchivos;
 
   public DatosActividadesParser(TiposDeConsumo tiposDeConsumo,
                                 LectorDeArchivos loader,

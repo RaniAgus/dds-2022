@@ -6,7 +6,8 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class EntidadPersistente {
-  @Id @GeneratedValue
+  @Id
+  @GeneratedValue
   private Long id;
 
   public Long getId() {

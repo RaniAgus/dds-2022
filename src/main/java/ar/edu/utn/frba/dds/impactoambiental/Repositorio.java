@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Repositorio<T> extends WithGlobalEntityManager {
-  
+
   default void agregar(T entidad) {
     entityManager().persist(entidad);
   }
@@ -32,13 +32,13 @@ public interface Repositorio<T> extends WithGlobalEntityManager {
 
   default List<T> obtenerTodos() {
     return entityManager().createQuery("from " + this.clase().getSimpleName(), this.clase())
-      .getResultList();
+        .getResultList();
   }
 
   default void limpiar() {
     obtenerTodos().forEach(it -> entityManager().remove(it));
   }
 
-  public abstract Class<T> clase();
-  
+  Class<T> clase();
+
 }

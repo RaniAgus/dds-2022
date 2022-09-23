@@ -28,11 +28,15 @@ public class Periodo {
     return contieneFecha(periodo.getInicioPeriodo()) || contieneFecha(periodo.getFinPeriodo());
   }
 
-  private LocalDate getInicioPeriodo() {
+  public LocalDate getInicioPeriodo() {
     return inicioPeriodo;
   }
 
   private LocalDate getFinPeriodo() {
     return inicioPeriodo.plus(periodicidad.getPeriodo());
+  }
+
+  public Periodicidad getPeriodicidad() {
+    return periodicidad;
   }
 }

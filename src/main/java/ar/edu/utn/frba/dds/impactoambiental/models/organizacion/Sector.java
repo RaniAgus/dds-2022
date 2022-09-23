@@ -12,11 +12,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 @Entity
 public class Sector extends EntidadPersistente {
   @OneToMany
   @JoinColumn(name = "sector_id")
-  private Set<Vinculacion> vinculaciones;
+  private final Set<Vinculacion> vinculaciones;
 
   public Sector(List<Vinculacion> vinculaciones) {
     this.vinculaciones = new HashSet<>(vinculaciones);

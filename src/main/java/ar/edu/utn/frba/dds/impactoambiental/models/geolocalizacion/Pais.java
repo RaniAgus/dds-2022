@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 
 public class Pais {
-  private Integer id;
-  private String nombre;
+  private final Integer id;
+  private final String nombre;
 
   public Pais(Integer id, String nombre) {
     this.id = id;

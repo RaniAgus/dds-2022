@@ -13,9 +13,9 @@ public class NotificadorPorWhatsApp implements Notificador {
       System.getenv("RECOMENDACIONES_TEMPLATE")
   );
 
-  private WhatsAppApi whatsAppApi;
-  private String apiKey;
-  private String recomendacionesTemplate;
+  private final WhatsAppApi whatsAppApi;
+  private final String apiKey;
+  private final String recomendacionesTemplate;
 
   private NotificadorPorWhatsApp(String phoneNumberId, String apiKey, String recomendacionesTemplate) {
     this.whatsAppApi = WhatsAppApi.create(phoneNumberId);

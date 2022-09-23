@@ -49,8 +49,8 @@ public class Miembro extends EntidadPersistente {
 
   public Double huellaCarbonoPersonal(Periodo periodo) {
     return getTrayectosEnPeriodo(periodo).stream()
-      .mapToDouble(Trayecto::carbonoEquivalente)
-      .sum();
+        .mapToDouble(Trayecto::carbonoEquivalente)
+        .sum();
   }
 
   public Double impactoCarbonoEnOrganizacion(Organizacion organizacion, Periodo periodo) {

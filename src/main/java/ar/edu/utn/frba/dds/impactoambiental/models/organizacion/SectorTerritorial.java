@@ -8,12 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.List;
+
 @Entity
 public class SectorTerritorial extends EntidadPersistente {
-  private String nombre;
+  private final String nombre;
   @OneToMany
   @JoinColumn(name = "sector_territorial_id")
-  private List<Organizacion> organizaciones;
+  private final List<Organizacion> organizaciones;
 
   public SectorTerritorial(String nombre, List<Organizacion> organizaciones) {
     this.nombre = nombre;
@@ -26,13 +27,13 @@ public class SectorTerritorial extends EntidadPersistente {
 
   public Double huellaCarbono(Periodo periodo) {
     return organizaciones.stream()
-          .mapToDouble(o -> o.huellaCarbono(periodo))
-          .sum();
+        .mapToDouble(o -> o.huellaCarbono(periodo))
+        .sum();
   }
 
   public Double huellaCarbonoSegunConsumo(Periodo periodo, TipoDeConsumo tipoDeConsumo) {
     return organizaciones.stream()
-          .mapToDouble(o -> o.huellaCarbonoSegunConsumo(periodo, tipoDeConsumo))
-          .sum();
+        .mapToDouble(o -> o.huellaCarbonoSegunConsumo(periodo, tipoDeConsumo))
+        .sum();
   }
 }

@@ -1,9 +1,9 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 
 public class Municipio {
-  private Integer id;
-  private String nombre;
-  private Provincia provincia;
+  private final Integer id;
+  private final String nombre;
+  private final Provincia provincia;
 
   public Municipio(Integer id, String nombre, Provincia provincia) {
     this.id = id;

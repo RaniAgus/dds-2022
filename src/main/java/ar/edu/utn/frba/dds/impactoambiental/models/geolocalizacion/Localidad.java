@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 
 public class Localidad {
-  private Integer id;
-  private String nombre;
-  private String codPostal;
-  private Municipio municipio;
+  private final Integer id;
+  private final String nombre;
+  private final String codPostal;
+  private final Municipio municipio;
 
   public Localidad(Integer id, String nombre, String codPostal, Municipio municipio) {
     this.id = id;

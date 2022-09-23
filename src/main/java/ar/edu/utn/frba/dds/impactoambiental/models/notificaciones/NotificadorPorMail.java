@@ -1,12 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
-import javax.mail.Address;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -21,8 +15,8 @@ public class NotificadorPorMail implements Notificador {
       System.getenv("SMTP_PASSWORD")
   );
 
-  private String smtpUser;
-  private String smtpPassword;
+  private final String smtpUser;
+  private final String smtpPassword;
 
   private NotificadorPorMail(String smtpUser, String smtpPassword) {
     this.smtpUser = smtpUser;

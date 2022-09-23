@@ -19,5 +19,5 @@ public abstract class Tramo extends EntidadPersistente {
   public abstract Double carbonoEquivalente();
 
   public abstract Boolean tieneTipoDeConsumo(TipoDeConsumo tipo);
-  
+
 }

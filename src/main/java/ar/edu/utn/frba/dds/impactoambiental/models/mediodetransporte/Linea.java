@@ -4,10 +4,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,7 +13,7 @@ public class Linea extends EntidadPersistente {
   @OneToMany
   @JoinColumn(name = "linea_id")
   private List<Parada> paradas;
-  @ManyToOne
+  @ManyToOne(cascade= CascadeType.ALL)
   private MedioDeTransporte medioDeTransporte;
 
   protected Linea() {

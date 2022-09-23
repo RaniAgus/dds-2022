@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Validador {
-  private List<Validacion> validaciones;
+  private final List<Validacion> validaciones;
 
   public Validador(List<Validacion> validaciones) {
     this.validaciones = validaciones;
@@ -16,7 +16,7 @@ public class Validador {
   public void agregarValidacion(Validacion validacion) {
     this.validaciones.add(validacion);
   }
-  
+
   public void validar(String usuario, String contrasena) {
     String errores = validaciones.stream()
         .map(validacion -> validacion.validar(usuario, contrasena))

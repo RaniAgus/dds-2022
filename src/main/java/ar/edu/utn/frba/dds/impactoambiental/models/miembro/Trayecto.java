@@ -15,8 +15,8 @@ import java.util.List;
 public class Trayecto extends EntidadPersistente {
   @OneToMany
   @JoinColumn(name = "trayecto_id")
-  private List<Tramo> tramos;
-  private LocalDate fecha;
+  private final List<Tramo> tramos;
+  private final LocalDate fecha;
 
   public Trayecto(LocalDate fecha, List<Tramo> tramos) {
     this.tramos = tramos;
@@ -42,7 +42,7 @@ public class Trayecto extends EntidadPersistente {
   }
 
   public Double carbonoEquivalente() {
-   return tramos.stream().mapToDouble(Tramo::carbonoEquivalente).sum();
+    return tramos.stream().mapToDouble(Tramo::carbonoEquivalente).sum();
   }
 
   public Double carbonoEquivalenteSegunConsumo(TipoDeConsumo tipoDeConsumo) {

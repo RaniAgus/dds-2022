@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Vinculacion extends EntidadPersistente {
   @OneToOne
-  private Miembro miembro;
+  private final Miembro miembro;
   @Enumerated(EnumType.STRING)
   private EstadoVinculo estado;
 

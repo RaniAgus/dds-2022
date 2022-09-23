@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class JobEnvioGuia {
-  private List<Organizacion> organizaciones;
-  private String link;
+  private final List<Organizacion> organizaciones;
+  private final String link;
 
   public static void main(String[] args) {
     new JobEnvioGuia(Collections.emptyList(),

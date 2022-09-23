@@ -16,22 +16,22 @@ public class TramoPrivado extends Tramo {
       @AttributeOverride(name = "calle", column = @Column(name = "ubicacion_inicial_calle")),
       @AttributeOverride(name = "altura", column = @Column(name = "ubicacion_inicial_altura"))
   })
-  private Ubicacion ubicacionInicial;
+  private final Ubicacion ubicacionInicial;
   @Embedded
   @AttributeOverrides({
       @AttributeOverride(name = "idLocalidad", column = @Column(name = "ubicacion_final_localidad")),
       @AttributeOverride(name = "calle", column = @Column(name = "ubicacion_final_calle")),
       @AttributeOverride(name = "altura", column = @Column(name = "ubicacion_final_altura"))
   })
-  private Ubicacion ubicacionFinal;
+  private final Ubicacion ubicacionFinal;
   @Embedded
   @AttributeOverrides({
       @AttributeOverride(name = "valor", column = @Column(name = "distancia_valor")),
       @AttributeOverride(name = "unidad", column = @Column(name = "distancia_unidad")),
   })
-  private Distancia distancia;
+  private final Distancia distancia;
   @ManyToOne
-  private MedioDeTransporte medioDeTransporte;
+  private final MedioDeTransporte medioDeTransporte;
 
   public TramoPrivado(Geolocalizador geolocalizador,
                       Ubicacion ubicacionInicial,

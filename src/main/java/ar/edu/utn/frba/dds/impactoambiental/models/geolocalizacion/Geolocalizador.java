@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class Geolocalizador {
-  private String apiKey;
+  private final String apiKey;
 
   public Geolocalizador(String apiKey) {
     this.apiKey = apiKey;
@@ -47,7 +47,7 @@ public class Geolocalizador {
 
   private static <T> List<T> paginar(Function<Long, Call<List<T>>> call) {
     List<T> total = new ArrayList<>();
-    for (long offset = 1;; offset++) {
+    for (long offset = 1; ; offset++) {
       List<T> res = consultar(call.apply(offset));
       if (res.isEmpty()) {
         break;

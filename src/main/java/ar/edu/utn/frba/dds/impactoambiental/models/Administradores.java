@@ -24,7 +24,7 @@ public final class Administradores implements WithGlobalEntityManager {
 
   public Administrador obtenerAdministrador(String usuario, String contrasena) throws Throwable {
     if (!existeAdministrador(usuario)) {
-      throw new UsuarioNoDisponibleExeption("No existe el usuario: " +  usuario);
+      throw new UsuarioNoDisponibleExeption("No existe el usuario: " + usuario);
     }
 
     return entityManager().createQuery("SELECT administrador from Administrador administrador"

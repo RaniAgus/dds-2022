@@ -16,6 +16,9 @@ public class Contacto extends EntidadPersistente {
   @Enumerated(EnumType.STRING)
   private List<MedioDeNotificacion> mediosDeNotificacion;
 
+  public Contacto() {
+  }
+
   public Contacto(String email, String telefono, List<MedioDeNotificacion> mediosDeNotificacion) {
     this.email = email;
     this.telefono = telefono;

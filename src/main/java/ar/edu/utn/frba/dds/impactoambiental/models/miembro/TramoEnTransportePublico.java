@@ -11,11 +11,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class TramoEnTransportePublico extends Tramo {
   @ManyToOne
-  private Parada paradaInicial;
+  private final Parada paradaInicial;
   @ManyToOne
-  private Parada paradaFinal;
+  private final Parada paradaFinal;
   @ManyToOne
-  private Linea linea;
+  private final Linea linea;
 
   public TramoEnTransportePublico(Parada paradaInicial, Parada paradaFinal, Linea linea) {
     this.paradaInicial = paradaInicial;

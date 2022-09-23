@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LectorDeArchivos {
-  private List<String> lineas;
+  private final List<String> lineas;
 
   public LectorDeArchivos(String path) {
     File archivo = new File(path);

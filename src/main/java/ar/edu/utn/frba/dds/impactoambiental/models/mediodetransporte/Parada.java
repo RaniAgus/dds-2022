@@ -10,14 +10,14 @@ public class Parada extends EntidadPersistente {
   private String nombre;
   @Embedded
   @AttributeOverrides({
-      @AttributeOverride(name="valor",column=@Column(name="distancia_anterior_parada")),
-      @AttributeOverride(name="unidad",column=@Column(name="unidad_anterior_parada"))
+      @AttributeOverride(name = "valor", column = @Column(name = "distancia_anterior_parada")),
+      @AttributeOverride(name = "unidad", column = @Column(name = "unidad_anterior_parada"))
   })
   private Distancia distanciaAAnteriorParada;
   @Embedded
   @AttributeOverrides({
-      @AttributeOverride(name="valor",column=@Column(name="distancia_proxima_parada")),
-      @AttributeOverride(name="unidad",column=@Column(name="unidad_proxima_parada"))
+      @AttributeOverride(name = "valor", column = @Column(name = "distancia_proxima_parada")),
+      @AttributeOverride(name = "unidad", column = @Column(name = "unidad_proxima_parada"))
   })
   private Distancia distanciaAProximaParada;
 
@@ -41,6 +41,7 @@ public class Parada extends EntidadPersistente {
   public void setDistanciaAProximaParada(Distancia distanciaAProximaParada) {
     this.distanciaAProximaParada = distanciaAProximaParada;
   }
+
   public void setDistanciaAAnteriorParada(Distancia distanciaAAnteriorParada) {
     this.distanciaAAnteriorParada = distanciaAProximaParada;
   }

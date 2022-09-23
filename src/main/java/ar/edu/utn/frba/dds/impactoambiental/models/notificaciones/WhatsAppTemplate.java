@@ -6,10 +6,10 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 public class WhatsAppTemplate {
-  private String messaging_product = "whatsapp";
-  private String to;
-  private String type = "template";
-  private Map<String, Object> template;
+  private final String messaging_product = "whatsapp";
+  private final String to;
+  private final String type = "template";
+  private final Map<String, Object> template;
 
   public WhatsAppTemplate(String templateName, String phoneNumber, String relativeUrl) {
     this.to = phoneNumber;

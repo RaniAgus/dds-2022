@@ -1,9 +1,9 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion;
 
 public class Provincia {
-  private Integer id;
-  private String nombre;
-  private Pais pais;
+  private final Integer id;
+  private final String nombre;
+  private final Pais pais;
 
   public Provincia(Integer id, String nombre, Pais pais) {
     this.id = id;

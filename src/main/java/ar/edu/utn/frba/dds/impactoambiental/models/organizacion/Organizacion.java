@@ -8,12 +8,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -80,31 +75,31 @@ public class Organizacion extends EntidadPersistente {
 
   public Double huellaCarbonoTrayectos(Periodo periodo) {
     return this.sectores.stream()
-          .flatMap(sector -> sector.getTrayectosEnPeriodo(periodo).stream())
-          .distinct()
-          .mapToDouble(Trayecto::carbonoEquivalente)
-          .sum();
+        .flatMap(sector -> sector.getTrayectosEnPeriodo(periodo).stream())
+        .distinct()
+        .mapToDouble(Trayecto::carbonoEquivalente)
+        .sum();
   }
 
   public Double huellaCarbonoTrayectosSegunConsumo(Periodo periodo, TipoDeConsumo tipoDeConsumo) {
     return this.sectores.stream()
-          .flatMap(sector -> sector.getTrayectosEnPeriodo(periodo).stream())
-          .distinct()
-          .mapToDouble(trayecto -> trayecto.carbonoEquivalenteSegunConsumo(tipoDeConsumo))
-          .sum();
+        .flatMap(sector -> sector.getTrayectosEnPeriodo(periodo).stream())
+        .distinct()
+        .mapToDouble(trayecto -> trayecto.carbonoEquivalenteSegunConsumo(tipoDeConsumo))
+        .sum();
   }
 
   public Double huellaCarbonoDA(Periodo periodo) {
     return this.datosActividad.stream()
-          .filter(da -> da.estaEnPeriodo(periodo))
-          .mapToDouble(DatoActividad::carbonoEquivalente).sum();
+        .filter(da -> da.estaEnPeriodo(periodo))
+        .mapToDouble(DatoActividad::carbonoEquivalente).sum();
   }
 
   public Double huellaCarbonoDASegunConsumo(Periodo periodo, TipoDeConsumo tipoDeConsumo) {
     return this.datosActividad.stream()
-          .filter(da -> da.estaEnPeriodo(periodo))
-          .filter(da -> da.tieneTipoDeConsumo(tipoDeConsumo))
-          .mapToDouble(DatoActividad::carbonoEquivalente).sum();
+        .filter(da -> da.estaEnPeriodo(periodo))
+        .filter(da -> da.tieneTipoDeConsumo(tipoDeConsumo))
+        .mapToDouble(DatoActividad::carbonoEquivalente).sum();
   }
 
   public Double huellaCarbono(Periodo periodo) {
