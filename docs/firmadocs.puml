@@ -1,0 +1,109 @@
+@startuml
+
+class RepositorioProcesos {
+    {static} getInstance()
+    getAll()
+    getAllByUsuario(usuario)
+}
+
+RepositorioProcesos -right-> "*" ProcesoDeFirma
+
+abstract class ProcesoDeFirma {
+    estaLiberado : boolean
+    estaActivo : boolean
+    agregar(colaboracion)
+    tieneColaborador(usuario)
+    tieneUsuario(usuario)
+    notificarPendientes()
+    agregarLector(usuario)
+    agregarFirmante(firmante)
+    esCobrable(mes)
+    liberar()
+    anular()
+}
+
+ProcesoDeFirma -right-> "*" Colaboracion
+ProcesoDeFirma <.. Colaboracion
+ProcesoDeFirma "lectores" --> "*" Usuario
+ProcesoDeFirma "iniciador" --> Usuario
+ProcesoDeFirma <.. Usuario
+ProcesoDeFirma --> "*" Firmante
+
+ProcesoConOrden -down-|> ProcesoDeFirma
+ProcesoSinOrden -down-|> ProcesoDeFirma
+
+class ProcesoConOrden {
+    agregar(colaboracion)
+    liberar()
+}
+
+class ProcesoSinOrden {
+    agregar(colaboracion)
+    liberar()
+}
+
+class Firmante {
+    firma : String
+}
+
+Firmante --> Usuario
+
+class Usuario {
+    notificarCompartido(proceso)
+    notificarPendiente(proceso)
+}
+
+Usuario --> "*" Notificador
+Usuario <.. Notificador
+
+abstract class Colaboracion {
+    realizarEn(proceso)
+    setSiguiente(colaboracion)
+    habilitarEn(proceso)
+    notificarPendiente(proceso)
+    tieneUsuario(usuario)
+    anular()
+}
+
+Colaboracion --> Usuario
+Colaboracion -up-> EstadoColaboracion
+
+enum EstadoColaboracion {
+    DESHABILITADA
+    PENDIENTE
+    COMPLETADA
+}
+
+Lectura -left-|> Colaboracion
+class Lectura {
+    realizarEn(proceso)
+}
+
+Firma -up-|> Colaboracion
+class Firma {
+    realizarEn(proceso)
+}
+
+Firma --> Firmador
+
+class Firmador {
+    generar(usuario)
+}
+
+Firmador ..> Firmante : <<creates>>
+Firmador --> GeneradorDeFirma
+
+interface GeneradorDeFirma {
+    generarFirma(nombre, apellido, mail, telefono)
+}
+
+interface Notificador {
+    {abstract} notificarCompartido(proceso, usuario)
+    {abstract} notificarPendiente(proceso, usuario)
+}
+
+class NotificadorWhatsApp implements Notificador
+class NotificadorMail implements Notificador
+class NotificadorSms implements Notificador
+
+@enduml
