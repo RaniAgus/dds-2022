@@ -23,8 +23,8 @@ Organizacion --> "*" DatoActividad
 Organizacion --> "*" Sector
 
 class Sector {
-    solicitarVinculacion()
-    getVinculacionesPendientes()
+    solicitarVinculacion(vinculacion)
+    getVinculacionesPendientes(): Vinculacion[]
     getMiembros() : Miembro[]
     getTrayectosEnPeriodo() : Trayecto[]
     huellaCarbono(periodo) : Double

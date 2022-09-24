@@ -10,7 +10,7 @@ class DatosActividadesParser {
 
 DatosActividadesParser --> TiposDeConsumo
 DatosActividadesParser --> LectorDeArchivos
-DatosActividadesParser ..> DatoActividad
+DatosActividadesParser ..> DatoActividad : <<creates>>
 
 class LectorDeArchivos {
     path : String

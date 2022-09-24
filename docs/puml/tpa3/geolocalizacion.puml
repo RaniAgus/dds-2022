@@ -1,6 +1,7 @@
 @startuml
 
 class Geolocalizador {
+    apiKey : String
     getPaises(): Pais[]
     getProvincias(): Provincia[]
     getMunicipios(): Municipio[]
@@ -13,12 +14,12 @@ Geolocalizador ..> Distancia : <<creates>>
 Geolocalizador ..> Ubicacion
 
 class GeoddsApi {
-    getPaises(offset, auth)
-    getProvincias(offset, paisId, auth)
-    getMunicipios(offset, provinciaId, auth)
-    getLocalidades(offset, municipioId, auth)
+    getPaises(offset, authorization)
+    getProvincias(offset, paisId, authorization)
+    getMunicipios(offset, provinciaId, authorization)
+    getLocalidades(offset, municipioId, authorization)
     getDistancia(offset, localidadOrigenId, calleOrigen, alturaOrigen,
-    \t\tlocalidadDestino, calleDestino, alturaDestino, auth)
+    \t\tlocalidadDestino, calleDestino, alturaDestino, authorization)
 }
 
 class Distancia {

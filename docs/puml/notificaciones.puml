@@ -28,12 +28,12 @@ interface Notificador {
 }
 
 class NotificadorPorMail implements Notificador {
-    smtpUser
-    smtpPassword
+    smtpUser : String
+    smtpPassword : String
 }
 
 class NotificadorPorWhatsApp implements Notificador {
-    apiKey
+    apiKey : String
 }
 
 NotificadorPorWhatsApp --> WhatsAppApi
@@ -46,9 +46,9 @@ class WhatsAppApi {
 WhatsAppTemplate <.left. WhatsAppApi
 
 class WhatsAppTemplate {
-    templateName
-    phoneNumber
-    relativeUrl
+    templateName : String
+    phoneNumber : String
+    relativeUrl : String
 }
 
 @enduml
