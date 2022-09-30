@@ -44,3 +44,9 @@ y a sus gustos en el aspecto estético.
 
 - [Requerimientos](docs/requerimientos/iteracion-6.md)
 - [Solución planteada](docs/soluciones/iteracion-6.md)
+
+
+### Séptima Iteración
+
+- [Requerimientos](docs/requerimientos/iteracion-7.md)
+- [Solución planteada](docs/soluciones/iteracion-7.md)
