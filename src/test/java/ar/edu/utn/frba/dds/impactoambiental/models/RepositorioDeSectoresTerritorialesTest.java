@@ -1,8 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.RepositorioDeSectoresTerritoriales;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectoresTerritoriales;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,14 +10,14 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-public class SectoresTerritorialesTest extends BaseTest {
-  SectoresTerritoriales sectoresTerritoriales = SectoresTerritoriales.getInstance();
+public class RepositorioDeSectoresTerritorialesTest extends BaseTest {
+  RepositorioDeSectoresTerritoriales repositorioDeSectoresTerritoriales = RepositorioDeSectoresTerritoriales.getInstance();
 
   @Test
   public void sePuedeGuardarUnSectorTerritorial() {
     SectorTerritorial sectorTerritorial = new SectorTerritorial("Test", new ArrayList<>());
-    sectoresTerritoriales.agregar(sectorTerritorial);
-    SectorTerritorial actualSectorTerritorial= sectoresTerritoriales.obtenerPorID(sectorTerritorial.getId());
+    repositorioDeSectoresTerritoriales.agregar(sectorTerritorial);
+    SectorTerritorial actualSectorTerritorial= repositorioDeSectoresTerritoriales.obtenerPorID(sectorTerritorial.getId());
     assertEquals(sectorTerritorial, actualSectorTerritorial);
   }
 
@@ -27,16 +26,16 @@ public class SectoresTerritorialesTest extends BaseTest {
     SectorTerritorial sectorTerritorial = new SectorTerritorial("Test", new ArrayList<>());
     SectorTerritorial otroSectorTerritorial= new SectorTerritorial("Test2",new ArrayList<>());
 
-    sectoresTerritoriales.agregar(sectorTerritorial);
-    sectoresTerritoriales.agregar(otroSectorTerritorial);
+    repositorioDeSectoresTerritoriales.agregar(sectorTerritorial);
+    repositorioDeSectoresTerritoriales.agregar(otroSectorTerritorial);
 
-    List<SectorTerritorial> actual = sectoresTerritoriales.obtenerTodos();
+    List<SectorTerritorial> actual = repositorioDeSectoresTerritoriales.obtenerTodos();
     assertEquals(asList(sectorTerritorial,otroSectorTerritorial),actual);
   }
 
   @BeforeEach
   private  void cleanRepo() {
-    sectoresTerritoriales.limpiar();
+    repositorioDeSectoresTerritoriales.limpiar();
   }
 
 

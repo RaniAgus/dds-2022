@@ -8,7 +8,7 @@ class DatosActividadesParser {
     getDatosActividad() : DatoActividad[]
 }
 
-DatosActividadesParser --> TiposDeConsumo
+DatosActividadesParser --> RepositorioTipoDeConsumo
 DatosActividadesParser --> LectorDeArchivos
 DatosActividadesParser ..> DatoActividad : <<creates>>
 
@@ -17,10 +17,10 @@ class LectorDeArchivos {
     getLineas() : String[]
 }
 
-class TiposDeConsumo {
+class RepositorioTipoDeConsumo {
     buscarPorNombre(nombre)
 }
 
-TiposDeConsumo --> "*" TipoDeConsumo
+RepositorioTipoDeConsumo --> "*" TipoDeConsumo
 
 @enduml

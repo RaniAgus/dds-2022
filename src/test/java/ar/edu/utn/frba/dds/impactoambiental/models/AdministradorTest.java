@@ -15,7 +15,7 @@ public class AdministradorTest extends BaseTest {
 
   @BeforeEach
   public void limpiarAdministradores() {
-    Administradores.getInstance().limpiar();
+    RepositorioDeAdministradores.getInstance().limpiar();
   }
 
   @Test
@@ -35,25 +35,25 @@ public class AdministradorTest extends BaseTest {
   public void sePuedeObtenerUnUsuarioIngresandoLaContraseniaCorrecta() throws Throwable {
     Administrador administrador = crearAdministrador("ContraSUper*MegaS3gUr4");
 
-    Administradores.getInstance().agregarAdministrador(administrador);
+    RepositorioDeAdministradores.getInstance().agregarAdministrador(administrador);
 
-    assertThat(Administradores.getInstance().obtenerAdministrador("Juancito", "ContraSUper*MegaS3gUr4"))
+    assertThat(RepositorioDeAdministradores.getInstance().obtenerAdministrador("Juancito", "ContraSUper*MegaS3gUr4"))
         .isEqualTo(administrador);
   }
 
   @Test
   public void noSePuedeObtenerUnUsuarioIngresandoLaContraseniaIncorrecta() {
     Administrador administrador = crearAdministrador("ContraSUper*MegaS3gUr4");
-    Administradores.getInstance().agregarAdministrador(administrador);
+    RepositorioDeAdministradores.getInstance().agregarAdministrador(administrador);
 
-    assertThatThrownBy(() -> Administradores.getInstance().obtenerAdministrador("Juancito","contraIncorrecta"))
+    assertThatThrownBy(() -> RepositorioDeAdministradores.getInstance().obtenerAdministrador("Juancito","contraIncorrecta"))
         .isExactlyInstanceOf(UsuarioNoDisponibleExeption.class)
         .hasMessage("No se pudo validar que sea ese administrador");
   }
 
   @Test
   public void noSePuedeObtenerUnUsuarioIngresandoUnNombreInexistente() {
-    assertThatThrownBy(() -> Administradores.getInstance().obtenerAdministrador("Usuario_Inexistente","contraIncorrecta"))
+    assertThatThrownBy(() -> RepositorioDeAdministradores.getInstance().obtenerAdministrador("Usuario_Inexistente","contraIncorrecta"))
         .isExactlyInstanceOf(UsuarioNoDisponibleExeption.class)
         .hasMessage("No existe el usuario: Usuario_Inexistente");
   }

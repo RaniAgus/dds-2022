@@ -2,8 +2,8 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.RepositorioTipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.TiposDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.UnidadDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
@@ -159,7 +159,7 @@ public abstract class BaseTest extends AbstractPersistenceTest
     persist(electricidad);
     persist(nafta);
     return new DatosActividadesParser(
-        new TiposDeConsumo(),
+        new RepositorioTipoDeConsumo(),
         lectorDeArchivos, 1, ';'
     );
   }

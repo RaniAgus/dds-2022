@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
+// TODO: quitar esto
 public enum MedioDeNotificacion {
   WHATSAPP() {
     @Override

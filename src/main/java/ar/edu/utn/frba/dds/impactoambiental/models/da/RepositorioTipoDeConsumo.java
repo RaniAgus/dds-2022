@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 
 import java.util.Optional;
 
-public class TiposDeConsumo implements Repositorio<TipoDeConsumo> {
+public class RepositorioTipoDeConsumo implements Repositorio<TipoDeConsumo> {
 
   public Optional<TipoDeConsumo> buscarPorNombre(String nombre) {
     return obtenerPorAtributo("nombre", nombre);

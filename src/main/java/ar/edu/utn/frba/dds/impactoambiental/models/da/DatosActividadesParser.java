@@ -5,24 +5,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO: Un ImportadorDeDatosDeActividad que use este parser y el lector de archivos
 public class DatosActividadesParser {
-  private final TiposDeConsumo tiposDeConsumo;
+  private final RepositorioTipoDeConsumo repositorioTipoDeConsumo;
   private final Character separator;
   private final Integer skiplines;
   private final LectorDeArchivos lectorDeArchivos;
 
-  public DatosActividadesParser(TiposDeConsumo tiposDeConsumo,
+  public DatosActividadesParser(RepositorioTipoDeConsumo repositorioTipoDeConsumo,
                                 LectorDeArchivos loader,
                                 Integer skiplines,
                                 Character separator) {
-    this.tiposDeConsumo = tiposDeConsumo;
+    this.repositorioTipoDeConsumo = repositorioTipoDeConsumo;
     this.lectorDeArchivos = loader;
     this.skiplines = skiplines;
     this.separator = separator;
   }
 
   private TipoDeConsumo getTipoDeConsumo(String nombre) {
-    return tiposDeConsumo.buscarPorNombre(nombre)
+    return repositorioTipoDeConsumo.buscarPorNombre(nombre)
         .orElseThrow(() -> new IllegalArgumentException("El tipo de consumo '" + nombre + "' no es válido."));
   }
 

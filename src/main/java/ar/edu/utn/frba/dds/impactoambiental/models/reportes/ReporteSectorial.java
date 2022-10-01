@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.reportes;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.RepositorioTipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.TiposDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
 
 import javax.persistence.CascadeType;
@@ -21,9 +21,9 @@ public class ReporteSectorial extends Reporte {
     this.periodo = periodo;
     this.consumos = consumos;
   }
-  public ReporteSectorial(SectorTerritorial sectorTerritorial, Periodo periodo, TiposDeConsumo repoTiposDeConsumo) {
+  public ReporteSectorial(SectorTerritorial sectorTerritorial, Periodo periodo, RepositorioTipoDeConsumo repoRepositorioTipoDeConsumo) {
     HashMap<TipoDeConsumo, Double> consumos = new HashMap<>();
-    repoTiposDeConsumo.obtenerTodos()
+    repoRepositorioTipoDeConsumo.obtenerTodos()
         .forEach(tipoDeConsumo -> {
           consumos.put(tipoDeConsumo, sectorTerritorial.huellaCarbonoSegunConsumo(periodo, tipoDeConsumo));
         });

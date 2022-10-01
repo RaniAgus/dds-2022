@@ -12,6 +12,7 @@ import java.util.List;
 public class Contacto extends EntidadPersistente {
   private String email;
   private String telefono;
+  // TODO: Volver a usar List<Notificador> como @ManyToMany
   @ElementCollection
   @Enumerated(EnumType.STRING)
   private List<MedioDeNotificacion> mediosDeNotificacion;

@@ -5,14 +5,16 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
-public final class Administradores implements WithGlobalEntityManager {
-  private static final Administradores instance = new Administradores();
+// TODO: Renombrar a Repository
+// TODO: Usar el repo genérico
+public final class RepositorioDeAdministradores implements WithGlobalEntityManager {
+  private static final RepositorioDeAdministradores instance = new RepositorioDeAdministradores();
 
-  public static Administradores getInstance() {
+  public static RepositorioDeAdministradores getInstance() {
     return instance;
   }
 
-  private Administradores() {
+  private RepositorioDeAdministradores() {
   }
 
   public void agregarAdministrador(Administrador administrador) {

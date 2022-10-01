@@ -2,15 +2,9 @@ package ar.edu.utn.frba.dds.impactoambiental.models.reportes;
 
 import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.TiposDeConsumo;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public final class ReportesSectoriales implements Repositorio<ReporteSectorial> {
