@@ -1,13 +1,12 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
+import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import com.google.common.collect.ImmutableMap;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
-// TODO: Renombrar a Repository
-// TODO: Usar el repo genérico
-public final class RepositorioDeAdministradores implements WithGlobalEntityManager {
+public final class RepositorioDeAdministradores implements Repositorio<Administrador> {
   private static final RepositorioDeAdministradores instance = new RepositorioDeAdministradores();
 
   public static RepositorioDeAdministradores getInstance() {
@@ -21,33 +20,26 @@ public final class RepositorioDeAdministradores implements WithGlobalEntityManag
     if (existeAdministrador(administrador.getUsuario())) {
       throw new UsuarioNoDisponibleExeption("Nombre de usuario no disponible");
     }
-    entityManager().persist(administrador);
+    agregar(administrador);
   }
 
-  public Administrador obtenerAdministrador(String usuario, String contrasena) throws Throwable {
+  public Administrador obtenerAdministrador(String usuario, String contrasena) {
     if (!existeAdministrador(usuario)) {
       throw new UsuarioNoDisponibleExeption("No existe el usuario: " + usuario);
     }
-
-    return entityManager().createQuery("SELECT administrador from Administrador administrador"
-            + " where administrador.usuario = :u " + "and administrador.contrasena = :c", Administrador.class)
-        .setParameter("u", usuario)
-        .setParameter("c", sha256Hex(contrasena))
-        .getResultList().stream()
-        .findFirst()
-        .orElseThrow(() ->
-            new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
+    return obtenerPorAtributos(ImmutableMap.of(
+        "usuario", usuario,
+        "contrasena", sha256Hex(contrasena)
+    )).orElseThrow(() ->
+        new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
   }
 
   public boolean existeAdministrador(String usuario) {
-    return !entityManager()
-        .createQuery("SELECT administrador from Administrador administrador where administrador.usuario = ?1")
-        .setParameter("1", usuario).getResultList().isEmpty();
+    return obtenerPorAtributo("usuario", usuario).isPresent();
   }
 
-  public void limpiar() {
-    entityManager().createQuery("from Administrador", Administrador.class)
-        .getResultList()
-        .forEach(it -> entityManager().remove(it));
+  @Override
+  public Class<Administrador> clase() {
+    return Administrador.class;
   }
 }

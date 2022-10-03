@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 
@@ -18,16 +19,16 @@ public final class ReportesOrganizacionales implements Repositorio<ReporteOrgani
   }
 
   public Double HCTotalTipoDeOrganizacion(Periodo periodo, TipoDeOrganizacion tipoDeOrganizacion) {
-    return entityManager().createQuery("SELECT reporte FROM ReporteOrganizacional reporte WHERE reporte.periodo.inicioPeriodo = :inicioPeriodo AND reporte.periodo.periodicidad = :periodicidad AND reporte.organizacion.tipo = :tipo", ReporteOrganizacional.class)
-        .setParameter("periodicidad", periodo.getPeriodicidad()).setParameter("inicioPeriodo", periodo.getInicioPeriodo()).setParameter("tipo", tipoDeOrganizacion)
-        .getResultList().stream().mapToDouble(Reporte::HCTotal).sum();
+    return filtrarPorAtributos(ImmutableMap.of(
+        "periodo.periodicidad", periodo.getPeriodicidad(),
+        "periodo.inicioPeriodo", periodo.getInicioPeriodo(),
+        "organizacion.tipo", tipoDeOrganizacion
+    )).stream().mapToDouble(Reporte::HCTotal).sum();
   }
 
   // Entre dos períodos o dos fechas con una periodicidad
   public List<ReporteOrganizacional> evolucionHCTotalOrganizaccion(Organizacion org) {
-    return entityManager().createQuery("SELECT reporte FROM ReporteOrganizacional reporte WHERE reporte.organizacion.id = :id", ReporteOrganizacional.class)
-        .setParameter("id", org.getId())
-        .getResultList();
+    return filtrarPorAtributo("organizacion.id", org.getId());
   }
 
   public Class<ReporteOrganizacional> clase() {

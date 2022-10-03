@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models.reportes;
 import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,17 +15,16 @@ public final class ReportesSectoriales implements Repositorio<ReporteSectorial> 
     return instance;
   }
 
-
   public List<ReporteSectorial> evolucionHCTotalSector(SectorTerritorial sector) {
-    return entityManager().createQuery("SELECT reporte FROM ReporteSectorial reporte WHERE reporte.sectorTerritorial.id = :id", ReporteSectorial.class)
-        .setParameter("id", sector.getId())
-        .getResultList();
+    return filtrarPorAtributo("sectorTerritorial.id", sector.getId());
   }
 
   public Optional<ReporteSectorial> reporteSectorialSegunPeriodo(Periodo periodo, SectorTerritorial sector) {
-    return entityManager().createQuery("SELECT reporte FROM ReporteSectorial reporte WHERE reporte.periodo.inicioPeriodo = :inicioPeriodo AND reporte.periodo.periodicidad = :periodicidad AND reporte.sectorTerritorial.id = :id", ReporteSectorial.class)
-        .setParameter("periodicidad", periodo.getPeriodicidad()).setParameter("inicioPeriodo", periodo.getInicioPeriodo()).setParameter("id", sector.getId())
-        .getResultList().stream().findFirst();
+    return obtenerPorAtributos(ImmutableMap.of(
+        "periodo.inicioPeriodo", periodo.getInicioPeriodo(),
+        "periodo.periodicidad", periodo.getPeriodicidad(),
+        "sectorTerritorial.id", sector.getId()
+    ));
   }
 
   @Override
