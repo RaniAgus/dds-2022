@@ -1,4 +1,5 @@
 .env
+schema.sql
 
 # Compiled class file
 *.class
