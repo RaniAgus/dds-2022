@@ -7,8 +7,6 @@ services:
     container_name: impactoambiental-java
     env_file:
       - .env
-    environment:
-      - POSTGRES_SERVICE=db:5432
     depends_on:
       - db
 
@@ -20,8 +18,6 @@ services:
     container_name: impactoambiental-cron
     env_file:
       - .env
-    environment:
-      - POSTGRES_SERVICE=db:5432
     depends_on:
       - db
 
