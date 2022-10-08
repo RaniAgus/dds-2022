@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 public class ReportesSectorialesTest extends BaseTest {
   private ReportesSectoriales reportesSectoriales = ReportesSectoriales.getInstance();
@@ -23,7 +22,7 @@ public class ReportesSectorialesTest extends BaseTest {
   public void sePuedeObtenerUnReportePorId() {
     ReporteSectorial reporte = new ReporteSectorial(null,null,new HashMap<>());
     reportesSectoriales.agregar(reporte);
-    assertEquals(reporte, reportesSectoriales.obtenerPorID(reporte.getId()));
+    assertEquals(reporte, reportesSectoriales.obtenerPorID(reporte.getId()).orElse(null));
   }
 
   @Test

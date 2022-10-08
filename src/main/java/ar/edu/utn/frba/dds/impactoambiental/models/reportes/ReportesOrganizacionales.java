@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
-import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
 
@@ -19,16 +18,16 @@ public final class ReportesOrganizacionales implements Repositorio<ReporteOrgani
   }
 
   public Double HCTotalTipoDeOrganizacion(Periodo periodo, TipoDeOrganizacion tipoDeOrganizacion) {
-    return filtrarPorAtributos(ImmutableMap.of(
+    return filtrar(
         "periodo.periodicidad", periodo.getPeriodicidad(),
         "periodo.inicioPeriodo", periodo.getInicioPeriodo(),
         "organizacion.tipo", tipoDeOrganizacion
-    )).stream().mapToDouble(Reporte::HCTotal).sum();
+    ).stream().mapToDouble(Reporte::HCTotal).sum();
   }
 
   // Entre dos períodos o dos fechas con una periodicidad
   public List<ReporteOrganizacional> evolucionHCTotalOrganizaccion(Organizacion org) {
-    return filtrarPorAtributo("organizacion.id", org.getId());
+    return filtrar("organizacion.id", org.getId());
   }
 
   public Class<ReporteOrganizacional> clase() {

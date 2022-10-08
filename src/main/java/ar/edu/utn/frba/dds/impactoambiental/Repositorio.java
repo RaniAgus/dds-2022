@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
-import com.google.common.collect.ImmutableMap;
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
@@ -10,22 +9,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public interface Repositorio<T> extends EntityManagerOps, WithGlobalEntityManager {
+public interface Repositorio<T> extends EntityManagerOps, WithGlobalEntityManager, Utils {
 
   default void agregar(T entidad) {
     persist(entidad);
   }
 
-  default T obtenerPorID(Long id) {
-    return find(clase(), id);
-  }
-
-  default Optional<T> obtenerPorAtributo(String clave, Object valor) {
-    return obtenerPorAtributos(ImmutableMap.of(clave, valor));
-  }
-
-  default Optional<T> obtenerPorAtributos(Map<String, Object> atributos) {
-    return filtrarPorAtributos(atributos).stream().findFirst();
+  default Optional<T> obtenerPorID(Long id) {
+    return Optional.ofNullable(find(clase(), id));
   }
 
   default List<T> obtenerTodos() {
@@ -33,20 +24,21 @@ public interface Repositorio<T> extends EntityManagerOps, WithGlobalEntityManage
         .getResultList();
   }
 
-  default List<T> filtrarPorAtributo(String clave, Object valor) {
-    return filtrarPorAtributos(ImmutableMap.of(clave, valor));
+  default Optional<T> buscar(Object... atributos) {
+    return filtrar(atributos).stream().findFirst();
   }
 
-  default List<T> filtrarPorAtributos(Map<String, Object> atributos) {
+  default List<T> filtrar(Object... atributos) {
+    Map<String, Object> atributosMap = mapOf(atributos);
     TypedQuery<T> query = createQuery(
         String.format("SELECT e FROM %s e WHERE %s",
             clase().getSimpleName(),
-            atributos.keySet().stream()
+            atributosMap.keySet().stream()
                 .map(clave -> String.format("e.%s LIKE :%s", clave, clave.replace(".", "")))
                 .collect(Collectors.joining(" AND "))
         ), clase()
     );
-    atributos.forEach((clave, valor) -> query.setParameter(clave.replace(".", ""), valor));
+    atributosMap.forEach((clave, valor) -> query.setParameter(clave.replace(".", ""), valor));
     return query.getResultList();
   }
 

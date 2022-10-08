@@ -7,7 +7,7 @@ import java.util.Optional;
 public class RepositorioTipoDeConsumo implements Repositorio<TipoDeConsumo> {
 
   public Optional<TipoDeConsumo> buscarPorNombre(String nombre) {
-    return obtenerPorAtributo("nombre", nombre);
+    return buscar("nombre", nombre);
   }
 
   @Override

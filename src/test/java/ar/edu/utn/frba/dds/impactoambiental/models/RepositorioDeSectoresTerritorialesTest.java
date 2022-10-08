@@ -17,7 +17,7 @@ public class RepositorioDeSectoresTerritorialesTest extends BaseTest {
   public void sePuedeGuardarUnSectorTerritorial() {
     SectorTerritorial sectorTerritorial = new SectorTerritorial("Test", new ArrayList<>());
     repositorioDeSectoresTerritoriales.agregar(sectorTerritorial);
-    SectorTerritorial actualSectorTerritorial= repositorioDeSectoresTerritoriales.obtenerPorID(sectorTerritorial.getId());
+    SectorTerritorial actualSectorTerritorial= repositorioDeSectoresTerritoriales.obtenerPorID(sectorTerritorial.getId()).orElse(null);
     assertEquals(sectorTerritorial, actualSectorTerritorial);
   }
 
@@ -34,7 +34,7 @@ public class RepositorioDeSectoresTerritorialesTest extends BaseTest {
   }
 
   @BeforeEach
-  private  void cleanRepo() {
+  private void cleanRepo() {
     repositorioDeSectoresTerritoriales.limpiar();
   }
 

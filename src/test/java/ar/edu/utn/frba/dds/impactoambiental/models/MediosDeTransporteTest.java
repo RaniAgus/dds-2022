@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 public class MediosDeTransporteTest extends BaseTest {
   MediosDeTransporte mediosDeTransporte = MediosDeTransporte.getInstance();
@@ -21,7 +20,7 @@ public class MediosDeTransporteTest extends BaseTest {
   public void sePuedeAgregarUnMedioDeTransporte() {
     MedioDeTransporte medioDeTransporte = new MedioDeTransporte("Test",null,null,null);
     mediosDeTransporte.agregar(medioDeTransporte);
-    assertEquals(medioDeTransporte,mediosDeTransporte.obtenerPorID(medioDeTransporte.getId()));
+    assertEquals(medioDeTransporte,mediosDeTransporte.obtenerPorID(medioDeTransporte.getId()).orElse(null));
   }
   @Test
   public void sePuedenObtenerTodosLosMediosDeTransporte() {

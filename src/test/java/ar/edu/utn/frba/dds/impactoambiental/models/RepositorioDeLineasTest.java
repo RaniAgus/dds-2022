@@ -15,7 +15,7 @@ public class RepositorioDeLineasTest extends BaseTest {
   public void sePuedeObtenerUnaLineaPorId() {
     Linea unaLinea = crearLineaDeSubteVacia();
     repositorioDeLineas.agregar(unaLinea);
-    assertEquals(unaLinea, repositorioDeLineas.obtenerPorID(unaLinea.getId()));
+    assertEquals(unaLinea, repositorioDeLineas.obtenerPorID(unaLinea.getId()).orElse(null));
   }
   @Test
   public void sePuedeObtenerTodasLasLineas() {

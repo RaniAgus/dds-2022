@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 
 import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
-import com.google.common.collect.ImmutableMap;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
@@ -27,15 +26,12 @@ public final class RepositorioDeAdministradores implements Repositorio<Administr
     if (!existeAdministrador(usuario)) {
       throw new UsuarioNoDisponibleExeption("No existe el usuario: " + usuario);
     }
-    return obtenerPorAtributos(ImmutableMap.of(
-        "usuario", usuario,
-        "contrasena", sha256Hex(contrasena)
-    )).orElseThrow(() ->
+    return buscar("usuario", usuario, "contrasena", sha256Hex(contrasena)).orElseThrow(() ->
         new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
   }
 
   public boolean existeAdministrador(String usuario) {
-    return obtenerPorAtributo("usuario", usuario).isPresent();
+    return buscar("usuario", usuario).isPresent();
   }
 
   @Override
