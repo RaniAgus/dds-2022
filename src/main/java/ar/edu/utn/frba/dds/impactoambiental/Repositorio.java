@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public interface Repositorio<T> extends EntityManagerOps, WithGlobalEntityManager, Utils {
+import static ar.edu.utn.frba.dds.impactoambiental.Utils.mapOf;
+
+public interface Repositorio<T> extends EntityManagerOps, WithGlobalEntityManager {
 
   default void agregar(T entidad) {
     persist(entidad);
