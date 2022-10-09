@@ -5,8 +5,14 @@ services:
       dockerfile: Dockerfile
       target: java
     container_name: impactoambiental-java
-    env_file:
-      - .env
+    environment:
+      - GEODDS_API_KEY=${GEODDS_API_KEY}
+      - RECOMENDACIONES_TEMPLATE=${RECOMENDACIONES_TEMPLATE}
+      - RECOMENDACIONES_URL=${RECOMENDACIONES_URL}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - WHATSAPP_API_KEY=${WHATSAPP_API_KEY}
+      - WHATSAPP_API_ID=${WHATSAPP_API_ID}
     depends_on:
       - db
 
@@ -16,8 +22,14 @@ services:
       dockerfile: Dockerfile
       target: cron
     container_name: impactoambiental-cron
-    env_file:
-      - .env
+    environment:
+      - GEODDS_API_KEY=${GEODDS_API_KEY}
+      - RECOMENDACIONES_TEMPLATE=${RECOMENDACIONES_TEMPLATE}
+      - RECOMENDACIONES_URL=${RECOMENDACIONES_URL}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - WHATSAPP_API_KEY=${WHATSAPP_API_KEY}
+      - WHATSAPP_API_ID=${WHATSAPP_API_ID}
     depends_on:
       - db
 

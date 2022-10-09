@@ -1,4 +1,4 @@
-FROM maven:3.8.6-openjdk-8 as builder
+FROM maven:3.8.6-openjdk-8-slim as builder
 
 WORKDIR /usr/src
 
@@ -11,7 +11,7 @@ COPY . ./
 RUN mvn package
 
 
-FROM openjdk:8-jdk-alpine as cron
+FROM openjdk:8-jre-alpine as cron
 
 ADD crontab /etc/cron.d/cronjob
 
@@ -26,7 +26,7 @@ COPY --from=builder /usr/src/target ./
 ENTRYPOINT ["crond", "-f"]
 
 
-FROM openjdk:8-jdk-alpine as java
+FROM openjdk:8-jre-alpine as java
 
 WORKDIR /usr/src/target
 

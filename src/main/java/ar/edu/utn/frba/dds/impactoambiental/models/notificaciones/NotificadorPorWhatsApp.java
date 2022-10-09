@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class NotificadorPorWhatsApp implements Notificador {
   public static final NotificadorPorWhatsApp INSTANCE = new NotificadorPorWhatsApp(
-      System.getenv("WHATSAPP_ID"),
+      System.getenv("WHATSAPP_API_ID"),
       System.getenv("WHATSAPP_API_KEY"),
       System.getenv("RECOMENDACIONES_TEMPLATE")
   );
