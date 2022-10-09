@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static ar.edu.utn.frba.dds.impactoambiental.Utils.mapOf;
 
-public interface Repositorio<T> extends EntityManagerOps, WithGlobalEntityManager {
+public interface Repositorio<T extends EntidadPersistente> extends EntityManagerOps, WithGlobalEntityManager {
 
   default void agregar(T entidad) {
     persist(entidad);
