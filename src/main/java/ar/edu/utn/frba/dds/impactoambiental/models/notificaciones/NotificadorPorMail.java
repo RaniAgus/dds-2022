@@ -4,18 +4,24 @@ import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-
-public class NotificadorPorMail implements Notificador {
+@Entity
+@DiscriminatorValue("Mail")
+public class NotificadorPorMail extends Notificador {
   public static final NotificadorPorMail INSTANCE = new NotificadorPorMail(
       System.getenv("SMTP_USER"),
       System.getenv("SMTP_PASSWORD")
   );
 
+  @Transient
   private final String smtpUser;
+  @Transient
   private final String smtpPassword;
 
   private NotificadorPorMail(String smtpUser, String smtpPassword) {
