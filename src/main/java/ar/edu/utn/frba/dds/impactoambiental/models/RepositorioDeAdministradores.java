@@ -3,8 +3,6 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
 
-import java.util.List;
-
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 public final class RepositorioDeAdministradores extends Repositorio<Administrador> {

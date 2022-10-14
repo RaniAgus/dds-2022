@@ -1,13 +1,18 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.validador;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ContrasenaDebilException;
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-// TODO: Persistir los validadores dados de alta en el sistema
-public class Validador {
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class Validador extends EntidadPersistente {
+  @ManyToMany
   private final List<Validacion> validaciones;
 
   public Validador(List<Validacion> validaciones) {

@@ -4,7 +4,12 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ValidarCaracteresRepetidos implements Validacion {
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("caracteresRepetidos")
+public class ValidarCaracteresRepetidos extends Validacion {
   @Override
   public Optional<String> validar(String usuario, String contrasena) {
     Optional<String> error = Optional.empty();

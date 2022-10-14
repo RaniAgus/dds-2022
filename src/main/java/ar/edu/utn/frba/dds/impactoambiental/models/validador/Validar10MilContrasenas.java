@@ -4,7 +4,14 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 
 import java.util.Optional;
 
-public class Validar10MilContrasenas implements Validacion {
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@Entity
+@DiscriminatorValue("10milcontrasenas")
+public class Validar10MilContrasenas extends Validacion {
+  @Transient
   private final LectorDeArchivos lectorDeArchivos;
 
   public Validar10MilContrasenas(LectorDeArchivos lectorDeArchivos) {
