@@ -4,10 +4,10 @@ import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 
 import java.util.Optional;
 
-public class RepositorioTipoDeConsumo implements Repositorio<TipoDeConsumo> {
+public class RepositorioTipoDeConsumo extends Repositorio<TipoDeConsumo> {
 
   public Optional<TipoDeConsumo> buscarPorNombre(String nombre) {
-    return buscar("nombre", nombre);
+    return repositorio.stream().filter(x -> x.tieneNombre(nombre)).findFirst();
   }
 
   @Override

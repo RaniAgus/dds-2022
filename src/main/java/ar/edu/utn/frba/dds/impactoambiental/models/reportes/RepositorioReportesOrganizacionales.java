@@ -6,28 +6,32 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public final class ReportesOrganizacionales implements Repositorio<ReporteOrganizacional> {
-  private static final ReportesOrganizacionales instance = new ReportesOrganizacionales();
+public final class RepositorioReportesOrganizacionales extends Repositorio<ReporteOrganizacional> {
+  private static final RepositorioReportesOrganizacionales instance = new RepositorioReportesOrganizacionales();
 
-  private ReportesOrganizacionales() {
+  private RepositorioReportesOrganizacionales() {
+    super();
   }
 
-  public static ReportesOrganizacionales getInstance() {
+  public static RepositorioReportesOrganizacionales getInstance() {
     return instance;
   }
 
   public Double HCTotalTipoDeOrganizacion(Periodo periodo, TipoDeOrganizacion tipoDeOrganizacion) {
-    return filtrar(
-        "periodo.periodicidad", periodo.getPeriodicidad(),
-        "periodo.inicioPeriodo", periodo.getInicioPeriodo(),
-        "organizacion.tipo", tipoDeOrganizacion
-    ).stream().mapToDouble(Reporte::HCTotal).sum();
+    return repositorio.stream()
+        .filter(reporte ->reporte.periodo.equals(periodo)
+            && reporte.organizacion.getTipo().equals(tipoDeOrganizacion))
+        .mapToDouble(Reporte::HCTotal)
+        .sum();
   }
 
   // Entre dos períodos o dos fechas con una periodicidad
   public List<ReporteOrganizacional> evolucionHCTotalOrganizaccion(Organizacion org) {
-    return filtrar("organizacion.id", org.getId());
+    return repositorio.stream()
+        .filter(reporte -> reporte.organizacion.equals(org))
+        .collect(Collectors.toList());
   }
 
   public Class<ReporteOrganizacional> clase() {

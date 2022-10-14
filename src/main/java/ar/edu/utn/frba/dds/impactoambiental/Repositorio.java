@@ -12,26 +12,34 @@ import java.util.stream.Collectors;
 
 import static ar.edu.utn.frba.dds.impactoambiental.Utils.mapOf;
 
-public interface Repositorio<T extends EntidadPersistente> extends EntityManagerOps, WithGlobalEntityManager {
+public abstract class Repositorio<T extends EntidadPersistente> implements EntityManagerOps, WithGlobalEntityManager {
+  protected List<T> repositorio;
 
-  default void agregar(T entidad) {
+  public Repositorio() {
+    repositorio = cargarTodos();
+  }
+
+  public void agregar(T entidad) {
     persist(entidad);
+    repositorio.add(entidad);
   }
 
-  default Optional<T> obtenerPorID(Long id) {
-    return Optional.ofNullable(find(clase(), id));
+  public Optional<T> obtenerPorID(Long id) {
+    return repositorio.stream().filter(t->t.getId().equals(id)).findFirst();
   }
 
-  default List<T> obtenerTodos() {
+  private List<T> cargarTodos() {
     return createQuery("from " + clase().getSimpleName(), clase())
         .getResultList();
   }
-
-  default Optional<T> buscar(Object... atributos) {
+  public List<T> obtenerTodos() {
+    return repositorio;
+  }
+  protected Optional<T> buscar(Object... atributos) {
     return filtrar(atributos).stream().findFirst();
   }
 
-  default List<T> filtrar(Object... atributos) {
+  public List<T> filtrar(Object... atributos) {
     Map<String, Object> atributosMap = mapOf(atributos);
     TypedQuery<T> query = createQuery(
         String.format("SELECT e FROM %s e WHERE %s",
@@ -45,10 +53,11 @@ public interface Repositorio<T extends EntidadPersistente> extends EntityManager
     return query.getResultList();
   }
 
-  default void limpiar() {
-    obtenerTodos().forEach(this::remove);
+   public void limpiar() {
+    cargarTodos().forEach(this::remove);
+    repositorio.clear();
   }
 
-  Class<T> clase();
+  protected abstract Class<T> clase();
 
 }

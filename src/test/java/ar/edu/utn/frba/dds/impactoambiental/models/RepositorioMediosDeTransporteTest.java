@@ -1,34 +1,34 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
-import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MediosDeTransporte;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.RepositorioMediosDeTransporte;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MediosDeTransporteTest extends BaseTest {
-  MediosDeTransporte mediosDeTransporte = MediosDeTransporte.getInstance();
+public class RepositorioMediosDeTransporteTest extends BaseTest {
+  RepositorioMediosDeTransporte repositorioMediosDeTransporte = RepositorioMediosDeTransporte.getInstance();
   @BeforeEach
   private void cleanRepo() {
-    mediosDeTransporte.limpiar();
+    repositorioMediosDeTransporte.limpiar();
     entityManager().flush();
     entityManager().clear();
   }
   @Test
   public void sePuedeAgregarUnMedioDeTransporte() {
     MedioDeTransporte medioDeTransporte = new MedioDeTransporte("Test",null,null,null);
-    mediosDeTransporte.agregar(medioDeTransporte);
-    assertEquals(medioDeTransporte,mediosDeTransporte.obtenerPorID(medioDeTransporte.getId()).orElse(null));
+    repositorioMediosDeTransporte.agregar(medioDeTransporte);
+    assertEquals(medioDeTransporte, repositorioMediosDeTransporte.obtenerPorID(medioDeTransporte.getId()).orElse(null));
   }
   @Test
   public void sePuedenObtenerTodosLosMediosDeTransporte() {
     MedioDeTransporte medioDeTransporte = new MedioDeTransporte("Test",null,null,null);
     MedioDeTransporte otroMedioDeTransporte = new MedioDeTransporte("Test2",null,null,null);
-    mediosDeTransporte.agregar(medioDeTransporte);
-    mediosDeTransporte.agregar(otroMedioDeTransporte);
+    repositorioMediosDeTransporte.agregar(medioDeTransporte);
+    repositorioMediosDeTransporte.agregar(otroMedioDeTransporte);
 
-    assertEquals(asList(medioDeTransporte,otroMedioDeTransporte),mediosDeTransporte.obtenerTodos());
+    assertEquals(asList(medioDeTransporte,otroMedioDeTransporte), repositorioMediosDeTransporte.obtenerTodos());
   }
 }

@@ -115,4 +115,8 @@ public class Organizacion extends EntidadPersistente {
   public Double huellaCarbonoSegunConsumo(Periodo periodo, TipoDeConsumo tipoDeConsumo) {
     return huellaCarbonoTrayectosSegunConsumo(periodo, tipoDeConsumo) + huellaCarbonoDASegunConsumo(periodo, tipoDeConsumo);
   }
+
+  public TipoDeOrganizacion getTipo() {
+    return tipo;
+  }
 }
