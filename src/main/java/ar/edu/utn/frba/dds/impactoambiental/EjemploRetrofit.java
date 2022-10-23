@@ -1,9 +1,16 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.*;
+import static ar.edu.utn.frba.dds.impactoambiental.ServiceLocator.getServiceLocator;
+
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Localidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Municipio;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Pais;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Provincia;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
-
 import java.util.List;
 
 public class EjemploRetrofit {
@@ -39,7 +46,10 @@ public class EjemploRetrofit {
 
   private static void probarWhatsApp() {
     Contacto contacto = new Contacto("", "<completar>");
-    NotificadorPorWhatsApp.INSTANCE.enviarGuiaRecomendacion(contacto, System.getenv("RECOMENDACIONES_URL"));
+    new NotificadorPorWhatsApp(getServiceLocator().getWhatsappApiId(),
+        getServiceLocator().getWhatsappApiKey(),
+        getServiceLocator().getRecomendacionesTemplate())
+        .enviarGuiaRecomendacion(contacto, getServiceLocator().getRecomendacionesUrl());
   }
 
 }

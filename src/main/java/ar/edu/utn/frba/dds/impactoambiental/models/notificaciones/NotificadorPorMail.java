@@ -1,30 +1,37 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
-import javax.mail.*;
+import static ar.edu.utn.frba.dds.impactoambiental.ServiceLocator.getServiceLocator;
+
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 @Entity
 @DiscriminatorValue("Mail")
 public class NotificadorPorMail extends Notificador {
-  public static final NotificadorPorMail INSTANCE = new NotificadorPorMail(
-      System.getenv("SMTP_USER"),
-      System.getenv("SMTP_PASSWORD")
-  );
-
   @Transient
   private final String smtpUser;
   @Transient
   private final String smtpPassword;
 
-  private NotificadorPorMail(String smtpUser, String smtpPassword) {
+  protected NotificadorPorMail() {
+    this(getServiceLocator().getSmtpUser(), getServiceLocator().getSmtpPassword());
+  }
+
+  public NotificadorPorMail(String smtpUser, String smtpPassword) {
     this.smtpUser = smtpUser;
     this.smtpPassword = smtpPassword;
   }
