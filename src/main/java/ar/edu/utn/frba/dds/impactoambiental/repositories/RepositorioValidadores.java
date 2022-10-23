@@ -1,17 +1,15 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validador;
+package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
-import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validador;
 
-public final class RepositorioValidadores extends Repositorio<Validador> {
+public final class RepositorioValidadores implements Repositorio<Validador> {
   private static final RepositorioValidadores instance = new RepositorioValidadores();
 
   public static RepositorioValidadores getInstance() {
     return instance;
   }
 
-  private RepositorioValidadores() {
-    super();
-  }
+  private RepositorioValidadores() {}
 
   @Override
   public Class<Validador> clase() {

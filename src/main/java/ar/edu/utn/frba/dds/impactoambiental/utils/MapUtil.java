@@ -1,13 +1,12 @@
-package ar.edu.utn.frba.dds.impactoambiental;
+package ar.edu.utn.frba.dds.impactoambiental.utils;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface Utils {
+public interface MapUtil {
   static Map<String, Object> mapOf(Object... args) {
     try {
       return Streams.stream(Iterables.partition(Arrays.asList(args), 2))

@@ -1,12 +1,12 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
-import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.RepositorioDeLineas;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeLineas;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RepositorioDeLineasTest extends BaseTest {
   RepositorioDeLineas repositorioDeLineas = RepositorioDeLineas.getInstance();

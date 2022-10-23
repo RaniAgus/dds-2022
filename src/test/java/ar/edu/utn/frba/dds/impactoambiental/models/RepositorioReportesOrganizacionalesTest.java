@@ -1,19 +1,18 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteOrganizacional;
-import ar.edu.utn.frba.dds.impactoambiental.models.reportes.RepositorioReportesOrganizacionales;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioReportesOrganizacionales;
 import java.time.LocalDate;
 import java.util.HashMap;
-
-import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RepositorioReportesOrganizacionalesTest extends BaseTest {
   RepositorioReportesOrganizacionales repositorioReportesOrganizacionales = RepositorioReportesOrganizacionales.getInstance();

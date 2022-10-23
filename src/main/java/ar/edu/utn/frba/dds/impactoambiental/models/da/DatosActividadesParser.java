@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.da;
 
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;

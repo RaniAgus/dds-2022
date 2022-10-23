@@ -1,8 +1,11 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.mockito.Mockito.mock;
+
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.RepositorioTipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.UnidadDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
@@ -30,20 +33,16 @@ import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarUsuarioPorDefecto;
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.mock;
 
 public abstract class BaseTest extends AbstractPersistenceTest
     implements WithGlobalEntityManager, EntityManagerOps, TransactionalOps {

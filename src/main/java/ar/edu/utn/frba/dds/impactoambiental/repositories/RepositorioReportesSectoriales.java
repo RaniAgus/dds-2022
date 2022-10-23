@@ -1,14 +1,12 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.reportes;
+package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
-import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
-
+import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorial;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public final class RepositorioReportesSectoriales extends Repositorio<ReporteSectorial> {
+public final class RepositorioReportesSectoriales implements Repositorio<ReporteSectorial> {
   private static final RepositorioReportesSectoriales instance = new RepositorioReportesSectoriales();
 
   public static RepositorioReportesSectoriales getInstance() {
@@ -16,15 +14,15 @@ public final class RepositorioReportesSectoriales extends Repositorio<ReporteSec
   }
 
   public List<ReporteSectorial> evolucionHCTotalSector(SectorTerritorial sector) {
-    return repositorio.stream()
-        .filter(reporte -> reporte.sectorTerritorial.equals(sector))
-        .collect(Collectors.toList());
+    return filtrar("sectorTerritorial.id", sector.getId());
   }
 
   public Optional<ReporteSectorial> reporteSectorialSegunPeriodo(Periodo periodo, SectorTerritorial sector) {
-    return repositorio.stream()
-        .filter(reporte -> reporte.sectorTerritorial.equals(sector)
-            && reporte.periodo.equals(periodo)).findFirst();
+    return buscar(
+        "periodo.inicioPeriodo", periodo.getInicioPeriodo(),
+        "periodo.periodicidad", periodo.getPeriodicidad(),
+        "sectorTerritorial.id", sector.getId()
+    );
   }
 
   @Override
