@@ -1,30 +1,29 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.ContrasenaDebilException;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validador;
-import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
-
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
+import ar.edu.utn.frba.dds.impactoambiental.utils.Chequeador;
+import java.util.Collections;
+import org.junit.jupiter.api.Test;
+
 public class ValidadorTest extends BaseTest {
   @Test
   public void unaContraseniaValidaNoArrojaExcepcionAlValidar() {
-    Validador validador = crearValidadorConTodasLasValidaciones();
+    Chequeador<UsuarioDto> validador = crearValidadorConTodasLasValidaciones();
 
-    assertThatCode(() -> validador.validar("user", "password")).doesNotThrowAnyException();
+    assertThatCode(() -> validador.validar(new UsuarioDto("user", "password"))).doesNotThrowAnyException();
   }
 
   @Test
   public void unaContraseniaInvalidaArrojaExcepcionConTodosLosMensajesAlValidar() {
-    Validador validador = crearValidadorConTodasLasValidaciones();
+    Chequeador<UsuarioDto> validador = crearValidadorConTodasLasValidaciones();
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("111"));
 
-    assertThatThrownBy(() -> validador.validar("user", "111"))
-        .isExactlyInstanceOf(ContrasenaDebilException.class)
+    assertThatThrownBy(() -> validador.validar(new UsuarioDto("user", "111")))
+        .isExactlyInstanceOf(ChequeoFallidoException.class)
         .hasMessageContainingAll(
             "La contraseña debe tener al menos 8 caracteres.",
             "La contraseña no debe repetir 3 veces seguidas un mismo caracter.",

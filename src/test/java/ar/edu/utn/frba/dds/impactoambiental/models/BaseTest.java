@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,13 +30,14 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validador;
+import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarUsuarioPorDefecto;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
+import ar.edu.utn.frba.dds.impactoambiental.utils.Chequeador;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -188,19 +188,21 @@ public abstract class BaseTest extends AbstractPersistenceTest
 
   // Validadores
 
-  protected Validador crearValidadorConTodasLasValidaciones() {
-    return new Validador(asList(
-        new Validar8Caracteres(),
-        new ValidarCaracteresRepetidos(),
-        new Validar10MilContrasenas(lectorDeArchivos),
-        new ValidarCaracteresConsecutivos(),
-        new ValidarUsuarioPorDefecto()
-    ));
+  protected Chequeador<UsuarioDto> crearValidadorConTodasLasValidaciones() {
+    return new Chequeador<UsuarioDto>().agregarValidaciones(
+        Validacion.asChequeos(Arrays.asList(
+            new Validar8Caracteres(),
+            new ValidarCaracteresRepetidos(),
+            new Validar10MilContrasenas(lectorDeArchivos),
+            new ValidarCaracteresConsecutivos(),
+            new ValidarUsuarioPorDefecto()
+        ))
+    );
   }
 
   // Administradores
 
-  protected Administrador crearAdministrador(String contrasenia) {
-    return new Administrador(crearValidadorConTodasLasValidaciones(), "Juancito", contrasenia);
+  protected Usuario crearUsuario(String contrasenia) {
+    return new Usuario(crearValidadorConTodasLasValidaciones(), new UsuarioDto("Juancito", contrasenia));
   }
 }

@@ -15,7 +15,6 @@ public class Chequeador<T> {
     return this;
   }
 
-  // TODO: Hacer que las validaciones de contraseñas puedan convertirse en chequeos
   public Chequeador<T> agregarValidaciones(List<Chequeo<T>> chequeos) {
     this.chequeos.addAll(chequeos);
     return this;

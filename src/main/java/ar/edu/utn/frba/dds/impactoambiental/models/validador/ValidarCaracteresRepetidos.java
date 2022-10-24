@@ -1,9 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.validador;
 
-import java.util.Optional;
-import java.util.regex.Matcher;
+import ar.edu.utn.frba.dds.impactoambiental.models.UsuarioDto;
 import java.util.regex.Pattern;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -11,13 +9,12 @@ import javax.persistence.Entity;
 @DiscriminatorValue("caracteresRepetidos")
 public class ValidarCaracteresRepetidos extends Validacion {
   @Override
-  public Optional<String> validar(String usuario, String contrasena) {
-    Optional<String> error = Optional.empty();
-    Pattern patronRepetitive = Pattern.compile("(.)\\1{2}");
-    Matcher matcherRepetittive = patronRepetitive.matcher(contrasena);
-    if (matcherRepetittive.find()) {
-      error = Optional.of("La contraseña no debe repetir 3 veces seguidas un mismo caracter.");
-    }
-    return error;
+  public boolean test(UsuarioDto usuarioDto) {
+    return !Pattern.compile("(.)\\1{2}").matcher(usuarioDto.getContrasena()).find();
+  }
+
+  @Override
+  public String getMensajeDeError() {
+    return "La contraseña no debe repetir 3 veces seguidas un mismo caracter.";
   }
 }
