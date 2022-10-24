@@ -18,20 +18,18 @@ public class MultipartForm implements Form {
   }
 
   @Override
-  public String getString(String param) {
+  public Optional<String> getString(String param) {
     return getPart(param)
         .map(part -> isFile(part) ? null : part)
         .map(MultipartForm::readAllBytes)
-        .map(String::new)
-        .orElse(null);
+        .map(String::new);
   }
 
   @Override
-  public byte[] getFile(String param) {
+  public Optional<byte[]> getFile(String param) {
     return getPart(param)
         .map(part -> isFile(part) ? part : null)
-        .map(MultipartForm::readAllBytes)
-        .orElse(null);
+        .map(MultipartForm::readAllBytes);
   }
 
   private Optional<Part> getPart(String name) {
