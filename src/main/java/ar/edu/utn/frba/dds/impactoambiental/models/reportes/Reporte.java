@@ -23,11 +23,11 @@ public abstract class Reporte {
     return periodo;
   }
 
-  public Double HCTotal() {
-    return composicionHC().values().stream().mapToDouble(x -> x).sum();
+  public Double getHuellaCarbonoTotal() {
+    return getComposicionHuellaCarbono().values().stream().mapToDouble(x -> x).sum();
   }
 
-  public Map<TipoDeConsumo, Double> composicionHC() {
+  public Map<TipoDeConsumo, Double> getComposicionHuellaCarbono() {
     return getTiposDeConsumo().stream()
         .collect(Collectors.toMap(tipoDeConsumo -> tipoDeConsumo, this::huellaCarbonoSegunConsumo));
   }

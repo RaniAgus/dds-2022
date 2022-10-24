@@ -3,11 +3,10 @@ package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
-
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import java.util.List;
 
 @Entity
 public class SectorTerritorial extends EntidadPersistente {
@@ -34,6 +33,13 @@ public class SectorTerritorial extends EntidadPersistente {
   public Double huellaCarbonoSegunConsumo(Periodo periodo, TipoDeConsumo tipoDeConsumo) {
     return organizaciones.stream()
         .mapToDouble(o -> o.huellaCarbonoSegunConsumo(periodo, tipoDeConsumo))
+        .sum();
+  }
+
+  public Double huellaCarbonoSegunTipoDeOrganizacion(Periodo periodo, TipoDeOrganizacion tipoDeOrganizacion) {
+    return organizaciones.stream()
+        .filter(o -> o.getTipo() == tipoDeOrganizacion)
+        .mapToDouble(o -> o.huellaCarbono(periodo))
         .sum();
   }
 }
