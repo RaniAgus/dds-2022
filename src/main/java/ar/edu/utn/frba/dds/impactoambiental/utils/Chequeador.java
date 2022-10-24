@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Chequeador<T> {
@@ -28,17 +28,19 @@ public class Chequeador<T> {
     return this;
   }
 
-  public Try<T> chequearValor(T valor) {
+  public Try<T> chequear(T valor) {
     List<String> errores = getErrores(valor);
     return errores.isEmpty() ? Try.exitoso(valor) : Try.fallido(errores);
   }
 
-  public Try<T> chequearValor(String valor, Function<String, T> parser, String mensajeDeError) {
+  public Try<T> chequear(Supplier<T> valorSupplier, String mensajeDeError) {
+    T valor;
     try {
-      return chequearValor(parser.apply(valor));
+      valor = valorSupplier.get();
     } catch (Exception e) {
       return Try.fallido(Collections.singletonList(mensajeDeError));
     }
+    return chequear(valor);
   }
 
   public String getNombre() {

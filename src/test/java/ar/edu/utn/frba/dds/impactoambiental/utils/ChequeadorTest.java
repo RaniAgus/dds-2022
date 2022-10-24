@@ -10,7 +10,7 @@ public class ChequeadorTest {
     Chequeador<String> chequeador = new Chequeador<>("campo");
     chequeador.agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    Try<String> resultado = chequeador.chequearValor("123456");
+    Try<String> resultado = chequeador.chequear("123456");
 
     assertThat(resultado.getValor()).isEqualTo("123456");
   }
@@ -22,7 +22,7 @@ public class ChequeadorTest {
         .agregarChequeo((valor) -> valor.length() > 7, "El valor debe tener más de 7 caracteres")
         .agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    Try<String> resultado = chequeador.chequearValor("123456");
+    Try<String> resultado = chequeador.chequear("123456");
 
     assertThat(resultado.getErrores()).containsExactly("El valor debe tener más de 7 caracteres");
   }
@@ -35,7 +35,7 @@ public class ChequeadorTest {
         .agregarChequeo((valor) -> valor.length() > 6, "El valor debe tener más de 5 caracteres")
         .agregarChequeo((valor) -> valor.length() > 4, "El valor debe tener más de 3 caracteres");
 
-    Try<String> resultado = chequeador.chequearValor("123456");
+    Try<String> resultado = chequeador.chequear("123456");
 
     assertThat(resultado.getErrores()).containsExactly(
         "El valor debe tener más de 7 caracteres", "El valor debe tener más de 5 caracteres");
@@ -48,7 +48,7 @@ public class ChequeadorTest {
         .agregarChequeoNoNulo("El valor no puede ser nulo")
         .agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    Try<String> resultado = chequeador.chequearValor(null);
+    Try<String> resultado = chequeador.chequear(null);
 
     assertThat(resultado.getErrores()).containsExactly("El valor no puede ser nulo");
   }
@@ -58,7 +58,7 @@ public class ChequeadorTest {
     Chequeador<String> chequeador = new Chequeador<>("campo");
     chequeador.agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    Try<String> resultado = chequeador.chequearValor(null);
+    Try<String> resultado = chequeador.chequear(null);
 
     assertThat(resultado.getValor()).isNull();
   }
@@ -68,7 +68,7 @@ public class ChequeadorTest {
     Chequeador<Integer> chequeador = new Chequeador<>("campo");
     chequeador.agregarChequeo((valor) -> valor > 5, "El valor debe ser mayor a 5");
 
-    Try<Integer> resultado = chequeador.chequearValor("6", Integer::parseInt, "El valor no es un número");
+    Try<Integer> resultado = chequeador.chequear(() -> Integer.parseInt("6"), "El valor debe ser numérico");
 
     assertThat(resultado.getValor()).isEqualTo(6);
   }
@@ -78,8 +78,9 @@ public class ChequeadorTest {
     Chequeador<Integer> chequeador = new Chequeador<>("campo");
     chequeador.agregarChequeo((valor) -> valor > 5, "El valor debe ser mayor a 5");
 
-    Try<Integer> resultado = chequeador.chequearValor("6a", Integer::parseInt, "El valor no es un número");
+    Try<Integer> resultado = chequeador.chequear(() -> Integer.parseInt("6a"), "El valor debe ser numérico");
 
-    assertThat(resultado.getErrores()).containsExactly("El valor no es un número");
+    assertThat(resultado.getErrores()).containsExactly("El valor debe ser numérico");
   }
+
 }

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.utils;
 
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
 import java.util.List;
 
 public class TryFallido<T> implements Try<T> {
@@ -10,7 +11,7 @@ public class TryFallido<T> implements Try<T> {
   }
 
   public T getValor() {
-    throw new ChequeoInvalidoException(errores);
+    throw new ChequeoFallidoException(errores);
   }
 
   public List<String> getErrores() {

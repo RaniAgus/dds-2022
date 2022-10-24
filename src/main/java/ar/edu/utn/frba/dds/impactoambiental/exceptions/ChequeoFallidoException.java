@@ -1,11 +1,11 @@
-package ar.edu.utn.frba.dds.impactoambiental.utils;
+package ar.edu.utn.frba.dds.impactoambiental.exceptions;
 
 import java.util.List;
 
-public class ChequeoInvalidoException extends RuntimeException {
+public class ChequeoFallidoException extends RuntimeException {
   private List<String> errores;
 
-  public ChequeoInvalidoException(List<String> errores) {
+  public ChequeoFallidoException(List<String> errores) {
     super("Errores: " + String.join(", ", errores));
     this.errores = errores;
   }
