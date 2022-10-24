@@ -10,7 +10,7 @@ import org.eclipse.jetty.io.RuntimeIOException;
 import spark.Request;
 import spark.utils.IOUtils;
 
-public class MultipartForm implements Form {
+public class MultipartForm extends Form {
   private final Request request;
 
   public MultipartForm(Request request) {
@@ -18,7 +18,7 @@ public class MultipartForm implements Form {
   }
 
   @Override
-  public Optional<String> getString(String param) {
+  public Optional<String> getParam(String param) {
     return getPart(param)
         .map(part -> isFile(part) ? null : part)
         .map(MultipartForm::readAllBytes)
