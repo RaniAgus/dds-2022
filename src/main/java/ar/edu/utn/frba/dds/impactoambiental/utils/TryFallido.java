@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.impactoambiental.utils;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
 import java.util.List;
+import java.util.function.Function;
 
 public class TryFallido<T> implements Try<T> {
   private List<String> errores;
@@ -11,10 +12,14 @@ public class TryFallido<T> implements Try<T> {
   }
 
   public T getValor() {
-    throw new ChequeoFallidoException(errores);
+    throw new ChequeoFallidoException(this);
   }
 
   public List<String> getErrores() {
     return errores;
+  }
+
+  public <R> Try<R> map(Function<T, R> function, String error) {
+    return Try.fallido(errores);
   }
 }

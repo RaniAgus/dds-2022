@@ -1,16 +1,16 @@
 package ar.edu.utn.frba.dds.impactoambiental.exceptions;
 
-import java.util.List;
+import ar.edu.utn.frba.dds.impactoambiental.utils.Try;
 
 public class ChequeoFallidoException extends RuntimeException {
-  private List<String> errores;
+  private Try<?> fallido;
 
-  public ChequeoFallidoException(List<String> errores) {
-    super("Errores: " + String.join(", ", errores));
-    this.errores = errores;
+  public ChequeoFallidoException(Try<?> fallido) {
+    super("Errores: " + String.join(", ", fallido.getErrores()));
+    this.fallido = fallido;
   }
 
-  public List<String> getErrores() {
-    return errores;
+  public Try<?> getTry() {
+    return fallido;
   }
 }

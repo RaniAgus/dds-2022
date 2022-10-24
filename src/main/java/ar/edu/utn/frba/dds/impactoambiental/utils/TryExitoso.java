@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.impactoambiental.utils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class TryExitoso<T> implements Try<T> {
   private T valor;
@@ -16,5 +17,9 @@ public class TryExitoso<T> implements Try<T> {
 
   public List<String> getErrores() {
     return Collections.emptyList();
+  }
+
+  public <R> Try<R> map(Function<T, R> function, String error) {
+    return Try.desde(() -> function.apply(valor), error);
   }
 }

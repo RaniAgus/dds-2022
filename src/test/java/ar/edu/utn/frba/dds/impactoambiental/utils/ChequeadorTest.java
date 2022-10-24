@@ -1,86 +1,49 @@
 package ar.edu.utn.frba.dds.impactoambiental.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
 import org.junit.jupiter.api.Test;
 
 public class ChequeadorTest {
   @Test
-  public void sePuedeChequearUnStringCuandoEsValido() {
-    Chequeador<String> chequeador = new Chequeador<>("campo");
-    chequeador.agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
+  public void sePuedeChequearCuandoEsValido() {
+    Chequeador<String> chequeador = new Chequeador<>();
+    chequeador.agregarValidacion((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    Try<String> resultado = chequeador.chequear("123456");
+    Try<String> resultado = chequeador.validar("123456");
 
     assertThat(resultado.getValor()).isEqualTo("123456");
   }
 
   @Test
-  public void sePuedeChequearUnStringCuandoEsInvalido() {
-    Chequeador<String> chequeador = new Chequeador<>("campo");
+  public void sePuedeChequearCuandoEsInvalido() {
+    Chequeador<String> chequeador = new Chequeador<>();
     chequeador
-        .agregarChequeo((valor) -> valor.length() > 7, "El valor debe tener más de 7 caracteres")
-        .agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
+        .agregarValidacion((valor) -> valor.length() > 7, "El valor debe tener más de 7 caracteres")
+        .agregarValidacion((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    Try<String> resultado = chequeador.chequear("123456");
-
-    assertThat(resultado.getErrores()).containsExactly("El valor debe tener más de 7 caracteres");
+    assertThatThrownBy(() -> chequeador.validar("123456"))
+        .isInstanceOf(ChequeoFallidoException.class)
+        .extracting("try.errores")
+        .asList()
+        .containsExactlyInAnyOrder("El valor debe tener más de 7 caracteres");
   }
 
   @Test
-  public void sePuedeChequearUnStringCuandoEsInvalidoPorMasDeUnMotivo() {
-    Chequeador<String> chequeador = new Chequeador<>("campo");
+  public void sePuedeChequearCuandoEsInvalidoPorMasDeUnMotivo() {
+    Chequeador<String> chequeador = new Chequeador<>();
     chequeador
-        .agregarChequeo((valor) -> valor.length() > 8, "El valor debe tener más de 7 caracteres")
-        .agregarChequeo((valor) -> valor.length() > 6, "El valor debe tener más de 5 caracteres")
-        .agregarChequeo((valor) -> valor.length() > 4, "El valor debe tener más de 3 caracteres");
+        .agregarValidacion((valor) -> valor.length() > 8, "El valor debe tener más de 7 caracteres")
+        .agregarValidacion((valor) -> valor.length() > 6, "El valor debe tener más de 5 caracteres")
+        .agregarValidacion((valor) -> valor.length() > 4, "El valor debe tener más de 3 caracteres");
 
-    Try<String> resultado = chequeador.chequear("123456");
-
-    assertThat(resultado.getErrores()).containsExactly(
-        "El valor debe tener más de 7 caracteres", "El valor debe tener más de 5 caracteres");
-  }
-
-  @Test
-  public void sePuedeChequearUnStringCuandoEsNulo() {
-    Chequeador<String> chequeador = new Chequeador<>("campo");
-    chequeador
-        .agregarChequeoNoNulo("El valor no puede ser nulo")
-        .agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
-
-    Try<String> resultado = chequeador.chequear(null);
-
-    assertThat(resultado.getErrores()).containsExactly("El valor no puede ser nulo");
-  }
-
-  @Test
-  public void sePuedeChequearUnStringCuandoEsNuloYNoHayChequeo() {
-    Chequeador<String> chequeador = new Chequeador<>("campo");
-    chequeador.agregarChequeo((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
-
-    Try<String> resultado = chequeador.chequear(null);
-
-    assertThat(resultado.getValor()).isNull();
-  }
-
-  @Test
-  public void sePuedeChequearUnCampoQueNoEsStringDadoUnString() {
-    Chequeador<Integer> chequeador = new Chequeador<>("campo");
-    chequeador.agregarChequeo((valor) -> valor > 5, "El valor debe ser mayor a 5");
-
-    Try<Integer> resultado = chequeador.chequear(() -> Integer.parseInt("6"), "El valor debe ser numérico");
-
-    assertThat(resultado.getValor()).isEqualTo(6);
-  }
-
-  @Test
-  public void sePuedeChequearUnCampoQueNoEsStringDadoUnStringInvalido() {
-    Chequeador<Integer> chequeador = new Chequeador<>("campo");
-    chequeador.agregarChequeo((valor) -> valor > 5, "El valor debe ser mayor a 5");
-
-    Try<Integer> resultado = chequeador.chequear(() -> Integer.parseInt("6a"), "El valor debe ser numérico");
-
-    assertThat(resultado.getErrores()).containsExactly("El valor debe ser numérico");
+    assertThatThrownBy(() -> chequeador.validar("123456"))
+        .isInstanceOf(ChequeoFallidoException.class)
+        .extracting("try.errores")
+        .asList()
+        .containsExactlyInAnyOrder("El valor debe tener más de 7 caracteres", "El valor debe tener más de 5 caracteres");
   }
 
 }
