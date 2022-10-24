@@ -1,8 +1,9 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
+package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
-import ar.edu.utn.frba.dds.impactoambiental.utils.Chequeador;
+import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
+import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Chequeador;
 import javax.persistence.Entity;
 
 @Entity

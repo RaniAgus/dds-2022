@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.utils;
+package ar.edu.utn.frba.dds.impactoambiental.models.chequeos;
 
 import java.util.Collections;
 import java.util.List;

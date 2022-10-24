@@ -1,8 +1,7 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validador;
+package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
-import ar.edu.utn.frba.dds.impactoambiental.models.UsuarioDto;
-import ar.edu.utn.frba.dds.impactoambiental.utils.Chequeo;
+import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Chequeo;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;

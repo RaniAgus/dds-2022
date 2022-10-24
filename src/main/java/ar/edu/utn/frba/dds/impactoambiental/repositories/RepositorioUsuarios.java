@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.impactoambiental.repositories;
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
-import ar.edu.utn.frba.dds.impactoambiental.models.Usuario;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 
 public final class RepositorioUsuarios implements Repositorio<Usuario> {
   private static final RepositorioUsuarios instance = new RepositorioUsuarios();

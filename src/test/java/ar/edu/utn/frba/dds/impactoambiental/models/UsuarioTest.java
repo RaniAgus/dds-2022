@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;

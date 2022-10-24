@@ -1,9 +1,11 @@
-package ar.edu.utn.frba.dds.impactoambiental.utils;
+package ar.edu.utn.frba.dds.impactoambiental.models;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
+import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Chequeador;
+import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Try;
 import org.junit.jupiter.api.Test;
 
 public class ChequeadorTest {

@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
+package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
 public class UsuarioDto {
   private String usuario;

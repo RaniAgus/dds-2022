@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.utils.form;
+package ar.edu.utn.frba.dds.impactoambiental.models.forms;
 
 import java.util.Optional;
 import spark.Request;

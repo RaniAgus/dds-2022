@@ -1,6 +1,5 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validador;
+package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.UsuarioDto;
 import java.util.regex.Pattern;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

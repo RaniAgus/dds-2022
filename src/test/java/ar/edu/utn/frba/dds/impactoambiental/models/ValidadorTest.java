@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
-import ar.edu.utn.frba.dds.impactoambiental.utils.Chequeador;
+import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Chequeador;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 

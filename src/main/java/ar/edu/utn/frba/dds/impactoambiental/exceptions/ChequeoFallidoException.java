@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.exceptions;
 
-import ar.edu.utn.frba.dds.impactoambiental.utils.Try;
+import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Try;
 
 public class ChequeoFallidoException extends RuntimeException {
   private Try<?> fallido;
