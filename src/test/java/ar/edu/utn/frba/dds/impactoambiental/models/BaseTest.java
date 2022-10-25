@@ -43,16 +43,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
-import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
-public abstract class BaseTest extends AbstractPersistenceTest
-    implements WithGlobalEntityManager, EntityManagerOps, TransactionalOps {
+public abstract class BaseTest {
   protected Periodo periodoAnual = new Periodo(LocalDate.of(2022, 1, 1), Periodicidad.ANUAL);
 
   protected Ubicacion utnMedrano = new Ubicacion(1, "Medrano", "951");
@@ -92,12 +86,6 @@ public abstract class BaseTest extends AbstractPersistenceTest
     when(repositorioTipoDeConsumo.buscarPorNombre("NAFTA")).thenReturn(Optional.of(nafta));
     lectorDeArchivos = mock(LectorDeArchivos.class);
     geolocalizador = mock(Geolocalizador.class);
-    super.setup();
-  }
-
-  @AfterEach
-  public void teardown() {
-    super.tearDown();
   }
 
   // Organizaciones
