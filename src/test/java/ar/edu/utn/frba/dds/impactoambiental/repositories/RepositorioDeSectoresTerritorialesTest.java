@@ -1,15 +1,16 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
+package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.BaseTest;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
-import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeSectoresTerritoriales;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-public class RepositorioDeSectoresTerritorialesTest extends BaseTest {
+
+public class RepositorioDeSectoresTerritorialesTest extends BaseTest implements PersistenceTest {
   RepositorioDeSectoresTerritoriales repositorioDeSectoresTerritoriales = RepositorioDeSectoresTerritoriales.getInstance();
 
   @Test
