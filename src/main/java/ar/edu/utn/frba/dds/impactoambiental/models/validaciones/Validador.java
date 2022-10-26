@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.chequeos;
+package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Chequeador<T> {
-  private List<Chequeo<T>> chequeos = new ArrayList<>();
+public class Validador<T> {
+  private List<Validacion<T>> validaciones = new ArrayList<>();
 
-  public Chequeador<T> agregarValidacion(Predicate<T> chequeo, String mensajeDeError) {
-    chequeos.add(new Chequeo<T>() {
+  public Validador<T> agregarValidacion(Predicate<T> chequeo, String mensajeDeError) {
+    validaciones.add(new Validacion<T>() {
       @Override
       public boolean validar(T valor) {
         return chequeo.test(valor);
@@ -25,8 +25,8 @@ public class Chequeador<T> {
     return this;
   }
 
-  public Chequeador<T> agregarValidaciones(List<Chequeo<T>> chequeos) {
-    this.chequeos.addAll(chequeos);
+  public Validador<T> agregarValidaciones(List<Validacion<T>> validaciones) {
+    this.validaciones.addAll(validaciones);
     return this;
   }
 
@@ -39,8 +39,8 @@ public class Chequeador<T> {
   }
 
   private List<String> getErrores(T valor) {
-    return chequeos.stream()
-        .map(chequeo -> chequeo.getError(valor))
+    return validaciones.stream()
+        .map(validacion -> validacion.getError(valor))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());

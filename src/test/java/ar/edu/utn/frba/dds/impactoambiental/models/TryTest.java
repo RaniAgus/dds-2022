@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
-import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Try;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Try;
 import java.util.Arrays;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;

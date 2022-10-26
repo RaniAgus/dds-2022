@@ -4,7 +4,6 @@ import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Chequeador;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
@@ -37,6 +36,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarUsuarioPorDefecto;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -161,8 +161,8 @@ public abstract class BaseTest {
 
   // Validadores
 
-  protected Chequeador<UsuarioDto> crearValidadorConTodasLasValidaciones() {
-    return new Chequeador<UsuarioDto>().agregarValidaciones(Arrays.asList(
+  protected Validador<UsuarioDto> crearValidadorConTodasLasValidaciones() {
+    return new Validador<UsuarioDto>().agregarValidaciones(Arrays.asList(
         new Validar8Caracteres(),
         new ValidarCaracteresRepetidos(),
         new Validar10MilContrasenas(lectorDeArchivos),

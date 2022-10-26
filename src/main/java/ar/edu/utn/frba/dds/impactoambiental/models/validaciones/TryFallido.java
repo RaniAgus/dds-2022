@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.chequeos;
+package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
 import java.util.List;

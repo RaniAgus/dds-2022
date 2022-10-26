@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.forms;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.chequeos.Try;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Try;
 import java.util.Optional;
 import spark.Request;
 
