@@ -6,9 +6,10 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("caracteresRepetidos")
-public class ValidarCaracteresRepetidos extends Validacion {
+public class ValidarCaracteresRepetidos extends ValidacionDeUsuario {
+
   @Override
-  public boolean test(UsuarioDto usuarioDto) {
+  public boolean validar(UsuarioDto usuarioDto) {
     return !Pattern.compile("(.)\\1{2}").matcher(usuarioDto.getContrasena()).find();
   }
 

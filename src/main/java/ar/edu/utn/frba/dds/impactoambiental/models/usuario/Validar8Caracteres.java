@@ -5,9 +5,9 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("8caracteres")
-public class Validar8Caracteres extends Validacion {
+public class Validar8Caracteres extends ValidacionDeUsuario {
   @Override
-  public boolean test(UsuarioDto usuarioDto) {
+  public boolean validar(UsuarioDto usuarioDto) {
     return usuarioDto.getContrasena().length() >= 8;
   }
 

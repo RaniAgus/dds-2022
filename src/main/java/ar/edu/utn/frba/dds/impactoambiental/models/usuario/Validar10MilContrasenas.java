@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("10milcontrasenas")
-public class Validar10MilContrasenas extends Validacion {
+public class Validar10MilContrasenas extends ValidacionDeUsuario {
   @Transient
   private final LectorDeArchivos lectorDeArchivos;
 
@@ -22,7 +22,7 @@ public class Validar10MilContrasenas extends Validacion {
   }
 
   @Override
-  public boolean test(UsuarioDto usuarioDto) {
+  public boolean validar(UsuarioDto usuarioDto) {
     return !lectorDeArchivos.getLineas().contains(usuarioDto.getContrasena());
   }
 

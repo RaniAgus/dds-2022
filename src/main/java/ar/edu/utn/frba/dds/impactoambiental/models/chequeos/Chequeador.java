@@ -11,7 +11,17 @@ public class Chequeador<T> {
   private List<Chequeo<T>> chequeos = new ArrayList<>();
 
   public Chequeador<T> agregarValidacion(Predicate<T> chequeo, String mensajeDeError) {
-    chequeos.add(new Chequeo<>(chequeo, mensajeDeError));
+    chequeos.add(new Chequeo<T>() {
+      @Override
+      public boolean validar(T valor) {
+        return chequeo.test(valor);
+      }
+
+      @Override
+      public String getMensajeDeError() {
+        return mensajeDeError;
+      }
+    });
     return this;
   }
 

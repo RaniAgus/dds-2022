@@ -32,7 +32,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizaci
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
@@ -163,15 +162,13 @@ public abstract class BaseTest {
   // Validadores
 
   protected Chequeador<UsuarioDto> crearValidadorConTodasLasValidaciones() {
-    return new Chequeador<UsuarioDto>().agregarValidaciones(
-        Validacion.asChequeos(Arrays.asList(
-            new Validar8Caracteres(),
-            new ValidarCaracteresRepetidos(),
-            new Validar10MilContrasenas(lectorDeArchivos),
-            new ValidarCaracteresConsecutivos(),
-            new ValidarUsuarioPorDefecto()
-        ))
-    );
+    return new Chequeador<UsuarioDto>().agregarValidaciones(Arrays.asList(
+        new Validar8Caracteres(),
+        new ValidarCaracteresRepetidos(),
+        new Validar10MilContrasenas(lectorDeArchivos),
+        new ValidarCaracteresConsecutivos(),
+        new ValidarUsuarioPorDefecto()
+    ));
   }
 
   // Administradores

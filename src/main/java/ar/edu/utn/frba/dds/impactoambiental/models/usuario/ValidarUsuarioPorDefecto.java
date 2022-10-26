@@ -5,9 +5,10 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("usuarioPorDefecto")
-public class ValidarUsuarioPorDefecto extends Validacion {
+public class ValidarUsuarioPorDefecto extends ValidacionDeUsuario {
+
   @Override
-  public boolean test(UsuarioDto usuarioDto) {
+  public boolean validar(UsuarioDto usuarioDto) {
     return !usuarioDto.getUsuario().equals(usuarioDto.getContrasena());
   }
 

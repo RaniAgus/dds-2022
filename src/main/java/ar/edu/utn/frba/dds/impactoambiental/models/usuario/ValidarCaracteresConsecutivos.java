@@ -5,10 +5,10 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("caracteresConsecutivos")
-public class ValidarCaracteresConsecutivos extends Validacion {
+public class ValidarCaracteresConsecutivos extends ValidacionDeUsuario {
 
   @Override
-  public boolean test(UsuarioDto usuarioDto) {
+  public boolean validar(UsuarioDto usuarioDto) {
     char[] contrasenaArray = usuarioDto.getContrasena().toCharArray();
     for (int i = 0; i < contrasenaArray.length - 3; i++) {
       if ((contrasenaArray[i] == contrasenaArray[i + 1] - 1
