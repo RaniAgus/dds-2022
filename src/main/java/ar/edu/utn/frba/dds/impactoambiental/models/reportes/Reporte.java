@@ -1,29 +1,36 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.reportes;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.MapKeyJoinColumn;
-import javax.persistence.MappedSuperclass;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-@MappedSuperclass
-public abstract class Reporte extends EntidadPersistente {
-  @Embedded
-  Periodo periodo;
+public abstract class Reporte {
+  private List<TipoDeConsumo> tiposDeConsumo;
+  private Periodo periodo;
 
-  @ElementCollection
-  @MapKeyJoinColumn(name = "tipodeconsumo_id")
-  Map<TipoDeConsumo, Double> consumos;
-
-  public Double HCTotal() {
-    return consumos.values().stream().mapToDouble(x -> x).sum();
+  public Reporte(List<TipoDeConsumo> tiposDeConsumo, Periodo periodo) {
+    this.tiposDeConsumo = tiposDeConsumo;
+    this.periodo = periodo;
   }
 
-  public Map<TipoDeConsumo, Double> composicionHC() {
-    return consumos;
+  public List<TipoDeConsumo> getTiposDeConsumo() {
+    return tiposDeConsumo;
   }
+
+  public Periodo getPeriodo() {
+    return periodo;
+  }
+
+  public Double getHuellaCarbonoTotal() {
+    return getComposicionHuellaCarbono().values().stream().mapToDouble(x -> x).sum();
+  }
+
+  public Map<TipoDeConsumo, Double> getComposicionHuellaCarbono() {
+    return getTiposDeConsumo().stream()
+        .collect(Collectors.toMap(tipoDeConsumo -> tipoDeConsumo, this::huellaCarbonoSegunConsumo));
+  }
+
+  public abstract Double huellaCarbonoSegunConsumo(TipoDeConsumo tipoDeConsumo);
 }

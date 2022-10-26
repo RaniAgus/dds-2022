@@ -7,16 +7,14 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
-
+import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import java.util.List;
 
-// TODO: NOTA: Es posible que haga falta crear un repo de esto, depende del flujo
 @Entity
 public class Organizacion extends EntidadPersistente {
   private String razonSocial;
@@ -114,5 +112,9 @@ public class Organizacion extends EntidadPersistente {
 
   public Double huellaCarbonoSegunConsumo(Periodo periodo, TipoDeConsumo tipoDeConsumo) {
     return huellaCarbonoTrayectosSegunConsumo(periodo, tipoDeConsumo) + huellaCarbonoDASegunConsumo(periodo, tipoDeConsumo);
+  }
+
+  public TipoDeOrganizacion getTipo() {
+    return tipo;
   }
 }

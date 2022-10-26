@@ -1,8 +1,14 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.RepositorioTipoDeConsumo;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.UnidadDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
@@ -30,23 +36,17 @@ import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarUsuarioPorDefecto;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
-import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
-
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.mockito.Mockito.mock;
+public abstract class BaseTest {
+  protected Periodo periodoAnual = new Periodo(LocalDate.of(2022, 1, 1), Periodicidad.ANUAL);
 
-public abstract class BaseTest extends AbstractPersistenceTest
-    implements WithGlobalEntityManager, EntityManagerOps, TransactionalOps {
   protected Ubicacion utnMedrano = new Ubicacion(1, "Medrano", "951");
   protected Ubicacion utnCampus = new Ubicacion(1, "Mozart", "2300");
 
@@ -58,19 +58,18 @@ public abstract class BaseTest extends AbstractPersistenceTest
   protected MedioDeTransporte subte = new MedioDeTransporte("SUBTE", 10.0, nafta, TipoDeTransporte.TRANSPORTE_PUBLICO);
   protected MedioDeTransporte automovil = new MedioDeTransporte("AUTOMOVIL", 1.0, nafta, TipoDeTransporte.VEHICULO_PARTICULAR);
 
+  protected RepositorioTipoDeConsumo repositorioTipoDeConsumo;
   protected LectorDeArchivos lectorDeArchivos;
   protected Geolocalizador geolocalizador;
 
   @BeforeEach
-  void init() {
+  public void setUp() {
+    repositorioTipoDeConsumo = mock(RepositorioTipoDeConsumo.class);
+    when(repositorioTipoDeConsumo.obtenerTodos()).thenReturn(Arrays.asList(nafta, electricidad));
+    when(repositorioTipoDeConsumo.buscarPorNombre("ELECTRICIDAD")).thenReturn(Optional.of(electricidad));
+    when(repositorioTipoDeConsumo.buscarPorNombre("NAFTA")).thenReturn(Optional.of(nafta));
     lectorDeArchivos = mock(LectorDeArchivos.class);
     geolocalizador = mock(Geolocalizador.class);
-    super.setup();
-  }
-
-  @AfterEach
-  void teardown() {
-    super.tearDown();
   }
 
   // Organizaciones
@@ -156,12 +155,7 @@ public abstract class BaseTest extends AbstractPersistenceTest
   // Datos de Actividad
 
   protected DatosActividadesParser crearParserDatosDeActividad() {
-    persist(electricidad);
-    persist(nafta);
-    return new DatosActividadesParser(
-        new RepositorioTipoDeConsumo(),
-        lectorDeArchivos, 1, ';'
-    );
+    return new DatosActividadesParser(repositorioTipoDeConsumo, lectorDeArchivos, 1, ';');
   }
 
   // Validadores

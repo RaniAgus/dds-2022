@@ -1,26 +1,21 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Contacto extends EntidadPersistente {
   private String email;
   private String telefono;
-  // TODO: Volver a usar List<Notificador> como @ManyToMany
-  @ElementCollection
-  @Enumerated(EnumType.STRING)
-  private List<MedioDeNotificacion> mediosDeNotificacion;
+  @ManyToMany
+  private List<Notificador> mediosDeNotificacion;
 
   public Contacto() {
   }
 
-  public Contacto(String email, String telefono, List<MedioDeNotificacion> mediosDeNotificacion) {
+  public Contacto(String email, String telefono, List<Notificador> mediosDeNotificacion) {
     this.email = email;
     this.telefono = telefono;
     this.mediosDeNotificacion = mediosDeNotificacion;

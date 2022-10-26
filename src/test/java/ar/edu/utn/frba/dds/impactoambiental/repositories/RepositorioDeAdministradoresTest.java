@@ -1,17 +1,18 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
-
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.ContrasenaDebilException;
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
+package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-public class AdministradorTest extends BaseTest {
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ContrasenaDebilException;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
+import ar.edu.utn.frba.dds.impactoambiental.models.Administrador;
+import ar.edu.utn.frba.dds.impactoambiental.models.BaseTest;
+import java.util.Collections;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class RepositorioDeAdministradoresTest extends BaseTest implements PersistenceTest {
 
   @BeforeEach
   public void limpiarAdministradores() {

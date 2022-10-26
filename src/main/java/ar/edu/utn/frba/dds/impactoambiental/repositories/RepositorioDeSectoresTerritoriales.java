@@ -1,6 +1,6 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
+package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
-import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
 
 public final class RepositorioDeSectoresTerritoriales implements Repositorio<SectorTerritorial> {
   private static final RepositorioDeSectoresTerritoriales instance = new RepositorioDeSectoresTerritoriales();
@@ -9,8 +9,7 @@ public final class RepositorioDeSectoresTerritoriales implements Repositorio<Sec
     return instance;
   }
 
-  private RepositorioDeSectoresTerritoriales() {
-  }
+  private RepositorioDeSectoresTerritoriales() {}
 
   @Override
   public Class<SectorTerritorial> clase() {

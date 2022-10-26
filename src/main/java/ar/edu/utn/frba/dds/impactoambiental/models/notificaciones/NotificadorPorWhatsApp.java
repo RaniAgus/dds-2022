@@ -1,23 +1,32 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.notificaciones;
 
+import static ar.edu.utn.frba.dds.impactoambiental.ServiceLocator.getServiceLocator;
+
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpRequestException;
 import com.google.gson.Gson;
+import java.io.IOException;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import retrofit2.Response;
 
-import java.io.IOException;
-
-public class NotificadorPorWhatsApp implements Notificador {
-  public static final NotificadorPorWhatsApp INSTANCE = new NotificadorPorWhatsApp(
-      System.getenv("WHATSAPP_API_ID"),
-      System.getenv("WHATSAPP_API_KEY"),
-      System.getenv("RECOMENDACIONES_TEMPLATE")
-  );
-
+@Entity
+@DiscriminatorValue("WhatsApp")
+public class NotificadorPorWhatsApp extends Notificador {
+  @Transient
   private final WhatsAppApi whatsAppApi;
+  @Transient
   private final String apiKey;
+  @Transient
   private final String recomendacionesTemplate;
 
-  private NotificadorPorWhatsApp(String phoneNumberId, String apiKey, String recomendacionesTemplate) {
+  protected NotificadorPorWhatsApp() {
+    this(getServiceLocator().getWhatsappApiId(),
+        getServiceLocator().getWhatsappApiKey(),
+        getServiceLocator().getRecomendacionesTemplate());
+  }
+
+  public NotificadorPorWhatsApp(String phoneNumberId, String apiKey, String recomendacionesTemplate) {
     this.whatsAppApi = WhatsAppApi.create(phoneNumberId);
     this.apiKey = apiKey;
     this.recomendacionesTemplate = recomendacionesTemplate;

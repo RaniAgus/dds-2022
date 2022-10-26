@@ -1,21 +1,28 @@
-package ar.edu.utn.frba.dds.impactoambiental;
+package ar.edu.utn.frba.dds.impactoambiental.repositories;
+
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.mapOf;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
-import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static ar.edu.utn.frba.dds.impactoambiental.Utils.mapOf;
+import javax.persistence.TypedQuery;
+import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 public interface Repositorio<T extends EntidadPersistente> extends EntityManagerOps, WithGlobalEntityManager {
 
+  default boolean existe(Long id) {
+    return obtenerPorID(id).isPresent();
+  }
+
   default void agregar(T entidad) {
     persist(entidad);
+  }
+
+  default Optional<T> actualizar(T entidad) {
+    return Optional.ofNullable(merge(entidad));
   }
 
   default Optional<T> obtenerPorID(Long id) {
@@ -45,8 +52,12 @@ public interface Repositorio<T extends EntidadPersistente> extends EntityManager
     return query.getResultList();
   }
 
+  default void eliminar(T entidad) {
+    remove(entidad);
+  }
+
   default void limpiar() {
-    obtenerTodos().forEach(this::remove);
+    obtenerTodos().forEach(this::eliminar);
   }
 
   Class<T> clase();

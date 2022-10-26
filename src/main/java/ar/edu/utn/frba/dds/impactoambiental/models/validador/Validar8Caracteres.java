@@ -2,7 +2,12 @@ package ar.edu.utn.frba.dds.impactoambiental.models.validador;
 
 import java.util.Optional;
 
-public class Validar8Caracteres implements Validacion {
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("8caracteres")
+public class Validar8Caracteres extends Validacion {
   @Override
   public Optional<String> validar(String usuario, String contrasena) {
     Optional<String> error = Optional.empty();

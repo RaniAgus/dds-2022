@@ -1,9 +1,9 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
-
-import ar.edu.utn.frba.dds.impactoambiental.Repositorio;
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
+package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
+
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
+import ar.edu.utn.frba.dds.impactoambiental.models.Administrador;
 
 public final class RepositorioDeAdministradores implements Repositorio<Administrador> {
   private static final RepositorioDeAdministradores instance = new RepositorioDeAdministradores();
@@ -12,8 +12,7 @@ public final class RepositorioDeAdministradores implements Repositorio<Administr
     return instance;
   }
 
-  private RepositorioDeAdministradores() {
-  }
+  private RepositorioDeAdministradores() {}
 
   public void agregarAdministrador(Administrador administrador) {
     if (existeAdministrador(administrador.getUsuario())) {
@@ -26,8 +25,9 @@ public final class RepositorioDeAdministradores implements Repositorio<Administr
     if (!existeAdministrador(usuario)) {
       throw new UsuarioNoDisponibleExeption("No existe el usuario: " + usuario);
     }
-    return buscar("usuario", usuario, "contrasena", sha256Hex(contrasena)).orElseThrow(() ->
-        new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
+    return buscar("usuario", usuario, "contrasena", sha256Hex(contrasena))
+        .orElseThrow(() ->
+            new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
   }
 
   public boolean existeAdministrador(String usuario) {
