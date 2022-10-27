@@ -7,12 +7,12 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public interface Try<T> {
+public interface Either<T> {
   T getValor();
   List<String> getErrores();
-  <R> Try<R> map(Function<T, R> function, String error);
+  <R> Either<R> map(Function<T, R> function, String error);
 
-  static <T> Try<T> desde(Supplier<T> supplier, String error) {
+  static <T> Either<T> desde(Supplier<T> supplier, String error) {
     try {
       return exitoso(supplier.get());
     } catch (Exception e) {
@@ -20,20 +20,20 @@ public interface Try<T> {
     }
   }
 
-  static <T> Try<T> exitoso(T valor) {
-    return new TryExitoso<>(valor);
+  static <T> Either<T> exitoso(T valor) {
+    return new EitherExitoso<>(valor);
   }
 
-  static <T> Try<T> fallido(List<String> errores) {
-    return new TryFallido<>(errores);
+  static <T> Either<T> fallido(List<String> errores) {
+    return new EitherFallido<>(errores);
   }
 
-  static <T> Try<T> fallido(String error) {
+  static <T> Either<T> fallido(String error) {
     return fallido(Collections.singletonList(error));
   }
 
-  static List<String> colectarErrores(Try<?>... tries) {
-    return Stream.of(tries).distinct()
+  static List<String> colectarErrores(Either<?>... eithers) {
+    return Stream.of(eithers).distinct()
         .flatMap(t -> t.getErrores().stream())
         .collect(Collectors.toList());
   }

@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionFallidaException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,17 +11,7 @@ public class Validador<T> {
   private List<Validacion<T>> validaciones = new ArrayList<>();
 
   public Validador<T> agregarValidacion(Predicate<T> chequeo, String mensajeDeError) {
-    validaciones.add(new Validacion<T>() {
-      @Override
-      public boolean validar(T valor) {
-        return chequeo.test(valor);
-      }
-
-      @Override
-      public String getMensajeDeError() {
-        return mensajeDeError;
-      }
-    });
+    validaciones.add(Validacion.create(chequeo, mensajeDeError));
     return this;
   }
 
@@ -30,12 +20,12 @@ public class Validador<T> {
     return this;
   }
 
-  public Try<T> validar(T valor) {
+  public Either<T> validar(T valor) {
     List<String> errores = getErrores(valor);
     if (!errores.isEmpty()) {
-      throw new ChequeoFallidoException(Try.fallido(errores));
+      throw new ValidacionFallidaException(Either.fallido(errores));
     }
-    return Try.exitoso(valor);
+    return Either.exitoso(valor);
   }
 
   private List<String> getErrores(T valor) {

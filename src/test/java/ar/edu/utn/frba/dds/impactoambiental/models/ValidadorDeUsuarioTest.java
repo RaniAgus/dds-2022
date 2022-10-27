@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.ChequeoFallidoException;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionFallidaException;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import java.util.Collections;
@@ -24,7 +24,7 @@ public class ValidadorDeUsuarioTest extends BaseTest {
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("111"));
 
     assertThatThrownBy(() -> validador.validar(new UsuarioDto("user", "111")))
-        .isExactlyInstanceOf(ChequeoFallidoException.class)
+        .isExactlyInstanceOf(ValidacionFallidaException.class)
         .hasMessageContainingAll(
             "La contraseña debe tener al menos 8 caracteres.",
             "La contraseña no debe repetir 3 veces seguidas un mismo caracter.",

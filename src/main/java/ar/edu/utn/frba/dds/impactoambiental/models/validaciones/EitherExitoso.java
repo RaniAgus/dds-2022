@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-public class TryExitoso<T> implements Try<T> {
+public class EitherExitoso<T> implements Either<T> {
   private T valor;
 
-  protected TryExitoso(T valor) {
+  protected EitherExitoso(T valor) {
     this.valor = valor;
   }
 
@@ -19,7 +19,7 @@ public class TryExitoso<T> implements Try<T> {
     return Collections.emptyList();
   }
 
-  public <R> Try<R> map(Function<T, R> function, String error) {
-    return Try.desde(() -> function.apply(valor), error);
+  public <R> Either<R> map(Function<T, R> function, String error) {
+    return Either.desde(() -> function.apply(valor), error);
   }
 }
