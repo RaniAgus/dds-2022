@@ -7,12 +7,14 @@ import static org.mockito.Mockito.when;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
-import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteOrganizacional;
-import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorial;
+import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteOrganizacionalDto;
+import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteOrganizacionalFactory;
+import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorialDto;
+import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorialFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ReporteTest extends BaseTest {
+public class ReporteFactoryTest extends BaseTest {
   private SectorTerritorial sectorTerritorial;
   private Organizacion organizacion;
 
@@ -31,22 +33,28 @@ public class ReporteTest extends BaseTest {
 
   @Test
   public void sePuedeObtenerLaComposicionHC() {
-    ReporteSectorial reporte = new ReporteSectorial(repositorioTipoDeConsumo.obtenerTodos(), periodoAnual, sectorTerritorial);
-    assertThat(reporte.getComposicionHuellaCarbono())
+    ReporteSectorialDto reporte = new ReporteSectorialFactory(
+        repositorioTipoDeConsumo.obtenerTodos(), periodoAnual, sectorTerritorial).getReporte();
+
+    assertThat(reporte.getHuellaCarbonoPorTipoDeConsumo())
         .containsEntry(nafta, 100.0)
         .containsEntry(electricidad, 200.0);
   }
 
   @Test
   public void sePuedeObtenerHCTotal() {
-    ReporteOrganizacional reporte = new ReporteOrganizacional(repositorioTipoDeConsumo.obtenerTodos(), periodoAnual, organizacion);
+    ReporteOrganizacionalDto reporte = new ReporteOrganizacionalFactory(
+        repositorioTipoDeConsumo.obtenerTodos(), periodoAnual, organizacion).getReporte();
+
     assertThat(reporte.getHuellaCarbonoTotal()).isEqualTo(700.0);
   }
 
   @Test
   public void sePuedeObtenerHCTotalPorTipoDeOrganizacion() {
-    ReporteSectorial reporte = new ReporteSectorial(repositorioTipoDeConsumo.obtenerTodos(), periodoAnual, sectorTerritorial);
-    assertThat(reporte.getHuellaCarbonoTotalPorTipoDeOrganizacion())
+    ReporteSectorialDto reporte = new ReporteSectorialFactory(
+        repositorioTipoDeConsumo.obtenerTodos(), periodoAnual, sectorTerritorial).getReporte();
+
+    assertThat(reporte.getHuellaCarbonoPorTipoDeOrganizacion())
         .containsEntry(TipoDeOrganizacion.EMPRESA, 100.0)
         .containsEntry(TipoDeOrganizacion.ONG, 200.0);
   }
