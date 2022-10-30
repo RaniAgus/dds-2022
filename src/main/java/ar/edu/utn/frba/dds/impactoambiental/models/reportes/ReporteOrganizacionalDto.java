@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.reportes;
 
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.merge;
+
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import java.util.Map;
@@ -27,5 +29,13 @@ public class ReporteOrganizacionalDto {
 
   public Map<TipoDeConsumo, Double> getHuellaCarbonoPorTipoDeConsumo() {
     return huellaCarbonoPorTipoDeConsumo;
+  }
+
+  public ReporteOrganizacionalDto compararCon(ReporteOrganizacionalDto otroReporte) {
+    return new ReporteOrganizacionalDto(
+        null,
+        huellaCarbonoTotal - otroReporte.huellaCarbonoTotal,
+        merge((a, b) -> a - b, huellaCarbonoPorTipoDeConsumo, otroReporte.huellaCarbonoPorTipoDeConsumo)
+    );
   }
 }

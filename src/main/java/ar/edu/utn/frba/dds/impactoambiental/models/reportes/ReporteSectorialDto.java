@@ -1,10 +1,11 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.reportes;
 
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.merge;
+
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ReporteSectorialDto {
   private Periodo periodo;
@@ -42,10 +43,8 @@ public class ReporteSectorialDto {
     return new ReporteSectorialDto(
         null,
         huellaCarbonoTotal - otroReporte.huellaCarbonoTotal,
-        huellaCarbonoPorTipoDeConsumo.entrySet().stream().collect(
-            Collectors.toMap(Map.Entry::getKey,
-                e -> e.getValue() - otroReporte.huellaCarbonoPorTipoDeConsumo.get(e.getKey()))),
-        huellaCarbonoPorTipoDeOrganizacion
+        merge((a, b) -> a - b, huellaCarbonoPorTipoDeConsumo, otroReporte.huellaCarbonoPorTipoDeConsumo),
+        merge((a, b) -> a - b, huellaCarbonoPorTipoDeOrganizacion, otroReporte.huellaCarbonoPorTipoDeOrganizacion)
     );
   }
 }
