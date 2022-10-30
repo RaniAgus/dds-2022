@@ -1,16 +1,13 @@
 package ar.edu.utn.frba.dds.impactoambiental.exceptions;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ValidacionFallidaException extends RuntimeException {
-  private Either<?> fallido;
 
-  public ValidacionFallidaException(Either<?> fallido) {
-    super("Errores: " + String.join(", ", fallido.getErrores()));
-    this.fallido = fallido;
+
+  public ValidacionFallidaException(List<String> fallido) {
+    super("Errores: " + String.join(", ", fallido.stream().collect(Collectors.joining(". \n"))));
   }
 
-  public Either<?> getEither() {
-    return fallido;
-  }
 }

@@ -1,21 +1,38 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
-import java.util.Optional;
+import io.vavr.control.Either;
+
 import java.util.function.Predicate;
 
+import static io.vavr.API.Right;
+import static io.vavr.control.Either.left;
+
 public interface Validacion<T> {
-  default Optional<String> getError(T valor) {
-    return validar(valor) ? Optional.empty() : Optional.of(getMensajeDeError());
+
+  Predicate<T> validationCondition();
+  public String getMensajeDeError();
+
+  default Either<String, T> validar(T valor) {
+    if (validationCondition().test(valor)) {
+      return Right(valor);
+    }
+    return left(getMensajeDeError());
   }
 
-  boolean validar(T valor);
-  String getMensajeDeError();
 
   static <T> Validacion<T> create(Predicate<T> chequeo, String mensajeDeError) {
     return new Validacion<T>() {
       @Override
-      public boolean validar(T valor) {
-        return chequeo.test(valor);
+      public Either<String, T> validar(T valor) {
+        if (validationCondition().test(valor)) {
+          return Right(valor);
+        }
+        return left(mensajeDeError);
+      }
+
+      @Override
+      public Predicate<T> validationCondition() {
+        return chequeo;
       }
 
       @Override
@@ -25,3 +42,6 @@ public interface Validacion<T> {
     };
   }
 }
+
+
+

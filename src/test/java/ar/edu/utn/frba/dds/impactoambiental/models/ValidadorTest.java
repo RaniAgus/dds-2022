@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionFallidaException;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ValidadorTest {
   @Test
@@ -14,9 +17,9 @@ public class ValidadorTest {
     Validador<String> chequeador = new Validador<>();
     chequeador.agregarValidacion((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    Either<String> resultado = chequeador.validar("123456");
+    Either<String,String> resultado = chequeador.validar("123456");
 
-    assertThat(resultado.getValor()).isEqualTo("123456");
+    assertThat(resultado.get()).isEqualTo("123456");
   }
 
   @Test
@@ -26,11 +29,10 @@ public class ValidadorTest {
         .agregarValidacion((valor) -> valor.length() > 7, "El valor debe tener más de 7 caracteres")
         .agregarValidacion((valor) -> valor.length() > 5, "El valor debe tener más de 5 caracteres");
 
-    assertThatThrownBy(() -> chequeador.validar("123456"))
+   assertThatThrownBy(() -> chequeador.validar("123456"))
         .isInstanceOf(ValidacionFallidaException.class)
-        .extracting("either.errores")
-        .asList()
-        .containsExactlyInAnyOrder("El valor debe tener más de 7 caracteres");
+        .message()
+        .contains("El valor debe tener más de 7 caracteres");
   }
 
   @Test
@@ -43,9 +45,8 @@ public class ValidadorTest {
 
     assertThatThrownBy(() -> chequeador.validar("123456"))
         .isInstanceOf(ValidacionFallidaException.class)
-        .extracting("either.errores")
-        .asList()
-        .containsExactlyInAnyOrder("El valor debe tener más de 7 caracteres", "El valor debe tener más de 5 caracteres");
+        .message()
+        .contains("El valor debe tener más de 7 caracteres", "El valor debe tener más de 5 caracteres");
   }
 
 }

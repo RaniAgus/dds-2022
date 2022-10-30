@@ -11,6 +11,8 @@ import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresCons
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarUsuarioPorDefecto;
 import java.util.Collections;
+
+import io.vavr.control.Either;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,18 +23,18 @@ public class ValidacionDeUsuarioTest extends BaseTest {
   public void unaContraseniaEsValidaSiTieneMasDeOchoCaracteres() {
     ValidacionDeUsuario validacion = new Validar8Caracteres();
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "12345678"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "12345678"));
 
-    assertThat(resultado).isTrue();
+    assertThat(resultado.isRight()).isTrue();
   }
 
   @Test
   public void unaContraseniaNoEsValidaSiTieneMenosDeOchoCaracteres() {
     ValidacionDeUsuario validacion = new Validar8Caracteres();
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "1234567"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "1234567"));
 
-    assertThat(resultado).isFalse();
+    assertThat(resultado.isRight()).isFalse();
   }
 
   // Validar 10.000 más usadas
@@ -42,9 +44,9 @@ public class ValidacionDeUsuarioTest extends BaseTest {
     ValidacionDeUsuario validacion = new Validar10MilContrasenas(lectorDeArchivos);
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.emptyList());
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "password"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "password"));
 
-    assertThat(resultado).isTrue();
+    assertThat(resultado.isRight()).isTrue();
   }
 
   @Test
@@ -52,9 +54,9 @@ public class ValidacionDeUsuarioTest extends BaseTest {
     ValidacionDeUsuario validacion = new Validar10MilContrasenas(lectorDeArchivos);
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("password"));
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "password"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "password"));
 
-    assertThat(resultado).isFalse();
+    assertThat(resultado.isLeft()).isTrue();
   }
 
   // Caracteres repetidos
@@ -63,18 +65,18 @@ public class ValidacionDeUsuarioTest extends BaseTest {
   public void unaContraseniaEsValidaSiNoTieneTresCaracteresRepetidos() {
     ValidacionDeUsuario validacion = new ValidarCaracteresRepetidos();
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "11223344"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "11223344"));
 
-    assertThat(resultado).isTrue();
+    assertThat(resultado.isRight()).isTrue();
   }
 
   @Test
   public void unaContraseniaNoEsValidaSiTieneTresCaracteresRepetidos() {
     ValidacionDeUsuario validacion = new ValidarCaracteresRepetidos();
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "111"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "111"));
 
-    assertThat(resultado).isFalse();
+    assertThat(resultado.isLeft()).isTrue();
   }
 
   // Caracteres consecutivos
@@ -83,21 +85,21 @@ public class ValidacionDeUsuarioTest extends BaseTest {
   public void unaContraseniaEsValidaSiNoTieneCuatroCaracteresConsecutivos() {
     ValidacionDeUsuario validacion = new ValidarCaracteresConsecutivos();
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "123123"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "123123"));
 
-    assertThat(resultado).isTrue();
+    assertThat(resultado.isRight()).isTrue();
   }
 
   @Test
   public void unaContraseniaNoEsValidaSiTieneCuatroCaracteresConsecutivos() {
     ValidacionDeUsuario validacion = new ValidarCaracteresConsecutivos();
 
-    boolean resultado1 = validacion.validar(new UsuarioDto("user", "1234"));
-    boolean resultado2 = validacion.validar(new UsuarioDto("user", "4321"));
+    Either<String, UsuarioDto> resultado1 = validacion.validar(new UsuarioDto("user", "1234"));
+    Either<String, UsuarioDto> resultado2 = validacion.validar(new UsuarioDto("user", "4321"));
 
     SoftAssertions soft = new SoftAssertions();
-    soft.assertThat(resultado1).isFalse();
-    soft.assertThat(resultado2).isFalse();
+    soft.assertThat(resultado1.isLeft()).isTrue();
+    soft.assertThat(resultado2.isLeft()).isTrue();
     soft.assertAll();
   }
 
@@ -107,17 +109,17 @@ public class ValidacionDeUsuarioTest extends BaseTest {
   public void unaContraseniaEsValidaSiNoEsIgualAlNombreDeUsuario() {
     ValidacionDeUsuario validacion = new ValidarUsuarioPorDefecto();
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "usern't"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "usern't"));
 
-    assertThat(resultado).isTrue();
+    assertThat(resultado.isRight()).isTrue();
   }
 
   @Test
   public void unaContraseniaNoEsValidaSiEsIgualAlNombreDeUsuario() {
     ValidacionDeUsuario validacion = new ValidarUsuarioPorDefecto();
 
-    boolean resultado = validacion.validar(new UsuarioDto("user", "user"));
+    Either<String, UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "user"));
 
-    assertThat(resultado).isFalse();
+    assertThat(resultado.isLeft()).isTrue();
   }
 }
