@@ -1,23 +1,23 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.forms;
 
-import java.util.Optional;
-
-import io.vavr.control.Either;
-import spark.Request;
-
 import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
+
+import io.vavr.control.Either;
+import java.util.Optional;
+import spark.Request;
 
 public abstract class Form {
   public abstract Optional<String> getParam(String param);
 
-  public Either<String,String> getParamOrError(String param, String error) {
-    return getParam(param).isPresent()? right(getParam(param).get()): left(error);
+  public Either<String, String> getParamOrError(String param, String error) {
+    Optional<Either<String, String>> o = getParam(param).map(Either::right);
+    return o.orElseGet(() -> left(error));
   }
 
-  public Either<String,String> getParamOrDefault(String param, String defaultValue) {
-    Either<String,String> result;
-    return getParam(param).isPresent()? right(getParam(param).get()): left(defaultValue);
+  public Either<String, String> getParamOrDefault(String param, String defaultValue) {
+    Optional<Either<String, String>> o = getParam(param).map(Either::right);
+    return o.orElseGet(() -> right(defaultValue));
   }
 
   public abstract Optional<byte[]> getFile(String param);
