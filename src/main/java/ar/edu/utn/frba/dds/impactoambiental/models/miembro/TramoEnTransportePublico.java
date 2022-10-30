@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
@@ -18,14 +17,13 @@ public class TramoEnTransportePublico extends Tramo {
   @ManyToOne
   private Linea linea;
 
+  protected TramoEnTransportePublico() {
+  }
+
   public TramoEnTransportePublico(Parada paradaInicial, Parada paradaFinal, Linea linea) {
     this.paradaInicial = paradaInicial;
     this.paradaFinal = paradaFinal;
     this.linea = linea;
-  }
-
-  public TramoEnTransportePublico() {
-
   }
 
   @Override

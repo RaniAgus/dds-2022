@@ -17,13 +17,12 @@ public class Vinculacion extends EntidadPersistente {
   @Enumerated(EnumType.STRING)
   private EstadoVinculo estado;
 
+  protected Vinculacion() {
+  }
+
   public Vinculacion(Miembro miembro) {
     this.miembro = miembro;
     this.estado = EstadoVinculo.PENDIENTE;
-  }
-
-  public Vinculacion() {
-
   }
 
   public void aceptar() {
@@ -43,4 +42,3 @@ public class Vinculacion extends EntidadPersistente {
   }
 
 }
-
