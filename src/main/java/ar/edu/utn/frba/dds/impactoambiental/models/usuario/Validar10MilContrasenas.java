@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import java.util.function.Predicate;
 
 @Entity
 @DiscriminatorValue("10milcontrasenas")
@@ -24,17 +23,12 @@ public class Validar10MilContrasenas extends ValidacionDeUsuario {
 
 
   @Override
-  public Predicate<UsuarioDto> validationCondition() {
-    return (usuarioDto)->!lectorDeArchivos.getLineas().contains(usuarioDto.getContrasena());
+  public boolean test(UsuarioDto usuarioDto) {
+    return !lectorDeArchivos.getLineas().contains(usuarioDto.getContrasena());
   }
 
   @Override
   public String getMensajeDeError() {
     return "Contraseña dentro de las 10000 mas usadas. Elija otra por favor.";
-  }
-
-  @Override
-  public Predicate<UsuarioDto> validationCondition(UsuarioDto usuarioDto) {
-    return (valor)->!lectorDeArchivos.getLineas().contains(usuarioDto.getContrasena());
   }
 }
