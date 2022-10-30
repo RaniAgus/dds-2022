@@ -4,27 +4,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.ContrasenaDebilException;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
-import ar.edu.utn.frba.dds.impactoambiental.models.Administrador;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionFallidaException;
 import ar.edu.utn.frba.dds.impactoambiental.models.BaseTest;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RepositorioDeAdministradoresTest extends BaseTest implements PersistenceTest {
+public class RepositorioDeUsuariosTest extends BaseTest implements PersistenceTest {
 
   @BeforeEach
   public void limpiarAdministradores() {
-    RepositorioDeAdministradores.getInstance().limpiar();
+    RepositorioUsuarios.getInstance().limpiar();
   }
 
   @Test
   public void alCrearUnUsuarioSeValidanContraseniasDebiles()  {
     when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("admin1234"));
 
-    assertThatThrownBy(() -> crearAdministrador("admin1234"))
-        .isExactlyInstanceOf(ContrasenaDebilException.class)
+    assertThatThrownBy(() -> crearUsuario("admin1234"))
+        .isExactlyInstanceOf(ValidacionFallidaException.class)
         .hasMessageContainingAll(
             "Contraseña dentro de las 10000 mas usadas. Elija otra por favor.",
             "La contraseña no debe tener 4 caracteres consecutivos."
@@ -34,27 +34,27 @@ public class RepositorioDeAdministradoresTest extends BaseTest implements Persis
 
   @Test
   public void sePuedeObtenerUnUsuarioIngresandoLaContraseniaCorrecta() throws Throwable {
-    Administrador administrador = crearAdministrador("ContraSUper*MegaS3gUr4");
+    Usuario usuario = crearUsuario("ContraSUper*MegaS3gUr4");
 
-    RepositorioDeAdministradores.getInstance().agregarAdministrador(administrador);
+    RepositorioUsuarios.getInstance().agregarAdministrador(usuario);
 
-    assertThat(RepositorioDeAdministradores.getInstance().obtenerAdministrador("Juancito", "ContraSUper*MegaS3gUr4"))
-        .isEqualTo(administrador);
+    assertThat(RepositorioUsuarios.getInstance().obtenerAdministrador("Juancito", "ContraSUper*MegaS3gUr4"))
+        .isEqualTo(usuario);
   }
 
   @Test
   public void noSePuedeObtenerUnUsuarioIngresandoLaContraseniaIncorrecta() {
-    Administrador administrador = crearAdministrador("ContraSUper*MegaS3gUr4");
-    RepositorioDeAdministradores.getInstance().agregarAdministrador(administrador);
+    Usuario usuario = crearUsuario("ContraSUper*MegaS3gUr4");
+    RepositorioUsuarios.getInstance().agregarAdministrador(usuario);
 
-    assertThatThrownBy(() -> RepositorioDeAdministradores.getInstance().obtenerAdministrador("Juancito","contraIncorrecta"))
+    assertThatThrownBy(() -> RepositorioUsuarios.getInstance().obtenerAdministrador("Juancito","contraIncorrecta"))
         .isExactlyInstanceOf(UsuarioNoDisponibleExeption.class)
         .hasMessage("No se pudo validar que sea ese administrador");
   }
 
   @Test
   public void noSePuedeObtenerUnUsuarioIngresandoUnNombreInexistente() {
-    assertThatThrownBy(() -> RepositorioDeAdministradores.getInstance().obtenerAdministrador("Usuario_Inexistente","contraIncorrecta"))
+    assertThatThrownBy(() -> RepositorioUsuarios.getInstance().obtenerAdministrador("Usuario_Inexistente","contraIncorrecta"))
         .isExactlyInstanceOf(UsuarioNoDisponibleExeption.class)
         .hasMessage("No existe el usuario: Usuario_Inexistente");
   }

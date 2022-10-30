@@ -1,16 +1,15 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validador;
+package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
 import static ar.edu.utn.frba.dds.impactoambiental.ServiceLocator.getServiceLocator;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
-import java.util.Optional;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue("10milcontrasenas")
-public class Validar10MilContrasenas extends Validacion {
+public class Validar10MilContrasenas extends ValidacionDeUsuario {
   @Transient
   private final LectorDeArchivos lectorDeArchivos;
 
@@ -23,12 +22,12 @@ public class Validar10MilContrasenas extends Validacion {
   }
 
   @Override
-  public Optional<String> validar(String usuario, String contrasena) {
-    Optional<String> error = Optional.empty();
-    if (lectorDeArchivos.getLineas().contains(contrasena)) {
-      error = Optional.of("Contraseña dentro de las 10000 mas usadas. Elija otra por favor.");
-    }
-    return error;
+  public boolean validar(UsuarioDto usuarioDto) {
+    return !lectorDeArchivos.getLineas().contains(usuarioDto.getContrasena());
+  }
+
+  @Override
+  public String getMensajeDeError() {
+    return "Contraseña dentro de las 10000 mas usadas. Elija otra por favor.";
   }
 }
-

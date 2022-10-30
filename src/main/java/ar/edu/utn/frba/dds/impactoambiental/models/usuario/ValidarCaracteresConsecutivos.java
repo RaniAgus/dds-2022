@@ -1,17 +1,15 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validador;
-
-import java.util.Optional;
+package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("caracteresConsecutivos")
-public class ValidarCaracteresConsecutivos extends Validacion {
+public class ValidarCaracteresConsecutivos extends ValidacionDeUsuario {
+
   @Override
-  public Optional<String> validar(String usuario, String contrasena) {
-    Optional<String> error = Optional.empty();
-    char[] contrasenaArray = contrasena.toCharArray();
+  public boolean validar(UsuarioDto usuarioDto) {
+    char[] contrasenaArray = usuarioDto.getContrasena().toCharArray();
     for (int i = 0; i < contrasenaArray.length - 3; i++) {
       if ((contrasenaArray[i] == contrasenaArray[i + 1] - 1
           && contrasenaArray[i] == contrasenaArray[i + 2] - 2
@@ -19,9 +17,14 @@ public class ValidarCaracteresConsecutivos extends Validacion {
           || (contrasenaArray[i] == contrasenaArray[i + 1] + 1
           && contrasenaArray[i] == contrasenaArray[i + 2] + 2
           && contrasenaArray[i] == contrasenaArray[i + 3] + 3)) {
-        return Optional.of("La contraseña no debe tener 4 caracteres consecutivos.");
+        return false;
       }
     }
-    return error;
+    return true;
+  }
+
+  @Override
+  public String getMensajeDeError() {
+    return "La contraseña no debe tener 4 caracteres consecutivos.";
   }
 }

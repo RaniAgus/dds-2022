@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -30,12 +29,14 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validador;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar10MilContrasenas;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.Validar8Caracteres;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresConsecutivos;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarCaracteresRepetidos;
-import ar.edu.utn.frba.dds.impactoambiental.models.validador.ValidarUsuarioPorDefecto;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresRepetidos;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarUsuarioPorDefecto;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -160,8 +161,8 @@ public abstract class BaseTest {
 
   // Validadores
 
-  protected Validador crearValidadorConTodasLasValidaciones() {
-    return new Validador(asList(
+  protected Validador<UsuarioDto> crearValidadorConTodasLasValidaciones() {
+    return new Validador<UsuarioDto>().agregarValidaciones(Arrays.asList(
         new Validar8Caracteres(),
         new ValidarCaracteresRepetidos(),
         new Validar10MilContrasenas(lectorDeArchivos),
@@ -172,7 +173,7 @@ public abstract class BaseTest {
 
   // Administradores
 
-  protected Administrador crearAdministrador(String contrasenia) {
-    return new Administrador(crearValidadorConTodasLasValidaciones(), "Juancito", contrasenia);
+  protected Usuario crearUsuario(String contrasenia) {
+    return new Usuario(crearValidadorConTodasLasValidaciones(), new UsuarioDto("Juancito", contrasenia));
   }
 }

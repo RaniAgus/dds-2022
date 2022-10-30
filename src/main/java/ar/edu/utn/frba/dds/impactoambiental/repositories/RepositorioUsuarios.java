@@ -3,25 +3,25 @@ package ar.edu.utn.frba.dds.impactoambiental.repositories;
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
-import ar.edu.utn.frba.dds.impactoambiental.models.Administrador;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 
-public final class RepositorioDeAdministradores implements Repositorio<Administrador> {
-  private static final RepositorioDeAdministradores instance = new RepositorioDeAdministradores();
+public final class RepositorioUsuarios implements Repositorio<Usuario> {
+  private static final RepositorioUsuarios instance = new RepositorioUsuarios();
 
-  public static RepositorioDeAdministradores getInstance() {
+  public static RepositorioUsuarios getInstance() {
     return instance;
   }
 
-  private RepositorioDeAdministradores() {}
+  private RepositorioUsuarios() {}
 
-  public void agregarAdministrador(Administrador administrador) {
-    if (existeAdministrador(administrador.getUsuario())) {
+  public void agregarAdministrador(Usuario usuario) {
+    if (existeAdministrador(usuario.getUsuario())) {
       throw new UsuarioNoDisponibleExeption("Nombre de usuario no disponible");
     }
-    agregar(administrador);
+    agregar(usuario);
   }
 
-  public Administrador obtenerAdministrador(String usuario, String contrasena) {
+  public Usuario obtenerAdministrador(String usuario, String contrasena) {
     if (!existeAdministrador(usuario)) {
       throw new UsuarioNoDisponibleExeption("No existe el usuario: " + usuario);
     }
@@ -35,7 +35,7 @@ public final class RepositorioDeAdministradores implements Repositorio<Administr
   }
 
   @Override
-  public Class<Administrador> clase() {
-    return Administrador.class;
+  public Class<Usuario> clase() {
+    return Usuario.class;
   }
 }
