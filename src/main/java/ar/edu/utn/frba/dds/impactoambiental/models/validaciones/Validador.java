@@ -1,15 +1,15 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionFallidaException;
-import io.vavr.control.Either;
+import static ar.edu.utn.frba.dds.impactoambiental.utils.EitherUtil.allRight;
+import static ar.edu.utn.frba.dds.impactoambiental.utils.EitherUtil.collectLefts;
+import static io.vavr.control.Either.left;
+import static io.vavr.control.Either.right;
 
+import io.vavr.control.Either;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static io.vavr.control.Either.right;
 
 public class Validador<T> {
   private List<Validacion<T>> validaciones = new ArrayList<>();
@@ -24,26 +24,14 @@ public class Validador<T> {
     return this;
   }
 
-  public Either<String, T> validar(T valor) {
-    List<Either<String, T>> validacionesResultado = validaciones
-        .stream()
+  public Either<List<String>, T> validar(T valor) {
+    List<Either<String, T>> resultados = getResultados(valor);
+    return allRight(resultados) ? right(valor) : left(collectLefts(resultados));
+  }
+
+  private List<Either<String, T>> getResultados(T valor) {
+    return validaciones.stream()
         .map(x -> x.validar(valor))
         .collect(Collectors.toList());
-
-    if (hasNotPassAllValidations(validacionesResultado)) {
-      throw new ValidacionFallidaException(getErrores(validacionesResultado));
-    }
-    return right(valor);
   }
-
-  private boolean hasNotPassAllValidations(List<Either<String, T>> results) {
-    return results.stream().anyMatch(Either::isLeft);
-  }
-  private List<String> getErrores(List<Either<String, T>> results) {
-    return results.stream()
-        .filter(Either::isLeft)
-        .map(Either::getLeft)
-        .collect(Collectors.toList());
-  }
-
 }
