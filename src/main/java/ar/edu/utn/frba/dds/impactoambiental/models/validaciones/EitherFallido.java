@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionFallidaException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public class EitherFallido<T> implements Either<T> {
@@ -18,7 +18,7 @@ public class EitherFallido<T> implements Either<T> {
 
   @Override
   public T getValor() {
-    throw new ValidacionFallidaException(errores);
+    throw new NoSuchElementException();
   }
 
   @Override
