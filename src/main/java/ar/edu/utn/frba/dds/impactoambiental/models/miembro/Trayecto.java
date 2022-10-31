@@ -31,6 +31,10 @@ public class Trayecto extends EntidadPersistente {
     return tramos;
   }
 
+  public UUID getCodigoInvite() {
+    return codigoInvite;
+  }
+
   public boolean estaEnPeriodo(Periodo periodo) {
     return periodo.contieneFecha(fecha);
   }

@@ -27,6 +27,10 @@ public class Sector extends EntidadPersistente {
     this.codigoInvite = UUID.randomUUID();
   }
 
+  public UUID getCodigoInvite() {
+    return codigoInvite;
+  }
+
   public void solicitarVinculacion(Vinculacion vinculacion) {
     this.vinculaciones.add(vinculacion);
   }
