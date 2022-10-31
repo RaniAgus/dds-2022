@@ -15,8 +15,7 @@ public class HomeController {
     if (usuario == null) {
       resp.redirect("/recomendaciones");
     } else {
-      // TODO: Redirigir a distintas rutas según la sesión
-      resp.redirect("/miembros/" + usuario.getId() + "/vinculaciones");
+      resp.redirect(usuario.getHomeUrl());
     }
     return null;
   }

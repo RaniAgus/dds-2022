@@ -21,7 +21,11 @@ public class MiembroController {
     return null;
   }
 
-  public ModelAndView tramos(Request request, Response response) {
+  public ModelAndView anadirTrayecto(Request request, Response response) {
+    return null;
+  }
+
+  public ModelAndView nuevoTramo(Request request, Response response) {
     return null;
   }
 

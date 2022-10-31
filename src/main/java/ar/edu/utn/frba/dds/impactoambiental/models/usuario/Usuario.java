@@ -3,10 +3,14 @@ package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
+
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
-public class Usuario extends EntidadPersistente {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Usuario extends EntidadPersistente {
   private String usuario;
   private String contrasena;
 
@@ -24,4 +28,6 @@ public class Usuario extends EntidadPersistente {
   public String getContrasena() {
     return contrasena;
   }
+
+  public abstract String getHomeUrl();
 }
