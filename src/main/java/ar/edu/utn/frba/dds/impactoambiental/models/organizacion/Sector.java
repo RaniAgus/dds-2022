@@ -11,16 +11,20 @@ import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
 public class Sector extends EntidadPersistente {
+  private UUID codigoInvite;
+
   @OneToMany
   @JoinColumn(name = "sector_id")
   private final Set<Vinculacion> vinculaciones;
 
   public Sector(List<Vinculacion> vinculaciones) {
     this.vinculaciones = new HashSet<>(vinculaciones);
+    this.codigoInvite = UUID.randomUUID();
   }
 
   public void solicitarVinculacion(Vinculacion vinculacion) {

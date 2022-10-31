@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Trayecto extends EntidadPersistente {
@@ -18,9 +19,12 @@ public class Trayecto extends EntidadPersistente {
   private final List<Tramo> tramos;
   private final LocalDate fecha;
 
+  private final UUID codigoInvite;
+
   public Trayecto(LocalDate fecha, List<Tramo> tramos) {
     this.tramos = tramos;
     this.fecha = fecha;
+    this.codigoInvite = UUID.randomUUID();
   }
 
   public List<Tramo> getTramos() {
