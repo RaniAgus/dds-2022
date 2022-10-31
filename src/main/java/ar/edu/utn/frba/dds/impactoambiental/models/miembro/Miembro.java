@@ -5,37 +5,21 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
 public class Miembro extends EntidadPersistente {
-  private String nombre;
-  private String apellido;
-  private String documento;
-  @Enumerated(EnumType.STRING)
-  private TipoDeDocumento tipoDeDocumento;
   @ManyToMany
   private List<Trayecto> trayectos;
 
   public Miembro() {
   }
 
-  public Miembro(String nombre,
-                 String apellido,
-                 String documento,
-                 TipoDeDocumento tipoDeDocumento,
-                 List<Trayecto> trayectos) {
-    this.nombre = nombre;
-    this.apellido = apellido;
-    this.documento = documento;
-    this.tipoDeDocumento = tipoDeDocumento;
+  public Miembro(List<Trayecto> trayectos) {
     this.trayectos = trayectos;
   }
-
 
   public List<Trayecto> getTrayectos() {
     return trayectos;
@@ -59,17 +43,5 @@ public class Miembro extends EntidadPersistente {
 
   public void darDeAltaTrayecto(Trayecto trayecto) {
     trayectos.add(trayecto);
-  }
-
-  public String getNombre() {
-    return nombre;
-  }
-
-  public String getApellido() {
-    return apellido;
-  }
-
-  public String getDocumento() {
-    return documento;
   }
 }
