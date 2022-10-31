@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Entity
 public class Sector extends EntidadPersistente {
-  @OneToMany(mappedBy = "Vinculacion.sector")
+  @OneToMany
   @JoinColumn(name = "sector_id")
   private final Set<Vinculacion> vinculaciones;
 
