@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.FormularioLogin;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
@@ -15,7 +16,7 @@ public class UsuarioController {
   private RepositorioValidacionesDeUsuario validaciones = RepositorioValidacionesDeUsuario.getInstance();
 
   public ModelAndView crearUsuario(Request req, Response res) {
-    return FormularioLogin.parsear(req)
+    return FormularioLogin.parsear(Form.of(req))
         .flatMap(formulario -> new Validador<>(formulario)
             .agregarValidaciones(new ArrayList<>(validaciones.obtenerTodos()))
             .validar())
@@ -33,7 +34,7 @@ public class UsuarioController {
   }
 
   public ModelAndView loguearUsuario(Request req, Response res) {
-    return FormularioLogin.parsear(req)
+    return FormularioLogin.parsear(Form.of(req))
         .flatMap(formulario -> usuarios.obtenerUsuario(
             formulario.getUsuario(),
             formulario.getContrasena()))

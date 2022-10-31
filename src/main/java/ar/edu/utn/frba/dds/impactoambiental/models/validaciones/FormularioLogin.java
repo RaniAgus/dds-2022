@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import java.util.List;
-import spark.Request;
 
 public class FormularioLogin {
   private String usuario;
@@ -21,9 +20,7 @@ public class FormularioLogin {
     return contrasena;
   }
 
-  public static Either<FormularioLogin> parsear(Request req) {
-    Form form = Form.of(req);
-
+  public static Either<FormularioLogin> parsear(Form form) {
     Either<String> usuario = form.getParamOrError("usuario", "El usuario es requerido");
     Either<String> contrasena = form.getParamOrError("contrasena", "La contraseña es requerida");
 
