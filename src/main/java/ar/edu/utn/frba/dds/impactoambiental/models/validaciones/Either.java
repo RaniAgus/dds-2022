@@ -41,9 +41,13 @@ public interface Either<T> {
         .collect(Collectors.toList());
   }
 
-  static List<String> colectarErrores(Either<?>... eithers) {
-    return Stream.of(eithers)
+  static <T> Either<T> concatenar(Supplier<T> valorExitoso, Either<?>... eithers) {
+    List<String> errores = Stream.of(eithers)
         .flatMap(t -> t.getErrores().stream())
         .collect(Collectors.toList());
+
+    return errores.isEmpty()
+        ? Either.exitoso(valorExitoso.get())
+        : Either.fallido(errores);
   }
 }

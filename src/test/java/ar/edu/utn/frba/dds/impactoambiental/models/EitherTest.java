@@ -16,7 +16,7 @@ public class EitherTest extends BaseTest {
     Either<String> resultado2 = Either.fallido(Arrays.asList("Error 2", "Error 3"));
     Either<String> resultado3 = Either.exitoso("Resultado exitoso");
 
-    assertThat(Either.colectarErrores(resultado1, resultado2, resultado3))
+    assertThat(Either.colectarErrores(Arrays.asList(resultado1, resultado2, resultado3)))
         .containsExactly("Error 1", "Error 2", "Error 3");
   }
 
@@ -111,5 +111,25 @@ public class EitherTest extends BaseTest {
     Either<Integer> resultadoAplanado = resultado.flatMap(valor -> Either.exitoso(Integer.parseInt(valor)));
 
     assertThat(resultadoAplanado.getErrores()).containsExactly("Error");
+  }
+
+  @Test
+  public void sePuedeConcatenarResultadosExitosos() {
+    Either<Integer> resultado1 = Either.exitoso(6);
+    Either<Integer> resultado2 = Either.exitoso(7);
+
+    Either<Integer> resultadoConcatenado = Either.concatenar(() -> resultado1.getValor() + resultado2.getValor(), resultado1, resultado2);
+
+    assertThat(resultadoConcatenado.getValor()).isEqualTo(13);
+  }
+
+  @Test
+  public void sePuedeConcatenarResultadosFallidos() {
+    Either<Integer> resultado1 = Either.fallido("Error 1");
+    Either<Integer> resultado2 = Either.fallido("Error 2");
+
+    Either<Integer> resultadoConcatenado = Either.concatenar(() -> resultado1.getValor() + resultado2.getValor(), resultado1, resultado2);
+
+    assertThat(resultadoConcatenado.getErrores()).containsExactly("Error 1", "Error 2");
   }
 }
