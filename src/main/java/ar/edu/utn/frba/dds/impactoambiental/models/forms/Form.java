@@ -8,7 +8,9 @@ public abstract class Form {
   public abstract Optional<String> getParam(String param);
 
   public Either<String> getParamOrError(String param, String error) {
-    return getParam(param).map(Either::exitoso)
+    return getParam(param)
+        .map(valor -> valor.isEmpty() ? null : valor)
+        .map(Either::exitoso)
         .orElseGet(() -> Either.fallido(error));
   }
 
