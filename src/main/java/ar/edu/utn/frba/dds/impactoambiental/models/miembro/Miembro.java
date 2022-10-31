@@ -60,4 +60,16 @@ public class Miembro extends EntidadPersistente {
   public void darDeAltaTrayecto(Trayecto trayecto) {
     trayectos.add(trayecto);
   }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public String getApellido() {
+    return apellido;
+  }
+
+  public String getDocumento() {
+    return documento;
+  }
 }
