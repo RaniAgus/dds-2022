@@ -30,13 +30,13 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarUsuarioPorDefecto;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.FormularioLogin;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validacion;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -161,19 +161,18 @@ public abstract class BaseTest {
 
   // Validadores
 
-  protected Validador<UsuarioDto> crearValidadorConTodasLasValidaciones() {
-    return new Validador<UsuarioDto>().agregarValidaciones(Arrays.asList(
+  protected List<Validacion<FormularioLogin>> todasLasValidaciones() {
+    return Arrays.asList(
         new Validar8Caracteres(),
         new ValidarCaracteresRepetidos(),
         new Validar10MilContrasenas(lectorDeArchivos),
         new ValidarCaracteresConsecutivos(),
         new ValidarUsuarioPorDefecto()
-    ));
+    );
   }
 
   // Administradores
-
-  protected Usuario crearUsuario(String contrasenia) {
-    return new Usuario(crearValidadorConTodasLasValidaciones(), new UsuarioDto("Juancito", contrasenia));
+  protected Usuario crearUsuario() {
+    return new Usuario("Juancito", "ContraSUper*MegaS3gUr4");
   }
 }

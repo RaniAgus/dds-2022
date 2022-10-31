@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 public class ValidacionFallidaException extends RuntimeException {
 
+  public ValidacionFallidaException(String mensaje) {
+    super(mensaje);
+  }
 
   public ValidacionFallidaException(List<String> fallido) {
     super("Errores: " + String.join(", ", fallido.stream().collect(Collectors.joining(". \n"))));

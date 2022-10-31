@@ -2,8 +2,8 @@ package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.UsuarioNoDisponibleExeption;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 
 public final class RepositorioUsuarios implements Repositorio<Usuario> {
   private static final RepositorioUsuarios instance = new RepositorioUsuarios();
@@ -14,23 +14,24 @@ public final class RepositorioUsuarios implements Repositorio<Usuario> {
 
   private RepositorioUsuarios() {}
 
-  public void agregarAdministrador(Usuario usuario) {
-    if (existeAdministrador(usuario.getUsuario())) {
-      throw new UsuarioNoDisponibleExeption("Nombre de usuario no disponible");
+  public Either<Usuario> agregarUsuario(Usuario usuario) {
+    if (existeUsuario(usuario.getUsuario())) {
+      return Either.fallido("Nombre de usuario no disponible");
     }
     agregar(usuario);
+    return Either.exitoso(usuario);
   }
 
-  public Usuario obtenerAdministrador(String usuario, String contrasena) {
-    if (!existeAdministrador(usuario)) {
-      throw new UsuarioNoDisponibleExeption("No existe el usuario: " + usuario);
+  public Either<Usuario> obtenerUsuario(String usuario, String contrasena) {
+    if (!existeUsuario(usuario)) {
+      return Either.fallido("No existe el usuario: " + usuario);
     }
     return buscar("usuario", usuario, "contrasena", sha256Hex(contrasena))
-        .orElseThrow(() ->
-            new UsuarioNoDisponibleExeption("No se pudo validar que sea ese administrador"));
+        .map(Either::exitoso)
+        .orElseGet(() -> Either.fallido("La contraseña no es válida"));
   }
 
-  public boolean existeAdministrador(String usuario) {
+  public boolean existeUsuario(String usuario) {
     return buscar("usuario", usuario).isPresent();
   }
 

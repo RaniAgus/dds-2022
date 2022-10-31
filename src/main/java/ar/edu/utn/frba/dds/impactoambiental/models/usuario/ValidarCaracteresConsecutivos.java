@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.FormularioLogin;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -7,8 +8,9 @@ import javax.persistence.Entity;
 @DiscriminatorValue("caracteresConsecutivos")
 public class ValidarCaracteresConsecutivos extends ValidacionDeUsuario {
 
-  public boolean test(UsuarioDto usuarioDto) {
-    char[] contrasenaArray = usuarioDto.getContrasena().toCharArray();
+  @Override
+  public boolean test(FormularioLogin form) {
+    char[] contrasenaArray = form.getContrasena().toCharArray();
     for (int i = 0; i < contrasenaArray.length - 3; i++) {
       if ((contrasenaArray[i] == contrasenaArray[i + 1] - 1
           && contrasenaArray[i] == contrasenaArray[i + 2] - 2

@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.impactoambiental.controllers.AgenteSectorialControlle
 import ar.edu.utn.frba.dds.impactoambiental.controllers.HomeController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.MiembroController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -12,6 +13,7 @@ public class Routes {
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
 
     HomeController homeController = new HomeController();
+    UsuarioController usuarioController = new UsuarioController();
     MiembroController miembroController = new MiembroController();
     OrganizacionController organizacionController = new OrganizacionController();
     AgenteSectorialController agenteSectorialController = new AgenteSectorialController();
@@ -21,7 +23,7 @@ public class Routes {
     Spark.get("/", homeController::home, templateEngine);
     Spark.get("/recomendaciones", homeController::recomendaciones, templateEngine);
     Spark.get("/login", homeController::login, templateEngine);
-    Spark.post("/login", homeController::validarLogin, templateEngine);
+    Spark.post("/login", usuarioController::loguearUsuario, templateEngine);
     Spark.post("/cerrarSesion", homeController::cerrarSesion, templateEngine);
 
 

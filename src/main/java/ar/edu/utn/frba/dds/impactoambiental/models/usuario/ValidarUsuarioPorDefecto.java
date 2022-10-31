@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.FormularioLogin;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -8,8 +9,8 @@ import javax.persistence.Entity;
 public class ValidarUsuarioPorDefecto extends ValidacionDeUsuario {
 
   @Override
-  public boolean test(UsuarioDto usuarioDto) {
-    return !usuarioDto.getUsuario().equals(usuarioDto.getContrasena());
+  public boolean test(FormularioLogin form) {
+    return !form.getUsuario().equals(form.getContrasena());
   }
 
   @Override

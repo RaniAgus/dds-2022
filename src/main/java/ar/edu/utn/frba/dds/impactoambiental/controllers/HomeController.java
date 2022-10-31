@@ -2,8 +2,6 @@ package ar.edu.utn.frba.dds.impactoambiental.controllers;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.Spark;
-
 
 public class HomeController {
 
@@ -21,11 +19,6 @@ public class HomeController {
 
   public ModelAndView home(Request req, Response resp) {
     resp.redirect("/recomendaciones");
-    return null;
-  }
-
-  public ModelAndView validarLogin(Request req, Response resp) {
-    // TODO
     return null;
   }
 
