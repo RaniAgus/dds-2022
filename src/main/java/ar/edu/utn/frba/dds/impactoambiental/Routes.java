@@ -22,10 +22,10 @@ public class Routes {
 
     Spark.get("/", homeController::home, templateEngine);
     Spark.get("/recomendaciones", homeController::recomendaciones, templateEngine);
-    Spark.get("/login", homeController::login, templateEngine);
-    Spark.post("/login", usuarioController::loguearUsuario, templateEngine);
-    Spark.post("/cerrarSesion", homeController::cerrarSesion, templateEngine);
 
+    Spark.get("/login", usuarioController::verLogin, templateEngine);
+    Spark.post("/login", usuarioController::iniciarSesion, templateEngine);
+    Spark.post("/logout", usuarioController::cerrarSesion, templateEngine);
 
     Spark.get("miembros/:id/vinculaciones", miembroController::vinculaciones, templateEngine);
     Spark.post("miembros/:id/vinculaciones", miembroController::proponerVinculacion, templateEngine); //TODO: Pensar un mejor nombre que proponerVinculacion()

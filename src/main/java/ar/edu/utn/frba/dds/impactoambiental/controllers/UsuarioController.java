@@ -10,7 +10,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class UsuarioController {
+public class UsuarioController implements Controlador {
   private RepositorioUsuarios usuarios = RepositorioUsuarios.getInstance();
 
   private RepositorioValidacionesDeUsuario validaciones = RepositorioValidacionesDeUsuario.getInstance();
@@ -33,15 +33,23 @@ public class UsuarioController {
         );
   }
 
-  public ModelAndView loguearUsuario(Request req, Response res) {
+  public ModelAndView verLogin(Request req, Response resp) {
+    if (req.cookie("SESSIONID") != null) {
+      resp.redirect("/");
+      return null;
+    }
+    System.out.println(decode(req.queryParams("errores")));
+    return new ModelAndView(null, "login.html.hbs");
+  }
+
+  public ModelAndView iniciarSesion(Request req, Response res) {
     return UsuarioDto.parsear(Form.of(req))
         .flatMap(dto -> usuarios.obtenerUsuario(
             dto.getUsuario(),
             dto.getContrasena()))
         .fold(
             errores -> {
-              errores.isEmpty();
-              // TODO: Manejo de errores
+              res.redirect("/login?errores=" + encode(String.join(", ", errores)));
               return null;
             },
             usuario -> {
@@ -51,5 +59,12 @@ public class UsuarioController {
               return null;
             }
         );
+  }
+
+  public ModelAndView cerrarSesion(Request request, Response response) {
+    response.removeCookie("SESSIONID");
+    response.redirect("/");
+    return null;
+    // No se que tan bien esta esto la verdad
   }
 }
