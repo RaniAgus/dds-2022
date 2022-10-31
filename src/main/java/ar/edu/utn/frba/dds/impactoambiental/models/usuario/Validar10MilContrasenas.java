@@ -24,7 +24,7 @@ public class Validar10MilContrasenas extends ValidacionDeUsuario {
 
   @Override
   public boolean test(UsuarioDto dto) {
-    return !lectorDeArchivos.getLineas().contains(dto.getContrasena());
+    return !lectorDeArchivos.getLineas().contains(dto.getPassword());
   }
 
   @Override

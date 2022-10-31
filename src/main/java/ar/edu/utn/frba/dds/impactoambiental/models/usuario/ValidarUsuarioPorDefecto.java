@@ -9,7 +9,7 @@ public class ValidarUsuarioPorDefecto extends ValidacionDeUsuario {
 
   @Override
   public boolean test(UsuarioDto dto) {
-    return !dto.getUsuario().equals(dto.getContrasena());
+    return !dto.getUsername().equals(dto.getPassword());
   }
 
   @Override

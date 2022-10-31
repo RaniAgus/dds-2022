@@ -10,7 +10,7 @@ public class ValidarCaracteresRepetidos extends ValidacionDeUsuario {
 
   @Override
   public boolean test(UsuarioDto dto) {
-    return !Pattern.compile("(.)\\1{2}").matcher(dto.getContrasena()).find();
+    return !Pattern.compile("(.)\\1{2}").matcher(dto.getPassword()).find();
   }
 
   @Override

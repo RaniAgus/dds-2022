@@ -1,4 +1,5 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -10,8 +11,13 @@ public class HomeController {
   }
 
   public Void home(Request req, Response resp) {
-    // TODO: Redirigir a distintas rutas según la sesión
-    resp.redirect("/recomendaciones");
+    Usuario usuario = req.session().attribute("usuario");
+    if (usuario == null) {
+      resp.redirect("/recomendaciones");
+    } else {
+      // TODO: Redirigir a distintas rutas según la sesión
+      resp.redirect("/miembros/" + usuario.getId() + "/vinculaciones");
+    }
     return null;
   }
 }

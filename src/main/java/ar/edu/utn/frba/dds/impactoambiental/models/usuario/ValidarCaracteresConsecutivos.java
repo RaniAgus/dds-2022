@@ -9,7 +9,7 @@ public class ValidarCaracteresConsecutivos extends ValidacionDeUsuario {
 
   @Override
   public boolean test(UsuarioDto dto) {
-    char[] contrasenaArray = dto.getContrasena().toCharArray();
+    char[] contrasenaArray = dto.getPassword().toCharArray();
     for (int i = 0; i < contrasenaArray.length - 3; i++) {
       if ((contrasenaArray[i] == contrasenaArray[i + 1] - 1
           && contrasenaArray[i] == contrasenaArray[i + 2] - 2

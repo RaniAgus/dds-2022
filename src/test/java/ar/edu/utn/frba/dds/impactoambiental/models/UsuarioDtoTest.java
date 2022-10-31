@@ -20,22 +20,22 @@ public class UsuarioDtoTest extends BaseTest {
 
   @Test
   public void sePuedeParsearUnFormularioLoginExitosamente() {
-    when(form.getParamOrError("usuario", "El usuario es requerido"))
+    when(form.getParamOrError("username", "El usuario es requerido"))
         .thenReturn(Either.exitoso("Juancito"));
-    when(form.getParamOrError("contrasena", "La contraseña es requerida"))
+    when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.exitoso("ContraSUper*MegaS3gUr4"));
 
     Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);
 
-    assertThat(formularioLogin.getValor().getUsuario()).isEqualTo("Juancito");
-    assertThat(formularioLogin.getValor().getContrasena()).isEqualTo("ContraSUper*MegaS3gUr4");
+    assertThat(formularioLogin.getValor().getUsername()).isEqualTo("Juancito");
+    assertThat(formularioLogin.getValor().getPassword()).isEqualTo("ContraSUper*MegaS3gUr4");
   }
 
   @Test
   public void sePuedeParsearUnFormularioLoginFallido() {
-    when(form.getParamOrError("usuario", "El usuario es requerido"))
+    when(form.getParamOrError("username", "El usuario es requerido"))
         .thenReturn(Either.fallido("El usuario es requerido"));
-    when(form.getParamOrError("contrasena", "La contraseña es requerida"))
+    when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.fallido("La contraseña es requerida"));
 
     Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);
@@ -45,9 +45,9 @@ public class UsuarioDtoTest extends BaseTest {
 
   @Test
   public void sePuedeParsearUnFormularioLoginFallidoPorqueFaltaElUsuario() {
-    when(form.getParamOrError("usuario", "El usuario es requerido"))
+    when(form.getParamOrError("username", "El usuario es requerido"))
         .thenReturn(Either.fallido("El usuario es requerido"));
-    when(form.getParamOrError("contrasena", "La contraseña es requerida"))
+    when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.exitoso("ContraSUper*MegaS3gUr4"));
 
     Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);
@@ -57,9 +57,9 @@ public class UsuarioDtoTest extends BaseTest {
 
   @Test
   public void sePuedeParsearUnFormularioLoginFallidoPorqueFaltaLaContrasena() {
-    when(form.getParamOrError("usuario", "El usuario es requerido"))
+    when(form.getParamOrError("username", "El usuario es requerido"))
         .thenReturn(Either.exitoso("Juancito"));
-    when(form.getParamOrError("contrasena", "La contraseña es requerida"))
+    when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.fallido("La contraseña es requerida"));
 
     Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);

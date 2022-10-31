@@ -5,9 +5,12 @@ import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioValidacionesDeUsuario;
+import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -40,17 +43,18 @@ public class UsuarioController implements Controlador {
       return null;
     }
 
-    List<String> errores = Arrays.asList(decode(req.queryParams("errores")).split(", "));
-    System.out.println(errores);
+    List<String> errores = Optional.ofNullable(req.queryParams("errores"))
+        .map(err -> Arrays.asList(decode(err).split(", ")))
+        .orElse(Collections.emptyList());
 
-    return new ModelAndView(null, "login.html.hbs");
+    return new ModelAndView(ImmutableMap.of("errores", errores), "login.html.hbs");
   }
 
   public Void iniciarSesion(Request req, Response res) {
     return UsuarioDto.parsear(Form.of(req))
         .flatMap(dto -> usuarios.obtenerUsuario(
-            dto.getUsuario(),
-            dto.getContrasena()))
+            dto.getUsername(),
+            dto.getPassword()))
         .fold(
             errores -> {
               res.redirect("/login?errores=" + encode(String.join(", ", errores)));

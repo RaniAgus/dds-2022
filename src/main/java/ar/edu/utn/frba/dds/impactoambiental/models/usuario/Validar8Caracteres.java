@@ -9,7 +9,7 @@ public class Validar8Caracteres extends ValidacionDeUsuario {
 
   @Override
   public boolean test(UsuarioDto dto) {
-    return dto.getContrasena().length() >= 8;
+    return dto.getPassword().length() >= 8;
   }
 
   public String getMensajeDeError() {
