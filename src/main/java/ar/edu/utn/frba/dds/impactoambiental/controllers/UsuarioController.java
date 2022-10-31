@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.FormularioLogin;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioValidacionesDeUsuario;
@@ -16,8 +16,8 @@ public class UsuarioController {
   private RepositorioValidacionesDeUsuario validaciones = RepositorioValidacionesDeUsuario.getInstance();
 
   public ModelAndView crearUsuario(Request req, Response res) {
-    return FormularioLogin.parsear(Form.of(req))
-        .flatMap(formulario -> new Validador<>(formulario)
+    return UsuarioDto.parsear(Form.of(req))
+        .flatMap(dto -> new Validador<>(dto)
             .agregarValidaciones(new ArrayList<>(validaciones.obtenerTodos()))
             .validar())
         .fold(
@@ -26,7 +26,7 @@ public class UsuarioController {
               // TODO: Manejo de errores
               return null;
             },
-            formularioLogin -> {
+            dto -> {
               // TODO: Crear usuario
               return null;
             }
@@ -34,10 +34,10 @@ public class UsuarioController {
   }
 
   public ModelAndView loguearUsuario(Request req, Response res) {
-    return FormularioLogin.parsear(Form.of(req))
-        .flatMap(formulario -> usuarios.obtenerUsuario(
-            formulario.getUsuario(),
-            formulario.getContrasena()))
+    return UsuarioDto.parsear(Form.of(req))
+        .flatMap(dto -> usuarios.obtenerUsuario(
+            dto.getUsuario(),
+            dto.getContrasena()))
         .fold(
             errores -> {
               errores.isEmpty();

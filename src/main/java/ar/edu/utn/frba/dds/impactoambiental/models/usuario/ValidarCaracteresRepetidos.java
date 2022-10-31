@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.FormularioLogin;
 import java.util.regex.Pattern;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -10,8 +9,8 @@ import javax.persistence.Entity;
 public class ValidarCaracteresRepetidos extends ValidacionDeUsuario {
 
   @Override
-  public boolean test(FormularioLogin form) {
-    return !Pattern.compile("(.)\\1{2}").matcher(form.getContrasena()).find();
+  public boolean test(UsuarioDto dto) {
+    return !Pattern.compile("(.)\\1{2}").matcher(dto.getContrasena()).find();
   }
 
   @Override

@@ -30,12 +30,12 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarUsuarioPorDefecto;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.FormularioLogin;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validacion;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
@@ -161,7 +161,7 @@ public abstract class BaseTest {
 
   // Validadores
 
-  protected List<Validacion<FormularioLogin>> todasLasValidaciones() {
+  protected List<Validacion<UsuarioDto>> todasLasValidaciones() {
     return Arrays.asList(
         new Validar8Caracteres(),
         new ValidarCaracteresRepetidos(),

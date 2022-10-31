@@ -1,13 +1,14 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
+package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import java.util.List;
 
-public class FormularioLogin {
+public class UsuarioDto {
   private String usuario;
   private String contrasena;
 
-  public FormularioLogin(String usuario, String contrasena) {
+  public UsuarioDto(String usuario, String contrasena) {
     this.usuario = usuario;
     this.contrasena = contrasena;
   }
@@ -20,13 +21,13 @@ public class FormularioLogin {
     return contrasena;
   }
 
-  public static Either<FormularioLogin> parsear(Form form) {
+  public static Either<UsuarioDto> parsear(Form form) {
     Either<String> usuario = form.getParamOrError("usuario", "El usuario es requerido");
     Either<String> contrasena = form.getParamOrError("contrasena", "La contraseña es requerida");
 
     List<String> errores = Either.colectarErrores(usuario, contrasena);
     return errores.isEmpty()
-        ? Either.exitoso(new FormularioLogin(usuario.getValor(), contrasena.getValor()))
+        ? Either.exitoso(new UsuarioDto(usuario.getValor(), contrasena.getValor()))
         : Either.fallido(errores);
   }
 }
