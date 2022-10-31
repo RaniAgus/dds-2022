@@ -9,7 +9,8 @@ public class HomeController {
     return new ModelAndView(null, "recomendaciones.html.hbs");
   }
 
-  public ModelAndView home(Request req, Response resp) {
+  public Void home(Request req, Response resp) {
+    // TODO: Redirigir a distintas rutas según la sesión
     resp.redirect("/recomendaciones");
     return null;
   }

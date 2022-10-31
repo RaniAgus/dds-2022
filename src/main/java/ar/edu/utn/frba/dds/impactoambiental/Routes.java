@@ -20,11 +20,11 @@ public class Routes {
 
     Spark.port(8080); // Esto se deberia obtener por variable de entorno/service locator??
 
-    Spark.get("/", homeController::home, templateEngine);
+    Spark.get("/", homeController::home);
     Spark.get("/recomendaciones", homeController::recomendaciones, templateEngine);
 
     Spark.get("/login", usuarioController::verLogin, templateEngine);
-    Spark.post("/login", usuarioController::iniciarSesion, templateEngine);
+    Spark.post("/login", usuarioController::iniciarSesion);
     Spark.post("/logout", usuarioController::cerrarSesion, templateEngine);
 
     Spark.get("miembros/:id/vinculaciones", miembroController::vinculaciones, templateEngine);
