@@ -164,12 +164,16 @@ public class MiembroController implements Controlador {
     Miembro miembro = obtenerMiembro(request).getValor();
     List<VinculacionDto> vinculaciones = obtenerVinculacionesDto(usuario);
     List<Tramo> pretramos = obtenerPretramos(miembro, request);
+    List<Linea> lineas = RepositorioDeLineas.getInstance().obtenerTodos();
+    List<MedioDeTransporte> mediosDeTransporte = RepositorioMediosDeTransporte.getInstance().obtenerTodos();
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "usuario", usuario,
       "miembro", miembro,
       "vinculaciones", vinculaciones,
-      "pretramos", TramoDto.ofList(pretramos)
+      "pretramos", TramoDto.ofList(pretramos),
+      "lineas", lineas,
+      "mediosDeTransporte", mediosDeTransporte
     );
     return new ModelAndView(model, "nuevoTrayecto.html.hbs");
   }

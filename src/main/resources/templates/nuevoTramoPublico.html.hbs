@@ -1,0 +1,22 @@
+<h1>Tramo en {{linea.nombre}}</h1>
+
+<form method="POST" action="/miembros/{{usuario.id}}/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
+    <input type="hidden" name="tipo" value="publico">
+    
+    <label for="origen">Parada Inicial</label>
+    <select name="origen">
+        {{#each linea.paradas}}
+            <option value="{{id}}">{{nombre}}</option>
+        {{/each}}
+    </select>
+
+    <label for="destino">Parada Final</label>
+    <select name="destino">
+        {{#each linea.paradas}}
+            <option value="{{id}}">{{nombre}}</option>
+        {{/each}}
+    </select>
+
+    <label for="ingresar">Confirmar Tramo</label>
+    <input type="submit" name="ingresar">
+</form>
