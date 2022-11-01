@@ -1,11 +1,19 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.ServiceLocator;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TramoDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
@@ -30,13 +38,18 @@ import spark.Response;
 public class MiembroController implements Controlador {
   private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
   private RepositorioOrganizaciones organizaciones = RepositorioOrganizaciones.getInstance();
+  private Geolocalizador geolocalizador = new Geolocalizador(ServiceLocator.getServiceLocator().getGeoDdsApiKey());
+
+  private UsuarioMiembro usuarioMiembroDeSesion(Request req) {
+    return req.session().<UsuarioMiembro>attribute("usuario");
+  }
 
   private Either<Miembro> obtenerMiembro(Request req) {
     return Optional.ofNullable(req.params("miembro"))
         .map(Either::exitoso)
         .orElseGet(() -> Either.fallido("No se especificó un miembro"))
         .apply(Long::parseLong, "El id del miembro debe ser un número")
-        .flatMap(req.session().<UsuarioMiembro>attribute("usuario")::getMiembro);
+        .flatMap(usuarioMiembroDeSesion(req)::getMiembro);
   }
 
   private List<VinculacionDto> obtenerVinculacionesDto(UsuarioMiembro usuario) {
@@ -71,7 +84,7 @@ public class MiembroController implements Controlador {
       .collect(Collectors.toList());
   }
 
-  private List<Tramo> obtenerPretramos(UsuarioMiembro usuario, Miembro miembro, Request req) {
+  private List<Tramo> obtenerPretramos(Miembro miembro, Request req) {
     Map<Miembro, List<Tramo>> miembrosPretramos = req.session().attribute("pretramos");
     if (miembrosPretramos == null) {
       miembrosPretramos = new HashMap<>();
@@ -81,27 +94,36 @@ public class MiembroController implements Controlador {
     return miembrosPretramos.computeIfAbsent(miembro, k -> new ArrayList<>());
   }
 
-  private void limpiarPretramos(UsuarioMiembro usuario, Miembro miembro, Request req) {
+  private void limpiarPretramos(Miembro miembro, Request req) {
     Map<Miembro, List<Tramo>> miembrosPretramos = req.session().attribute("pretramos");
     if (miembrosPretramos != null) {
       miembrosPretramos.remove(miembro);
     }
   }
 
+  private Either<Linea> obtenerLinea(Request req) {
+    return Form.of(req).getParamOrError("linea", "Es necesario indicar una linea")
+      .apply(s -> RepositorioDeLineas.getInstance().obtenerPorID(Long.parseLong(s)).get(), "La linea no existe");
+  }
+
+  private Either<MedioDeTransporte> obtenerMedioDeTransporte(Request req) {
+    return Form.of(req).getParamOrError("medioDeTransporte", "Es necesario indicar un medio de transporte")
+      .apply(s -> RepositorioMediosDeTransporte.getInstance().obtenerPorID(Long.parseLong(s)).get(), "El medio de transporte no existe");
+  }
+
   public ModelAndView vinculaciones(Request request, Response response) {
-    UsuarioMiembro usuario = request.session().<UsuarioMiembro>attribute("usuario");
+    UsuarioMiembro usuario = usuarioMiembroDeSesion(request);
     List<VinculacionDto> vinculaciones = obtenerVinculacionesDto(usuario);
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "usuario", usuario,
       "vinculaciones", vinculaciones
     );
-
     return new ModelAndView(model, "vinculacionesMiembro.html.hbs");
   }
 
   public ModelAndView proponerVinculacion(Request request, Response response) {
-    UsuarioMiembro usuario = request.session().attribute("usuario");
+    UsuarioMiembro usuario = usuarioMiembroDeSesion(request);
 
     return Form.of(request).getParamOrError("codigoInvite", "Es requerido un codigo")
       .apply(UUID::fromString, "El codigo ingresado no tiene el formato correcto")
@@ -122,126 +144,149 @@ public class MiembroController implements Controlador {
   }
 
   public ModelAndView trayectos(Request request, Response response) {
-    UsuarioMiembro usuario = request.session().<UsuarioMiembro>attribute("usuario");
-    Either<Miembro> miembro = obtenerMiembro(request);
+    UsuarioMiembro usuario = usuarioMiembroDeSesion(request);
+    Miembro miembro = obtenerMiembro(request).getValor();
     List<VinculacionDto> vinculaciones = obtenerVinculacionesDto(usuario);
 
-    ImmutableMap<String, Object> model = miembro.fold(
-        errors ->(ImmutableMap.of("errores", errors)),
-        value ->
-            (ImmutableMap.of(
-                "usuario", usuario,
-                "miembro", miembro,
-                "vinculaciones", vinculaciones,
-                "trayectos", obtenerTrayectosDto(value))
-            )
-    );
+    List<TrayectoResumenDto> trayectos = obtenerTrayectosDto(miembro);
 
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+      "usuario", usuario,
+      "miembro", miembro,
+      "vinculaciones", vinculaciones,
+      "trayectos", trayectos
+    );
     return new ModelAndView(model, "trayectosMiembro.html.hbs");
   }
 
   public ModelAndView nuevoTrayecto(Request request, Response response) {
-    UsuarioMiembro usuario = request.session().<UsuarioMiembro>attribute("usuario");
-    Either<Miembro> miembro = obtenerMiembro(request);
-
+    UsuarioMiembro usuario = usuarioMiembroDeSesion(request);
+    Miembro miembro = obtenerMiembro(request).getValor();
     List<VinculacionDto> vinculaciones = obtenerVinculacionesDto(usuario);
-    ImmutableMap<String, Object> model = miembro.fold(
-        errors->(ImmutableMap.of("errores",errors)),
-        value->(ImmutableMap.<String,Object>of(
-            "usuario", usuario,
-            "miembro", miembro,
-            "vinculaciones", vinculaciones,
-            "pretramos", obtenerPretramos(usuario, value, request).stream()
-                .map(t -> new TramoDto(t.tipo(), t.nombreMedio(), t.nombreOrigen(), t.nombreDestino()))
-                .collect(Collectors.toList())))
+    List<Tramo> pretramos = obtenerPretramos(miembro, request);
+
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+      "usuario", usuario,
+      "miembro", miembro,
+      "vinculaciones", vinculaciones,
+      "pretramos", TramoDto.ofList(pretramos)
     );
     return new ModelAndView(model, "nuevoTrayecto.html.hbs");
   }
 
   public ModelAndView anadirTrayecto(Request request, Response response) {
-    UsuarioMiembro usuario = request.session().<UsuarioMiembro>attribute("usuario");
-    Either<Miembro> miembro = obtenerMiembro(request);
+    UsuarioMiembro usuario = usuarioMiembroDeSesion(request);
+    Miembro miembro = obtenerMiembro(request).getValor();
     List<VinculacionDto> vinculaciones = obtenerVinculacionesDto(usuario);
-    Either<List<Tramo>> pretramos = miembro.map(valor->obtenerPretramos(usuario,valor, request));
+    List<Tramo> pretramos = obtenerPretramos(miembro, request);
 
-    //Como meto esta validacion sobre una lista fuera del form, con el resto de las validaciones?
-    pretramos.map(value-> value.isEmpty()?
-        miembro.map(x-> {response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/"
-        + x.getId() + "/trayectos/nuevo?errores=El trayecto necesita al menos un tramo"); return value;})
-        : value);
+    //Dejo solo este chequeo porque no es sobre el formulario
+    if(pretramos.isEmpty()){
+      response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + miembro.getId() 
+        + "/trayectos/nuevo?errores=El trayecto necesita al menos un tramo"); 
+      return null;
+    }
 
-    return Form.of(request).getParamOrError("fecha", "Es requerida una fecha")
-      .apply(LocalDate::parse, "La fecha ingresada no tiene el formato correcto")
-      .fold(
-        errores -> { miembro.map(value->{
-          response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + value.getId()
-            + "trayectos/nuevo?errores=" + encode(String.join(", ", errores))); return null;});
-          return null;
-        },
-        fecha -> {
-          miembro.map(miembro1->{pretramos.map(pretramos1->{miembro1.darDeAltaTrayecto(new Trayecto(fecha, pretramos1)); return pretramos1;});
-          limpiarPretramos(usuario, miembro1, request);
-          response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + miembro1.getId() + "/trayectos"); return miembro1;});
-          return null;
-        }
-      );
+    //params del form
+    LocalDate fechaTrayecto = LocalDate.parse(Form.of(request).getParam("fecha").get());
+
+    miembro.darDeAltaTrayecto(new Trayecto(fechaTrayecto, pretramos));
+    limpiarPretramos(miembro, request);
+
+    response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos"); 
+    return null;
   }
 
   public ModelAndView nuevoTramo(Request request, Response response) {
-    UsuarioMiembro usuario = request.session().<UsuarioMiembro>attribute("usuario");
+    UsuarioMiembro usuario = usuarioMiembroDeSesion(request);
     Miembro miembro = obtenerMiembro(request).getValor();
     List<VinculacionDto> vinculaciones = obtenerVinculacionesDto(usuario);
-    List<TramoDto> pretramos = obtenerPretramos(usuario, miembro, request).stream()
-      .map(t -> new TramoDto(t.tipo(), t.nombreMedio(), t.nombreOrigen(), t.nombreDestino()))
-      .collect(Collectors.toList());
+    List<TramoDto> pretramosDtos = TramoDto.ofList(obtenerPretramos(miembro, request));
 
     if (request.queryParams("tipo").equals("publico")) {
-      return Form.of(request).getParamOrError("linea", "Es necesario indicar una linea")
-        .apply(s -> RepositorioDeLineas.getInstance().obtenerPorID(Long.parseLong(s)).get(), "La linea no existe")
-        .fold(
-          errores -> {
-            response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
-              + "/trayectos/nuevo?errores=" + encode(String.join(", ", errores)));
-            return null;
-          },
-          linea -> {
-            ImmutableMap<String, Object> model = ImmutableMap.of(
-              "usuario", usuario,
-              "miembro", miembro,
-              "vinculaciones", vinculaciones,
-              "pretramos", pretramos,
-              "linea", linea
-            );
-
-            return new ModelAndView(model, "nuevoTramoPublico.html.hbs");
-          }
-        );
+      //param de form
+      Linea linea = obtenerLinea(request).getValor();
+      
+      ImmutableMap<String, Object> model = ImmutableMap.of(
+        "usuario", usuario,
+        "miembro", miembro,
+        "vinculaciones", vinculaciones,
+        "pretramos", pretramosDtos,
+        "linea", linea
+      );
+      return new ModelAndView(model, "nuevoTramoPublico.html.hbs");
     }
     else {
-      return Form.of(request).getParamOrError("transporte", "Es necesario indicar un medio")
-        .apply(s -> RepositorioMediosDeTransporte.getInstance().obtenerPorID(Long.parseLong(s)).get(), "El medio no existe")
-        .fold(
-          errores -> {
-            response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
-              + "/trayectos/nuevo?errores=" + encode(String.join(", ", errores)));
-            return null;
-          },
-          medio -> {
-            ImmutableMap<String, Object> model = ImmutableMap.of(
-              "usuario", usuario,
-              "miembro", miembro,
-              "vinculaciones", vinculaciones,
-              "pretramos", pretramos,
-              "medio", medio
-            );
+      //param de form
+      MedioDeTransporte medio = obtenerMedioDeTransporte(request).getValor();
 
-            return new ModelAndView(model, "nuevoTramoPrivado.html.hbs");
-          }
-        );
+      ImmutableMap<String, Object> model = ImmutableMap.of(
+        "usuario", usuario,
+        "miembro", miembro,
+        "vinculaciones", vinculaciones,
+        "pretramos", pretramosDtos,
+        "medio", medio
+      );
+      return new ModelAndView(model, "nuevoTramoPrivado.html.hbs");
     }
   }
 
   public ModelAndView anadirTramo(Request request, Response response) {
+    UsuarioMiembro usuario = usuarioMiembroDeSesion(request);
+    Miembro miembro = obtenerMiembro(request).getValor();
+    List<Tramo> pretramos = obtenerPretramos(miembro, request);
+
+    if ( request.queryParams("tipo").equals("publico") ) {
+      //params del form
+      Linea linea = obtenerLinea(request).getValor();
+
+      Long origenID = Long.parseLong(Form.of(request).getParam("origen").get());
+      Parada origen = linea.getParadas().stream().filter(p -> p.getId() == origenID).findFirst().get();
+      Long destinoID = Long.parseLong(Form.of(request).getParam("destino").get());
+      Parada destino = linea.getParadas().stream().filter(p -> p.getId() == destinoID).findFirst().get();
+
+      pretramos.add(new TramoEnTransportePublico(origen, destino, linea));
+    }
+    else {
+      //params del form
+      MedioDeTransporte medio = obtenerMedioDeTransporte(request).getValor();
+      
+      String paisOrigen = Form.of(request).getParam("paisOrigen").get();
+      String provinciaOrigen = Form.of(request).getParam("provinciaOrigen").get();
+      String municipioOrigen = Form.of(request).getParam("municipioOrigen").get();
+      String localidadOrigen = Form.of(request).getParam("localidadOrigen").get();
+      String calleOrigen = Form.of(request).getParam("calleOrigen").get();
+      String alturaOrigen = Form.of(request).getParam("alturaOrigen").get();
+
+      Ubicacion origen = geolocalizador.getUbicacion(
+        paisOrigen, 
+        provinciaOrigen,
+        municipioOrigen, 
+        localidadOrigen, 
+        calleOrigen, 
+        alturaOrigen
+      ).get();
+
+      String paisDestino = Form.of(request).getParam("paisDestino").get();
+      String provinciaDestino = Form.of(request).getParam("provinciaDestino").get();
+      String municipioDestino = Form.of(request).getParam("municipioDestino").get();
+      String localidadDestino = Form.of(request).getParam("localidadDestino").get();
+      String calleDestino = Form.of(request).getParam("calleDestino").get();
+      String alturaDestino = Form.of(request).getParam("alturaDestino").get();
+
+      Ubicacion destino = geolocalizador.getUbicacion(
+        paisDestino, 
+        provinciaDestino,
+        municipioDestino, 
+        localidadDestino, 
+        calleDestino, 
+        alturaDestino
+      ).get();
+
+      pretramos.add(new TramoPrivado(geolocalizador, origen, destino, medio));
+    }
+
+    response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos/nuevo");
     return null;
   }
 }
