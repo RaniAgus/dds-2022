@@ -138,9 +138,9 @@ public class MiembroController implements Controlador {
           return null;
         },
         sector -> {
-          Miembro membresia = new Miembro(new ArrayList<>());
-          sector.solicitarVinculacion(new Vinculacion(membresia));
+          Miembro membresia = new Miembro(usuario);
           usuario.agregarMiembro(membresia);
+          sector.solicitarVinculacion(new Vinculacion(membresia));
           response.redirect("/");
           return null;
         }
