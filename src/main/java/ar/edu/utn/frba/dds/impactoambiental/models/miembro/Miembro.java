@@ -3,9 +3,12 @@ package ar.edu.utn.frba.dds.impactoambiental.models.miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,11 +17,28 @@ public class Miembro extends EntidadPersistente {
   @ManyToMany
   private List<Trayecto> trayectos;
 
+  private String nombre;
+  private String apellido;
+  private String documento;
+  private TipoDeDocumento tipoDeDocumento;
+
   public Miembro() {
   }
 
-  public Miembro(List<Trayecto> trayectos) {
+  public Miembro(String nombre, String apellido, String documento, TipoDeDocumento t, List<Trayecto> trayectos) {
     this.trayectos = trayectos;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.documento = documento;
+    this.tipoDeDocumento = t;
+  }
+
+  public Miembro(UsuarioMiembro usuario){
+    this.nombre = usuario.getNombre();
+    this.apellido = usuario.getApellido();
+    this.documento = usuario.getDocumento();
+    this.tipoDeDocumento = usuario.getTipoDeDocumento();
+    this.trayectos = new ArrayList<>();
   }
 
   public List<Trayecto> getTrayectos() {
