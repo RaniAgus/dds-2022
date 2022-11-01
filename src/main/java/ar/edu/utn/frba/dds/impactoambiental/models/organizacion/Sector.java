@@ -31,6 +31,10 @@ public class Sector extends EntidadPersistente {
     return codigoInvite;
   }
 
+  public Set<Vinculacion> getVinculaciones() {
+    return vinculaciones;
+  }
+
   public void solicitarVinculacion(Vinculacion vinculacion) {
     this.vinculaciones.add(vinculacion);
   }

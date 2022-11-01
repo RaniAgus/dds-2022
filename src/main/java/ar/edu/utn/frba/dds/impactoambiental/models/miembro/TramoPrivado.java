@@ -61,4 +61,24 @@ public class TramoPrivado extends Tramo {
   public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
     return this.medioDeTransporte.tieneTipoDeConsumo(tipo);
   }
+
+  @Override
+  public String nombreOrigen() {
+    return ubicacionInicial.toString();
+  }
+
+  @Override
+  public String nombreDestino() {
+    return ubicacionFinal.toString();
+  }
+
+  @Override
+  public String nombreMedio() {
+    return medioDeTransporte.getNombre();
+  }
+
+  @Override
+  public String tipo() {
+    return "Privado";
+  }
 }

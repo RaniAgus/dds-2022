@@ -36,6 +36,10 @@ public class Linea extends EntidadPersistente {
     return paradas;
   }
 
+  public String getNombre() {
+    return nombre;
+  }
+
   public Distancia distanciaEntreParadas(Parada paradaInicial, Parada paradaFinal) {
     int posInicial = paradas.indexOf(paradaInicial);
     int posFinal = paradas.indexOf(paradaFinal);

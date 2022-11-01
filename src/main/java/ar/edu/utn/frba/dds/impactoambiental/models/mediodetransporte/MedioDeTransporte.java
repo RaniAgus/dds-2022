@@ -27,6 +27,10 @@ public class MedioDeTransporte extends EntidadPersistente {
     this.tipoDeTransporte = tipoDeTransporte;
   }
 
+  public String getNombre() {
+    return nombre;
+  }
+
   public Double carbonoEquivalentePorKM() {
     return tipoDeConsumo != null ? tipoDeConsumo.getFactorEmision() * consumoPorKm : 0;
   }

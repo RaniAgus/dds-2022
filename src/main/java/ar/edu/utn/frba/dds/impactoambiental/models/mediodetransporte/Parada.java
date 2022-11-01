@@ -45,4 +45,8 @@ public class Parada extends EntidadPersistente {
   public void setDistanciaAAnteriorParada(Distancia distanciaAAnteriorParada) {
     this.distanciaAAnteriorParada = distanciaAProximaParada;
   }
+
+  public String getNombre() {
+    return nombre;
+  }
 }

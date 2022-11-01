@@ -41,4 +41,24 @@ public class TramoEnTransportePublico extends Tramo {
   public Boolean tieneTipoDeConsumo(TipoDeConsumo tipo) {
     return this.linea.tieneTipoDeConsumo(tipo);
   }
+
+  @Override
+  public String nombreOrigen() {
+    return paradaInicial.getNombre();
+  }
+
+  @Override
+  public String nombreDestino() {
+    return paradaFinal.getNombre();
+  }
+
+  @Override
+  public String nombreMedio() {
+    return linea.getNombre();
+  }
+
+  @Override
+  public String tipo() {
+    return "Publico";
+  }
 }
