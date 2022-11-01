@@ -29,6 +29,7 @@ import spark.Response;
 
 public class MiembroController implements Controlador {
   private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
+  private RepositorioOrganizaciones organizaciones = RepositorioOrganizaciones.getInstance();
 
   private Either<Miembro> obtenerMiembro(Request req) {
     return Optional.ofNullable(req.params("miembro"))
@@ -42,8 +43,7 @@ public class MiembroController implements Controlador {
     List<VinculacionDto> vinculaciones = usuario.getMiembros().stream()
       .map(m -> new VinculacionDto(
         m,
-        RepositorioOrganizaciones.getInstance().obtenerTodos().stream()
-          .filter(o -> o.getMiembros().contains(m)).findFirst().get(),
+        organizaciones.buscarPorMiembro(m).get(),
         null,
         null
       )).collect(Collectors.toList());

@@ -11,6 +11,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -27,7 +28,7 @@ public class Organizacion extends EntidadPersistente {
   private TipoDeOrganizacion tipo;
   @Enumerated(EnumType.STRING)
   private ClasificacionDeOrganizacion clasificacion;
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "organizacion_id")
   private List<Sector> sectores;
   @OneToMany

@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class Sector extends EntidadPersistente {
   private UUID codigoInvite;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "sector_id")
   private final Set<Vinculacion> vinculaciones;
 
