@@ -27,13 +27,13 @@ public class Routes {
     Spark.post("/login", usuarioController::iniciarSesion);
     Spark.post("/logout", usuarioController::cerrarSesion, templateEngine);
 
-    Spark.get("/miembros/:id/vinculaciones", miembroController::vinculaciones, templateEngine);
-    Spark.post("/miembros/:id/vinculaciones", miembroController::proponerVinculacion, templateEngine);
-    Spark.get("/miembros/:id/vinculaciones/:id/trayectos", miembroController::trayectos, templateEngine);
-    Spark.get("/miembros/:id/vinculaciones/:id/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
-    Spark.post("/miembros/:id/vinculaciones/:id/trayectos/nuevo", miembroController::anadirTrayecto, templateEngine);
-    Spark.get("/miembros/:id/vinculaciones/:id/trayectos/nuevo/tramos/nuevo", miembroController::nuevoTramo, templateEngine); //TODO: Pensar un mejor nombre que tramos()
-    Spark.post("/miembros/:id/vinculaciones/:id/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
+    Spark.get("/miembros/:miembro/vinculaciones", miembroController::vinculaciones, templateEngine);
+    Spark.post("/miembros/:miembro/vinculaciones", miembroController::proponerVinculacion, templateEngine);
+    Spark.get("/miembros/:miembro/vinculaciones/:vinculacion/trayectos", miembroController::trayectos, templateEngine);
+    Spark.get("/miembros/:miembro/vinculaciones/:vinculacion/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
+    Spark.post("/miembros/:miembro/vinculaciones/:vinculacion/trayectos/nuevo", miembroController::anadirTrayecto, templateEngine);
+    Spark.get("/miembros/:miembro/vinculaciones/:vinculacion/trayectos/nuevo/tramos/nuevo", miembroController::nuevoTramo, templateEngine); //TODO: Pensar un mejor nombre que tramos()
+    Spark.post("/miembros/:miembro/vinculaciones/:vinculacion/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
 
     Spark.get("/organizaciones/:id/vinculaciones", organizacionController::vinculaciones, templateEngine);
     Spark.post("/organizaciones/:id/vinculaciones", organizacionController::aceptarVinculacion, templateEngine);

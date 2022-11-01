@@ -1,44 +1,44 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.EitherExitoso;
-import com.google.common.collect.ImmutableMap;
-
-import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TramoDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeLineas;
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeSectores;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioMediosDeTransporte;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizaciones;
-import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
+import com.google.common.collect.ImmutableMap;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class MiembroController implements Controlador{
-  //Asume que no hay errores
-  public Either<Miembro> obtenerMiembro(Request req) {
-    return req.session().<UsuarioMiembro>attribute("usuario").getMiembros().stream()
-      .filter(m -> m.getId() == Long.parseLong(req.params("miembro")))
-      .findFirst().map(Either::exitoso).orElseGet(()->Either.fallido("No se pudo envontrar la memebresia") );
+public class MiembroController implements Controlador {
+  private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
+
+  private Either<Miembro> obtenerMiembro(Request req) {
+    return Optional.ofNullable(req.params("miembro"))
+        .map(Either::exitoso)
+        .orElseGet(() -> Either.fallido("No se especificó un miembro"))
+        .apply(Long::parseLong, "El id del miembro debe ser un número")
+        .flatMap(req.session().<UsuarioMiembro>attribute("usuario")::getMiembro);
   }
 
-  public List<VinculacionDto> obtenerVinculacionesDto(UsuarioMiembro usuario) {
+  private List<VinculacionDto> obtenerVinculacionesDto(UsuarioMiembro usuario) {
     List<VinculacionDto> vinculaciones = usuario.getMiembros().stream()
       .map(m -> new VinculacionDto(
         m,
@@ -48,7 +48,7 @@ public class MiembroController implements Controlador{
         null
       )).collect(Collectors.toList());
 
-    vinculaciones.forEach(v -> { 
+    vinculaciones.forEach(v -> {
       v.setSector(v.getOrganizacion().getSectores().stream()
         .filter(s -> s.getMiembros().contains(v.getMiembro()))
         .findFirst().get());
@@ -60,7 +60,7 @@ public class MiembroController implements Controlador{
     return vinculaciones;
   }
 
-  public List<TrayectoResumenDto> obtenerTrayectosDto(Miembro miembro) {
+  private List<TrayectoResumenDto> obtenerTrayectosDto(Miembro miembro) {
     return miembro.getTrayectos().stream()
       .map(t -> new TrayectoResumenDto(
         t.getFecha(),
@@ -71,7 +71,7 @@ public class MiembroController implements Controlador{
       .collect(Collectors.toList());
   }
 
-  public List<Tramo> obtenerPretramos(UsuarioMiembro usuario, Miembro miembro, Request req) {
+  private List<Tramo> obtenerPretramos(UsuarioMiembro usuario, Miembro miembro, Request req) {
     Map<Miembro, List<Tramo>> miembrosPretramos = req.session().attribute("pretramos");
     if (miembrosPretramos == null) {
       miembrosPretramos = new HashMap<>();
@@ -81,7 +81,7 @@ public class MiembroController implements Controlador{
     return miembrosPretramos.computeIfAbsent(miembro, k -> new ArrayList<>());
   }
 
-  public void limpiarPretramos(UsuarioMiembro usuario, Miembro miembro, Request req) {
+  private void limpiarPretramos(UsuarioMiembro usuario, Miembro miembro, Request req) {
     Map<Miembro, List<Tramo>> miembrosPretramos = req.session().attribute("pretramos");
     if (miembrosPretramos != null) {
       miembrosPretramos.remove(miembro);
@@ -101,24 +101,20 @@ public class MiembroController implements Controlador{
   }
 
   public ModelAndView proponerVinculacion(Request request, Response response) {
-    UsuarioMiembro usuario = request.session().<UsuarioMiembro>attribute("usuario");
+    UsuarioMiembro usuario = request.session().attribute("usuario");
 
     return Form.of(request).getParamOrError("codigoInvite", "Es requerido un codigo")
-      .map(UUID::fromString, "El codigo ingresado no tiene el formato correcto")
-      .map(u -> RepositorioOrganizaciones.getInstance().obtenerTodos().stream()
-        .flatMap(o -> o.getSectores().stream()
-          .filter(s -> s.getCodigoInvite().equals(u))).findFirst().get()
-        , "El codigo ingresado no existe")
+      .apply(UUID::fromString, "El codigo ingresado no tiene el formato correcto")
+      .flatMap(sectores::buscarPorCodigoInvite)
       .fold(
         errores -> {
           response.redirect("/miembro/" + usuario.getId() + "/vinculaciones?errores=" + encode(String.join(", ", errores)));
           return null;
         },
         sector -> {
-          Miembro membersia = new Miembro(new ArrayList<>());
-          sector.solicitarVinculacion(new Vinculacion(membersia));
-          usuario.agregarMiembro(membersia);
-    
+          Miembro membresia = new Miembro(new ArrayList<>());
+          sector.solicitarVinculacion(new Vinculacion(membresia));
+          usuario.agregarMiembro(membresia);
           response.redirect("/");
           return null;
         }
@@ -167,7 +163,7 @@ public class MiembroController implements Controlador{
     Either<Miembro> miembro = obtenerMiembro(request);
     List<VinculacionDto> vinculaciones = obtenerVinculacionesDto(usuario);
     Either<List<Tramo>> pretramos = miembro.map(valor->obtenerPretramos(usuario,valor, request));
-    
+
     //Como meto esta validacion sobre una lista fuera del form, con el resto de las validaciones?
     pretramos.map(value-> value.isEmpty()?
         miembro.map(x-> {response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/"
@@ -175,7 +171,7 @@ public class MiembroController implements Controlador{
         : value);
 
     return Form.of(request).getParamOrError("fecha", "Es requerida una fecha")
-      .map(LocalDate::parse, "La fecha ingresada no tiene el formato correcto")
+      .apply(LocalDate::parse, "La fecha ingresada no tiene el formato correcto")
       .fold(
         errores -> { miembro.map(value->{
           response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + value.getId()
@@ -201,7 +197,7 @@ public class MiembroController implements Controlador{
 
     if (request.queryParams("tipo").equals("publico")) {
       return Form.of(request).getParamOrError("linea", "Es necesario indicar una linea")
-        .map(s -> RepositorioDeLineas.getInstance().obtenerPorID(Long.parseLong(s)).get(), "La linea no existe")
+        .apply(s -> RepositorioDeLineas.getInstance().obtenerPorID(Long.parseLong(s)).get(), "La linea no existe")
         .fold(
           errores -> {
             response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
@@ -223,7 +219,7 @@ public class MiembroController implements Controlador{
     }
     else {
       return Form.of(request).getParamOrError("transporte", "Es necesario indicar un medio")
-        .map(s -> RepositorioMediosDeTransporte.getInstance().obtenerPorID(Long.parseLong(s)).get(), "El medio no existe")
+        .apply(s -> RepositorioMediosDeTransporte.getInstance().obtenerPorID(Long.parseLong(s)).get(), "El medio no existe")
         .fold(
           errores -> {
             response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + miembro.getId()

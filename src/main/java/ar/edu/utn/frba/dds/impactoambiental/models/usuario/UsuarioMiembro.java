@@ -1,24 +1,22 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
+import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
-import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
-
 @Entity
-public class UsuarioMiembro extends Usuario{
+public class UsuarioMiembro extends Usuario {
 
-  String nombre;
-  String apellido;
-  String documento;
+  private String nombre;
+  private String apellido;
+  private String documento;
   @Enumerated(EnumType.STRING)
-  TipoDeDocumento tipoDeDocumento;
-
+  private TipoDeDocumento tipoDeDocumento;
   @OneToMany
   private List<Miembro> miembros;
 
@@ -41,6 +39,14 @@ public class UsuarioMiembro extends Usuario{
 
   public List<Miembro> getMiembros() {
     return miembros;
+  }
+
+  public Either<Miembro> getMiembro(Long id) {
+    return miembros.stream()
+        .filter(miembro -> miembro.getId().equals(id))
+        .findFirst()
+        .map(Either::exitoso)
+        .orElseGet(() -> Either.fallido("No se encontró el miembro"));
   }
 
   public void agregarMiembro(Miembro miembro) {
