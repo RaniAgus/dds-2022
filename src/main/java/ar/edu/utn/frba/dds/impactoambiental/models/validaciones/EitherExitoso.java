@@ -40,4 +40,9 @@ public class EitherExitoso<T> implements Either<T> {
   public <R> R fold(Function<List<String>, R> error, Function<T, R> exito) {
     return exito.apply(valor);
   }
+
+  @Override
+  public <R> Either<R> map(Function<T, R> function) {
+    return Either.exitoso(function.apply(valor));
+  }
 }
