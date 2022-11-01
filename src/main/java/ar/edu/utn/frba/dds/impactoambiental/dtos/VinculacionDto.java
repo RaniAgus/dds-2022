@@ -6,16 +6,26 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 
 public class VinculacionDto {
+  private Long id;
   private Miembro miembro;
   private Organizacion organizacion;
   private Sector sector;
   private EstadoVinculo estado;
 
-  public VinculacionDto(Miembro miembro, Organizacion organizacion, Sector sector, EstadoVinculo estado) {
+  public VinculacionDto(Long id, Miembro miembro, Organizacion organizacion, Sector sector, EstadoVinculo estado) {
+      this.id = id;
       this.miembro = miembro;
       this.organizacion = organizacion;
       this.sector = sector;
       this.estado = estado;
+  }
+
+  public Long getId() {
+      return id;
+  }
+
+  public void setId(Long id) {
+      this.id = id;
   }
 
   public Miembro getMiembro() {

@@ -55,6 +55,7 @@ public class MiembroController implements Controlador {
   private List<VinculacionDto> obtenerVinculacionesDto(UsuarioMiembro usuario) {
     List<VinculacionDto> vinculaciones = usuario.getMiembros().stream()
       .map(m -> new VinculacionDto(
+        null,
         m,
         organizaciones.buscarPorMiembro(m).get(),
         null,
@@ -68,6 +69,9 @@ public class MiembroController implements Controlador {
       v.setEstado(v.getSector().getVinculaciones().stream()
         .filter(vinc -> vinc.getMiembro().equals(v.getMiembro()))
         .findFirst().get().getEstado());
+      v.setId(v.getSector().getVinculaciones().stream().
+        filter(vinc -> vinc.getMiembro().equals(v.getMiembro()))
+        .findFirst().get().getId());
     });
 
     return vinculaciones;
