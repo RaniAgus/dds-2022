@@ -32,17 +32,17 @@ public class EitherFallido<T> implements Either<T> {
   }
 
   @Override
-  public <R> Either<R> map(Function<T, R> function, String error) {
+  public <R> Either<R> map(Function<T, R> function) {
+    return Either.fallido(errores);
+  }
+
+  @Override
+  public <R> Either<R> apply(Function<T, R> function, String error) {
     return Either.fallido(errores);
   }
 
   @Override
   public <R> R fold(Function<List<String>, R> error, Function<T, R> exito) {
     return error.apply(errores);
-  }
-
-  @Override
-  public <R> Either<R> map(Function<T, R> function) {
-    return new EitherFallido<R>(errores);
   }
 }

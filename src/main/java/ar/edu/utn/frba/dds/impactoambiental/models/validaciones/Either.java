@@ -12,10 +12,10 @@ public interface Either<T> {
   T getValor();
   List<String> getErrores();
   <R> Either<R> flatMap(Function<T, Either<R>> function);
-  <R> Either<R> map(Function<T, R> function, String error);
+  <R> Either<R> map(Function<T, R> function);
+  <R> Either<R> apply(Function<T, R> function, String error);
   <R> R fold(Function<List<String>, R> error, Function<T, R> exito);
-  //para hacer un map verdadero tengo que convertir esta intefaz en una clase abstracta!!  lo mismo para el flatmap y para implementar un orElse
-   <R> Either<R>map(Function<T, R> function);
+
   static <T> Either<T> desde(Supplier<T> supplier, String error) {
     try {
       return exitoso(supplier.get());

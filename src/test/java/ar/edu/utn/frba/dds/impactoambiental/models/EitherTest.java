@@ -24,7 +24,7 @@ public class EitherTest extends BaseTest {
   public void sePuedeMapearUnTryDeUnTipoAOtroExitosamente() {
     Either<String> resultado = Either.exitoso("6");
 
-    Either<Integer> resultadoMapeado = resultado.map(Integer::parseInt, "El valor no es numérico");
+    Either<Integer> resultadoMapeado = resultado.apply(Integer::parseInt, "El valor no es numérico");
 
     assertThat(resultadoMapeado.getValor()).isEqualTo(6);
   }
@@ -33,7 +33,7 @@ public class EitherTest extends BaseTest {
   public void sePuedeMapearUnTryDeUnTipoAOtroConError() {
     Either<String> resultado = Either.exitoso("6a");
 
-    Either<Integer> resultadoMapeado = resultado.map(Integer::parseInt, "El valor no es numérico");
+    Either<Integer> resultadoMapeado = resultado.apply(Integer::parseInt, "El valor no es numérico");
 
     assertThat(resultadoMapeado.getErrores()).containsExactly("El valor no es numérico");
   }
@@ -42,7 +42,7 @@ public class EitherTest extends BaseTest {
   public void unTryFallidoNoEsAfectadoPorElMapeo() {
     Either<String> resultado = Either.fallido("Error");
 
-    Either<Integer> resultadoMapeado = resultado.map(Integer::parseInt, "El valor no es numérico");
+    Either<Integer> resultadoMapeado = resultado.apply(Integer::parseInt, "El valor no es numérico");
 
     assertThat(resultadoMapeado.getErrores()).containsExactly("Error");
   }
