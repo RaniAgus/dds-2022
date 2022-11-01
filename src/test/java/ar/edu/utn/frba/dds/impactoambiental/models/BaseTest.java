@@ -19,7 +19,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTran
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.TipoDeTransporte;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
-import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
@@ -44,6 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public abstract class BaseTest {
   protected Periodo periodoAnual = new Periodo(LocalDate.of(2022, 1, 1), Periodicidad.ANUAL);
@@ -104,7 +104,7 @@ public abstract class BaseTest {
   }
 
   protected Miembro crearMiembro() {
-    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI, new ArrayList<>());
+    return new Miembro(new ArrayList<>());
   }
 
   // Lineas
@@ -173,6 +173,7 @@ public abstract class BaseTest {
 
   // Administradores
   protected Usuario crearUsuario() {
-    return new Usuario("Juancito", "ContraSUper*MegaS3gUr4");
+    throw new NotImplementedException();
+    // return new Usuario("Juancito", "ContraSUper*MegaS3gUr4");
   }
 }
