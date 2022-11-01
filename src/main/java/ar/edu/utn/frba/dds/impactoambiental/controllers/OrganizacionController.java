@@ -1,23 +1,68 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
+import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
+import com.google.common.collect.ImmutableMap;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class OrganizacionController {
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class OrganizacionController implements TransactionalOps, WithGlobalEntityManager {
+
+  private UsuarioOrganizacion organizacionDeSesion(Request req) {
+    return req.session().<UsuarioOrganizacion>attribute("usuario");
+  }
+
   public ModelAndView vinculaciones(Request request, Response response) {
-    return null;
+    Organizacion org = organizacionDeSesion(request).getOrganizacion();
+    List<Sector> sectores = org.getSectores();
+    List<VinculacionDto> vinculaciones = sectores.stream().flatMap(sector -> sector.getVinculacionesPendientes().stream()
+        .map(vinculacion -> new VinculacionDto(vinculacion.getId(), vinculacion.getMiembro(), org, sector, vinculacion.getEstado()))).collect(Collectors.toList());
+
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+        "vinculacionesPendientes", vinculaciones
+    );
+
+    return new ModelAndView(model, "vinculaciones.html.hbs");
   }
 
   public ModelAndView aceptarVinculacion(Request request, Response response) {
+    UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
+    Long idVinculacion = Form.of(request).getParam("idVinculacion").map(Long::parseLong).get();
+    //TODO: Validar
+
+    Vinculacion vinc = usuarioOrg.getOrganizacion().getSectores().stream().flatMap(sector -> sector.getVinculacionesPendientes().stream())
+            .filter(vinculacion -> vinculacion.getId() == idVinculacion).findFirst().get(); // TODO: Validar esto tambien.
+
+    vinc.aceptar();
+
+    withTransaction(() -> {
+      entityManager().merge(vinc);
+    });
+
+    response.redirect(usuarioOrg.getHomeUrl());
     return null;
   }
 
   public ModelAndView da(Request request, Response response) {
-    return null;
+    return new ModelAndView(null, "da.html.hbs");
   }
 
   public ModelAndView cargarDA(Request request, Response response) {
+    Long idOrg = organizacionDeSesion(request).getOrganizacion().getId();
+
+    //TODO
+
+    response.redirect("/organizaciones/" + idOrg + "/da");
     return null;
   }
 
