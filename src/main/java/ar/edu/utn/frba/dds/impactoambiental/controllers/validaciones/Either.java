@@ -18,12 +18,6 @@ public interface Either<T> {
   <R> Either<R> flatApply(Function<T, Optional<R>> function, String error);
   <R> R fold(Function<List<String>, R> error, Function<T, R> exito);
 
-  static Either<String> desdeString(String valor, String error) {
-    return Optional.ofNullable(valor)
-        .map(s -> s.isEmpty() ? null : s)
-        .map(Either::exitoso).orElseGet(() -> fallido(error));
-  }
-
   static <T> Either<T> desde(Supplier<T> supplier, String error) {
     try {
       return exitoso(supplier.get());

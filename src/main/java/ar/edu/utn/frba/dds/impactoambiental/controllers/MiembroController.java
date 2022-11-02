@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.MiembrosHelper;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.TramosHelper;
@@ -42,8 +43,8 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView vinculaciones(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(request);
-    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(request);
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "usuario", usuario,
@@ -53,7 +54,7 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView proponerVinculacion(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(request);
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
 
     return Form.of(request).getParamOrError("codigoInvite", "Es requerido un codigo")
       .apply(UUID::fromString, "El codigo ingresado no tiene el formato correcto")
@@ -74,10 +75,10 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView trayectos(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(request);
-    Miembro miembro = miembrosHelper.obtenerMiembro(request).getValor();
-    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(request);
-    List<TrayectoResumenDto> trayectos = miembrosHelper.obtenerTrayectosDto(request);
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    Miembro miembro = miembrosHelper.obtenerMiembro(Context.of(request)).getValor();
+    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
+    List<TrayectoResumenDto> trayectos = miembrosHelper.obtenerTrayectosDto(Context.of(request));
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "usuario", usuario,
@@ -89,10 +90,10 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView nuevoTrayecto(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(request);
-    Miembro miembro = miembrosHelper.obtenerMiembro(request).getValor();
-    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(request);
-    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(request);
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    Miembro miembro = miembrosHelper.obtenerMiembro(Context.of(request)).getValor();
+    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
+    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
     List<Linea> lineas = RepositorioDeLineas.getInstance().obtenerTodos();
     List<MedioDeTransporte> mediosDeTransporte = RepositorioMediosDeTransporte.getInstance().obtenerTodos();
 
@@ -108,10 +109,10 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView anadirTrayecto(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(request);
-    Miembro miembro = miembrosHelper.obtenerMiembro(request).getValor();
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    Miembro miembro = miembrosHelper.obtenerMiembro(Context.of(request)).getValor();
 
-    return trayectosHelper.generateTrayecto(request, Form.of(request))
+    return trayectosHelper.generateTrayecto(Context.of(request), Form.of(request))
         .fold(
             errores -> {
               response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
@@ -132,10 +133,10 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView nuevoTramo(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(request);
-    Miembro miembro = miembrosHelper.obtenerMiembro(request).getValor();
-    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(request);
-    List<TramoDto> pretramosDtos = TramoDto.ofList(miembrosHelper.obtenerPretramos(request));
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    Miembro miembro = miembrosHelper.obtenerMiembro(Context.of(request)).getValor();
+    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
+    List<TramoDto> pretramosDtos = TramoDto.ofList(miembrosHelper.obtenerPretramos(Context.of(request)));
 
     if (request.queryParams("tipo").equals("publico")) {
       //param de form
@@ -166,11 +167,11 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView anadirTramo(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(request);
-    Miembro miembro = miembrosHelper.obtenerMiembro(request).getValor();
-    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(request);
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    Miembro miembro = miembrosHelper.obtenerMiembro(Context.of(request)).getValor();
+    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
 
-    if ( request.queryParams("tipo").equals("publico")) {
+    if (request.queryParams("tipo").equals("publico")) {
       pretramos.add(tramosHelper.generatePreTramoPublico(Form.of(request)));
     } else {
       pretramos.add(tramosHelper.generatePreTramoPrivado(Form.of(request), geolocalizador));

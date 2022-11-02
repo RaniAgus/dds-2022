@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers.helpers;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
@@ -12,24 +13,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import spark.Request;
 
 // TODO: Ver cómo hacer que la Request (o el parámetro que se reciba en su lugar) sea mockeable
 public class MiembrosHelper {
   private RepositorioOrganizaciones repositorioOrganizaciones = RepositorioOrganizaciones.getInstance();
 
-  public UsuarioMiembro usuarioMiembroDeSesion(Request req) {
-    return req.session().attribute("usuario");
+  public Either<UsuarioMiembro> usuarioMiembroDeSesion(Context ctx) {
+    return ctx.getSessionAttribute("usuario", "No se encontró el usuario en la sesión");
   }
 
-  public Either<Miembro> obtenerMiembro(Request req) {
-    return Either.desdeString(req.params("vinculacion"), "No se especificó una vinculación")
+  // TODO: Ver por qué :vinculacion devuelve un id de miembro en lugar de un id de vinculacion
+  public Either<Miembro> obtenerMiembro(Context ctx) {
+    return ctx.getPathParam("vinculacion", "No se especificó una vinculación")
         .apply(Long::parseLong, "El id de la vinculación debe ser un número")
-        .flatApply(usuarioMiembroDeSesion(req)::getMiembro, "No se encontró el miembro");
+        .flatMap(id -> usuarioMiembroDeSesion(ctx).flatApply(u -> u.getMiembro(id), "No se encontró el miembro"));
   }
 
-  public List<VinculacionDto> obtenerVinculacionesDto(Request req) {
-    List<VinculacionDto> vinculaciones = usuarioMiembroDeSesion(req).getMiembros().stream()
+  public List<VinculacionDto> obtenerVinculacionesDto(Context ctx) {
+    List<VinculacionDto> vinculaciones = usuarioMiembroDeSesion(ctx).getValor().getMiembros().stream()
         .map(m -> new VinculacionDto(
             null,
             m,
@@ -53,8 +54,8 @@ public class MiembrosHelper {
     return vinculaciones;
   }
 
-  public List<TrayectoResumenDto> obtenerTrayectosDto(Request req) {
-    return obtenerMiembro(req).getValor().getTrayectos().stream()
+  public List<TrayectoResumenDto> obtenerTrayectosDto(Context ctx) {
+    return obtenerMiembro(ctx).getValor().getTrayectos().stream()
         .map(t -> new TrayectoResumenDto(
             t.getFecha(),
             t.getCodigoInvite(),
@@ -64,13 +65,8 @@ public class MiembrosHelper {
         .collect(Collectors.toList());
   }
 
-  public List<Tramo> obtenerPretramos(Request req) {
-    Map<Miembro, List<Tramo>> miembrosPretramos = req.session().attribute("pretramos");
-    if (miembrosPretramos == null) {
-      miembrosPretramos = new HashMap<>();
-      req.session().attribute("pretramos", miembrosPretramos);
-    }
-
-    return miembrosPretramos.computeIfAbsent(obtenerMiembro(req).getValor(), k -> new ArrayList<>());
+  public List<Tramo> obtenerPretramos(Context ctx) {
+    Map<Miembro, List<Tramo>> miembrosPretramos = ctx.computeSessionAttributeIfAbsent("miembrosPretramos", HashMap::new);
+    return miembrosPretramos.computeIfAbsent(obtenerMiembro(ctx).getValor(), k -> new ArrayList<>());
   }
 }
