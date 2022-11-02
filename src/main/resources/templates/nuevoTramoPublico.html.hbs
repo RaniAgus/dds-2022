@@ -1,8 +1,8 @@
 <h1>Tramo en {{linea.nombre}}</h1>
 
-<form method="POST" action="/miembros/{{usuario.id}}/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
+<form method="POST" action="/miembros/{{usuario.id}}/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos">
     <input type="hidden" name="tipo" value="publico">
-    
+    <input type="hidden" name="linea" value="{{linea.id}}">
     <label for="origen">Parada Inicial</label>
     <select name="origen">
         {{#each linea.paradas}}

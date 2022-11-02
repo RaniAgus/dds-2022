@@ -125,4 +125,8 @@ public class Organizacion extends EntidadPersistente {
   public TipoDeOrganizacion getTipo() {
     return tipo;
   }
+
+  public String getRazonSocial() {
+    return razonSocial;
+  }
 }

@@ -7,10 +7,13 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-public interface Controlador {
+public interface Controlador extends TransactionalOps, WithGlobalEntityManager {
   default String decode(String s) {
     try {
       return s == null ? null : URLDecoder.decode(s, StandardCharsets.UTF_8.name());

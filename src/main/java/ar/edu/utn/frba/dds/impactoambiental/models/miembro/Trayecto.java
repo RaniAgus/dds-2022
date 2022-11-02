@@ -5,26 +5,45 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 public class Trayecto extends EntidadPersistente {
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "trayecto_id")
-  private final List<Tramo> tramos;
-  private final LocalDate fecha;
+  private  List<Tramo> tramos;
+  private  LocalDate fecha;
 
-  private final UUID codigoInvite;
+  private UUID codigoInvite;
 
   public Trayecto(LocalDate fecha, List<Tramo> tramos) {
     this.tramos = tramos;
     this.fecha = fecha;
     this.codigoInvite = UUID.randomUUID();
+  }
+
+  public Trayecto() {
+
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Trayecto trayecto = (Trayecto) o;
+    return Objects.equals(tramos, trayecto.tramos) && Objects.equals(fecha, trayecto.fecha) && Objects.equals(codigoInvite, trayecto.codigoInvite);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(tramos, fecha, codigoInvite);
   }
 
   public List<Tramo> getTramos() {

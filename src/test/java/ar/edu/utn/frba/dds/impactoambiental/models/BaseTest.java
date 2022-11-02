@@ -104,7 +104,7 @@ public abstract class BaseTest {
   }
 
   protected Miembro crearMiembro() {
-    return new Miembro(new ArrayList<>());
+    return new Miembro();
   }
 
   // Lineas

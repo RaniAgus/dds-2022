@@ -14,7 +14,7 @@ public class Validar10MilContrasenas extends ValidacionDeUsuario {
   private final LectorDeArchivos lectorDeArchivos;
 
   public Validar10MilContrasenas() {
-    this(getServiceLocator().getWeakPasswordsFile());
+   lectorDeArchivos=null;
   }
 
   public Validar10MilContrasenas(LectorDeArchivos lectorDeArchivos) {

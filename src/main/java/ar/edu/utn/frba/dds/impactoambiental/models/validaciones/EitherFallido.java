@@ -18,7 +18,7 @@ public class EitherFallido<T> implements Either<T> {
 
   @Override
   public T getValor() {
-    throw new NoSuchElementException();
+    throw new NoSuchElementException(String.join(", ", errores));
   }
 
   @Override

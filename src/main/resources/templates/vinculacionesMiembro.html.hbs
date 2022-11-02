@@ -2,8 +2,8 @@
 
 <ul>
 {{#each vinculaciones}}
-    <li>{{organizacion.nombre}}</li>
-    <li>{{sector.nombre}}</li>
+    <li>{{organizacion.razonSocial}}</li>
+    <li>{{sector.codigoInvite}}</li>
     <li>{{estado.nombre}}</li>
     <form method="GET" action="/miembros/{{../usuario.id}}/vinculaciones/{{miembro.id}}/trayectos">
         <label for="ingresar">VER TRAYECTOS</label>
