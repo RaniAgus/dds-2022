@@ -14,13 +14,16 @@ import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeLineas;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioMediosDeTransporte;
 import spark.Request;
 
-public class tramosHelper {
+public class TramosHelper {
+  private RepositorioDeLineas repositorioDeLineas = RepositorioDeLineas.getInstance();
+  private RepositorioMediosDeTransporte repositorioMediosDeTransporte = RepositorioMediosDeTransporte.getInstance();
 
-  public static Either<Linea> obtenerLinea(Request req) {
+  public Either<Linea> obtenerLinea(Request req) {
     return Form.of(req).getParamOrError("linea", "Es necesario indicar una linea")
         .apply(s -> RepositorioDeLineas.getInstance().obtenerPorID(Long.parseLong(s)).get(), "La linea no existe");
   }
-  public static Tramo generatePreTramoPublico(Request request) {
+
+  public Tramo generatePreTramoPublico(Request request) {
     Linea linea = obtenerLinea(request).getValor();
 
     Long origenID = Long.parseLong(Form.of(request).getParam("origen").get());
@@ -31,12 +34,12 @@ public class tramosHelper {
     return (new TramoEnTransportePublico(origen, destino, linea));
   }
 
-  public static Either<MedioDeTransporte> obtenerMedioDeTransporte(Request req) {
+  public Either<MedioDeTransporte> obtenerMedioDeTransporte(Request req) {
     return Form.of(req).getParamOrError("medioDeTransporte", "Es necesario indicar un medio de transporte")
-        .apply(s -> RepositorioMediosDeTransporte.getInstance().obtenerPorID(Long.parseLong(s)).get(), "El medio de transporte no existe");
+        .apply(s -> repositorioMediosDeTransporte.obtenerPorID(Long.parseLong(s)).get(), "El medio de transporte no existe");
   }
 
-  public static TramoPrivado generatePreTramoPrivado(Request request, Geolocalizador geolocalizador) {
+  public TramoPrivado generatePreTramoPrivado(Request request, Geolocalizador geolocalizador) {
     //params del form
     MedioDeTransporte medio = obtenerMedioDeTransporte(request).getValor();
 

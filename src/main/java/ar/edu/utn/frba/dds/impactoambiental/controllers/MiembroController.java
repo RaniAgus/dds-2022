@@ -1,20 +1,15 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
-import ar.edu.utn.frba.dds.impactoambiental.ServiceLocator;
-import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.tramosHelper;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.TramosHelper;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TramoDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
-import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
-import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
-import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
-import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
@@ -40,6 +35,7 @@ public class MiembroController implements Controlador {
   private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
   private RepositorioOrganizaciones organizaciones = RepositorioOrganizaciones.getInstance();
   private Geolocalizador geolocalizador = new Geolocalizador("Bearer /deHQgNGwBMcTx2fwx0P0xnoPvqSJzSb6/+8Bg0OC7g=");//turbio el apikey en el servicelocator porque no una variable de entorno??
+  private TramosHelper tramosHelper = new TramosHelper();
 
   private UsuarioMiembro usuarioMiembroDeSesion(Request req) {
     return req.session().<UsuarioMiembro>attribute("usuario");
@@ -244,7 +240,7 @@ public class MiembroController implements Controlador {
       //params del form
       pretramos.add(tramosHelper.generatePreTramoPublico(request));
     } else {
-      pretramos.add(tramosHelper.generatePreTramoPrivado(request,geolocalizador));
+      pretramos.add(tramosHelper.generatePreTramoPrivado(request, geolocalizador));
     }
 
     response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos/nuevo");
