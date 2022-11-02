@@ -34,12 +34,12 @@ public class EitherExitoso<T> implements Either<T> {
 
   @Override
   public <R> Either<R> map(Function<T, R> function) {
-    return exitoso(function.apply(valor));
+    return Either.exitoso(function.apply(valor));
   }
   
   @Override
   public <R> Either<R> apply(Function<T, R> function, String error) {
-    return desde(() -> function.apply(valor), error);
+    return Either.desde(() -> function.apply(valor), error);
   }
 
   @Override
