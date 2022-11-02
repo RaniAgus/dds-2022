@@ -32,9 +32,16 @@ public class TramosHelper {
   public Tramo generatePreTramoPublico(Form form) {
     Linea linea = obtenerLinea(form).getValor();
 
-    Long origenID = Long.parseLong(form.getParam("origen").get());
+    Long origenID = form.getParamOrError("origen", "Es necesario indicar un origen")
+        .apply(Long::parseLong, "El id del origen debe ser un numero")
+        .getValor();
+
     Parada origen = linea.getParadas().stream().filter(p -> p.getId().equals(origenID)).findFirst().get();
-    Long destinoID = Long.parseLong(form.getParam("destino").get());
+
+    Long destinoID = form.getParamOrError("destino", "Es necesario indicar un destino")
+        .apply(Long::parseLong, "El id del destino debe ser un numero")
+        .getValor();
+
     Parada destino = linea.getParadas().stream().filter(p -> p.getId().equals(destinoID)).findFirst().get();
 
     return new TramoEnTransportePublico(origen, destino, linea);
@@ -43,12 +50,12 @@ public class TramosHelper {
   public TramoPrivado generatePreTramoPrivado(Form form, Geolocalizador geolocalizador) {
     MedioDeTransporte medio = obtenerMedioDeTransporte(form).getValor();
 
-    String paisOrigen = form.getParam("paisOrigen").get();
-    String provinciaOrigen = form.getParam("provinciaOrigen").get();
-    String municipioOrigen = form.getParam("municipioOrigen").get();
-    String localidadOrigen = form.getParam("localidadOrigen").get();
-    String calleOrigen = form.getParam("calleOrigen").get();
-    String alturaOrigen = form.getParam("alturaOrigen").get();
+    String paisOrigen = form.getParamOrError("paisOrigen", "Es necesario indicar un pais de origen").getValor();
+    String provinciaOrigen = form.getParamOrError("provinciaOrigen", "Es necesario indicar una provincia de origen").getValor();
+    String municipioOrigen = form.getParamOrError("municipioOrigen", "Es necesario indicar un municipio de origen").getValor();
+    String localidadOrigen = form.getParamOrError("localidadOrigen", "Es necesario indicar una localidad de origen").getValor();
+    String calleOrigen = form.getParamOrError("calleOrigen", "Es necesario indicar una calle de origen").getValor();
+    String alturaOrigen = form.getParamOrError("alturaOrigen", "Es necesario indicar una altura de origen").getValor();
 
     Ubicacion origen = geolocalizador.getUbicacion(
         paisOrigen,
@@ -59,12 +66,12 @@ public class TramosHelper {
         alturaOrigen
     ).get();
 
-    String paisDestino = form.getParam("paisDestino").get();
-    String provinciaDestino = form.getParam("provinciaDestino").get();
-    String municipioDestino = form.getParam("municipioDestino").get();
-    String localidadDestino = form.getParam("localidadDestino").get();
-    String calleDestino = form.getParam("calleDestino").get();
-    String alturaDestino = form.getParam("alturaDestino").get();
+    String paisDestino = form.getParamOrError("paisDestino", "Es necesario indicar un pais de destino").getValor();
+    String provinciaDestino = form.getParamOrError("provinciaDestino", "Es necesario indicar una provincia de destino").getValor();
+    String municipioDestino = form.getParamOrError("municipioDestino", "Es necesario indicar un municipio de destino").getValor();
+    String localidadDestino = form.getParamOrError("localidadDestino", "Es necesario indicar una localidad de destino").getValor();
+    String calleDestino = form.getParamOrError("calleDestino", "Es necesario indicar una calle de destino").getValor();
+    String alturaDestino = form.getParamOrError("alturaDestino", "Es necesario indicar una altura de destino").getValor();
 
     Ubicacion destino = geolocalizador.getUbicacion(
         paisDestino,

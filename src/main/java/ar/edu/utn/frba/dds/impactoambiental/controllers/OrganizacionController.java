@@ -41,7 +41,10 @@ public class OrganizacionController implements Controller {
 
   public ModelAndView aceptarVinculacion(Request request, Response response) {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
-    Long idVinculacion = Form.of(request).getParam("idVinculacion").map(Long::parseLong).get();
+    Long idVinculacion = Form.of(request).getParamOrError("idVinculacion", "Es necesario indicar un id de vinculación")
+        .apply(Long::parseLong, "El id de vinculación debe ser numérico")
+        .getValor();
+
     //TODO: Validar (aplica para todo el sistema)
 
     Vinculacion vinc = usuarioOrg.getOrganizacion().getSectores().stream().flatMap(sector -> sector.getVinculacionesPendientes().stream())

@@ -5,7 +5,7 @@ import java.util.Optional;
 import spark.Request;
 
 public abstract class Form {
-  public abstract Optional<String> getParam(String param);
+  protected abstract Optional<String> getParam(String param);
 
   public Either<String> getParamOrError(String param, String error) {
     return getParam(param)
