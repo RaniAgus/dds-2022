@@ -4,7 +4,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class HomeController {
+public class HomeController implements Controller {
 
   public ModelAndView recomendaciones(Request req, Response resp) {
     return new ModelAndView(null, "recomendaciones.html.hbs");

@@ -4,7 +4,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class AgenteSectorialController {
+public class AgenteSectorialController implements Controller {
 
   public ModelAndView reportes(Request request, Response response) {
     return null;

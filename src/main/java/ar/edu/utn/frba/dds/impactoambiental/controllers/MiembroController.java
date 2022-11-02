@@ -31,7 +31,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class MiembroController implements Controlador {
+public class MiembroController implements Controller {
   private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
   private RepositorioOrganizaciones organizaciones = RepositorioOrganizaciones.getInstance();
   private Geolocalizador geolocalizador = new Geolocalizador("Bearer /deHQgNGwBMcTx2fwx0P0xnoPvqSJzSb6/+8Bg0OC7g=");//turbio el apikey en el servicelocator porque no una variable de entorno??

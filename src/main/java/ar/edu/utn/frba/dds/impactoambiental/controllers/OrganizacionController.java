@@ -15,13 +15,11 @@ import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class OrganizacionController implements TransactionalOps, WithGlobalEntityManager {
+public class OrganizacionController implements Controller {
   RepositorioTipoDeConsumo repoTipoDeConsumo = RepositorioTipoDeConsumo.getInstance();
 
   private UsuarioOrganizacion organizacionDeSesion(Request req) {

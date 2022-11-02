@@ -12,7 +12,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class UsuarioController implements Controlador {
+public class UsuarioController implements Controller {
   private RepositorioUsuarios usuarios = RepositorioUsuarios.getInstance();
   private UsuariosHelper usuariosHelper = new UsuariosHelper();
 
