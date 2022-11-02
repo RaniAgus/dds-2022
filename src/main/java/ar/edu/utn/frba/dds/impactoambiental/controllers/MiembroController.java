@@ -113,23 +113,23 @@ public class MiembroController implements Controller {
     Miembro miembro = miembrosHelper.obtenerMiembro(Context.of(request)).getValor();
 
     return trayectosHelper.generateTrayecto(Context.of(request), Form.of(request))
-        .fold(
-            errores -> {
-              response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
-                  + "/trayectos/nuevo?errores=" + encode(String.join(", ", errores)));
-              return null;
-            },
-            trayecto -> {
-              withTransaction(() -> {
-                entityManager().persist(trayecto);
-                miembro.darDeAltaTrayecto(trayecto);
-                entityManager().merge(miembro);
-              });
-              limpiarPretramos(miembro, request);
-              response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos");
-              return null;
-            }
-        );
+      .fold(
+        errores -> {
+          response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
+              + "/trayectos/nuevo?errores=" + encode(String.join(", ", errores)));
+          return null;
+        },
+        trayecto -> {
+          withTransaction(() -> {
+            entityManager().persist(trayecto);
+            miembro.darDeAltaTrayecto(trayecto);
+            entityManager().merge(miembro);
+          });
+          limpiarPretramos(miembro, request);
+          response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos");
+          return null;
+        }
+      );
   }
 
   public ModelAndView nuevoTramo(Request request, Response response) {

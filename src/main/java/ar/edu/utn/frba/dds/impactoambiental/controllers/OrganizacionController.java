@@ -21,6 +21,7 @@ import spark.Response;
 
 public class OrganizacionController implements Controller {
   RepositorioTipoDeConsumo repoTipoDeConsumo = RepositorioTipoDeConsumo.getInstance();
+  RepositorioOrganizaciones repoOrganizaciones = RepositorioOrganizaciones.getInstance();
 
   private UsuarioOrganizacion organizacionDeSesion(Request req) {
     return req.session().<UsuarioOrganizacion>attribute("usuario");
@@ -30,29 +31,38 @@ public class OrganizacionController implements Controller {
     Organizacion org = organizacionDeSesion(request).getOrganizacion();
     List<Sector> sectores = org.getSectores();
     List<VinculacionDto> vinculaciones = sectores.stream().flatMap(sector -> sector.getVinculacionesPendientes().stream()
-        .map(vinculacion -> new VinculacionDto(vinculacion.getId(), vinculacion.getMiembro(), org, sector, vinculacion.getEstado()))).collect(Collectors.toList());
+      .map(vinculacion -> new VinculacionDto(
+        vinculacion.getId(), 
+        vinculacion.getMiembro(), 
+        org, 
+        sector, 
+        vinculacion.getEstado()
+      ))
+    ).collect(Collectors.toList());
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
-        "vinculacionesPendientes", vinculaciones
+      "organizacion", org,
+      "vinculacionesPendientes", vinculaciones
     );
 
-    return new ModelAndView(model, "vinculaciones.html.hbs");
+    return new ModelAndView(model, "vinculacionesOrganizacion.html.hbs");
   }
 
   public ModelAndView aceptarVinculacion(Request request, Response response) {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
     Long idVinculacion = Form.of(request).getParamOrError("idVinculacion", "Es necesario indicar un id de vinculación")
-        .apply(Long::parseLong, "El id de vinculación debe ser numérico")
-        .getValor();
+      .apply(Long::parseLong, "El id de vinculación debe ser numérico")
+      .getValor();
 
     //TODO: Validar (aplica para todo el sistema)
 
-    Vinculacion vinc = usuarioOrg.getOrganizacion().getSectores().stream().flatMap(sector -> sector.getVinculacionesPendientes().stream())
-            .filter(vinculacion -> vinculacion.getId().equals(idVinculacion)).findFirst().get(); // TODO: Validar esto tambien.
+    Vinculacion vinc = usuarioOrg.getOrganizacion().getSectores().stream()
+      .flatMap(sector -> sector.getVinculacionesPendientes().stream())
+      .filter(vinculacion -> vinculacion.getId().equals(idVinculacion))
+      .findFirst().get(); // TODO: Validar esto tambien.
 
-    vinc.aceptar();
-
-    withTransaction(() -> {
+    withTransaction(() -> {        
+      vinc.aceptar();
       entityManager().merge(vinc);
     });
 
@@ -61,7 +71,13 @@ public class OrganizacionController implements Controller {
   }
 
   public ModelAndView da(Request request, Response response) {
-    return new ModelAndView(null, "da.html.hbs");
+    UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
+
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+      "organizacion", usuarioOrg.getOrganizacion(),
+      "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos()
+    );
+    return new ModelAndView(model, "cargaDA.html.hbs");
   }
 
   public ModelAndView cargarDA(Request request, Response response) {
@@ -70,17 +86,16 @@ public class OrganizacionController implements Controller {
     List<DatoActividad> DAs = new ArrayList<>();
 
     if (request.contentType().startsWith("text/csv")) {
-      DAs = DADesdeCSV(request);
+      DAs = daDesdeCSV(request);
     } else {
-      DAs = DADesdeQueryParams(request);
+      DAs = daDesdeQueryParams(request);
     }
 
-    organizacion.agregarDatosActividad(DAs);
-
-    List<DatoActividad> finalDAs = DAs;
+    final List<DatoActividad> finalDAs = DAs;
+    
     withTransaction(() -> {
-      RepositorioOrganizaciones.getInstance().actualizar(organizacion);
-      finalDAs.forEach(da -> entityManager().persist(da));
+      organizacion.agregarDatosActividad(finalDAs);
+      repoOrganizaciones.actualizar(organizacion);
     });
 
     response.redirect("/organizaciones/" + organizacion.getId() + "/da");
@@ -102,26 +117,35 @@ public class OrganizacionController implements Controller {
     return new ModelAndView(model, "reportes.html.hbs");
   }
 
-  private List<DatoActividad> DADesdeCSV(Request request) {
+  private List<DatoActividad> daDesdeCSV(Request request) {
     Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
     String CSVString = request.body();
-    DatosActividadesParser DAParser = new DatosActividadesParser(repoTipoDeConsumo, new LectorDeArchivos(CSVString.getBytes()), 1, ';');
+    DatosActividadesParser DAParser = new DatosActividadesParser(
+      repoTipoDeConsumo, 
+      new LectorDeArchivos(CSVString.getBytes()), 
+      1, 
+      ';'
+    );
     return DAParser.getDatosActividad();
   }
 
-  public List<DatoActividad> DADesdeQueryParams(Request request) {
+  private List<DatoActividad> daDesdeQueryParams(Request request) {
     Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
     String DAComoLineaCSV = String.join(";",
-        request.queryParams("tipoConsumo"),
-        request.queryParams("cantidadConsumo"),
-        request.queryParams("periodicidad"),
-        request.queryParams("fechaInicial")
-        );
+      request.queryParams("tipoConsumo"),
+      request.queryParams("cantidadConsumo"),
+      request.queryParams("periodicidad"),
+      request.queryParams("fechaInicial")
+    );
 
-    DatosActividadesParser DAParser = new DatosActividadesParser(repoTipoDeConsumo, new LectorDeArchivos(DAComoLineaCSV.getBytes()), 0, ';');
-
+    DatosActividadesParser DAParser = new DatosActividadesParser(
+      repoTipoDeConsumo, 
+      new LectorDeArchivos(DAComoLineaCSV.getBytes()), 
+      0, 
+      ';'
+    );
     return DAParser.getDatosActividad();
   }
 

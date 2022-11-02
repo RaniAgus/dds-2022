@@ -31,7 +31,7 @@ public class Organizacion extends EntidadPersistente {
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "organizacion_id")
   private List<Sector> sectores;
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "organizacion_id")
   private List<DatoActividad> datosActividad;
   @OneToMany
