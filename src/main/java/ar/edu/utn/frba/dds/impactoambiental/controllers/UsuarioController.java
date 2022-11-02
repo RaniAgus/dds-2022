@@ -32,7 +32,7 @@ public class UsuarioController implements Controller {
   }
 
   public ModelAndView verLogin(Request req, Response resp) {
-    if (req.session().attribute("usuario") != null) {
+    if (req.session().attribute("usuarioId") != null) {
       resp.redirect("/");
       return null;
     }
@@ -52,7 +52,7 @@ public class UsuarioController implements Controller {
               return null;
             },
             usuario -> {
-              req.session().attribute("usuario", usuario);
+              req.session().attribute("usuarioId", usuario.getId());
               res.redirect("/");
               return null;
             }
@@ -60,7 +60,7 @@ public class UsuarioController implements Controller {
   }
 
   public ModelAndView cerrarSesion(Request request, Response response) {
-    request.session().removeAttribute("usuario");
+    request.session().removeAttribute("usuarioId");
     response.redirect("/");
     return null;
   }
