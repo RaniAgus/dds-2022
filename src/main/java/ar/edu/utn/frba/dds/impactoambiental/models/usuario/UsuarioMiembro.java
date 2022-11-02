@@ -1,9 +1,9 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
-import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -41,12 +41,10 @@ public class UsuarioMiembro extends Usuario {
     return miembros;
   }
 
-  public Either<Miembro> getMiembro(Long id) {
+  public Optional<Miembro> getMiembro(Long id) {
     return miembros.stream()
         .filter(miembro -> miembro.getId().equals(id))
-        .findFirst()
-        .map(Either::exitoso)
-        .orElseGet(() -> Either.fallido("No se encontró el miembro"));
+        .findFirst();
   }
 
   public void agregarMiembro(Miembro miembro) {

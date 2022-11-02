@@ -30,6 +30,6 @@ public class UsuariosHelper {
 
   public Either<Usuario> obtenerUsuario(Form form) {
     return parsearUsuarioDto(form)
-        .flatMap(dto -> repositorioUsuarios.obtenerUsuario(dto.getUsername(), dto.getPassword()));
+        .flatApply(dto -> repositorioUsuarios.obtenerUsuario(dto.getUsername(), dto.getPassword()), "Usuario o contraseña incorrectos");
   }
 }

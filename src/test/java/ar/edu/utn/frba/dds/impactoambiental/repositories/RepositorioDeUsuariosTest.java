@@ -2,10 +2,10 @@ package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.BaseTest;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,28 +29,28 @@ public class RepositorioDeUsuariosTest extends BaseTest implements PersistenceTe
   public void sePuedeObtenerUnUsuarioIngresandoLaContraseniaCorrecta() {
     Usuario usuario = crearUsuario(organizacion);
 
-    RepositorioUsuarios.getInstance().agregarUsuario(usuario);
+    RepositorioUsuarios.getInstance().agregar(usuario);
 
-    Either<Usuario> resultado = RepositorioUsuarios.getInstance().obtenerUsuario("Juancito", "ContraSUper*MegaS3gUr4");
+    Optional<Usuario> resultado = RepositorioUsuarios.getInstance().obtenerUsuario("Juancito", "ContraSUper*MegaS3gUr4");
 
-    assertThat(resultado.getValor()).isEqualTo(usuario);
+    assertThat(resultado).hasValue(usuario);
   }
 
   @Test
   public void noSePuedeObtenerUnUsuarioIngresandoLaContraseniaIncorrecta() {
     Usuario usuario = crearUsuario(organizacion);
-    RepositorioUsuarios.getInstance().agregarUsuario(usuario);
+    RepositorioUsuarios.getInstance().agregar(usuario);
 
-    Either<Usuario> resultado = RepositorioUsuarios.getInstance().obtenerUsuario("Juancito","contraIncorrecta");
+    Optional<Usuario> resultado = RepositorioUsuarios.getInstance().obtenerUsuario("Juancito","contraIncorrecta");
 
-    assertThat(resultado.getErrores()).containsExactlyInAnyOrder("La contraseña no es válida");
+    assertThat(resultado).isEmpty();
   }
 
   @Test
   public void noSePuedeObtenerUnUsuarioIngresandoUnNombreInexistente() {
-    Either<Usuario> resultado = RepositorioUsuarios.getInstance().obtenerUsuario("Usuario_Inexistente","contraIncorrecta");
+    Optional<Usuario> resultado = RepositorioUsuarios.getInstance().obtenerUsuario("Usuario_Inexistente","contraIncorrecta");
 
-    assertThat(resultado.getErrores()).containsExactlyInAnyOrder("No existe el usuario: Usuario_Inexistente");
+    assertThat(resultado).isEmpty();
   }
 
 }

@@ -46,7 +46,7 @@ public class MiembroController implements Controller {
         .map(Either::exitoso)
         .orElseGet(() -> Either.fallido("No se especificó un miembro"))
         .apply(Long::parseLong, "El id del miembro debe ser un número")
-        .flatMap(usuarioMiembroDeSesion(req)::getMiembro);
+        .flatApply(usuarioMiembroDeSesion(req)::getMiembro, "No se encontró el miembro");
   }
 
   private List<VinculacionDto> obtenerVinculacionesDto(UsuarioMiembro usuario) {
@@ -118,7 +118,7 @@ public class MiembroController implements Controller {
 
     return Form.of(request).getParamOrError("codigoInvite", "Es requerido un codigo")
       .apply(UUID::fromString, "El codigo ingresado no tiene el formato correcto")
-      .flatMap(sectores::buscarPorCodigoInvite)
+      .flatApply(sectores::buscarPorCodigoInvite, "El código ingresado no existe")
       .fold(
         errores -> {
           response.redirect("/miembro/" + usuario.getId() + "/vinculaciones?errores=" + encode(String.join(", ", errores)));

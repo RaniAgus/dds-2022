@@ -2,8 +2,8 @@ package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
-import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
+import java.util.Optional;
 
 public final class RepositorioUsuarios implements Repositorio<Usuario> {
   private static final RepositorioUsuarios instance = new RepositorioUsuarios();
@@ -14,21 +14,16 @@ public final class RepositorioUsuarios implements Repositorio<Usuario> {
 
   private RepositorioUsuarios() {}
 
-  public Either<Usuario> agregarUsuario(Usuario usuario) {
+  @Override
+  public Optional<Usuario> agregar(Usuario usuario) {
     if (existeUsuario(usuario.getUsuario())) {
-      return Either.fallido("Nombre de usuario no disponible");
+      return Optional.empty();
     }
-    agregar(usuario);
-    return Either.exitoso(usuario);
+    return Repositorio.super.agregar(usuario);
   }
 
-  public Either<Usuario> obtenerUsuario(String usuario, String contrasena) {
-    if (!existeUsuario(usuario)) {
-      return Either.fallido("No existe el usuario: " + usuario);
-    }
-    return buscar("usuario", usuario, "contrasena", sha256Hex(contrasena))
-        .map(Either::exitoso)
-        .orElseGet(() -> Either.fallido("La contraseña no es válida"));
+  public Optional<Usuario> obtenerUsuario(String usuario, String contrasena) {
+    return buscar("usuario", usuario, "contrasena", sha256Hex(contrasena));
   }
 
   public boolean existeUsuario(String usuario) {
