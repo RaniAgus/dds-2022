@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
@@ -13,17 +12,17 @@ import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizaciones;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import com.google.common.collect.ImmutableMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class OrganizacionController implements TransactionalOps, WithGlobalEntityManager {
+  RepositorioTipoDeConsumo repoTipoDeConsumo = RepositorioTipoDeConsumo.getInstance();
 
   private UsuarioOrganizacion organizacionDeSesion(Request req) {
     return req.session().<UsuarioOrganizacion>attribute("usuario");
@@ -48,7 +47,7 @@ public class OrganizacionController implements TransactionalOps, WithGlobalEntit
     //TODO: Validar
 
     Vinculacion vinc = usuarioOrg.getOrganizacion().getSectores().stream().flatMap(sector -> sector.getVinculacionesPendientes().stream())
-            .filter(vinculacion -> vinculacion.getId() == idVinculacion).findFirst().get(); // TODO: Validar esto tambien.
+            .filter(vinculacion -> vinculacion.getId().equals(idVinculacion)).findFirst().get(); // TODO: Validar esto tambien.
 
     vinc.aceptar();
 
@@ -106,7 +105,7 @@ public class OrganizacionController implements TransactionalOps, WithGlobalEntit
     Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
     String CSVString = request.body();
-    DatosActividadesParser DAParser = new DatosActividadesParser(new RepositorioTipoDeConsumo(), new LectorDeArchivos(CSVString.getBytes()), 1, ';');
+    DatosActividadesParser DAParser = new DatosActividadesParser(repoTipoDeConsumo, new LectorDeArchivos(CSVString.getBytes()), 1, ';');
     return DAParser.getDatosActividad();
   }
 
@@ -120,7 +119,7 @@ public class OrganizacionController implements TransactionalOps, WithGlobalEntit
         request.queryParams("fechaInicial")
         );
 
-    DatosActividadesParser DAParser = new DatosActividadesParser(new RepositorioTipoDeConsumo(), new LectorDeArchivos(DAComoLineaCSV.getBytes()), 0, ';');
+    DatosActividadesParser DAParser = new DatosActividadesParser(repoTipoDeConsumo, new LectorDeArchivos(DAComoLineaCSV.getBytes()), 0, ';');
 
     return DAParser.getDatosActividad();
   }
