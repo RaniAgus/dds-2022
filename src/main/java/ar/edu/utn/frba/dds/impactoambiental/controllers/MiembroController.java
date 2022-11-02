@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import spark.ModelAndView;
@@ -42,10 +41,8 @@ public class MiembroController implements Controller {
   }
 
   private Either<Miembro> obtenerMiembro(Request req) {
-    return Optional.ofNullable(req.params("vinculacion"))
-        .map(Either::exitoso)
-        .orElseGet(() -> Either.fallido("No se especificó un miembro"))
-        .apply(Long::parseLong, "El id del miembro debe ser un número")
+    return Either.desdeString(req.params("vinculacion"), "No se especificó una vinculación")
+        .apply(Long::parseLong, "El id de la vinculación debe ser un número")
         .flatApply(usuarioMiembroDeSesion(req)::getMiembro, "No se encontró el miembro");
   }
 
