@@ -20,7 +20,8 @@ public class TramosHelper {
 
   public Either<Linea> obtenerLinea(Request req) {
     return Form.of(req).getParamOrError("linea", "Es necesario indicar una linea")
-        .apply(s -> RepositorioDeLineas.getInstance().obtenerPorID(Long.parseLong(s)).get(), "La linea no existe");
+        .apply(Long::parseLong, "El id de la linea debe ser un numero")
+        .flatApply(repositorioDeLineas::obtenerPorID, "La linea no existe");
   }
 
   public Tramo generatePreTramoPublico(Request request) {

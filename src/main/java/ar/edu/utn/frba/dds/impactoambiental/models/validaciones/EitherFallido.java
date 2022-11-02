@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class EitherFallido<T> implements Either<T> {
@@ -38,6 +39,11 @@ public class EitherFallido<T> implements Either<T> {
 
   @Override
   public <R> Either<R> apply(Function<T, R> function, String error) {
+    return Either.fallido(errores);
+  }
+
+  @Override
+  public <R> Either<R> flatApply(Function<T, Optional<R>> function, String error) {
     return Either.fallido(errores);
   }
 

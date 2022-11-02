@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ public interface Either<T> {
   <R> Either<R> flatMap(Function<T, Either<R>> function);
   <R> Either<R> map(Function<T, R> function);
   <R> Either<R> apply(Function<T, R> function, String error);
+  <R> Either<R> flatApply(Function<T, Optional<R>> function, String error);
   <R> R fold(Function<List<String>, R> error, Function<T, R> exito);
 
   static <T> Either<T> desde(Supplier<T> supplier, String error) {

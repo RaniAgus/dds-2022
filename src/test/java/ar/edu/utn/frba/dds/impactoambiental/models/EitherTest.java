@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
 public class EitherTest extends BaseTest {
@@ -131,5 +132,21 @@ public class EitherTest extends BaseTest {
     Either<Integer> resultadoConcatenado = Either.concatenar(() -> resultado1.getValor() + resultado2.getValor(), resultado1, resultado2);
 
     assertThat(resultadoConcatenado.getErrores()).containsExactly("Error 1", "Error 2");
+  }
+
+  @Test
+  public void sePuedeObtenerUnEitherDesdeUnaFuncionQueDevuelveOptional() {
+    Either<String> resultado = Either.exitoso(Stream.of("1", "2", "3"))
+            .flatApply(Stream::findFirst, "No se encontró el valor");
+
+    assertThat(resultado.getValor()).isEqualTo("1");
+  }
+
+  @Test
+  public void sePuedeObtenerUnEitherDesdeUnaFuncionQueDevuelveOptionalConError() {
+    Either<String> resultado = Either.exitoso(Stream.<String>empty())
+            .flatApply(Stream::findFirst, "No se encontró el valor");
+
+    assertThat(resultado.getErrores()).containsExactly("No se encontró el valor");
   }
 }

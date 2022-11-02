@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class EitherExitoso<T> implements Either<T> {
@@ -39,6 +40,11 @@ public class EitherExitoso<T> implements Either<T> {
   @Override
   public <R> Either<R> apply(Function<T, R> function, String error) {
     return Either.desde(() -> function.apply(valor), error);
+  }
+
+  @Override
+  public <R> Either<R> flatApply(Function<T, Optional<R>> function, String error) {
+    return apply(function, error).flatMap(o -> o.map(Either::exitoso).orElseGet(() -> Either.fallido(error)));
   }
 
   @Override
