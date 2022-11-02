@@ -43,7 +43,7 @@ public class Routes {
     post("/login", usuarioController::iniciarSesion);
     post("/logout", usuarioController::cerrarSesion, templateEngine);
 
-    path("/miembros/:miembro", () -> {
+    path("/miembros/:usuario", () -> {
       before(Routes::validarUsuario);
       after(Routes::eliminarUsuarioDeSesion);
 
@@ -59,7 +59,7 @@ public class Routes {
       });
     });
 
-    path("/organizaciones/:id", () -> {
+    path("/organizaciones/:usuario", () -> {
       before(Routes::validarUsuario);
       after(Routes::eliminarUsuarioDeSesion);
       
@@ -71,7 +71,7 @@ public class Routes {
       get("/reportes/evolucion", organizacionController::reportesEvolucion, templateEngine);
     });
 
-    path("/sectoresterritoriales/:id", () -> {
+    path("/sectoresterritoriales/:usuario", () -> {
       before(Routes::validarUsuario);
       after(Routes::eliminarUsuarioDeSesion);
 
