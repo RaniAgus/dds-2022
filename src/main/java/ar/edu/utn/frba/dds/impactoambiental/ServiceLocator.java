@@ -7,7 +7,6 @@ import java.util.Optional;
 public class ServiceLocator {
   private static volatile ServiceLocator instance;
 
-  private String geoDdsApiKey = System.getenv("GEODDS_API_KEY");
   private String recomendacionesTemplate = System.getenv("RECOMENDACIONES_TEMPLATE");
   private String recomendacionesUrl = System.getenv("RECOMENDACIONES_URL");
   private String smtpUser = System.getenv("SMTP_USER");
@@ -36,10 +35,6 @@ public class ServiceLocator {
     synchronized (ServiceLocator.class) {
       ServiceLocator.instance = instance;
     }
-  }
-
-  public String getGeoDdsApiKey() {
-    return geoDdsApiKey;
   }
 
   public String getRecomendacionesTemplate() {

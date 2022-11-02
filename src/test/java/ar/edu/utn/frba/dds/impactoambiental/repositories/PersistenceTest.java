@@ -16,7 +16,6 @@ public interface PersistenceTest extends TransactionalOps, EntityManagerOps, Wit
   @BeforeAll
   static void init() {
     ServiceLocator serviceLocatorMock = mock(ServiceLocator.class);
-    when(serviceLocatorMock.getGeoDdsApiKey()).thenReturn("");
     when(serviceLocatorMock.getRecomendacionesTemplate()).thenReturn("");
     when(serviceLocatorMock.getWhatsappApiKey()).thenReturn("");
     when(serviceLocatorMock.getWhatsappApiId()).thenReturn("");
