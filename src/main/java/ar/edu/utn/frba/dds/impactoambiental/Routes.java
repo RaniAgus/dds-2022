@@ -37,8 +37,10 @@ public class Routes {
 
     path("/miembros/:miembro", () -> {
       before((req, res) -> { /* TODO: Validar usuario miembro */});
+      
       get("/vinculaciones", miembroController::vinculaciones, templateEngine);
       post("/vinculaciones", miembroController::proponerVinculacion, templateEngine);
+
       path("/vinculaciones/:vinculacion", () -> {
         get("/trayectos", miembroController::trayectos, templateEngine);
         get("/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
@@ -50,16 +52,22 @@ public class Routes {
 
     path("/organizaciones/:id", () -> {
       before((req, res) -> { /* TODO: Validar usuario organizacional */});
+
       get("/vinculaciones", organizacionController::vinculaciones, templateEngine);
       post("/vinculaciones", organizacionController::aceptarVinculacion, templateEngine);
       get("/da", organizacionController::da, templateEngine);
       post("/da", organizacionController::cargarDA, templateEngine);
-      get("/reportes", organizacionController::reportes, templateEngine);
+      get("/reportes/individual", organizacionController::reportesIndividual, templateEngine);
+      get("/reportes/evolucion", organizacionController::reportesEvolucion, templateEngine);
     });
 
     path("/sectoresterritoriales/:id", () -> {
       before((req, res) -> { /* TODO: Validar usuario territorial */});
-      get("/reportes", agenteSectorialController::reportes, templateEngine);
+
+      get("/reportes/consumo/individual", agenteSectorialController::reportesConsumoIndividual, templateEngine);
+      get("/reportes/consumo/evolucion", agenteSectorialController::reportesConsumoEvolucion, templateEngine);
+      get("/reportes/organizacion/individual", agenteSectorialController::reportesOrganizacionIndividual, templateEngine);
+      get("/reportes/organizacion/evolucion", agenteSectorialController::reportesOrganizacionEvolucion, templateEngine);
     });
 
     after("/*", (req, res) -> PerThreadEntityManagers.getEntityManager().clear());

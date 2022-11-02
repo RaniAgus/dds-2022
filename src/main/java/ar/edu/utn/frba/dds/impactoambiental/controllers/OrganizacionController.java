@@ -102,19 +102,22 @@ public class OrganizacionController implements Controller {
     return null;
   }
 
-  public ModelAndView reportes(Request request, Response response) {
+  public ModelAndView reportesIndividual(Request request, Response response) {
+    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
+    ImmutableMap<String , Object> model = ImmutableMap.of(
 
-
-    if (request.queryParams("evolucion").equals("true")) {
-
-    }
-
-
-
-
-    ImmutableMap<String , Object> model = ImmutableMap.of();
+    );
     return new ModelAndView(model, "reportes.html.hbs");
+  }
+
+  public ModelAndView reportesEvolucion(Request request, Response response) {
+    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
+
+    ImmutableMap<String , Object> model = ImmutableMap.of(
+      "organizacion", organizacion
+    );
+    return new ModelAndView(model, "organizacionReportes.html.hbs");
   }
 
   private List<DatoActividad> daDesdeCSV(Request request) {
