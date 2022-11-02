@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
 import ar.edu.utn.frba.dds.impactoambiental.ServiceLocator;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.tramosHelper;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TramoDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
@@ -38,14 +39,14 @@ import spark.Response;
 public class MiembroController implements Controlador {
   private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
   private RepositorioOrganizaciones organizaciones = RepositorioOrganizaciones.getInstance();
-  private Geolocalizador geolocalizador = new Geolocalizador(ServiceLocator.getServiceLocator().getGeoDdsApiKey());
+  private Geolocalizador geolocalizador = new Geolocalizador("Bearer /deHQgNGwBMcTx2fwx0P0xnoPvqSJzSb6/+8Bg0OC7g=");//turbio el apikey en el servicelocator porque no una variable de entorno??
 
   private UsuarioMiembro usuarioMiembroDeSesion(Request req) {
     return req.session().<UsuarioMiembro>attribute("usuario");
   }
 
   private Either<Miembro> obtenerMiembro(Request req) {
-    return Optional.ofNullable(req.params("miembro"))
+    return Optional.ofNullable(req.params("vinculacion"))
         .map(Either::exitoso)
         .orElseGet(() -> Either.fallido("No se especificó un miembro"))
         .apply(Long::parseLong, "El id del miembro debe ser un número")
@@ -64,7 +65,7 @@ public class MiembroController implements Controlador {
 
     vinculaciones.forEach(v -> {
       v.setSector(v.getOrganizacion().getSectores().stream()
-        .filter(s -> s.getMiembros().contains(v.getMiembro()))
+        .filter(s -> s.getAllMiembros().contains(v.getMiembro()))
         .findFirst().get());
       v.setEstado(v.getSector().getVinculaciones().stream()
         .filter(vinc -> vinc.getMiembro().equals(v.getMiembro()))
@@ -103,16 +104,6 @@ public class MiembroController implements Controlador {
     if (miembrosPretramos != null) {
       miembrosPretramos.remove(miembro);
     }
-  }
-
-  private Either<Linea> obtenerLinea(Request req) {
-    return Form.of(req).getParamOrError("linea", "Es necesario indicar una linea")
-      .apply(s -> RepositorioDeLineas.getInstance().obtenerPorID(Long.parseLong(s)).get(), "La linea no existe");
-  }
-
-  private Either<MedioDeTransporte> obtenerMedioDeTransporte(Request req) {
-    return Form.of(req).getParamOrError("medioDeTransporte", "Es necesario indicar un medio de transporte")
-      .apply(s -> RepositorioMediosDeTransporte.getInstance().obtenerPorID(Long.parseLong(s)).get(), "El medio de transporte no existe");
   }
 
   public ModelAndView vinculaciones(Request request, Response response) {
@@ -197,9 +188,14 @@ public class MiembroController implements Controlador {
 
     //params del form
     LocalDate fechaTrayecto = LocalDate.parse(Form.of(request).getParam("fecha").get());
-
-    miembro.darDeAltaTrayecto(new Trayecto(fechaTrayecto, pretramos));
+    withTransaction(() -> {
+      Trayecto trayecto = new Trayecto(fechaTrayecto, pretramos);
+      entityManager().persist(trayecto);
+      miembro.darDeAltaTrayecto(trayecto);
+      entityManager().merge(miembro);
+    });
     limpiarPretramos(miembro, request);
+
 
     response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos"); 
     return null;
@@ -213,7 +209,7 @@ public class MiembroController implements Controlador {
 
     if (request.queryParams("tipo").equals("publico")) {
       //param de form
-      Linea linea = obtenerLinea(request).getValor();
+      Linea linea = tramosHelper.obtenerLinea(request).getValor();
       
       ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
@@ -226,7 +222,7 @@ public class MiembroController implements Controlador {
     }
     else {
       //param de form
-      MedioDeTransporte medio = obtenerMedioDeTransporte(request).getValor();
+      MedioDeTransporte medio = tramosHelper.obtenerMedioDeTransporte(request).getValor();
 
       ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
@@ -246,52 +242,9 @@ public class MiembroController implements Controlador {
 
     if ( request.queryParams("tipo").equals("publico") ) {
       //params del form
-      Linea linea = obtenerLinea(request).getValor();
-
-      Long origenID = Long.parseLong(Form.of(request).getParam("origen").get());
-      Parada origen = linea.getParadas().stream().filter(p -> p.getId() == origenID).findFirst().get();
-      Long destinoID = Long.parseLong(Form.of(request).getParam("destino").get());
-      Parada destino = linea.getParadas().stream().filter(p -> p.getId() == destinoID).findFirst().get();
-
-      pretramos.add(new TramoEnTransportePublico(origen, destino, linea));
-    }
-    else {
-      //params del form
-      MedioDeTransporte medio = obtenerMedioDeTransporte(request).getValor();
-      
-      String paisOrigen = Form.of(request).getParam("paisOrigen").get();
-      String provinciaOrigen = Form.of(request).getParam("provinciaOrigen").get();
-      String municipioOrigen = Form.of(request).getParam("municipioOrigen").get();
-      String localidadOrigen = Form.of(request).getParam("localidadOrigen").get();
-      String calleOrigen = Form.of(request).getParam("calleOrigen").get();
-      String alturaOrigen = Form.of(request).getParam("alturaOrigen").get();
-
-      Ubicacion origen = geolocalizador.getUbicacion(
-        paisOrigen, 
-        provinciaOrigen,
-        municipioOrigen, 
-        localidadOrigen, 
-        calleOrigen, 
-        alturaOrigen
-      ).get();
-
-      String paisDestino = Form.of(request).getParam("paisDestino").get();
-      String provinciaDestino = Form.of(request).getParam("provinciaDestino").get();
-      String municipioDestino = Form.of(request).getParam("municipioDestino").get();
-      String localidadDestino = Form.of(request).getParam("localidadDestino").get();
-      String calleDestino = Form.of(request).getParam("calleDestino").get();
-      String alturaDestino = Form.of(request).getParam("alturaDestino").get();
-
-      Ubicacion destino = geolocalizador.getUbicacion(
-        paisDestino, 
-        provinciaDestino,
-        municipioDestino, 
-        localidadDestino, 
-        calleDestino, 
-        alturaDestino
-      ).get();
-
-      pretramos.add(new TramoPrivado(geolocalizador, origen, destino, medio));
+      pretramos.add(tramosHelper.generatePreTramoPublico(request));
+    } else {
+      pretramos.add(tramosHelper.generatePreTramoPrivado(request,geolocalizador));
     }
 
     response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos/nuevo");

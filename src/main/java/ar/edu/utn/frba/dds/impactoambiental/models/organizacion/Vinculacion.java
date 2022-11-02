@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Vinculacion extends EntidadPersistente {
   @OneToOne(cascade = CascadeType.ALL)
-  private final Miembro miembro;
+  private  Miembro miembro;
 
   @Enumerated(EnumType.STRING)
   private EstadoVinculo estado;
@@ -20,6 +20,10 @@ public class Vinculacion extends EntidadPersistente {
   public Vinculacion(Miembro miembro) {
     this.miembro = miembro;
     this.estado = EstadoVinculo.PENDIENTE;
+  }
+
+  public Vinculacion() {
+
   }
 
   public void aceptar() {

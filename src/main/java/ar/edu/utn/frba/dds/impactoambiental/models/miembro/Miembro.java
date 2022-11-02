@@ -10,6 +10,7 @@ import javax.persistence.ManyToMany;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -49,6 +50,19 @@ public class Miembro extends EntidadPersistente {
     return getTrayectos().stream()
         .filter(trayecto -> trayecto.estaEnPeriodo(periodo))
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Miembro miembro = (Miembro) o;
+    return ((Miembro) o).getId().equals(this.getId());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(trayectos, nombre, apellido, documento, tipoDeDocumento);
   }
 
   public Double huellaCarbonoPersonal(Periodo periodo) {

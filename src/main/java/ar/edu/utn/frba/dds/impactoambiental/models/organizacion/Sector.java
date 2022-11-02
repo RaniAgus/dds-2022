@@ -18,6 +18,15 @@ import java.util.stream.Collectors;
 @Entity
 public class Sector extends EntidadPersistente {
   private UUID codigoInvite;
+  private String nombre;
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "sector_id")
@@ -26,6 +35,10 @@ public class Sector extends EntidadPersistente {
   public Sector(List<Vinculacion> vinculaciones) {
     this.vinculaciones = new HashSet<>(vinculaciones);
     this.codigoInvite = UUID.randomUUID();
+  }
+
+  public Sector() {
+    vinculaciones=new HashSet<>();
   }
 
   public UUID getCodigoInvite() {
@@ -43,6 +56,11 @@ public class Sector extends EntidadPersistente {
   public List<Vinculacion> getVinculacionesPendientes() {
     return this.vinculaciones.stream()
         .filter(vinculacion -> vinculacion.getEstado() == EstadoVinculo.PENDIENTE)
+        .collect(Collectors.toList());
+  }
+  public List<Miembro> getAllMiembros() {
+    return this.vinculaciones.stream()
+        .map(Vinculacion::getMiembro)
         .collect(Collectors.toList());
   }
 

@@ -17,7 +17,7 @@ public abstract class Form {
   public abstract Optional<byte[]> getFile(String param);
 
   public static Form of(Request req) {
-    return req.contentType().startsWith("multipart/form-data")
+    return req.contentType() != null && req.contentType().startsWith("multipart/form-data")
         ? new MultipartForm(req)
         : new UrlEncodedForm(req);
   }
