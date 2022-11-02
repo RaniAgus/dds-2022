@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.impactoambiental.controllers.MiembroController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
 import java.util.Optional;
+import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -55,7 +56,7 @@ public class Routes {
       Spark.get("/reportes", agenteSectorialController::reportes, templateEngine);
     });
 
-   // Spark.after("/*",  (request, response) -> PerThreadEntityManagers.getEntityManager().clear() );
+   Spark.after("/*", (req, res) -> PerThreadEntityManagers.getEntityManager().clear());
   }
 
   private static Integer getPort() {
