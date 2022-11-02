@@ -205,7 +205,7 @@ public class MiembroController implements Controlador {
 
     if (request.queryParams("tipo").equals("publico")) {
       //param de form
-      Linea linea = tramosHelper.obtenerLinea(request).getValor();
+      Linea linea = tramosHelper.obtenerLinea(Form.of(request)).getValor();
       
       ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
@@ -218,7 +218,7 @@ public class MiembroController implements Controlador {
     }
     else {
       //param de form
-      MedioDeTransporte medio = tramosHelper.obtenerMedioDeTransporte(request).getValor();
+      MedioDeTransporte medio = tramosHelper.obtenerMedioDeTransporte(Form.of(request)).getValor();
 
       ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
@@ -238,9 +238,9 @@ public class MiembroController implements Controlador {
 
     if ( request.queryParams("tipo").equals("publico") ) {
       //params del form
-      pretramos.add(tramosHelper.generatePreTramoPublico(request));
+      pretramos.add(tramosHelper.generatePreTramoPublico(Form.of(request)));
     } else {
-      pretramos.add(tramosHelper.generatePreTramoPrivado(request, geolocalizador));
+      pretramos.add(tramosHelper.generatePreTramoPrivado(Form.of(request), geolocalizador));
     }
 
     response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos/nuevo");

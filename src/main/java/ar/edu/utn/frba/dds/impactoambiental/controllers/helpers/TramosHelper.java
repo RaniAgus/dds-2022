@@ -12,44 +12,43 @@ import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeLineas;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioMediosDeTransporte;
-import spark.Request;
 
 public class TramosHelper {
   private RepositorioDeLineas repositorioDeLineas = RepositorioDeLineas.getInstance();
   private RepositorioMediosDeTransporte repositorioMediosDeTransporte = RepositorioMediosDeTransporte.getInstance();
 
-  public Either<Linea> obtenerLinea(Request req) {
-    return Form.of(req).getParamOrError("linea", "Es necesario indicar una linea")
+  public Either<Linea> obtenerLinea(Form form) {
+    return form.getParamOrError("linea", "Es necesario indicar una linea")
         .apply(Long::parseLong, "El id de la linea debe ser un numero")
         .flatApply(repositorioDeLineas::obtenerPorID, "La linea no existe");
   }
 
-  public Tramo generatePreTramoPublico(Request request) {
-    Linea linea = obtenerLinea(request).getValor();
-
-    Long origenID = Long.parseLong(Form.of(request).getParam("origen").get());
-    Parada origen = linea.getParadas().stream().filter(p -> p.getId() == origenID).findFirst().get();
-    Long destinoID = Long.parseLong(Form.of(request).getParam("destino").get());
-    Parada destino = linea.getParadas().stream().filter(p -> p.getId() == destinoID).findFirst().get();
-
-    return (new TramoEnTransportePublico(origen, destino, linea));
+  public Either<MedioDeTransporte> obtenerMedioDeTransporte(Form form) {
+    return form.getParamOrError("medioDeTransporte", "Es necesario indicar un medio de transporte")
+        .apply(Long::parseLong, "El id del medio de transporte debe ser un numero")
+        .flatApply(repositorioMediosDeTransporte::obtenerPorID, "El medio de transporte no existe");
   }
 
-  public Either<MedioDeTransporte> obtenerMedioDeTransporte(Request req) {
-    return Form.of(req).getParamOrError("medioDeTransporte", "Es necesario indicar un medio de transporte")
-        .apply(s -> repositorioMediosDeTransporte.obtenerPorID(Long.parseLong(s)).get(), "El medio de transporte no existe");
+  public Tramo generatePreTramoPublico(Form form) {
+    Linea linea = obtenerLinea(form).getValor();
+
+    Long origenID = Long.parseLong(form.getParam("origen").get());
+    Parada origen = linea.getParadas().stream().filter(p -> p.getId().equals(origenID)).findFirst().get();
+    Long destinoID = Long.parseLong(form.getParam("destino").get());
+    Parada destino = linea.getParadas().stream().filter(p -> p.getId().equals(destinoID)).findFirst().get();
+
+    return new TramoEnTransportePublico(origen, destino, linea);
   }
 
-  public TramoPrivado generatePreTramoPrivado(Request request, Geolocalizador geolocalizador) {
-    //params del form
-    MedioDeTransporte medio = obtenerMedioDeTransporte(request).getValor();
+  public TramoPrivado generatePreTramoPrivado(Form form, Geolocalizador geolocalizador) {
+    MedioDeTransporte medio = obtenerMedioDeTransporte(form).getValor();
 
-    String paisOrigen = Form.of(request).getParam("paisOrigen").get();
-    String provinciaOrigen = Form.of(request).getParam("provinciaOrigen").get();
-    String municipioOrigen = Form.of(request).getParam("municipioOrigen").get();
-    String localidadOrigen = Form.of(request).getParam("localidadOrigen").get();
-    String calleOrigen = Form.of(request).getParam("calleOrigen").get();
-    String alturaOrigen = Form.of(request).getParam("alturaOrigen").get();
+    String paisOrigen = form.getParam("paisOrigen").get();
+    String provinciaOrigen = form.getParam("provinciaOrigen").get();
+    String municipioOrigen = form.getParam("municipioOrigen").get();
+    String localidadOrigen = form.getParam("localidadOrigen").get();
+    String calleOrigen = form.getParam("calleOrigen").get();
+    String alturaOrigen = form.getParam("alturaOrigen").get();
 
     Ubicacion origen = geolocalizador.getUbicacion(
         paisOrigen,
@@ -60,12 +59,12 @@ public class TramosHelper {
         alturaOrigen
     ).get();
 
-    String paisDestino = Form.of(request).getParam("paisDestino").get();
-    String provinciaDestino = Form.of(request).getParam("provinciaDestino").get();
-    String municipioDestino = Form.of(request).getParam("municipioDestino").get();
-    String localidadDestino = Form.of(request).getParam("localidadDestino").get();
-    String calleDestino = Form.of(request).getParam("calleDestino").get();
-    String alturaDestino = Form.of(request).getParam("alturaDestino").get();
+    String paisDestino = form.getParam("paisDestino").get();
+    String provinciaDestino = form.getParam("provinciaDestino").get();
+    String municipioDestino = form.getParam("municipioDestino").get();
+    String localidadDestino = form.getParam("localidadDestino").get();
+    String calleDestino = form.getParam("calleDestino").get();
+    String alturaDestino = form.getParam("alturaDestino").get();
 
     Ubicacion destino = geolocalizador.getUbicacion(
         paisDestino,
@@ -76,6 +75,6 @@ public class TramosHelper {
         alturaDestino
     ).get();
 
-    return (new TramoPrivado(geolocalizador, origen, destino, medio));
+    return new TramoPrivado(geolocalizador, origen, destino, medio);
   }
 }

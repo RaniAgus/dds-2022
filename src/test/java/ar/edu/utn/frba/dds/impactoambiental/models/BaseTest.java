@@ -4,6 +4,7 @@ import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
@@ -30,7 +31,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;

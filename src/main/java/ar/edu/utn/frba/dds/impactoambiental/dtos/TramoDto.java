@@ -1,15 +1,14 @@
 package ar.edu.utn.frba.dds.impactoambiental.dtos;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
-
 public class TramoDto {
-  String tipo;
-  String medio;
-  String origen;
-  String destino;
+  private String tipo;
+  private String medio;
+  private String origen;
+  private String destino;
 
   public TramoDto(String tipo, String medio, String origen, String destino) {
     this.tipo = tipo;
@@ -19,10 +18,7 @@ public class TramoDto {
   }
 
   public TramoDto(Tramo tramo) {
-    this.tipo = tramo.tipo();
-    this.medio = tramo.nombreMedio();
-    this.origen = tramo.nombreOrigen();
-    this.destino = tramo.nombreDestino();
+    this(tramo.tipo(), tramo.nombreMedio(), tramo.nombreOrigen(), tramo.nombreDestino());
   }
 
   public String getTipo() {

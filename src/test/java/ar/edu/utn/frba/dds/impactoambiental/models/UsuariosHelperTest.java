@@ -4,18 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.UsuariosHelper;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class UsuarioDtoTest extends BaseTest {
+public class UsuariosHelperTest extends BaseTest {
   private Form form;
+  private UsuariosHelper helper;
 
   @BeforeEach
   public void mockearForm() {
     form = mock(Form.class);
+    helper = new UsuariosHelper();
   }
 
   @Test
@@ -25,7 +28,7 @@ public class UsuarioDtoTest extends BaseTest {
     when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.exitoso("ContraSUper*MegaS3gUr4"));
 
-    Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);
+    Either<UsuarioDto> formularioLogin = helper.parsearUsuarioDto(form);
 
     assertThat(formularioLogin.getValor().getUsername()).isEqualTo("Juancito");
     assertThat(formularioLogin.getValor().getPassword()).isEqualTo("ContraSUper*MegaS3gUr4");
@@ -38,7 +41,7 @@ public class UsuarioDtoTest extends BaseTest {
     when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.fallido("La contraseña es requerida"));
 
-    Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);
+    Either<UsuarioDto> formularioLogin = helper.parsearUsuarioDto(form);
 
     assertThat(formularioLogin.getErrores()).containsExactly("El usuario es requerido", "La contraseña es requerida");
   }
@@ -50,7 +53,7 @@ public class UsuarioDtoTest extends BaseTest {
     when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.exitoso("ContraSUper*MegaS3gUr4"));
 
-    Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);
+    Either<UsuarioDto> formularioLogin = helper.parsearUsuarioDto(form);
 
     assertThat(formularioLogin.getErrores()).containsExactly("El usuario es requerido");
   }
@@ -62,7 +65,7 @@ public class UsuarioDtoTest extends BaseTest {
     when(form.getParamOrError("password", "La contraseña es requerida"))
         .thenReturn(Either.fallido("La contraseña es requerida"));
 
-    Either<UsuarioDto> formularioLogin = UsuarioDto.parsear(form);
+    Either<UsuarioDto> formularioLogin = helper.parsearUsuarioDto(form);
 
     assertThat(formularioLogin.getErrores()).containsExactly("La contraseña es requerida");
   }

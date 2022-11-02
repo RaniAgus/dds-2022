@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidacionDeUsuario;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;

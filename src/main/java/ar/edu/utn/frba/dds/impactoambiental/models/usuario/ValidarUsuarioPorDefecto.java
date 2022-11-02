@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 

@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
-import static ar.edu.utn.frba.dds.impactoambiental.ServiceLocator.getServiceLocator;
-
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
