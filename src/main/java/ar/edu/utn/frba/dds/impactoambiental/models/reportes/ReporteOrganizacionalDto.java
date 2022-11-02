@@ -6,6 +6,8 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 public class ReporteOrganizacionalDto {
   private Periodo periodo;
   private Double huellaCarbonoTotal;
@@ -37,5 +39,9 @@ public class ReporteOrganizacionalDto {
         huellaCarbonoTotal - otroReporte.huellaCarbonoTotal,
         merge((a, b) -> a - b, huellaCarbonoPorTipoDeConsumo, otroReporte.huellaCarbonoPorTipoDeConsumo)
     );
+  }
+
+  public static ReporteOrganizacionalDto reporteVacio() {
+    return new ReporteOrganizacionalDto(null, null, ImmutableMap.of());
   }
 }

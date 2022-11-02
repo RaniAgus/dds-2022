@@ -7,6 +7,8 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 public class ReporteSectorialDto {
   private Periodo periodo;
   private Double huellaCarbonoTotal;
@@ -46,5 +48,9 @@ public class ReporteSectorialDto {
         merge((a, b) -> a - b, huellaCarbonoPorTipoDeConsumo, otroReporte.huellaCarbonoPorTipoDeConsumo),
         merge((a, b) -> a - b, huellaCarbonoPorTipoDeOrganizacion, otroReporte.huellaCarbonoPorTipoDeOrganizacion)
     );
+  }
+
+  public static ReporteSectorialDto reporteVacio() {
+    return new ReporteSectorialDto(null, null, ImmutableMap.of(), ImmutableMap.of());
   }
 }

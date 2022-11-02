@@ -33,4 +33,8 @@ public class Context {
   public static Context of(Request req) {
     return new Context(req);
   }
+
+  public boolean hasBodyParams() {
+    return !req.queryParams().isEmpty();
+  }
 }
