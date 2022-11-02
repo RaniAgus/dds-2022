@@ -42,7 +42,7 @@ public class OrganizacionController implements Controller {
   public ModelAndView aceptarVinculacion(Request request, Response response) {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
     Long idVinculacion = Form.of(request).getParam("idVinculacion").map(Long::parseLong).get();
-    //TODO: Validar
+    //TODO: Validar (aplica para todo el sistema)
 
     Vinculacion vinc = usuarioOrg.getOrganizacion().getSectores().stream().flatMap(sector -> sector.getVinculacionesPendientes().stream())
             .filter(vinculacion -> vinculacion.getId().equals(idVinculacion)).findFirst().get(); // TODO: Validar esto tambien.
