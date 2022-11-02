@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.forms;
+package ar.edu.utn.frba.dds.impactoambiental.controllers.forms;
 
 import java.io.IOException;
 import java.io.InputStream;

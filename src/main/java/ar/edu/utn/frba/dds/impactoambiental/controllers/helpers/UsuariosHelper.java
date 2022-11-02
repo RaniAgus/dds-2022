@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers.helpers;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
-import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioValidacionesDeUsuario;
 import java.util.ArrayList;

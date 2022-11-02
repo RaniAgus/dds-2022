@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
+package ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,12 +34,12 @@ public class EitherExitoso<T> implements Either<T> {
 
   @Override
   public <R> Either<R> map(Function<T, R> function) {
-    return Either.exitoso(function.apply(valor));
+    return exitoso(function.apply(valor));
   }
   
   @Override
   public <R> Either<R> apply(Function<T, R> function, String error) {
-    return Either.desde(() -> function.apply(valor), error);
+    return desde(() -> function.apply(valor), error);
   }
 
   @Override

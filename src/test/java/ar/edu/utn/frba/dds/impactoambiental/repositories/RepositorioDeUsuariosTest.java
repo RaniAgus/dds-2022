@@ -2,10 +2,10 @@ package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.BaseTest;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

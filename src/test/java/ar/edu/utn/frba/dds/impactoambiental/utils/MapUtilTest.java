@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
+package ar.edu.utn.frba.dds.impactoambiental.utils;
 
 import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.mapOf;
 import static org.assertj.core.api.Assertions.assertThat;

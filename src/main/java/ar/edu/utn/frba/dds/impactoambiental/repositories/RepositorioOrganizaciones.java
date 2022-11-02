@@ -1,10 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
-import java.util.Optional;
-
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
+import java.util.Optional;
 
 public class RepositorioOrganizaciones implements Repositorio<Organizacion> {
   private static final RepositorioOrganizaciones instance = new RepositorioOrganizaciones();

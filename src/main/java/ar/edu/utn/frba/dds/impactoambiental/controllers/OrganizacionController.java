@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
-import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;

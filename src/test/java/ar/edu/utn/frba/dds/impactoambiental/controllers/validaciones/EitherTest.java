@@ -1,9 +1,9 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
+package ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
+import ar.edu.utn.frba.dds.impactoambiental.models.BaseTest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.NoSuchElementException;

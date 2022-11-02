@@ -1,10 +1,11 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.TramosHelper;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TramoDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
-import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
@@ -13,7 +14,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeLineas;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeSectores;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioMediosDeTransporte;
@@ -38,7 +38,7 @@ public class MiembroController implements Controller {
   private TramosHelper tramosHelper = new TramosHelper();
 
   private UsuarioMiembro usuarioMiembroDeSesion(Request req) {
-    return req.session().<UsuarioMiembro>attribute("usuario");
+    return req.session().attribute("usuario");
   }
 
   private Either<Miembro> obtenerMiembro(Request req) {

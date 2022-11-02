@@ -1,9 +1,7 @@
-package ar.edu.utn.frba.dds.impactoambiental.models;
+package ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import org.junit.jupiter.api.Test;
 
 

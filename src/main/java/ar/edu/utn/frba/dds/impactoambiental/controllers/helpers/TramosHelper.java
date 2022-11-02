@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers.helpers;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
@@ -9,7 +10,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeLineas;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioMediosDeTransporte;
 

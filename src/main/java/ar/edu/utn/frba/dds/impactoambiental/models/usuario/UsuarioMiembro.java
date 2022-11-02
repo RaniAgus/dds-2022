@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

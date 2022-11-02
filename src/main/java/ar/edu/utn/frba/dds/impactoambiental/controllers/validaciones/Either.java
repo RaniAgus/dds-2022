@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.impactoambiental.models.validaciones;
+package ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones;
 
 import java.util.Collections;
 import java.util.List;

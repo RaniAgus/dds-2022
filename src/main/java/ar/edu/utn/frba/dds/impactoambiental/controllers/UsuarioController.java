@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.UsuariosHelper;
-import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;

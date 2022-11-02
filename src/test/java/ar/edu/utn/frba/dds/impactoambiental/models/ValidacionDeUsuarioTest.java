@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidacionDeUsuario;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
@@ -10,7 +11,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarUsuarioPorDefecto;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import java.util.Collections;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;

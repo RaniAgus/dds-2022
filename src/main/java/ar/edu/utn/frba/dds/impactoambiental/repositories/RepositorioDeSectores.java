@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.repositories;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Either;
 import java.util.UUID;
 
 public class RepositorioDeSectores implements Repositorio<Sector> {
