@@ -1,11 +1,17 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizaciones;
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import com.google.common.collect.ImmutableMap;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
@@ -13,6 +19,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,15 +65,64 @@ public class OrganizacionController implements TransactionalOps, WithGlobalEntit
   }
 
   public ModelAndView cargarDA(Request request, Response response) {
-    Long idOrg = organizacionDeSesion(request).getOrganizacion().getId();
+    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
-    //TODO
+    List<DatoActividad> DAs = new ArrayList<>();
 
-    response.redirect("/organizaciones/" + idOrg + "/da");
+    if (request.contentType().startsWith("text/csv")) {
+      DAs = DADesdeCSV(request);
+    } else {
+      DAs = DADesdeQueryParams(request);
+    }
+
+    organizacion.agregarDatosActividad(DAs);
+
+    List<DatoActividad> finalDAs = DAs;
+    withTransaction(() -> {
+      RepositorioOrganizaciones.getInstance().actualizar(organizacion);
+      finalDAs.forEach(da -> entityManager().persist(da));
+    });
+
+    response.redirect("/organizaciones/" + organizacion.getId() + "/da");
     return null;
   }
 
   public ModelAndView reportes(Request request, Response response) {
-    return null;
+
+
+
+    if (request.queryParams("evolucion").equals("true")) {
+
+    }
+
+
+
+
+    ImmutableMap<String , Object> model = ImmutableMap.of();
+    return new ModelAndView(model, "reportes.html.hbs");
   }
+
+  private List<DatoActividad> DADesdeCSV(Request request) {
+    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
+
+    String CSVString = request.body();
+    DatosActividadesParser DAParser = new DatosActividadesParser(new RepositorioTipoDeConsumo(), new LectorDeArchivos(CSVString.getBytes()), 1, ';');
+    return DAParser.getDatosActividad();
+  }
+
+  public List<DatoActividad> DADesdeQueryParams(Request request) {
+    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
+
+    String DAComoLineaCSV = String.join(";",
+        request.queryParams("tipoConsumo"),
+        request.queryParams("cantidadConsumo"),
+        request.queryParams("periodicidad"),
+        request.queryParams("fechaInicial")
+        );
+
+    DatosActividadesParser DAParser = new DatosActividadesParser(new RepositorioTipoDeConsumo(), new LectorDeArchivos(DAComoLineaCSV.getBytes()), 0, ';');
+
+    return DAParser.getDatosActividad();
+  }
+
 }

@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 
 // TODO: Un ImportadorDeDatosDeActividad que use este parser y el lector de archivos
 public class DatosActividadesParser {
-  private final RepositorioTipoDeConsumo repositorioTipoDeConsumo;
   private final Character separator;
   private final Integer skiplines;
   private final LectorDeArchivos lectorDeArchivos;
+
+  private final RepositorioTipoDeConsumo repositorioTipoDeConsumo;
 
   public DatosActividadesParser(RepositorioTipoDeConsumo repositorioTipoDeConsumo,
                                 LectorDeArchivos loader,
