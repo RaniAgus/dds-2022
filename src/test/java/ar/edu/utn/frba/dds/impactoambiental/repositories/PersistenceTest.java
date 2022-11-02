@@ -23,7 +23,7 @@ public interface PersistenceTest extends TransactionalOps, EntityManagerOps, Wit
     when(serviceLocatorMock.getSmtpPassword()).thenReturn("");
     when(serviceLocatorMock.getSmtpUser()).thenReturn("");
     when(serviceLocatorMock.getRecomendacionesUrl()).thenReturn("");
-    when(serviceLocatorMock.getWeakPasswordsFile()).thenReturn(mock(LectorDeArchivos.class));
+    when(serviceLocatorMock.getWeakPasswordsFileReader()).thenReturn(mock(LectorDeArchivos.class));
     ServiceLocator.setServiceLocator(serviceLocatorMock);
   }
 
