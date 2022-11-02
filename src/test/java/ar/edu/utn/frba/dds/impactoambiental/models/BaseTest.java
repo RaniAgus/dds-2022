@@ -19,6 +19,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTran
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.TipoDeTransporte;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
@@ -30,6 +31,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizaci
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
@@ -43,7 +45,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public abstract class BaseTest {
   protected Periodo periodoAnual = new Periodo(LocalDate.of(2022, 1, 1), Periodicidad.ANUAL);
@@ -90,11 +91,11 @@ public abstract class BaseTest {
   // Sectores
 
   public Sector crearSectorVacio() {
-    return new Sector(new ArrayList<>());
+    return new Sector("Sector", new ArrayList<>());
   }
 
   public Sector crearSectorConUnaVinculacion(Vinculacion vinculacion) {
-    return new Sector(singletonList(vinculacion));
+    return new Sector("Sector", singletonList(vinculacion));
   }
 
   // Miembros
@@ -104,7 +105,7 @@ public abstract class BaseTest {
   }
 
   protected Miembro crearMiembro() {
-    return new Miembro();
+    return new Miembro("John", "Doe", "0", TipoDeDocumento.DNI, new ArrayList<>());
   }
 
   // Lineas
@@ -172,8 +173,7 @@ public abstract class BaseTest {
   }
 
   // Administradores
-  protected Usuario crearUsuario() {
-    throw new NotImplementedException();
-    // return new Usuario("Juancito", "ContraSUper*MegaS3gUr4");
+  protected Usuario crearUsuario(Organizacion organizacion) {
+    return new UsuarioOrganizacion("Juancito", "ContraSUper*MegaS3gUr4", organizacion);
   }
 }
