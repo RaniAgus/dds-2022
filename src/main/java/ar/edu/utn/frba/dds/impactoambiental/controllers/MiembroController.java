@@ -60,7 +60,7 @@ public class MiembroController implements Controller {
       .flatApply(sectores::buscarPorCodigoInvite, "El código ingresado no existe")
       .fold(
         errores -> {
-          response.redirect("/miembro/" + usuario.getId() + "/vinculaciones?errores=" + encode(String.join(", ", errores)));
+          response.redirect("/miembros/" + usuario.getId() + "/vinculaciones?errores=" + encode(String.join(", ", errores)));
           return null;
         },
         sector -> {
@@ -114,7 +114,7 @@ public class MiembroController implements Controller {
     return trayectosHelper.generateTrayecto(request, Form.of(request))
         .fold(
             errores -> {
-              response.redirect("/miembro/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
+              response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
                   + "/trayectos/nuevo?errores=" + encode(String.join(", ", errores)));
               return null;
             },
