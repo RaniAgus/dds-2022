@@ -15,6 +15,8 @@ import ar.edu.utn.frba.dds.impactoambiental.controllers.MiembroController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpNotFoundException;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionException;
+import com.google.common.collect.ImmutableMap;
 import java.util.Optional;
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import spark.ModelAndView;
@@ -39,13 +41,15 @@ public class Routes {
     post("/login", usuarioController::iniciarSesion);
     post("/logout", usuarioController::cerrarSesion, templateEngine);
 
-    path("/miembros", () -> {
+    path("/usuarios/me", () -> {
       before("/*", usuarioController::validarUsuario);
 
       get("/vinculaciones", miembroController::vinculaciones, templateEngine);
       post("/vinculaciones", miembroController::proponerVinculacion, templateEngine);
 
       path("/vinculaciones/:vinculacion", () -> {
+        before("/*", miembroController::validarVinculacion);
+
         get("/trayectos", miembroController::trayectos, templateEngine);
         get("/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
         post("/trayectos", miembroController::anadirTrayecto, templateEngine);
@@ -54,7 +58,7 @@ public class Routes {
       });
     });
 
-    path("/organizaciones", () -> {
+    path("/organizaciones/me", () -> {
       before("/*", usuarioController::validarUsuario);
 
       get("/vinculaciones", organizacionController::vinculaciones, templateEngine);
@@ -65,7 +69,7 @@ public class Routes {
       get("/reportes/evolucion", organizacionController::reportesEvolucion, templateEngine);
     });
 
-    path("/sectoresterritoriales", () -> {
+    path("/sectoresterritoriales/me", () -> {
       before("/*", usuarioController::validarUsuario);
 
       get("/reportes/consumo/individual", agenteSectorialController::reportesConsumoIndividual, templateEngine);
@@ -76,10 +80,19 @@ public class Routes {
 
     after("/*", (req, res) -> PerThreadEntityManagers.getEntityManager().clear());
 
-    notFound((req, res) -> templateEngine.render(new ModelAndView(null, "404.html.hbs")));
-    exception(HttpNotFoundException.class, (e, req, res) -> {
-      res.body(templateEngine.render(new ModelAndView(null, "404.html.hbs")));
+    notFound((req, res) -> templateEngine.render(new ModelAndView(ImmutableMap.of(), "404.html.hbs")));
+
+    exception(ValidacionException.class, (e, req, res) -> {
+      if (e.getErrores().contains("UNAUTHORIZED")) {
+        res.redirect("/login"); // TODO: Setear un originUrl
+      } else {
+        throw new HttpNotFoundException();
+      }
     });
+    exception(HttpNotFoundException.class, (e, req, res) -> {
+      res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "404.html.hbs")));
+    });
+
   }
 
   private static Integer getPort() {

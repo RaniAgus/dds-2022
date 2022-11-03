@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.Entity;
@@ -47,6 +48,10 @@ public class UsuarioMiembro extends Usuario {
         .findFirst();
   }
 
+  public boolean tieneVinculacion(Vinculacion vinculacion) {
+    return miembros.stream().anyMatch(miembro -> vinculacion.getMiembro().getId().equals(miembro.getId()));
+  }
+
   public void agregarMiembro(Miembro miembro) {
     miembros.add(miembro);
   }
@@ -68,6 +73,6 @@ public class UsuarioMiembro extends Usuario {
   }
 
   public String getHomeUrl() {
-    return "/miembros/vinculaciones";
+    return "/usuarios/me/vinculaciones";
   }
 }

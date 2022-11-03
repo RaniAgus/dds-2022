@@ -21,6 +21,6 @@ public class UsuarioOrganizacion extends Usuario {
   }
 
   public String getHomeUrl() {
-    return "/organizaciones/vinculaciones";
+    return "/organizaciones/me/vinculaciones";
   }
 }

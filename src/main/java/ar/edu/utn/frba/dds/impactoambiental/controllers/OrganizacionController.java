@@ -18,7 +18,8 @@ import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizacion
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import spark.ModelAndView;
@@ -58,7 +59,7 @@ public class OrganizacionController implements Controller {
 
   public ModelAndView aceptarVinculacion(Request request, Response response) {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
-    Long idVinculacion = Form.of(request).getParamOrError("idVinculacion", "Es necesario indicar un id de vinculación")
+    Long idVinculacion = Form.of(request).getParamOrError("vinculacionId", "Es necesario indicar un id de vinculación")
       .apply(Long::parseLong, "El id de vinculación debe ser numérico")
       .getValor();
 
@@ -83,7 +84,8 @@ public class OrganizacionController implements Controller {
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "organizacion", usuarioOrg.getOrganizacion(),
-      "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos()
+      "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
+        "periodicidades", Arrays.asList(Periodicidad.values())
     );
     return new ModelAndView(model, "cargaDA.html.hbs");
   }
@@ -91,9 +93,9 @@ public class OrganizacionController implements Controller {
   public ModelAndView cargarDA(Request request, Response response) {
     Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
-    List<DatoActividad> DAs = new ArrayList<>();
+    List<DatoActividad> DAs;
 
-    if (request.contentType().startsWith("text/csv")) {
+    if (request.contentType().startsWith("multipart/form-data")) {
       DAs = daDesdeCSV(request);
     } else {
       DAs = daDesdeQueryParams(request);
@@ -106,7 +108,7 @@ public class OrganizacionController implements Controller {
       repoOrganizaciones.actualizar(organizacion);
     });
 
-    response.redirect("/organizaciones/da");
+    response.redirect("/organizaciones/me/da");
     return null;
   }
 
@@ -186,34 +188,26 @@ public class OrganizacionController implements Controller {
   }
 
   private List<DatoActividad> daDesdeCSV(Request request) {
-    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
-
-    String CSVString = request.body();
-    DatosActividadesParser DAParser = new DatosActividadesParser(
-      repoTipoDeConsumo, 
-      new LectorDeArchivos(CSVString.getBytes()), 
-      1, 
-      ';'
-    );
-    return DAParser.getDatosActividad();
+    return Form.of(request).getFile("archivo")
+        .map(bytes -> new DatosActividadesParser(
+            repoTipoDeConsumo,
+            new LectorDeArchivos(bytes),
+            1, ';', "MM/yyyy")
+            .getDatosActividad())
+        .orElse(Collections.emptyList());
   }
 
   private List<DatoActividad> daDesdeQueryParams(Request request) {
-    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
-
     String DAComoLineaCSV = String.join(";",
-      request.queryParams("tipoConsumo"),
+      request.queryParams("tipoDeConsumo"),
       request.queryParams("cantidadConsumo"),
       request.queryParams("periodicidad"),
-      request.queryParams("fechaInicial")
+      request.queryParams("fechaInicial").substring(0, 7).replace("-", "/")
     );
 
     DatosActividadesParser DAParser = new DatosActividadesParser(
       repoTipoDeConsumo, 
-      new LectorDeArchivos(DAComoLineaCSV.getBytes()), 
-      0, 
-      ';'
-    );
+      new LectorDeArchivos(DAComoLineaCSV.getBytes()), 0, ';', "yyyy/MM");
     return DAParser.getDatosActividad();
   }
 

@@ -4,6 +4,8 @@ import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.EstadoVinculo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
+import java.util.stream.Collectors;
 
 public class VinculacionDto {
   private Long id;
@@ -11,6 +13,7 @@ public class VinculacionDto {
   private Organizacion organizacion;
   private Sector sector;
   private EstadoVinculo estado;
+  private boolean sePuedenVerLosTrayectos;
 
   public VinculacionDto(Long id, Miembro miembro, Organizacion organizacion, Sector sector, EstadoVinculo estado) {
       this.id = id;
@@ -18,6 +21,7 @@ public class VinculacionDto {
       this.organizacion = organizacion;
       this.sector = sector;
       this.estado = estado;
+      this.sePuedenVerLosTrayectos = estado.equals(EstadoVinculo.ACEPTADO);
   }
 
   public Long getId() {
@@ -58,5 +62,27 @@ public class VinculacionDto {
 
   public void setEstado(EstadoVinculo estado) {
       this.estado = estado;
+  }
+
+  public boolean getSePuedenVerLosTrayectos() {
+    return sePuedenVerLosTrayectos;
+  }
+
+  public static VinculacionDto from(Organizacion organizacion, Miembro miembro) {
+    Sector sector = organizacion.getSectores().stream()
+        .filter(it -> it.getAllMiembros().stream().anyMatch(m -> m.getId().equals(miembro.getId())))
+        .collect(Collectors.toList()).get(0);
+
+    Vinculacion vinculacion = sector.getVinculaciones().stream()
+        .filter(it -> it.getMiembro().getId().equals(miembro.getId()))
+        .collect(Collectors.toList()).get(0);
+
+    return new VinculacionDto(
+        vinculacion.getId(),
+        miembro,
+        organizacion,
+        sector,
+        vinculacion.getEstado()
+    );
   }
 }

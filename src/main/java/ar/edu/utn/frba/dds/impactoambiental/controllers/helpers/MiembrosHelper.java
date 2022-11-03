@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizaciones;
 import java.util.ArrayList;
@@ -21,40 +22,19 @@ public class MiembrosHelper {
     return ctx.getRequestAttribute("usuario", "No se encontró el usuario en la sesión");
   }
 
-  // TODO: Ver por qué :vinculacion devuelve un id de miembro en lugar de un id de vinculacion
-  public Either<Miembro> obtenerMiembro(Context ctx) {
-    return ctx.getPathParam("vinculacion", "No se especificó una vinculación")
-        .apply(Long::parseLong, "El id de la vinculación debe ser un número")
-        .flatMap(id -> usuarioMiembroDeSesion(ctx).flatApply(u -> u.getMiembro(id), "No se encontró el miembro"));
+  public Either<Miembro> obtenerMiembroDesdeAttributes(Context ctx) {
+    return ctx.<Vinculacion>getRequestAttribute("vinculacion", "INTERNAL_SERVER_ERROR")
+        .map(Vinculacion::getMiembro);
   }
 
   public List<VinculacionDto> obtenerVinculacionesDto(Context ctx) {
-    List<VinculacionDto> vinculaciones = usuarioMiembroDeSesion(ctx).getValor().getMiembros().stream()
-        .map(m -> new VinculacionDto(
-            null,
-            m,
-            repositorioOrganizaciones.buscarPorMiembro(m).get(),
-            null,
-            null
-        )).collect(Collectors.toList());
-
-    vinculaciones.forEach(v -> {
-      v.setSector(v.getOrganizacion().getSectores().stream()
-          .filter(s -> s.getAllMiembros().contains(v.getMiembro()))
-          .findFirst().get());
-      v.setEstado(v.getSector().getVinculaciones().stream()
-          .filter(vinc -> vinc.getMiembro().equals(v.getMiembro()))
-          .findFirst().get().getEstado());
-      v.setId(v.getSector().getVinculaciones().stream().
-          filter(vinc -> vinc.getMiembro().equals(v.getMiembro()))
-          .findFirst().get().getId());
-    });
-
-    return vinculaciones;
+    return usuarioMiembroDeSesion(ctx).getValor().getMiembros().stream()
+        .map(m -> VinculacionDto.from(repositorioOrganizaciones.buscarPorMiembro(m).get(), m))
+        .collect(Collectors.toList());
   }
 
   public List<TrayectoResumenDto> obtenerTrayectosDto(Context ctx) {
-    return obtenerMiembro(ctx).getValor().getTrayectos().stream()
+    return obtenerMiembroDesdeAttributes(ctx).getValor().getTrayectos().stream()
         .map(t -> new TrayectoResumenDto(
             t.getFecha(),
             t.getCodigoInvite(),
@@ -66,6 +46,6 @@ public class MiembrosHelper {
 
   public List<Tramo> obtenerPretramos(Context ctx) {
     Map<Long, List<Tramo>> miembrosPretramos = ctx.computeSessionAttributeIfAbsent("miembrosPretramos", HashMap::new);
-    return miembrosPretramos.computeIfAbsent(obtenerMiembro(ctx).getValor().getId(), k -> new ArrayList<>());
+    return miembrosPretramos.computeIfAbsent(obtenerMiembroDesdeAttributes(ctx).getValor().getId(), k -> new ArrayList<>());
   }
 }

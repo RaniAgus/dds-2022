@@ -6,11 +6,10 @@
     <li>{{sector.nombre}}</li>
     <li>{{sector.nombre}}</li>
     <li>{{estado.nombre}}</li>
-    <form method="POST" action="/organizaciones/vinculaciones">
-        <input type="hidden" name="id" value="{{id}}">
+    <form method="POST" action="/organizaciones/me/vinculaciones">
+        <input type="hidden" name="vinculacionId" value="{{id}}">
 
-        <label for="ingresar">Aceptar Vinculacion</label>
-        <input type="submit" name="ingresar">
+        <button type="submit">Aceptar Vinculacion</button>
     </form>
 {{/each}}
 </ul>

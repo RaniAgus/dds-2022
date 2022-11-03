@@ -1,14 +1,14 @@
 <h1>TODO</h1>
 
-<form method="POST" action="/miembros/vinculaciones/{{miembro.id}}/trayectos">
+<form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos">
     <label for="fecha">Fecha</label>
     <input type="date" name="fecha">
 
     <label for="ingresar">Añadir Trayecto</label>
-    <input type="submit" name="ingresar">
+    <button type="submit"></button>
 </form>
 
-<form method="GET" action="/miembros/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
+<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
     <input type="hidden" name="tipo" value="publico">
     
     <label for="linea">Elegir Linea</label>
@@ -18,11 +18,10 @@
         {{/each}}
     </select>
 
-    <label for="ingresar">Nuevo Tramo publico</label>
-    <input type="submit" name="ingresar">
+    <button type="submit">Nuevo Tramo publico</button>
 </form>
 
-<form method="GET" action="/miembros/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
+<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
     <input type="hidden" name="tipo" value="privado">
     
     <label for="medio">Elegir Medio de transporte</label>
@@ -32,8 +31,7 @@
         {{/each}}
     </select>
 
-    <label for="ingresar">Nuevo Tramo privado</label>
-    <input type="submit" name="ingresar">
+    <button type="submit">Nuevo Tramo privado</button>
 </form>
 
 <ul>

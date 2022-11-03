@@ -36,6 +36,7 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
 
   public void init() {
     withTransaction(() -> {
+
       List<Trayecto> trayectos = new ArrayList<>();
       Parada parada = new Parada("Lo De Marco", new Distancia(10D, Unidad.KM), new Distancia(10D, Unidad.KM));
       Parada parada2 = new Parada("Lo De Uli", new Distancia(10D, Unidad.KM), new Distancia(10D, Unidad.KM));

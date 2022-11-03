@@ -157,7 +157,7 @@ public abstract class BaseTest {
   // Datos de Actividad
 
   protected DatosActividadesParser crearParserDatosDeActividad() {
-    return new DatosActividadesParser(repositorioTipoDeConsumo, lectorDeArchivos, 1, ';');
+    return new DatosActividadesParser(repositorioTipoDeConsumo, lectorDeArchivos, 1, ';', "MM/yyyy");
   }
 
   // Validadores

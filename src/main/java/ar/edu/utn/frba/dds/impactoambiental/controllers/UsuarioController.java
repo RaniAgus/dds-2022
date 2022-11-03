@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.impactoambiental.controllers;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.UsuariosHelper;
-import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpNotFoundException;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionException;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
@@ -68,12 +68,7 @@ public class UsuarioController implements Controller {
         .flatApply(usuarios::obtenerPorID, "UNAUTHORIZED")
         .fold(
             errores -> {
-              if (errores.contains("UNAUTHORIZED")) {
-                res.redirect("/login"); // TODO: Setear un originUrl
-              } else {
-                throw new HttpNotFoundException();
-              }
-              return null;
+              throw new ValidacionException(errores);
             },
             usuario -> {
               ctx.setRequestAttribute("usuario", usuario);

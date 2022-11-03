@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.da;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,6 +19,10 @@ public class TipoDeConsumo extends EntidadPersistente {
     this.nombre = nombre;
     this.factorEmision = factorEmision;
     this.unidadDeConsumo = unidadDeConsumo;
+  }
+
+  public String getNombre() {
+    return nombre;
   }
 
   public boolean tieneNombre(String nombre) {

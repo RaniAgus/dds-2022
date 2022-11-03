@@ -2,6 +2,8 @@ package ar.edu.utn.frba.dds.impactoambiental.models.da;
 
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,17 +13,20 @@ public class DatosActividadesParser {
   private final Character separator;
   private final Integer skiplines;
   private final LectorDeArchivos lectorDeArchivos;
+  private final String datePattern;
 
   private final RepositorioTipoDeConsumo repositorioTipoDeConsumo;
 
   public DatosActividadesParser(RepositorioTipoDeConsumo repositorioTipoDeConsumo,
                                 LectorDeArchivos loader,
                                 Integer skiplines,
-                                Character separator) {
+                                Character separator,
+                                String datePattern) {
     this.repositorioTipoDeConsumo = repositorioTipoDeConsumo;
     this.lectorDeArchivos = loader;
     this.skiplines = skiplines;
     this.separator = separator;
+    this.datePattern = datePattern;
   }
 
   private TipoDeConsumo getTipoDeConsumo(String nombre) {
@@ -44,8 +49,7 @@ public class DatosActividadesParser {
     if (periodicidad == Periodicidad.ANUAL) {
       inicioPeriodo = LocalDate.of(Integer.parseInt(periodo), 1, 1);
     } else {
-      String[] partesFecha = periodo.split("/");
-      inicioPeriodo = LocalDate.of(Integer.parseInt(partesFecha[1]), Integer.parseInt(partesFecha[0]), 1);
+      inicioPeriodo = YearMonth.parse(periodo, DateTimeFormatter.ofPattern(datePattern)).atDay(1);
     }
 
     return new DatoActividad(tipoDeConsumo, valor, new Periodo(inicioPeriodo, periodicidad));

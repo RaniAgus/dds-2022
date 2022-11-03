@@ -7,11 +7,15 @@ import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeLineas;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioMediosDeTransporte;
+import java.util.List;
+import java.util.Map;
+import spark.Request;
 
 public class TramosHelper {
   private RepositorioDeLineas repositorioDeLineas = RepositorioDeLineas.getInstance();
@@ -83,5 +87,12 @@ public class TramosHelper {
     ).get();
 
     return new TramoPrivado(geolocalizador, origen, destino, medio);
+  }
+
+  public void limpiarPretramos(Miembro miembro, Request req) {
+    Map<Long, List<Tramo>> miembrosPretramos = req.session().attribute("miembrosPretramos");
+    if (miembrosPretramos != null) {
+      miembrosPretramos.remove(miembro.getId());
+    }
   }
 }
