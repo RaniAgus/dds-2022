@@ -16,9 +16,12 @@ import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.ClasificacionDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioSectorTerritorial;
 import java.util.ArrayList;
 import java.util.List;
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
@@ -43,6 +46,9 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       Organizacion organizacion = new Organizacion("PEPE SA", null, TipoDeOrganizacion.EMPRESA,
           ClasificacionDeOrganizacion.EMPRESA_PRIMARIA, asList(sector), null, null);
       UsuarioMiembro usuarioMiembro = new UsuarioMiembro("juan", "perroGato00", "juan", "juan", "42885123", TipoDeDocumento.DNI, asList(miembro));
+      UsuarioOrganizacion usuarioOrganizacion = new UsuarioOrganizacion("pepe", "peperroGato00", organizacion);
+      SectorTerritorial sectorTerritorial = new SectorTerritorial("Halloween", asList(organizacion));
+      UsuarioSectorTerritorial usuarioSectorTerritorial = new UsuarioSectorTerritorial("halloween", "halloweenGato00", sectorTerritorial);
       persist(miembro);
       persist(vinculacion);
       persist(sector);
@@ -51,6 +57,9 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       persist(parada);
       persist(parada2);
       persist(linea);
+      persist(usuarioOrganizacion);
+      persist(sectorTerritorial);
+      persist(usuarioSectorTerritorial);
     });
   }
 }

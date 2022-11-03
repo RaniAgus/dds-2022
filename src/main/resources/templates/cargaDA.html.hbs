@@ -1,7 +1,7 @@
 <h1>TODO</h1>
 
 <h2>Cargar DA Manual</h2>
-<form method="POST" action="/organizaciones/{{../organizacion.id}}/da">
+<form method="POST" action="/organizaciones/da">
     <select name="periodicidad">
         <option value="anual">Anual</option>
         <option value="mensual">mensual</option>
@@ -24,7 +24,7 @@
 </form>
 
 <h2>Cargar DA por CSV</h2>
-<form method="POST" action="/organizaciones/{{../organizacion.id}}/da">
+<form method="POST" action="/organizaciones/da">
     <label for="archivo">Subir archivo</label>
     <input type="file" name="archivo" accept=".csv">
 

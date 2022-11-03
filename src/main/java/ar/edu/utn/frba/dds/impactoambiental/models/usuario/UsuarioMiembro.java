@@ -68,6 +68,6 @@ public class UsuarioMiembro extends Usuario {
   }
 
   public String getHomeUrl() {
-    return "/miembros/" + getId() + "/vinculaciones";
+    return "/miembros/vinculaciones";
   }
 }

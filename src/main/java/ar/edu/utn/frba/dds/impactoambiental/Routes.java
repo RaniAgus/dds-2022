@@ -2,7 +2,9 @@ package ar.edu.utn.frba.dds.impactoambiental;
 
 import static spark.Spark.after;
 import static spark.Spark.before;
+import static spark.Spark.exception;
 import static spark.Spark.get;
+import static spark.Spark.notFound;
 import static spark.Spark.path;
 import static spark.Spark.port;
 import static spark.Spark.post;
@@ -12,8 +14,10 @@ import ar.edu.utn.frba.dds.impactoambiental.controllers.HomeController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.MiembroController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpNotFoundException;
 import java.util.Optional;
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
+import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
@@ -35,7 +39,7 @@ public class Routes {
     post("/login", usuarioController::iniciarSesion);
     post("/logout", usuarioController::cerrarSesion, templateEngine);
 
-    path("/miembros/:usuario", () -> {
+    path("/miembros", () -> {
       before("/*", usuarioController::validarUsuario);
 
       get("/vinculaciones", miembroController::vinculaciones, templateEngine);
@@ -44,13 +48,13 @@ public class Routes {
       path("/vinculaciones/:vinculacion", () -> {
         get("/trayectos", miembroController::trayectos, templateEngine);
         get("/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
-        post("/trayectos/nuevo", miembroController::anadirTrayecto, templateEngine);
+        post("/trayectos", miembroController::anadirTrayecto, templateEngine);
         get("/trayectos/nuevo/tramos/nuevo", miembroController::nuevoTramo, templateEngine);
         post("/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
       });
     });
 
-    path("/organizaciones/:usuario", () -> {
+    path("/organizaciones", () -> {
       before("/*", usuarioController::validarUsuario);
 
       get("/vinculaciones", organizacionController::vinculaciones, templateEngine);
@@ -61,7 +65,7 @@ public class Routes {
       get("/reportes/evolucion", organizacionController::reportesEvolucion, templateEngine);
     });
 
-    path("/sectoresterritoriales/:usuario", () -> {
+    path("/sectoresterritoriales", () -> {
       before("/*", usuarioController::validarUsuario);
 
       get("/reportes/consumo/individual", agenteSectorialController::reportesConsumoIndividual, templateEngine);
@@ -71,6 +75,11 @@ public class Routes {
     });
 
     after("/*", (req, res) -> PerThreadEntityManagers.getEntityManager().clear());
+
+    notFound((req, res) -> templateEngine.render(new ModelAndView(null, "404.html.hbs")));
+    exception(HttpNotFoundException.class, (e, req, res) -> {
+      res.body(templateEngine.render(new ModelAndView(null, "404.html.hbs")));
+    });
   }
 
   private static Integer getPort() {

@@ -65,7 +65,7 @@ public class MiembrosHelper {
   }
 
   public List<Tramo> obtenerPretramos(Context ctx) {
-    Map<Miembro, List<Tramo>> miembrosPretramos = ctx.computeSessionAttributeIfAbsent("miembrosPretramos", HashMap::new);
-    return miembrosPretramos.computeIfAbsent(obtenerMiembro(ctx).getValor(), k -> new ArrayList<>());
+    Map<Long, List<Tramo>> miembrosPretramos = ctx.computeSessionAttributeIfAbsent("miembrosPretramos", HashMap::new);
+    return miembrosPretramos.computeIfAbsent(obtenerMiembro(ctx).getValor().getId(), k -> new ArrayList<>());
   }
 }

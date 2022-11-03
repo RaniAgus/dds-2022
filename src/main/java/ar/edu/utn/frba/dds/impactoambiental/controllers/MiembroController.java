@@ -36,9 +36,9 @@ public class MiembroController implements Controller {
   private TrayectosHelper trayectosHelper = new TrayectosHelper();
 
   private void limpiarPretramos(Miembro miembro, Request req) {
-    Map<Miembro, List<Tramo>> miembrosPretramos = req.session().attribute("pretramos");
+    Map<Long, List<Tramo>> miembrosPretramos = req.session().attribute("miembrosPretramos");
     if (miembrosPretramos != null) {
-      miembrosPretramos.remove(miembro);
+      miembrosPretramos.remove(miembro.getId());
     }
   }
 
@@ -61,7 +61,7 @@ public class MiembroController implements Controller {
       .flatApply(sectores::buscarPorCodigoInvite, "El código ingresado no existe")
       .fold(
         errores -> {
-          response.redirect("/miembros/" + usuario.getId() + "/vinculaciones?errores=" + encode(String.join(", ", errores)));
+          response.redirect("/miembros/vinculaciones?errores=" + encode(String.join(", ", errores)));
           return null;
         },
         sector -> {
@@ -115,7 +115,7 @@ public class MiembroController implements Controller {
     return trayectosHelper.generateTrayecto(Context.of(request), Form.of(request))
       .fold(
         errores -> {
-          response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId()
+          response.redirect("/miembros/vinculaciones/" + miembro.getId()
               + "/trayectos/nuevo?errores=" + encode(String.join(", ", errores)));
           return null;
         },
@@ -126,7 +126,7 @@ public class MiembroController implements Controller {
             entityManager().merge(miembro);
           });
           limpiarPretramos(miembro, request);
-          response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos");
+          response.redirect("/miembros/vinculaciones/" + miembro.getId() + "/trayectos");
           return null;
         }
       );
@@ -167,7 +167,6 @@ public class MiembroController implements Controller {
   }
 
   public ModelAndView anadirTramo(Request request, Response response) {
-    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
     Miembro miembro = miembrosHelper.obtenerMiembro(Context.of(request)).getValor();
     List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
 
@@ -177,7 +176,7 @@ public class MiembroController implements Controller {
       pretramos.add(tramosHelper.generatePreTramoPrivado(Form.of(request), geolocalizador));
     }
 
-    response.redirect("/miembros/" + usuario.getId() + "/vinculaciones/" + miembro.getId() + "/trayectos/nuevo");
+    response.redirect("/miembros/vinculaciones/" + miembro.getId() + "/trayectos/nuevo");
     return null;
   }
 }

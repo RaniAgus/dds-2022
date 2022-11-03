@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.impactoambiental.controllers;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.UsuariosHelper;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpNotFoundException;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
@@ -62,20 +63,15 @@ public class UsuarioController implements Controller {
 
   public void validarUsuario(Request req, Response res) {
     Context ctx = Context.of(req);
-
-    ctx.getPathParam("usuario", "BAD_REQUEST")
+    ctx.<Long>getSessionAttribute("usuarioId", "UNAUTHORIZED")
         .apply(Long::valueOf, "BAD_REQUEST")
-        .flatApply(usuarioId -> RepositorioUsuarios.getInstance().obtenerPorID(usuarioId), "NOT_FOUND")
-        .flatMap(usuario -> ctx.getSessionAttribute("usuarioId", "UNAUTHORIZED")
-            .filter(usuarioId -> usuario.getId().equals(usuarioId), "FORBIDDEN")
-            .map(usuarioId -> usuario))
+        .flatApply(usuarios::obtenerPorID, "UNAUTHORIZED")
         .fold(
             errores -> {
               if (errores.contains("UNAUTHORIZED")) {
-                res.redirect("/login");
+                res.redirect("/login"); // TODO: Setear un originUrl
               } else {
-                // TODO: Ver si redirigir o arrojar una NotFoundException para que Spark la maneje
-                res.redirect("/404");
+                throw new HttpNotFoundException();
               }
               return null;
             },

@@ -1,9 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-
-import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 
 @Entity
 public class UsuarioOrganizacion extends Usuario {
@@ -22,6 +21,6 @@ public class UsuarioOrganizacion extends Usuario {
   }
 
   public String getHomeUrl() {
-    return "/organizaciones/" + getId() + "/vinculaciones";
+    return "/organizaciones/vinculaciones";
   }
 }

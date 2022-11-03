@@ -17,7 +17,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizaciones;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import com.google.common.collect.ImmutableMap;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +30,12 @@ public class OrganizacionController implements Controller {
   RepositorioOrganizaciones repoOrganizaciones = RepositorioOrganizaciones.getInstance();
 
   private UsuarioOrganizacion organizacionDeSesion(Request req) {
-    return req.session().<UsuarioOrganizacion>attribute("usuario");
+    return req.attribute("usuario");
   }
 
   public ModelAndView vinculaciones(Request request, Response response) {
-    Organizacion org = organizacionDeSesion(request).getOrganizacion();
+    UsuarioOrganizacion usuario = organizacionDeSesion(request);
+    Organizacion org = usuario.getOrganizacion();
     List<Sector> sectores = org.getSectores();
     List<VinculacionDto> vinculaciones = sectores.stream().flatMap(sector -> sector.getVinculacionesPendientes().stream()
       .map(vinculacion -> new VinculacionDto(
@@ -48,8 +48,9 @@ public class OrganizacionController implements Controller {
     ).collect(Collectors.toList());
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
-      "organizacion", org,
-      "vinculacionesPendientes", vinculaciones
+        "usuario", usuario,
+        "organizacion", org,
+        "vinculaciones", vinculaciones
     );
 
     return new ModelAndView(model, "vinculacionesOrganizacion.html.hbs");
@@ -105,7 +106,7 @@ public class OrganizacionController implements Controller {
       repoOrganizaciones.actualizar(organizacion);
     });
 
-    response.redirect("/organizaciones/" + organizacion.getId() + "/da");
+    response.redirect("/organizaciones/da");
     return null;
   }
 

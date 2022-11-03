@@ -1,6 +1,6 @@
 <h1>TODO</h1>
 
-<form method="POST" action="/miembros/{{usuario.id}}/vinculaciones/{{miembro.id}}/trayectos/nuevo">
+<form method="POST" action="/miembros/vinculaciones/{{miembro.id}}/trayectos">
     <label for="fecha">Fecha</label>
     <input type="date" name="fecha">
 
@@ -8,7 +8,7 @@
     <input type="submit" name="ingresar">
 </form>
 
-<form method="GET" action="/miembros/{{usuario.id}}/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
+<form method="GET" action="/miembros/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
     <input type="hidden" name="tipo" value="publico">
     
     <label for="linea">Elegir Linea</label>
@@ -22,7 +22,7 @@
     <input type="submit" name="ingresar">
 </form>
 
-<form method="GET" action="/miembros/{{usuario.id}}/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
+<form method="GET" action="/miembros/vinculaciones/{{miembro.id}}/trayectos/nuevo/tramos/nuevo">
     <input type="hidden" name="tipo" value="privado">
     
     <label for="medio">Elegir Medio de transporte</label>

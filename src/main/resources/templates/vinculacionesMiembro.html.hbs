@@ -5,14 +5,14 @@
     <li>{{organizacion.razonSocial}}</li>
     <li>{{sector.codigoInvite}}</li>
     <li>{{estado.nombre}}</li>
-    <form method="GET" action="/miembros/{{../usuario.id}}/vinculaciones/{{miembro.id}}/trayectos">
+    <form method="GET" action="/miembros/vinculaciones/{{miembro.id}}/trayectos">
         <label for="ingresar">VER TRAYECTOS</label>
         <input type="submit" name="ingresar">
     </form>
 {{/each}}
 </ul>
 
-<form method="POST" action="/miembros/{{usuario.id}}/vinculaciones/">
+<form method="POST" action="/miembros/vinculaciones/">
     <label for="codigo">Codigo Vinculacion</label>
     <input type="text" name="codigo">
 
