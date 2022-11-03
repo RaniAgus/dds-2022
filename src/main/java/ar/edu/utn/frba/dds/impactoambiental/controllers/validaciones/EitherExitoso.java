@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class EitherExitoso<T> implements Either<T> {
   private T valor;
@@ -25,6 +26,11 @@ public class EitherExitoso<T> implements Either<T> {
   @Override
   public List<String> getErrores() {
     return Collections.emptyList();
+  }
+
+  @Override
+  public Either<T> filter(Predicate<T> predicado, String mensajeDeError) {
+    return predicado.test(valor) ? this : Either.fallido(mensajeDeError);
   }
 
   @Override

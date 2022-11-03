@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,6 +13,7 @@ public interface Either<T> {
   boolean esExitoso();
   T getValor();
   List<String> getErrores();
+  Either<T> filter(Predicate<T> predicado, String mensajeDeError);
   <R> Either<R> flatMap(Function<T, Either<R>> function);
   <R> Either<R> map(Function<T, R> function);
   <R> Either<R> apply(Function<T, R> function, String error);

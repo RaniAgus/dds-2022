@@ -149,4 +149,31 @@ public class EitherTest extends BaseTest {
 
     assertThat(resultado.getErrores()).containsExactly("No se encontró el valor");
   }
+
+  @Test
+  public void sePuedeFiltrarUnEitherExitoso() {
+    Either<String> resultado = Either.exitoso("6");
+
+    Either<String> resultadoFiltrado = resultado.filter(valor -> valor.equals("6"), "El valor no es 6");
+
+    assertThat(resultadoFiltrado.getValor()).isEqualTo("6");
+  }
+
+  @Test
+  public void sePuedeFiltrarUnEitherExitosoConError() {
+    Either<String> resultado = Either.exitoso("6");
+
+    Either<String> resultadoFiltrado = resultado.filter(valor -> valor.equals("7"), "El valor no es 6");
+
+    assertThat(resultadoFiltrado.getErrores()).containsExactly("El valor no es 6");
+  }
+
+  @Test
+  public void sePuedeFiltrarUnEitherFallido() {
+    Either<String> resultado = Either.fallido("Error");
+
+    Either<String> resultadoFiltrado = resultado.filter(valor -> valor.equals("6"), "El valor no es 6");
+
+    assertThat(resultadoFiltrado.getErrores()).containsExactly("Error");
+  }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class EitherFallido<T> implements Either<T> {
   private List<String> errores;
@@ -25,6 +26,11 @@ public class EitherFallido<T> implements Either<T> {
   @Override
   public List<String> getErrores() {
     return errores;
+  }
+
+  @Override
+  public Either<T> filter(Predicate<T> predicado, String mensajeDeError) {
+    return this;
   }
 
   @Override
