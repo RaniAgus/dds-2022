@@ -1,5 +1,5 @@
 <h1>TODO</h1>
-
+{{#partial "contenido"}}
 <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos">
     <label for="fecha">Fecha</label>
     <input type="date" name="fecha">
@@ -42,3 +42,8 @@
     <li>{{destino}}</li>
 {{/each}}
 </ul>
+
+{{#block "modal"}}{{/block}}
+{{/partial}}
+
+{{> components/Layout.html.hbs}}

@@ -1,5 +1,5 @@
 <h1>TODO</h1>
-
+{{#partial "contenido"}}
 <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo">
     <button type="submit">Nuevo trayecto</button>
 </form>
@@ -12,4 +12,5 @@
     <li>{{codigoInvite}}</li>
 {{/each}}
 </ul>
-
+{{/partial}}
+{{> components/Layout.html.hbs}}

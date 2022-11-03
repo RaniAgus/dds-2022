@@ -1,45 +1,4 @@
-<h1>Tramo en {{medio.nombre}}</h1>
-
-<form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos">
-    <input type="hidden" name="tipo" value="privado">
-    <input type="hidden" name="medioDeTransporte" value="{{medio.id}}">
-    <h2>Origen</h2>
-    <label for="paisOrigen">Pais</label>
-    <input type="text" name="paisOrigen">
-
-    <label for="provinciaOrigen">Provincia</label>
-    <input type="text" name="provinciaOrigen">
-
-    <label for="municipioOrigen">municipio</label>
-    <input type="text" name="municipioOrigen">
-
-    <label for="localidadOrigen">Localidad</label>
-    <input type="text" name="localidadOrigen">
-
-    <label for="calleOrigen">Calle</label>
-    <input type="text" name="calleOrigen">
-
-    <label for="alturaOrigen">Altura</label>
-    <input type="text" name="alturaOrigen">
-
-    <h2>Destino</h2>
-    <label for="paisDestino">Pais</label>
-    <input type="text" name="paisDestino">
-
-    <label for="provinciaDestino">Provincia</label>
-    <input type="text" name="provinciaDestino">
-
-    <label for="municipioDestino">municipio</label>
-    <input type="text" name="municipioDestino">
-
-    <label for="localidadDestino">Localidad</label>
-    <input type="text" name="localidadDestino">
-
-    <label for="calleDestino">Calle</label>
-    <input type="text" name="calleDestino">
-
-    <label for="alturaDestino">Altura</label>
-    <input type="text" name="alturaDestino">
-
-    <button type="submit">Confirmar Tramo</button>
-</form>
+{{#partial "modal"}}
+    {{> components/Modal.html.hbs}}
+{{/partial}}
+{{> pages/usuarios/vinculaciones/trayectos/nuevo.html.hbs}}

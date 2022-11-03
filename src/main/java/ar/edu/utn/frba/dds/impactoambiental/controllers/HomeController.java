@@ -23,7 +23,7 @@ public class HomeController implements Controller {
     List<Recomendacion> recomendaciones = RepositorioDeRecomendaciones.getInstance().obtenerLasDiezMasCercanas();
     Map<String, Object> models= ImmutableMap.of("recomendaciones",recomendaciones.stream().map(RecomendacionDto::fromRecomendacion).collect(Collectors.toList()));
 
-    return new ModelAndView(models, "pages/Recomendaciones/index.html.hbs");
+    return new ModelAndView(models, "pages/recomendaciones/index.html.hbs");
   }
 
   public Void home(Request req, Response resp) {

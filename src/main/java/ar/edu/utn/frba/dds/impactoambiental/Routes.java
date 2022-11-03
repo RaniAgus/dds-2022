@@ -8,6 +8,7 @@ import static spark.Spark.notFound;
 import static spark.Spark.path;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.staticFiles;
 
 import ar.edu.utn.frba.dds.impactoambiental.controllers.AgenteSectorialController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.HomeController;
@@ -24,7 +25,9 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
   public static void main(String[] args) {
+    new Bootstrap().init();
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
+    staticFiles.externalLocation("public");
 
     HomeController homeController = new HomeController();
     UsuarioController usuarioController = new UsuarioController();
@@ -40,6 +43,7 @@ public class Routes {
     get("/login", usuarioController::verLogin, templateEngine);
     post("/login", usuarioController::iniciarSesion);
     post("/logout", usuarioController::cerrarSesion, templateEngine);
+    get("/logout", usuarioController::cerrarSesion, templateEngine);
 
     path("/usuarios/me", () -> {
       before("/*", usuarioController::validarUsuario);

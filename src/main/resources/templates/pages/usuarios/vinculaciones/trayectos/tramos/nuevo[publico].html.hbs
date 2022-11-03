@@ -1,3 +1,5 @@
+
+{{#partial "modal"}}
 <h1>Tramo en {{linea.nombre}}</h1>
 
 <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos">
@@ -19,3 +21,6 @@
 
     <button type="submit">Confirmar Tramo</button>
 </form>
+
+{{/partial}}
+{{> pages/usuarios.vinculaciones/trayectos/nuevo.html.hbs}}

@@ -13,12 +13,18 @@ import javax.persistence.InheritanceType;
 public abstract class Usuario extends EntidadPersistente {
   private String usuario;
   private String contrasena;
+  private String inicial;
 
   protected Usuario() {}
 
   public Usuario(String usuario, String contrasena) {
     this.usuario = usuario;
     this.contrasena = sha256Hex(contrasena);
+    inicial= (usuario.charAt(0)+"").toUpperCase();
+  }
+
+  public String getInicial() {
+    return inicial;
   }
 
   public String getUsuario() {

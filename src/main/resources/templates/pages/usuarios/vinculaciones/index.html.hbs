@@ -1,5 +1,5 @@
-<h1>TODO</h1>
 
+{{# partial "contenido"}}
 <ul>
 {{#each vinculaciones}}
     <li>{{organizacion.razonSocial}}</li>
@@ -19,3 +19,5 @@
 
     <button type="submit">Solicitar vinculacion</button>
 </form>
+{{/partial}}
+{{> components/Layout.html.hbs}}

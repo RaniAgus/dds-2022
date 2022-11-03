@@ -47,6 +47,7 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       Linea linea = new Linea("Linea Functional", asList(parada, parada2), new MedioDeTransporte("Hola", 30D, new TipoDeConsumo("Consumo Faalopa", 30D, UnidadDeConsumo.KM), TipoDeTransporte.TRANSPORTE_PUBLICO));
       Miembro miembro = new Miembro("juan", "perroGato00", "42885123", TipoDeDocumento.DNI, trayectos);
       Vinculacion vinculacion = new Vinculacion(miembro);
+      vinculacion.aceptar();
       Sector sector = new Sector("Halloween", asList(vinculacion));
       Organizacion organizacion = new Organizacion("PEPE SA", null, TipoDeOrganizacion.EMPRESA,
           ClasificacionDeOrganizacion.EMPRESA_PRIMARIA, asList(sector), null, null);
@@ -65,6 +66,8 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       persist(usuarioOrganizacion);
       persist(sectorTerritorial);
       persist(usuarioSectorTerritorial);
+      persist(recomendacion);
+      persist(recomendacion2);
     });
   }
 }
