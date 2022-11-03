@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers.forms;
 
 import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Either;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
 import spark.Request;
@@ -21,6 +22,18 @@ public class Context {
 
   public <T> Either<T> getSessionAttribute(String name, String error) {
     return Either.desde(() -> req.session().attribute(name), error);
+  }
+
+  public <T> void setSessionAttribute(String key, T value) {
+    req.session().attribute(key, value);
+  }
+
+  public <T> Either<T> getRequestAttribute(String name, String error) {
+    return Either.exitoso(req.<T>attribute(name)).filter(Objects::nonNull, error);
+  }
+
+  public <T> void setRequestAttribute(String key, T value) {
+    req.attribute(key, value);
   }
 
   public <T> T computeSessionAttributeIfAbsent(String name, Supplier<T> defaultValue) {

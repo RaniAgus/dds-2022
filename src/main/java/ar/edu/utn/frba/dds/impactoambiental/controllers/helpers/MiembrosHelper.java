@@ -19,7 +19,7 @@ public class MiembrosHelper {
   private RepositorioOrganizaciones repositorioOrganizaciones = RepositorioOrganizaciones.getInstance();
 
   public Either<UsuarioMiembro> usuarioMiembroDeSesion(Context ctx) {
-    return ctx.getSessionAttribute("usuario", "No se encontró el usuario en la sesión");
+    return ctx.getRequestAttribute("usuario", "No se encontró el usuario en la sesión");
   }
 
   // TODO: Ver por qué :vinculacion devuelve un id de miembro en lugar de un id de vinculacion

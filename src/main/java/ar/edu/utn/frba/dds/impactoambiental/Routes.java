@@ -2,10 +2,10 @@ package ar.edu.utn.frba.dds.impactoambiental;
 
 import static spark.Spark.after;
 import static spark.Spark.before;
+import static spark.Spark.get;
 import static spark.Spark.path;
 import static spark.Spark.port;
 import static spark.Spark.post;
-import static spark.Spark.get;
 
 import ar.edu.utn.frba.dds.impactoambiental.controllers.AgenteSectorialController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.HomeController;
@@ -13,13 +13,9 @@ import ar.edu.utn.frba.dds.impactoambiental.controllers.MiembroController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
-
 import java.util.Optional;
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
-
 import spark.Request;
 import spark.Response;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -44,8 +40,7 @@ public class Routes {
     post("/logout", usuarioController::cerrarSesion, templateEngine);
 
     path("/miembros/:usuario", () -> {
-      before(Routes::validarUsuario);
-      after(Routes::eliminarUsuarioDeSesion);
+      before("/*", Routes::validarUsuario);
 
       get("/vinculaciones", miembroController::vinculaciones, templateEngine);
       post("/vinculaciones", miembroController::proponerVinculacion, templateEngine);
@@ -60,9 +55,8 @@ public class Routes {
     });
 
     path("/organizaciones/:usuario", () -> {
-      before(Routes::validarUsuario);
-      after(Routes::eliminarUsuarioDeSesion);
-      
+      before("/*", Routes::validarUsuario);
+
       get("/vinculaciones", organizacionController::vinculaciones, templateEngine);
       post("/vinculaciones", organizacionController::aceptarVinculacion, templateEngine);
       get("/da", organizacionController::da, templateEngine);
@@ -72,8 +66,7 @@ public class Routes {
     });
 
     path("/sectoresterritoriales/:usuario", () -> {
-      before(Routes::validarUsuario);
-      after(Routes::eliminarUsuarioDeSesion);
+      before("/*", Routes::validarUsuario);
 
       get("/reportes/consumo/individual", agenteSectorialController::reportesConsumoIndividual, templateEngine);
       get("/reportes/consumo/evolucion", agenteSectorialController::reportesConsumoEvolucion, templateEngine);
@@ -91,18 +84,28 @@ public class Routes {
   }
 
   private static void validarUsuario(Request req, Response res) {
-    Optional<Usuario> usuario = Optional.ofNullable(req.params("usuario"))
-      .map(Long::valueOf)
-      .filter(id -> id.equals(req.attribute("usuarioId")))
-      .flatMap(id -> RepositorioUsuarios.getInstance().obtenerPorID(id))
-      .map(u -> { req.attribute("usuario", u); return u; });
-        
-    if (!usuario.isPresent()) { // Quizas habia que usar either en vez de optional
-      res.redirect("/");
-    }
-  }
+    Context ctx = Context.of(req);
 
-  private static void eliminarUsuarioDeSesion(Request req, Response res) {
-    req.session().removeAttribute("usuario");
+    ctx.getPathParam("usuario", "BAD_REQUEST")
+        .apply(Long::valueOf, "BAD_REQUEST")
+        .flatApply(usuarioId -> RepositorioUsuarios.getInstance().obtenerPorID(usuarioId), "NOT_FOUND")
+        .flatMap(usuario -> ctx.getSessionAttribute("usuarioId", "UNAUTHORIZED")
+            .filter(usuarioId -> usuario.getId().equals(usuarioId), "FORBIDDEN")
+            .map(usuarioId -> usuario))
+        .fold(
+            errores -> {
+              if (errores.contains("UNAUTHORIZED")) {
+                res.redirect("/login");
+              } else {
+                // TODO: Ver si redirigir o arrojar una NotFoundException para que Spark la maneje
+                res.redirect("/404");
+              }
+              return null;
+            },
+            usuario -> {
+              ctx.setRequestAttribute("usuario", usuario);
+              return null;
+            }
+        );
   }
 }

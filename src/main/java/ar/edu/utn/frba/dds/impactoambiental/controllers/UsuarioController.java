@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.UsuariosHelper;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
@@ -52,7 +53,7 @@ public class UsuarioController implements Controller {
               return null;
             },
             usuario -> {
-              req.session().attribute("usuarioId", usuario.getId());
+              Context.of(req).setSessionAttribute("usuarioId", usuario.getId());
               res.redirect("/");
               return null;
             }
