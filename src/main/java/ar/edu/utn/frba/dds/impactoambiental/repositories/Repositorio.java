@@ -17,8 +17,12 @@ public interface Repositorio<T extends EntidadPersistente> extends EntityManager
     return obtenerPorID(id).isPresent();
   }
 
-  default void agregar(T entidad) {
+  default Optional<T> agregar(T entidad) {
+    if (entidad.getId() != null) {
+      return Optional.empty();
+    }
     persist(entidad);
+    return Optional.of(entidad).filter(e -> e.getId() != null);
   }
 
   default Optional<T> actualizar(T entidad) {

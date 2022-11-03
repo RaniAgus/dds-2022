@@ -1,0 +1,21 @@
+<h1>TODO</h1>
+
+<ul>
+{{#each vinculaciones}}
+    <li>{{organizacion.razonSocial}}</li>
+    <li>{{sector.codigoInvite}}</li>
+    <li>{{estado.nombre}}</li>
+    {{#if sePuedenVerLosTrayectos}}
+        <form method="GET" action="/usuarios/me/vinculaciones/{{id}}/trayectos">
+            <button type="submit">VER TRAYECTOS</button>
+        </form>
+    {{/if}}
+{{/each}}
+</ul>
+
+<form method="POST" action="/usuarios/me/vinculaciones/">
+    <label for="codigo">Codigo Vinculacion</label>
+    <input type="text" name="codigo">
+
+    <button type="submit">Solicitar vinculacion</button>
+</form>

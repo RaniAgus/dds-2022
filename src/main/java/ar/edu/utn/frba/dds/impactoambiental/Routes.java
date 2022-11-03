@@ -1,10 +1,25 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
+import static spark.Spark.after;
+import static spark.Spark.before;
+import static spark.Spark.exception;
+import static spark.Spark.get;
+import static spark.Spark.notFound;
+import static spark.Spark.path;
+import static spark.Spark.port;
+import static spark.Spark.post;
+
 import ar.edu.utn.frba.dds.impactoambiental.controllers.AgenteSectorialController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.HomeController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.MiembroController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
-import spark.Spark;
+import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpNotFoundException;
+import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionException;
+import com.google.common.collect.ImmutableMap;
+import java.util.Optional;
+import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
+import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
@@ -12,32 +27,77 @@ public class Routes {
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
 
     HomeController homeController = new HomeController();
+    UsuarioController usuarioController = new UsuarioController();
     MiembroController miembroController = new MiembroController();
     OrganizacionController organizacionController = new OrganizacionController();
     AgenteSectorialController agenteSectorialController = new AgenteSectorialController();
 
-    Spark.port(8080); // Esto se deberia obtener por variable de entorno/service locator??
+    port(getPort());
 
-    Spark.get("/", homeController::home, templateEngine);
-    Spark.get("/recomendaciones", homeController::recomendaciones, templateEngine);
-    Spark.get("/login", homeController::login, templateEngine);
-    Spark.post("/login", homeController::validarLogin, templateEngine);
-    Spark.post("/cerrarSesion", homeController::cerrarSesion, templateEngine);
+    get("/", homeController::home);
+    get("/recomendaciones", homeController::recomendaciones, templateEngine);
 
+    get("/login", usuarioController::verLogin, templateEngine);
+    post("/login", usuarioController::iniciarSesion);
+    post("/logout", usuarioController::cerrarSesion, templateEngine);
 
-    Spark.get("miembros/:id/vinculaciones", miembroController::vinculaciones, templateEngine);
-    Spark.post("miembros/:id/vinculaciones", miembroController::proponerVinculacion, templateEngine); //TODO: Pensar un mejor nombre que proponerVinculacion()
-    Spark.get("/miembros/:id/vinculaciones/:id/trayectos", miembroController::trayectos, templateEngine);
-    Spark.get("/miembros/:id/vinculaciones/:id/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
-    Spark.get("/miembros/:id/vinculaciones/:id/trayectos/nuevo/tramos/nuevo", miembroController::tramos, templateEngine); //TODO: Pensar un mejor nombre que tramos()
-    Spark.post("/miembros/:id/vinculaciones/:id/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
+    path("/usuarios/me", () -> {
+      before("/*", usuarioController::validarUsuario);
 
-    Spark.get("organizaciones/:id/vinculaciones", organizacionController::vinculaciones, templateEngine);
-    Spark.post("/organizaciones/:id/vinculaciones", organizacionController::aceptarVinculacion, templateEngine);
-    Spark.get("/organizaciones/:id/da", organizacionController::da, templateEngine);
-    Spark.post("/organizaciones/:id/da", organizacionController::cargarDA, templateEngine);
-    Spark.get("/organizaciones/:id/reportes", organizacionController::reportes, templateEngine);
+      get("/vinculaciones", miembroController::vinculaciones, templateEngine);
+      post("/vinculaciones", miembroController::proponerVinculacion, templateEngine);
 
-    Spark.get("/sectoresterritoriales/:id/reportes", agenteSectorialController::reportes, templateEngine);
+      path("/vinculaciones/:vinculacion", () -> {
+        before("/*", miembroController::validarVinculacion);
+
+        get("/trayectos", miembroController::trayectos, templateEngine);
+        get("/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
+        post("/trayectos", miembroController::anadirTrayecto, templateEngine);
+        get("/trayectos/nuevo/tramos/nuevo", miembroController::nuevoTramo, templateEngine);
+        post("/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
+      });
+    });
+
+    path("/organizaciones/me", () -> {
+      before("/*", usuarioController::validarUsuario);
+
+      get("/vinculaciones", organizacionController::vinculaciones, templateEngine);
+      post("/vinculaciones", organizacionController::aceptarVinculacion, templateEngine);
+      get("/da", organizacionController::da, templateEngine);
+      post("/da", organizacionController::cargarDA, templateEngine);
+      get("/reportes/individual", organizacionController::reportesIndividual, templateEngine);
+      get("/reportes/evolucion", organizacionController::reportesEvolucion, templateEngine);
+    });
+
+    path("/sectoresterritoriales/me", () -> {
+      before("/*", usuarioController::validarUsuario);
+
+      get("/reportes/consumo/individual", agenteSectorialController::reportesConsumoIndividual, templateEngine);
+      get("/reportes/consumo/evolucion", agenteSectorialController::reportesConsumoEvolucion, templateEngine);
+      get("/reportes/organizacion/individual", agenteSectorialController::reportesOrganizacionIndividual, templateEngine);
+      get("/reportes/organizacion/evolucion", agenteSectorialController::reportesOrganizacionEvolucion, templateEngine);
+    });
+
+    after("/*", (req, res) -> PerThreadEntityManagers.getEntityManager().clear());
+
+    notFound((req, res) -> templateEngine.render(new ModelAndView(ImmutableMap.of(), "404.html.hbs")));
+
+    exception(ValidacionException.class, (e, req, res) -> {
+      if (e.getErrores().contains("UNAUTHORIZED")) {
+        res.redirect("/login"); // TODO: Setear un originUrl
+      } else {
+        throw new HttpNotFoundException();
+      }
+    });
+    exception(HttpNotFoundException.class, (e, req, res) -> {
+      res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "404.html.hbs")));
+    });
+
+  }
+
+  private static Integer getPort() {
+    return Optional.ofNullable(System.getenv("PORT"))
+        .map(Integer::parseInt)
+        .orElse(8080);
   }
 }

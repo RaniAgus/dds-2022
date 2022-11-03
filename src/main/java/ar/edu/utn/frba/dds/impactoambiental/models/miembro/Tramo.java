@@ -20,4 +20,9 @@ public abstract class Tramo extends EntidadPersistente {
 
   public abstract Boolean tieneTipoDeConsumo(TipoDeConsumo tipo);
 
+  public abstract String nombreOrigen();
+  public abstract String nombreDestino();
+  public abstract String nombreMedio();
+  public abstract String tipo();
+
 }

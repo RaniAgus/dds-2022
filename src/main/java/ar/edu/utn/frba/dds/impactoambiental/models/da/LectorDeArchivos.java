@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models.da;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +15,10 @@ public class LectorDeArchivos {
     validarArchivo(archivo);
 
     this.lineas = archivoALineas(archivo);
+  }
+
+  public LectorDeArchivos(byte[] bytes) {
+    this.lineas = Arrays.asList(new String(bytes).split("\n"));
   }
 
   private void validarArchivo(File f) {

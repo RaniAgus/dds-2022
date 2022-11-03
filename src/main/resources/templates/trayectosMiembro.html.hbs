@@ -1,0 +1,15 @@
+<h1>TODO</h1>
+
+<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo">
+    <button type="submit">Nuevo trayecto</button>
+</form>
+
+<ul>
+{{#each trayectos }}
+    <li>{{fecha}}</li>
+    <li>{{origen}}</li>
+    <li>{{destino}}</li>
+    <li>{{codigoInvite}}</li>
+{{/each}}
+</ul>
+

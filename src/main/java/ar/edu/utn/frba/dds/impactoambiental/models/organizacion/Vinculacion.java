@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.impactoambiental.models.organizacion;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.EntidadPersistente;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,10 +10,14 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Vinculacion extends EntidadPersistente {
-  @OneToOne
-  private final Miembro miembro;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Miembro miembro;
+
   @Enumerated(EnumType.STRING)
   private EstadoVinculo estado;
+
+  protected Vinculacion() {
+  }
 
   public Vinculacion(Miembro miembro) {
     this.miembro = miembro;
@@ -37,4 +41,3 @@ public class Vinculacion extends EntidadPersistente {
   }
 
 }
-

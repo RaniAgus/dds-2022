@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
-import static ar.edu.utn.frba.dds.impactoambiental.ServiceLocator.getServiceLocator;
-
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -13,17 +12,18 @@ public class Validar10MilContrasenas extends ValidacionDeUsuario {
   @Transient
   private final LectorDeArchivos lectorDeArchivos;
 
-  protected Validar10MilContrasenas() {
-    this(getServiceLocator().getWeakPasswordsFile());
+  public Validar10MilContrasenas() {
+   lectorDeArchivos=null;
   }
 
   public Validar10MilContrasenas(LectorDeArchivos lectorDeArchivos) {
     this.lectorDeArchivos = lectorDeArchivos;
   }
 
+
   @Override
-  public boolean validar(UsuarioDto usuarioDto) {
-    return !lectorDeArchivos.getLineas().contains(usuarioDto.getContrasena());
+  public boolean test(UsuarioDto dto) {
+    return !lectorDeArchivos.getLineas().contains(dto.getPassword());
   }
 
   @Override

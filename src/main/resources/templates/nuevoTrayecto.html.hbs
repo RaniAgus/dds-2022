@@ -1,0 +1,44 @@
+<h1>TODO</h1>
+
+<form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos">
+    <label for="fecha">Fecha</label>
+    <input type="date" name="fecha">
+
+    <label for="ingresar">Añadir Trayecto</label>
+    <button type="submit"></button>
+</form>
+
+<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
+    <input type="hidden" name="tipo" value="publico">
+    
+    <label for="linea">Elegir Linea</label>
+    <select name="linea">
+        {{#each lineas}}
+            <option value="{{id}}">{{nombre}}</option>
+        {{/each}}
+    </select>
+
+    <button type="submit">Nuevo Tramo publico</button>
+</form>
+
+<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
+    <input type="hidden" name="tipo" value="privado">
+    
+    <label for="medio">Elegir Medio de transporte</label>
+    <select name="medioDeTransporte">
+        {{#each mediosDeTransporte}}
+            <option value="{{id}}">{{nombre}}</option>
+        {{/each}}
+    </select>
+
+    <button type="submit">Nuevo Tramo privado</button>
+</form>
+
+<ul>
+{{#each pretramos }}
+    <li>{{tipo}}</li>
+    <li>{{medio}}</li>
+    <li>{{origen}}</li>
+    <li>{{destino}}</li>
+{{/each}}
+</ul>

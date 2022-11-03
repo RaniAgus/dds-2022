@@ -17,6 +17,10 @@ public class Localidad {
     return id;
   }
 
+  public String getNombre() {
+    return nombre;
+  }
+
   @Override
   public String toString() {
     return "Localidad{"

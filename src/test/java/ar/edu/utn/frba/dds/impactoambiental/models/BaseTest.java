@@ -4,6 +4,8 @@ import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Validacion;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
@@ -30,13 +32,12 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioDto;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar10MilContrasenas;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Validar8Caracteres;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresConsecutivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarCaracteresRepetidos;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.ValidarUsuarioPorDefecto;
-import ar.edu.utn.frba.dds.impactoambiental.models.validaciones.Validador;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -90,11 +91,11 @@ public abstract class BaseTest {
   // Sectores
 
   public Sector crearSectorVacio() {
-    return new Sector(new ArrayList<>());
+    return new Sector("Sector", new ArrayList<>());
   }
 
   public Sector crearSectorConUnaVinculacion(Vinculacion vinculacion) {
-    return new Sector(singletonList(vinculacion));
+    return new Sector("Sector", singletonList(vinculacion));
   }
 
   // Miembros
@@ -156,24 +157,23 @@ public abstract class BaseTest {
   // Datos de Actividad
 
   protected DatosActividadesParser crearParserDatosDeActividad() {
-    return new DatosActividadesParser(repositorioTipoDeConsumo, lectorDeArchivos, 1, ';');
+    return new DatosActividadesParser(repositorioTipoDeConsumo, lectorDeArchivos, 1, ';', "MM/yyyy");
   }
 
   // Validadores
 
-  protected Validador<UsuarioDto> crearValidadorConTodasLasValidaciones() {
-    return new Validador<UsuarioDto>().agregarValidaciones(Arrays.asList(
+  protected List<Validacion<UsuarioDto>> todasLasValidaciones() {
+    return Arrays.asList(
         new Validar8Caracteres(),
         new ValidarCaracteresRepetidos(),
         new Validar10MilContrasenas(lectorDeArchivos),
         new ValidarCaracteresConsecutivos(),
         new ValidarUsuarioPorDefecto()
-    ));
+    );
   }
 
   // Administradores
-
-  protected Usuario crearUsuario(String contrasenia) {
-    return new Usuario(crearValidadorConTodasLasValidaciones(), new UsuarioDto("Juancito", contrasenia));
+  protected Usuario crearUsuario(Organizacion organizacion) {
+    return new UsuarioOrganizacion("Juancito", "ContraSUper*MegaS3gUr4", organizacion);
   }
 }

@@ -15,11 +15,21 @@ public enum EstadoVinculo {
   ACEPTADO,
   RECHAZADO;
 
+  private String nombre;
+
+  EstadoVinculo() {
+    this.nombre = this.name();
+  }
+
   public EstadoVinculo aceptar(Vinculacion vinculacion) {
     return this;
   }
 
   public EstadoVinculo rechazar(Vinculacion vinculacion) {
     return this;
+  }
+
+  public String getNombre() {
+    return this.name();
   }
 }

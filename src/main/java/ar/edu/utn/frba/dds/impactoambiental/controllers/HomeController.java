@@ -1,38 +1,29 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
+import java.util.Optional;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.Spark;
 
-
-public class HomeController {
+public class HomeController implements Controller {
+  private RepositorioUsuarios usuarios = RepositorioUsuarios.getInstance();
 
   public ModelAndView recomendaciones(Request req, Response resp) {
     return new ModelAndView(null, "recomendaciones.html.hbs");
   }
 
-  public ModelAndView login(Request req, Response resp) {
-    if (req.cookie("SESSIONID") != null) {
-      resp.redirect("/");
-      return null;
+  public Void home(Request req, Response resp) {
+    Usuario usuario = Optional.ofNullable(req.session().<Long>attribute("usuarioId"))
+        .flatMap(usuarios::obtenerPorID)
+        .orElse(null);
+
+    if (usuario == null) {
+      resp.redirect("/recomendaciones");
+    } else {
+      resp.redirect(usuario.getHomeUrl());
     }
-    return new ModelAndView(null, "login.html.hbs");
-  }
 
-  public ModelAndView home(Request req, Response resp) {
-    resp.redirect("/recomendaciones");
     return null;
-  }
-
-  public ModelAndView validarLogin(Request req, Response resp) {
-    // TODO
-    return null;
-  }
-
-  public ModelAndView cerrarSesion(Request request, Response response) {
-    response.removeCookie("SESSIONID");
-    response.redirect("/");
-    return null;
-    // No se que tan bien esta esto la verdad
   }
 }

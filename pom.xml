@@ -132,6 +132,12 @@
       <artifactId>postgresql</artifactId>
       <version>42.5.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.hibernate.hql</groupId>
+      <artifactId>hibernate-hql-lucene</artifactId>
+      <version>1.5.0.Final</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- drivers jdbc -->
     <!-- mysql -->

@@ -10,10 +10,13 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class SectorTerritorial extends EntidadPersistente {
-  private final String nombre;
+  private String nombre;
   @OneToMany
   @JoinColumn(name = "sector_territorial_id")
-  private final List<Organizacion> organizaciones;
+  private List<Organizacion> organizaciones;
+
+  protected SectorTerritorial() {
+  }
 
   public SectorTerritorial(String nombre, List<Organizacion> organizaciones) {
     this.nombre = nombre;

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.models.usuario;
 
+import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -8,8 +9,8 @@ import javax.persistence.Entity;
 public class ValidarCaracteresConsecutivos extends ValidacionDeUsuario {
 
   @Override
-  public boolean validar(UsuarioDto usuarioDto) {
-    char[] contrasenaArray = usuarioDto.getContrasena().toCharArray();
+  public boolean test(UsuarioDto dto) {
+    char[] contrasenaArray = dto.getPassword().toCharArray();
     for (int i = 0; i < contrasenaArray.length - 3; i++) {
       if ((contrasenaArray[i] == contrasenaArray[i + 1] - 1
           && contrasenaArray[i] == contrasenaArray[i + 2] - 2

@@ -5,9 +5,13 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,10 +28,10 @@ public class Organizacion extends EntidadPersistente {
   private TipoDeOrganizacion tipo;
   @Enumerated(EnumType.STRING)
   private ClasificacionDeOrganizacion clasificacion;
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "organizacion_id")
   private List<Sector> sectores;
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "organizacion_id")
   private List<DatoActividad> datosActividad;
   @OneToMany
@@ -63,6 +67,10 @@ public class Organizacion extends EntidadPersistente {
 
   public List<Sector> getSectores() {
     return sectores;
+  }
+
+  public List<Miembro> getMiembros() {
+    return sectores.stream().flatMap(s -> s.getMiembros().stream()).collect(Collectors.toList());
   }
 
   public void agregarDatosActividad(List<DatoActividad> nuevosDatos) {
@@ -116,5 +124,9 @@ public class Organizacion extends EntidadPersistente {
 
   public TipoDeOrganizacion getTipo() {
     return tipo;
+  }
+
+  public String getRazonSocial() {
+    return razonSocial;
   }
 }

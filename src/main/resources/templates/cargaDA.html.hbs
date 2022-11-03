@@ -1,0 +1,32 @@
+<h1>TODO</h1>
+
+<h2>Cargar DA Manual</h2>
+<form method="POST" action="/organizaciones/me/da">
+    <select name="periodicidad">
+        {{#each periodicidades}}
+            <option value="{{this}}">{{this}}</option>
+        {{/each}}
+    </select>
+
+    <label for="fecha">Fecha</label>
+    <input type="date" name="fechaInicial">
+
+    <select name="tipoDeConsumo">
+        {{#each tiposDeConsumo}}
+            <option value="{{nombre}}">{{nombre}}</option>
+        {{/each}}
+    </select>
+
+    <label for="valor">Cantidad de consumo</label>
+    <input type="number" name="cantidadConsumo">
+
+    <button type="submit">Cargar</button>
+</form>
+
+<h2>Cargar DA por CSV</h2>
+<form method="POST" action="/organizaciones/me/da" enctype="multipart/form-data">
+    <label for="archivo">Subir archivo</label>
+    <input type="file" name="archivo" accept=".csv">
+
+    <button type="submit">Cargar</button>
+</form>

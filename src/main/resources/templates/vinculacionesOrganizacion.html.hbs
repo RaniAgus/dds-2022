@@ -1,0 +1,15 @@
+<h1>TODO</h1>
+
+<ul>
+{{#each vinculaciones}}
+    <li>{{miembro.nombre}}</li> {{! aca hay que volver a agregar datos a mi}}
+    <li>{{sector.nombre}}</li>
+    <li>{{sector.nombre}}</li>
+    <li>{{estado.nombre}}</li>
+    <form method="POST" action="/organizaciones/me/vinculaciones">
+        <input type="hidden" name="vinculacionId" value="{{id}}">
+
+        <button type="submit">Aceptar Vinculacion</button>
+    </form>
+{{/each}}
+</ul>
