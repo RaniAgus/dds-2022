@@ -80,7 +80,7 @@ public class Routes {
 
     after("/*", (req, res) -> PerThreadEntityManagers.getEntityManager().clear());
 
-    notFound((req, res) -> templateEngine.render(new ModelAndView(ImmutableMap.of(), "404.html.hbs")));
+    notFound((req, res) -> templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/404.html.hbs")));
 
     exception(ValidacionException.class, (e, req, res) -> {
       if (e.getErrores().contains("UNAUTHORIZED")) {
@@ -90,7 +90,7 @@ public class Routes {
       }
     });
     exception(HttpNotFoundException.class, (e, req, res) -> {
-      res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "404.html.hbs")));
+      res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/404.html.hbs")));
     });
 
   }

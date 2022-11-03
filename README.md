@@ -31,7 +31,17 @@ docker compose up db
 
 2. Editar la conexión a la base de datos para que apunte a `localhost:5432`
 
-3. Ejecutar desde IntelliJ la clase `MiImpactoAmbientalApp`.
+3. Ejecutar desde IntelliJ la clase `Bootstrap`.
+
+- Para reiniciar la db, ejecutar:
+
+```sh
+docker rm impactoambiental-db
+docker volume rm impactoambiental-data
+docker volume create impactoambiental-data
+docker compose up db
+```
+
 
 ### Ejecutar desde Docker Compose
 

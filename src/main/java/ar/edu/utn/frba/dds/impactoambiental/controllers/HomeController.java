@@ -10,7 +10,7 @@ public class HomeController implements Controller {
   private RepositorioUsuarios usuarios = RepositorioUsuarios.getInstance();
 
   public ModelAndView recomendaciones(Request req, Response resp) {
-    return new ModelAndView(null, "recomendaciones.html.hbs");
+    return new ModelAndView(null, "pages/recomendaciones/index.html.hbs");
   }
 
   public Void home(Request req, Response resp) {

@@ -54,7 +54,7 @@ public class OrganizacionController implements Controller {
         "vinculaciones", vinculaciones
     );
 
-    return new ModelAndView(model, "vinculacionesOrganizacion.html.hbs");
+    return new ModelAndView(model, "pages/organizaciones/vinculaciones/index.html.hbs");
   }
 
   public ModelAndView aceptarVinculacion(Request request, Response response) {
@@ -87,7 +87,7 @@ public class OrganizacionController implements Controller {
       "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
         "periodicidades", Arrays.asList(Periodicidad.values())
     );
-    return new ModelAndView(model, "cargaDA.html.hbs");
+    return new ModelAndView(model, "pages/organizaciones/da/index.html.hbs");
   }
 
   public ModelAndView cargarDA(Request request, Response response) {
@@ -138,7 +138,7 @@ public class OrganizacionController implements Controller {
       "organizacion", organizacion,
       "reporte", reporte
     );
-    return new ModelAndView(model, "organizacionReportesIndividual.html.hbs");
+    return new ModelAndView(model, "pages/organizaciones/reportes/individual.html.hbs");
   }
 
   public ModelAndView reportesEvolucion(Request request, Response response) {
@@ -184,7 +184,7 @@ public class OrganizacionController implements Controller {
       "segundoReporte", segundoReporte,
       "reporteEvolucion", reporteEvolucion
     );
-    return new ModelAndView(model, "organizacionReportesEvolucion.html.hbs");
+    return new ModelAndView(model, "pages/organizaciones/reportes/evolucion.html.hbs");
   }
 
   private List<DatoActividad> daDesdeCSV(Request request) {

@@ -60,7 +60,7 @@ public class MiembroController implements Controller {
       "usuario", usuario,
       "vinculaciones", vinculaciones
     );
-    return new ModelAndView(model, "vinculacionesMiembro.html.hbs");
+    return new ModelAndView(model, "pages/usuarios/vinculaciones/index.html.hbs");
   }
 
   public ModelAndView proponerVinculacion(Request request, Response response) {
@@ -97,7 +97,7 @@ public class MiembroController implements Controller {
         "trayectos", trayectos,
         "vinculacion", request.attribute("vinculacion")
     );
-    return new ModelAndView(model, "trayectosMiembro.html.hbs");
+    return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/index.html.hbs");
   }
 
   public ModelAndView nuevoTrayecto(Request request, Response response) {
@@ -117,7 +117,7 @@ public class MiembroController implements Controller {
         "mediosDeTransporte", mediosDeTransporte,
         "vinculacion", request.attribute("vinculacion")
     );
-    return new ModelAndView(model, "nuevoTrayecto.html.hbs");
+    return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/nuevo.html.hbs");
   }
 
   public ModelAndView anadirTrayecto(Request request, Response response) {
@@ -162,7 +162,7 @@ public class MiembroController implements Controller {
           "linea", linea,
           "vinculacion", request.attribute("vinculacion")
       );
-      return new ModelAndView(model, "nuevoTramoPublico.html.hbs");
+      return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/tramos/nuevo[publico].html.hbs");
     }
     else {
       //param de form
@@ -176,7 +176,7 @@ public class MiembroController implements Controller {
           "medio", medio,
           "vinculacion", request.attribute("vinculacion")
       );
-      return new ModelAndView(model, "nuevoTramoPrivado.html.hbs");
+      return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/tramos/nuevo[privado].html.hbs");
     }
   }
 

@@ -1,9 +1,5 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
-import java.time.LocalDate;
-
-import com.google.common.collect.ImmutableMap;
-
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
@@ -11,8 +7,9 @@ import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
 import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorialDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorialFactory;
-import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioSectorTerritorial;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
+import com.google.common.collect.ImmutableMap;
+import java.time.LocalDate;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -46,7 +43,7 @@ public class AgenteSectorialController implements Controller {
       "sectorTerritorial", sector,
       "reporte", reporte
     );
-    return new ModelAndView(model, "sectorReportesConsumoIndividual.html.hbs");
+    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/individual.html.hbs");
   }
 
   public ModelAndView reportesConsumoEvolucion(Request request, Response response) {
@@ -92,7 +89,7 @@ public class AgenteSectorialController implements Controller {
       "segundoReporte", segundoReporte,
       "reporteEvolucion", reporteEvolucion
     );
-    return new ModelAndView(model, "sectorReportesConsumoEvolucion.html.hbs");
+    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/index.html.hbs");
   }
 
 
@@ -122,7 +119,7 @@ public class AgenteSectorialController implements Controller {
       "sectorTerritorial", sector,
       "reporte", reporte
     );
-    return new ModelAndView(model, "sectorReportesOrganizacionIndividual.html.hbs");
+    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/individual.html.hbs");
   }
 
   public ModelAndView reportesOrganizacionEvolucion(Request request, Response response) {
@@ -168,6 +165,6 @@ public class AgenteSectorialController implements Controller {
       "segundoReporte", segundoReporte,
       "reporteEvolucion", reporteEvolucion
     );
-    return new ModelAndView(model, "sectorReportesOrganizacionEvolucion.html.hbs");
+    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/index.html.hbs");
   }
 }
