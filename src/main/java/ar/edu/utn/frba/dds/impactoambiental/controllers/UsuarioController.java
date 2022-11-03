@@ -60,6 +60,32 @@ public class UsuarioController implements Controller {
         );
   }
 
+  public void validarUsuario(Request req, Response res) {
+    Context ctx = Context.of(req);
+
+    ctx.getPathParam("usuario", "BAD_REQUEST")
+        .apply(Long::valueOf, "BAD_REQUEST")
+        .flatApply(usuarioId -> RepositorioUsuarios.getInstance().obtenerPorID(usuarioId), "NOT_FOUND")
+        .flatMap(usuario -> ctx.getSessionAttribute("usuarioId", "UNAUTHORIZED")
+            .filter(usuarioId -> usuario.getId().equals(usuarioId), "FORBIDDEN")
+            .map(usuarioId -> usuario))
+        .fold(
+            errores -> {
+              if (errores.contains("UNAUTHORIZED")) {
+                res.redirect("/login");
+              } else {
+                // TODO: Ver si redirigir o arrojar una NotFoundException para que Spark la maneje
+                res.redirect("/404");
+              }
+              return null;
+            },
+            usuario -> {
+              ctx.setRequestAttribute("usuario", usuario);
+              return null;
+            }
+        );
+  }
+
   public ModelAndView cerrarSesion(Request request, Response response) {
     request.session().removeAttribute("usuarioId");
     response.redirect("/");

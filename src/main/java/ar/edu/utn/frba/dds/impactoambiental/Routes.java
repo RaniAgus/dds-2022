@@ -12,12 +12,8 @@ import ar.edu.utn.frba.dds.impactoambiental.controllers.HomeController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.MiembroController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
-import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
-import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
 import java.util.Optional;
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
-import spark.Request;
-import spark.Response;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
@@ -40,7 +36,7 @@ public class Routes {
     post("/logout", usuarioController::cerrarSesion, templateEngine);
 
     path("/miembros/:usuario", () -> {
-      before("/*", Routes::validarUsuario);
+      before("/*", usuarioController::validarUsuario);
 
       get("/vinculaciones", miembroController::vinculaciones, templateEngine);
       post("/vinculaciones", miembroController::proponerVinculacion, templateEngine);
@@ -55,7 +51,7 @@ public class Routes {
     });
 
     path("/organizaciones/:usuario", () -> {
-      before("/*", Routes::validarUsuario);
+      before("/*", usuarioController::validarUsuario);
 
       get("/vinculaciones", organizacionController::vinculaciones, templateEngine);
       post("/vinculaciones", organizacionController::aceptarVinculacion, templateEngine);
@@ -66,7 +62,7 @@ public class Routes {
     });
 
     path("/sectoresterritoriales/:usuario", () -> {
-      before("/*", Routes::validarUsuario);
+      before("/*", usuarioController::validarUsuario);
 
       get("/reportes/consumo/individual", agenteSectorialController::reportesConsumoIndividual, templateEngine);
       get("/reportes/consumo/evolucion", agenteSectorialController::reportesConsumoEvolucion, templateEngine);
@@ -81,31 +77,5 @@ public class Routes {
     return Optional.ofNullable(System.getenv("PORT"))
         .map(Integer::parseInt)
         .orElse(8080);
-  }
-
-  private static void validarUsuario(Request req, Response res) {
-    Context ctx = Context.of(req);
-
-    ctx.getPathParam("usuario", "BAD_REQUEST")
-        .apply(Long::valueOf, "BAD_REQUEST")
-        .flatApply(usuarioId -> RepositorioUsuarios.getInstance().obtenerPorID(usuarioId), "NOT_FOUND")
-        .flatMap(usuario -> ctx.getSessionAttribute("usuarioId", "UNAUTHORIZED")
-            .filter(usuarioId -> usuario.getId().equals(usuarioId), "FORBIDDEN")
-            .map(usuarioId -> usuario))
-        .fold(
-            errores -> {
-              if (errores.contains("UNAUTHORIZED")) {
-                res.redirect("/login");
-              } else {
-                // TODO: Ver si redirigir o arrojar una NotFoundException para que Spark la maneje
-                res.redirect("/404");
-              }
-              return null;
-            },
-            usuario -> {
-              ctx.setRequestAttribute("usuario", usuario);
-              return null;
-            }
-        );
   }
 }
