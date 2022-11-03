@@ -1,10 +1,6 @@
 <h1>TODO</h1>
 
-<ul>
-{{#each errores}}
-    <li>{{this}}</li>
-{{/each}}
-</ul>
+{{>components/AlertError.html.hbs}}
 
 <form method="POST" action="/login">
     <label for="username">Nombre de usuario.</label>

@@ -13,6 +13,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.TipoDeTrans
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
+import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Recomendacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.ClasificacionDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
@@ -22,6 +23,8 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioSectorTerritorial;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
@@ -36,7 +39,8 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
 
   public void init() {
     withTransaction(() -> {
-
+      Recomendacion recomendacion = new Recomendacion(LocalDate.now(),"Recomendaciones de Noviembre","Tremendas recomendaciones","localhost:8080/recomendaciones");
+      Recomendacion recomendacion2 = new Recomendacion(LocalDate.now(),"Recomendaciones de Noviembre","Tremendas recomendaciones","localhost:8080/recomendaciones");
       List<Trayecto> trayectos = new ArrayList<>();
       Parada parada = new Parada("Lo De Marco", new Distancia(10D, Unidad.KM), new Distancia(10D, Unidad.KM));
       Parada parada2 = new Parada("Lo De Uli", new Distancia(10D, Unidad.KM), new Distancia(10D, Unidad.KM));
