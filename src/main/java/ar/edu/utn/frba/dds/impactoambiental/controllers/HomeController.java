@@ -1,17 +1,17 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
+
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
+
 import ar.edu.utn.frba.dds.impactoambiental.dtos.RecomendacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Recomendacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioDeRecomendaciones;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioUsuarios;
-
+import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import com.google.common.collect.ImmutableMap;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -21,7 +21,13 @@ public class HomeController implements Controller {
 
   public ModelAndView recomendaciones(Request req, Response resp) {
     List<Recomendacion> recomendaciones = RepositorioDeRecomendaciones.getInstance().obtenerLasDiezMasCercanas();
-    Map<String, Object> models= ImmutableMap.of("recomendaciones",recomendaciones.stream().map(RecomendacionDto::fromRecomendacion).collect(Collectors.toList()));
+
+    Map<String, Object> models = ImmutableMap.of(
+        "usuario", entry(req.attribute("usuario")),
+        "recomendaciones", recomendaciones.stream()
+            .map(RecomendacionDto::fromRecomendacion)
+            .collect(Collectors.toList())
+    );
 
     return new ModelAndView(models, "pages/recomendaciones/index.html.hbs");
   }
