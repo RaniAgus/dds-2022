@@ -1,6 +1,8 @@
-<div style="display: flex">
-{{#each recomendaciones}}
-    {{> components/CardRecomendaciones.html.hbs}}
-{{/each}}
-</div>
-<a href="/login">login</a>
+{{#partial "contenido"}}
+    <div style="display: flex">
+    {{#each recomendaciones}}
+        {{> components/CardRecomendaciones.html.hbs}}
+    {{/each}}
+    </div>
+{{/partial}}
+{{> components/Layout.html.hbs}}

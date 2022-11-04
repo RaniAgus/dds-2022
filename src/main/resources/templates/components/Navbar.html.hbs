@@ -4,24 +4,32 @@
       <img src="/images/world_black.svg" alt="logo" />
       <span class="px-2 navbar-item self-center text-xl font-semibold whitespace-nowrap ">Mi Impacto Ambiental</span>
     </a>
-    <div class="flex items-center md:order-2">
-      <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 " id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-        <span class="sr-only">Abrir menú de usuario</span>
-        <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full ">
-          <span class="font-medium text-gray-600 ">{{usuario.inicial}}</span>
+    {{#if usuario}}
+        <div class="flex items-center md:order-2">
+          <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 " id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+            <span class="sr-only">Abrir menú de usuario</span>
+            <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full ">
+              <span class="font-medium text-gray-600 ">{{usuario.inicial}}</span>
+            </div>
+          </button>
+          <div class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow" id="user-dropdown">
+            <div class="py-3 px-4">
+              <span class="block text-sm text-gray-900 dark:text-white">{{usuario.usuario}}</span>
+            </div>
+            <ul class="py-1" aria-labelledby="user-menu-button">
+              <li>
+                <a href="/logout" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Cerrar sesión</a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </button>
-      <div class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow" id="user-dropdown">
-        <div class="py-3 px-4">
-          <span class="block text-sm text-gray-900 dark:text-white">{{usuario.usuario}}</span>
+    {{else}}
+        <div class="flex items-center md:order-2">
+            <a href="/login" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-green-700 bg-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300   ">
+              Login
+            </a>
         </div>
-        <ul class="py-1" aria-labelledby="user-menu-button">
-          <li>
-            <a href="/logout" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Cerrar sesión</a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    {{/if}}
     <div class="hidden w-full md:block md:w-auto" id="mobile-menu">
       <ul class="bg-transparent flex flex-col p-4 mt-4 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
         <li>
