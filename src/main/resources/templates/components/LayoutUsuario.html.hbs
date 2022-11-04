@@ -9,9 +9,11 @@
     {{#partial "sidebar-title"}}Trayectos{{/partial}}
     {{#partial "sidebar-item-dropdown-items"}}
       {{#each vinculaciones}}
-        <li>
-          <a {{#if sePuedenVerLosTrayectos}} href="/usuarios/me/vinculaciones/{{id}}/trayectos" {{/if}} class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{organizacion.razonSocial}}</a>
-        </li>
+          {{#if sePuedenVerLosTrayectos}}
+              {{#partial "sidebar-item-dropdown-item-link"}}href="/usuarios/me/vinculaciones/{{id}}/trayectos"{{/partial}}
+              {{#partial "sidebar-item-dropdown-item-text"}}{{organizacion.razonSocial}}{{/partial}}
+              {{> components/SidebarItemDropdownItem.html.hbs }}
+          {{/if}}
       {{/each}}
     {{/partial}}
     {{> components/SidebarItemDropdown.html.hbs }}
