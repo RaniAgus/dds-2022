@@ -1,11 +1,13 @@
 {{#partial "contenido"}}
   {{#partial "sidebar-items"}}
+
     {{#partial "sidebar-link"}}href="/usuarios/me/vinculaciones"{{/partial}}
     {{#partial "sidebar-icon"}}
       <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0H12C13.1046 0 14 0.89543 14 2V3H18C19.1046 3 20 3.89543 20 5V16C20 17.1046 19.1046 18 18 18H2C0.89543 18 0 17.1046 0 16V5C0 3.89543 0.89543 3 2 3H6V2C6 0.89543 6.89543 0 8 0ZM2 5H6H14H18V10H11H9H2V5ZM2 16V12H9V13H11V12H18V16H2ZM12 2V3H8V2H12Z" fill="black"/><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
     {{/partial}}
     {{#partial "sidebar-title"}}Vinculaciones{{/partial}}
     {{> components/SidebarItem.html.hbs }}
+
     {{#partial "sidebar-title"}}Trayectos{{/partial}}
     {{#partial "sidebar-item-dropdown-items"}}
       {{#each vinculaciones}}
@@ -17,6 +19,7 @@
       {{/each}}
     {{/partial}}
     {{> components/SidebarItemDropdown.html.hbs }}
+
   {{/partial}}
 
   {{> components/Sidebar.html.hbs}}
