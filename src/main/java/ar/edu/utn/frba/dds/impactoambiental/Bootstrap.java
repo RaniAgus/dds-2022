@@ -1,5 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.UnidadDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Distancia;
@@ -33,12 +36,21 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobalEntityManager {
 
+  TipoDeConsumo consumoFalopa = new TipoDeConsumo("Consumo Faalopa", 30D, UnidadDeConsumo.KM);
+  TipoDeConsumo nafta = new TipoDeConsumo("Nafta", 30D, UnidadDeConsumo.LT);
+  TipoDeConsumo gas = new TipoDeConsumo("Gas", 30D, UnidadDeConsumo.M3);
+  TipoDeConsumo electricidad = new TipoDeConsumo("Electricidad", 30D, UnidadDeConsumo.KWH);
+
   public static void main(String[] args) {
     new Bootstrap().init();
   }
 
   public void init() {
     withTransaction(() -> {
+      persist(consumoFalopa);
+      persist(nafta);
+      persist(gas);
+      persist(electricidad);
       persistirRecomendaciones();
       persistirLinea(persistirParadas());
       persistirTransportesPrivados();
@@ -48,9 +60,12 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       Sector halloween = persistirSector("Halloween", juan.get(0), uli.get(1), agus.get(2));
       Sector navidad = persistirSector("Navidad", juan.get(1), uli.get(2), agus.get(0));
       Sector pascuas = persistirSector("Pascuas", juan.get(2), uli.get(0), agus.get(1));
-      Organizacion pepeSa = persistirOrganizacion("pepe", "peperroGato00", "PEPE SA", Collections.singletonList(halloween), TipoDeOrganizacion.GUBERNAMENTAL);
-      Organizacion juanSa = persistirOrganizacion("ulidesign", "ulidesign", "ULI DISENIOS", Collections.singletonList(pascuas), TipoDeOrganizacion.EMPRESA);
-      Organizacion utn = persistirOrganizacion("utn", "utn", "UTN", Collections.singletonList(navidad), TipoDeOrganizacion.GUBERNAMENTAL);
+      DatoActividad datoActividad1 = persistirDatoActividad(nafta, LocalDate.now(), Periodicidad.MENSUAL);
+      DatoActividad datoActividad2 = persistirDatoActividad(gas, LocalDate.now(), Periodicidad.ANUAL);
+      DatoActividad datoActividad3 = persistirDatoActividad(electricidad, LocalDate.of(2021, 1, 1), Periodicidad.MENSUAL);
+      Organizacion pepeSa = persistirOrganizacion("pepe", "peperroGato00", "PEPE SA", Collections.singletonList(halloween), TipoDeOrganizacion.GUBERNAMENTAL, Arrays.asList(datoActividad1, datoActividad2));
+      Organizacion juanSa = persistirOrganizacion("ulidesign", "ulidesign", "ULI DISENIOS", Collections.singletonList(pascuas), TipoDeOrganizacion.EMPRESA, Collections.singletonList(datoActividad3));
+      Organizacion utn = persistirOrganizacion("utn", "utn", "UTN", Collections.singletonList(navidad), TipoDeOrganizacion.GUBERNAMENTAL, Collections.emptyList());
       persistirSectorTerritorial(Arrays.asList(pepeSa, juanSa, utn));
     });
   }
@@ -73,7 +88,7 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
   }
 
   private Linea persistirLinea(List<Parada> paradas) {
-    Linea linea = new Linea("Linea Functional", paradas, new MedioDeTransporte("Hola", 30D, new TipoDeConsumo("Consumo Faalopa", 30D, UnidadDeConsumo.KM), TipoDeTransporte.TRANSPORTE_PUBLICO));
+    Linea linea = new Linea("Linea Functional", paradas, new MedioDeTransporte("Hola", 30D, consumoFalopa, TipoDeTransporte.TRANSPORTE_PUBLICO));
     persist(linea);
     return linea;
   }
@@ -108,8 +123,8 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
     return sector;
   }
 
-  private Organizacion persistirOrganizacion(String username, String password, String nombre, List<Sector> sectores, TipoDeOrganizacion tipo) {
-    Organizacion organizacion = new Organizacion(nombre, new Ubicacion(1, "Av. Siempre Viva", "578"), tipo, ClasificacionDeOrganizacion.EMPRESA_PRIMARIA, sectores, null, null);
+  private Organizacion persistirOrganizacion(String username, String password, String nombre, List<Sector> sectores, TipoDeOrganizacion tipo, List<DatoActividad> datosActividad) {
+    Organizacion organizacion = new Organizacion(nombre, new Ubicacion(1, "Av. Siempre Viva", "578"), tipo, ClasificacionDeOrganizacion.EMPRESA_PRIMARIA, sectores, datosActividad, new ArrayList<>());
     persist(organizacion);
     UsuarioOrganizacion usuarioOrganizacion = new UsuarioOrganizacion(username, password, organizacion);
     persist(usuarioOrganizacion);
@@ -125,10 +140,16 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
 
   private void persistirTransportesPrivados() {
     List<MedioDeTransporte> transportesPrivados = Arrays.asList(
-        new MedioDeTransporte("Auto", 30D, new TipoDeConsumo("Consumo Faalopa", 30D, UnidadDeConsumo.KM), TipoDeTransporte.SERVICIO_CONTRATADO),
-        new MedioDeTransporte("Moto", 30D, new TipoDeConsumo("Consumo Faalopa", 30D, UnidadDeConsumo.KM), TipoDeTransporte.SERVICIO_CONTRATADO),
-        new MedioDeTransporte("Moto Moto", 30D, new TipoDeConsumo("Consumo Faalopa", 30D, UnidadDeConsumo.KM), TipoDeTransporte.SERVICIO_CONTRATADO)
+        new MedioDeTransporte("Auto", 30D, consumoFalopa, TipoDeTransporte.SERVICIO_CONTRATADO),
+        new MedioDeTransporte("Moto", 30D, consumoFalopa, TipoDeTransporte.SERVICIO_CONTRATADO),
+        new MedioDeTransporte("Moto Moto", 30D, consumoFalopa, TipoDeTransporte.SERVICIO_CONTRATADO)
     );
     transportesPrivados.forEach(this::persist);
+  }
+
+  private DatoActividad persistirDatoActividad(TipoDeConsumo tipoDeConsumo, LocalDate fecha, Periodicidad periodicidad) {
+    DatoActividad da = new DatoActividad(tipoDeConsumo, 100.0, new Periodo(fecha, periodicidad));
+    persist(da);
+    return da;
   }
 }
