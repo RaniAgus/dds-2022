@@ -1,51 +1,16 @@
 <head>
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css"/>
-    <body>
-    <script src="https://onpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
-    <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900" style="background: #5E8C31">
-        <div class="container flex flex-wrap justify-between items-center mx-auto">
-            <a href="/recomendaciones" class="flex items-center">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.5 6L18.0333 7.1C17.6871 7.35964 17.2661 7.5 16.8333 7.5H13.475C12.8775 7.5 12.3312 7.83761 12.064 8.37206V8.37206C11.7342 9.03161 11.9053 9.83161 12.476 10.2986L14.476 11.9349C16.0499 13.2227 16.8644 15.22 16.6399 17.2412L16.5936 17.6577C16.5314 18.2177 16.4102 18.7695 16.232 19.304L16 20" stroke="#33363F" stroke-width="2"/>
-                    <path d="M2.5 10.5L5.7381 9.96032C7.09174 9.73471 8.26529 10.9083 8.03968 12.2619L7.90517 13.069C7.66434 14.514 8.3941 15.9471 9.70437 16.6022V16.6022C10.7535 17.1268 11.2976 18.3097 11.0131 19.4476L10.5 21.5" stroke="#33363F" stroke-width="2"/>
-                    <circle cx="12" cy="12" r="9" stroke="#33363F" stroke-width="2"/>
-                </svg>
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Mi Impacto Ambiental</span>
-            </a>
-            <div class="flex items-center md:order-2">
-                <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                    <span class="sr-only">Open user menu</span>
-                    <div class="inline-flex overflow-hidden relative justify-center items-center w-10 h-10 bg-gray-100 rounded-full dark:bg-gray-600">
-                        <span class="font-medium text-gray-600 dark:text-gray-300">{{usuario.inicial}}</span>
-                    </div>
-                </button>
-                <!-- Dropdown menu -->
-                <div class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-                    <ul class="py-1" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="/logout" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">LogOut</a>
-                        </li>
-                    </ul>
-                </div>
-                <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-                </button>
-            </div>
-            <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2" style="background: #5E8C31">
-                <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700" style="background: #5E8C31">
-                    <li>
-                        <a href="/recomendaciones" class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page" style="background: #5E8C31">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</body>
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <title>Mi Impacto Ambiental App</title>
 </head>
 
 <body>
-<script src="https://onpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
-{{# block "contenido"}}
-{{/block}}
+{{> components/Navbar.html.hbs}}
+<div class="flex h-screen justify-center bg-gray-200">
+  <div class="flex bg-gray-100 gap-12 mx-10" style="padding-left: 20px; padding-right: 40px;">
+    {{#block "contenido"}}
+    {{/block}}
+  </div>
+</div>
+<script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
 </body>

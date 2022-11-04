@@ -1,55 +1,44 @@
-{{# partial "contenido"}}
-    <body>
-    <script src="https://onpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
-<div class="flex h-screen justify-center bg-gray-200">
-    <div class="flex bg-gray-100 gap-12 mx-10" style="padding-left: 20px; padding-right: 40px;">
-        <aside class="w-64 h-full" style="border-right: 4px solid #e5e7eb" aria-label="Sidebar">
-            <div class="overflow-y-auto py-4 px-3 rounded">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-                            <span class="ml-3">Vinculaciones Pendientes</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                            <span class="flex-1 ml-3 whitespace-nowrap">Datos de Actividad</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
-                            <span class="flex-1 ml-3 whitespace-nowrap">Reportes de HC</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
+{{#partial "contenido"}}
+    {{#partial "sidebar-items"}}
+      <li>
+        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+          <span class="ml-3">Vinculaciones Pendientes</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          <span class="flex-1 ml-3 whitespace-nowrap">Datos de Actividad</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
+          <span class="flex-1 ml-3 whitespace-nowrap">Reportes de HC</span>
+        </a>
+      </li>
+    {{/partial}}
 
-        <main class="flex flex-col mx-8" style="min-height: 927px; min-width: 690px;">
-            <h2 class="py-8 font-bold mx-8">Vinculaciones Pendientes</h2>
-            <div class="grid grid-cols-2 justify-items-center gap-6">
-            {{#each vinculaciones}}
-                <div class="flex flex-col inline-block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md" style="min-height: 140px; min-width: 333px;">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{miembro.nombre}}</h5>
-                    <p class="mb-3 font-normal text-gray-700">{{sector.nombre}}</p>
-                    <div class="flex justify-between">
-                        <p class="font-normal text-gray-700 h-full">{{miembro.documento}}</p>
-                        <form method="POST" action="/organizaciones/me/vinculaciones">
-                            <input type="hidden" name="vinculacionId" value="{{id}}">
-                            <button type="submit" class="py-2 px-3 text-sm font-bold text-white text-center rounded-lg" style="background-color: #5E8C31;">Aceptar</button>
-                        </form>
-                    </div>
+    {{> components/Sidebar.html.hbs}}
+
+    <main class="flex flex-col mx-8" style="min-height: 927px; min-width: 690px;">
+        <h2 class="py-8 font-bold mx-8">Vinculaciones Pendientes</h2>
+        <div class="grid grid-cols-2 justify-items-center gap-6">
+        {{#each vinculaciones}}
+            <div class="flex flex-col inline-block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md" style="min-height: 140px; min-width: 333px;">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{miembro.nombre}}</h5>
+                <p class="mb-3 font-normal text-gray-700">{{sector.nombre}}</p>
+                <div class="flex justify-between">
+                    <p class="font-normal text-gray-700 h-full">{{miembro.documento}}</p>
+                    <form method="POST" action="/organizaciones/me/vinculaciones">
+                        <input type="hidden" name="vinculacionId" value="{{id}}">
+                        <button type="submit" class="py-2 px-3 text-sm font-bold text-white text-center rounded-lg" style="background-color: #5E8C31;">Aceptar</button>
+                    </form>
                 </div>
-            {{/each}}
             </div>
-        </main>
-
-    </div>
-
-</div>
-    </body>
+        {{/each}}
+        </div>
+    </main>
 {{/partial}}
 {{> components/Layout.html.hbs}}

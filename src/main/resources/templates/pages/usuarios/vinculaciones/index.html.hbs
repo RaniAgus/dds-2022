@@ -1,10 +1,14 @@
-
 {{# partial "contenido"}}
-    <body>
-    <div style="display: flex">
-    <div style="display: flex; margin-top: 20px;" >
-        <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
-        {{> components/SideBar.html.hbs}}
+    {{#partial "sidebar-items"}}
+      {{#each vinculaciones}}
+        <li>
+          <a {{#if sePuedenVerLosTrayectos}} href="/usuarios/me/vinculaciones/{{id}}/trayectos" {{/if}} class="flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{organizacion.razonSocial}}</a>
+        </li>
+      {{/each}}
+    {{/partial}}
+
+    {{> components/Sidebar.html.hbs}}
+
     {{#each vinculaciones}}
 
         <div class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700" style="margin-bottom: 20px; margin-right: 20px">
@@ -20,20 +24,17 @@
             </a>
         </div>
     {{/each}}
-        <div class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Nueva Vinculacion</h5>
-            </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Pedile a tu organización el código de invitación para vincularte y empezar a cargar tus trayectos.</p>
-            <div style="flex: content-box; display: flex">
-                <form method="POST" action="/usuarios/me/vinculaciones/" style="display: inline-flex">
-                    <input type="text" name="codigo" placeholder="codigo de invitación"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                    <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800" style="margin-top: 10px; margin-left: 10px; margin-bottom: 0px">Vincularme</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    </div>
-    </body>
+      <div class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+          <a href="#">
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Nueva Vinculacion</h5>
+          </a>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Pedile a tu organización el código de invitación para vincularte y empezar a cargar tus trayectos.</p>
+          <div style="flex: content-box; display: flex">
+              <form method="POST" action="/usuarios/me/vinculaciones/" style="display: inline-flex">
+                  <input type="text" name="codigo" placeholder="codigo de invitación"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                  <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800" style="margin-top: 10px; margin-left: 10px; margin-bottom: 0px">Vincularme</button>
+              </form>
+          </div>
+      </div>
 {{/partial}}
 {{> components/Layout.html.hbs}}
