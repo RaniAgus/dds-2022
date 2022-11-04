@@ -8,81 +8,81 @@
 <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex" style="background: #0000004D">
     <div class="relative p-4 w-full max-w-md h-full md:h-auto" >
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700" style="background: #E2E8F0">
-            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+        <div class="relative bg-white rounded-lg shadow " style="background: #E2E8F0">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center  " data-modal-toggle="authentication-modal">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 <span class="sr-only">Close modal</span>
             </button>
             <div class="py-6 px-6 lg:px-8"style="background: #5E8C31; border-radius: inherit">
-                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white" style="display: flex">Nuevo Tramo Privado</h3>
+                <h3 class="mb-4 text-xl font-medium text-gray-900 " style="display: flex">Nuevo Tramo Privado</h3>
             </div>
 
             <div class="py-6 px-6 lg:px-8">
-                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Tramo en {{medio.nombre}}</h3>
+                <h3 class="mb-4 text-xl font-medium text-gray-900 ">Tramo en {{medio.nombre}}</h3>
                 <form class="space-y-6" method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos">
                     <input type="hidden" name="tipo" value="privado">
                     <input type="hidden" name="medioDeTransporte" value="{{medio.id}}">
                     <div class="grid gap-12 mb-12 md:grid-cols-2">
                         <div>
                             <div>
-                                <h4 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Desde</h4>
+                                <h4 class="mb-4 text-xl font-medium text-gray-900 ">Desde</h4>
                             </div>
                             <div>
-                                <label for="paisOrigen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pais</label>
-                                <input type="text" name="paisOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="paisOrigen" class="block mb-2 text-sm font-medium text-gray-900 ">Pais</label>
+                                <input type="text" name="paisOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="provinciaOrigen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Provincia</label>
-                                <input type="text" name="provinciaOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="provinciaOrigen" class="block mb-2 text-sm font-medium text-gray-900 ">Provincia</label>
+                                <input type="text" name="provinciaOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="municipioOrigen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Municipio</label>
-                                <input type="text" name="municipioOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="municipioOrigen" class="block mb-2 text-sm font-medium text-gray-900 ">Municipio</label>
+                                <input type="text" name="municipioOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="localidadOrigen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Localidad</label>
-                                <input type="text" name="localidadOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="localidadOrigen" class="block mb-2 text-sm font-medium text-gray-900 ">Localidad</label>
+                                <input type="text" name="localidadOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="calleOrigen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Calle</label>
-                                <input type="text" name="calleOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="calleOrigen" class="block mb-2 text-sm font-medium text-gray-900 ">Calle</label>
+                                <input type="text" name="calleOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="alturaOrigen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Altura</label>
-                                <input type="number" name="alturaOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="alturaOrigen" class="block mb-2 text-sm font-medium text-gray-900 ">Altura</label>
+                                <input type="number" name="alturaOrigen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                         </div>
                         <div>
                             <div>
-                                <h4 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Hasta</h4>
+                                <h4 class="mb-4 text-xl font-medium text-gray-900 ">Hasta</h4>
                             </div>
                             <div>
-                                <label for="paisDestino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pais</label>
-                                <input type="text" name="paisDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="paisDestino" class="block mb-2 text-sm font-medium text-gray-900 ">Pais</label>
+                                <input type="text" name="paisDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="provinciaDestino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Provincia</label>
-                                <input type="text" name="provinciaDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="provinciaDestino" class="block mb-2 text-sm font-medium text-gray-900 ">Provincia</label>
+                                <input type="text" name="provinciaDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="municipioDestino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Municipio</label>
-                                <input type="text" name="municipioDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="municipioDestino" class="block mb-2 text-sm font-medium text-gray-900 ">Municipio</label>
+                                <input type="text" name="municipioDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="localidadDestino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Localidad</label>
-                                <input type="text" name="localidadDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="localidadDestino" class="block mb-2 text-sm font-medium text-gray-900 ">Localidad</label>
+                                <input type="text" name="localidadDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="calleDestino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Calle</label>
-                                <input type="text" name="calleDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="calleDestino" class="block mb-2 text-sm font-medium text-gray-900 ">Calle</label>
+                                <input type="text" name="calleDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                             <div>
-                                <label for="alturaDestino" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Altura</label>
-                                <input type="number" name="alturaDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="alturaDestino" class="block mb-2 text-sm font-medium text-gray-900 ">Altura</label>
+                                <input type="number" name="alturaDestino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style="background: #5E8C31">Anadir tramo</button>
+                    <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center   " style="background: #5E8C31">Anadir tramo</button>
                 </form>
             </div>
         </div>
