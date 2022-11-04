@@ -1,49 +1,47 @@
-<h1>TODO</h1>
-{{#partial "contenido"}}
-<form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos">
-    <label for="fecha">Fecha</label>
-    <input type="date" name="fecha">
+{{#partial "form"}}
 
-    <label for="ingresar">Añadir Trayecto</label>
-    <button type="submit"></button>
-</form>
+    <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
+        <span class="ml-3" style="align-self: center">Nuevo Trayecto</span>
+        <div>
+            <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos" style="display: flex">
+                <input type="date" name="fecha" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" style="margin-right: 10px" required>
+                <button type="submit"
+                        class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Añadir Trayecto</button>
+            </form>
+        </div>
+    </div>
+    <div style="display: flex;justify-content: space-between" >
 
-<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
-    <input type="hidden" name="tipo" value="publico">
-    
-    <label for="linea">Elegir Linea</label>
-    <select name="linea">
-        {{#each lineas}}
-            <option value="{{id}}">{{nombre}}</option>
-        {{/each}}
-    </select>
+        <div>
+    <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo" style="display: flex">
+        <input type="hidden" name="tipo" value="publico">
 
-    <button type="submit">Nuevo Tramo publico</button>
-</form>
+        <select name="linea" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option selected>Elija una Linea</option>
+            {{#each lineas}}
+                <option value="{{id}}">{{nombre}}</option>
+            {{/each}}
+        </select>
+        <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">Nuevo Tramo Publico</button>
+    </form>
+        </div>
+        <div>
 
-<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
-    <input type="hidden" name="tipo" value="privado">
-    
-    <label for="medio">Elegir Medio de transporte</label>
-    <select name="medioDeTransporte">
-        {{#each mediosDeTransporte}}
-            <option value="{{id}}">{{nombre}}</option>
-        {{/each}}
-    </select>
+    <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo" style="display: flex">
+        <input type="hidden" name="tipo" value="privado">
 
-    <button type="submit">Nuevo Tramo privado</button>
-</form>
+        <select name="medioDeTransporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option selected>Elija un Medio de Transporte</option>
+            {{#each mediosDeTransporte}}
+                <option value="{{id}}">{{nombre}}</option>
+            {{/each}}
+        </select>
 
-<ul>
-{{#each pretramos }}
-    <li>{{tipo}}</li>
-    <li>{{medio}}</li>
-    <li>{{origen}}</li>
-    <li>{{destino}}</li>
-{{/each}}
-</ul>
-
-{{#block "modal"}}{{/block}}
+        <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">Nuevo Tramo Privado</button>
+    </form>
+        </div>
+    </div>
+    {{#block "modal"}}{{/block}}
 {{/partial}}
+{{> components/TrayectosLayout.html.hbs}}
 
-{{> components/Layout.html.hbs}}
