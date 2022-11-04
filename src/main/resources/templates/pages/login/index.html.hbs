@@ -5,32 +5,35 @@
 </head>
 
 <body>
-    <script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+<script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
 
-    <!-- Main modal -->
-    <div id="authentication-modal" tabindex="-1" aria-hidden="true"
-         class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
-        <div class="relative p-4 w-full max-w-md h-full md:h-auto items-center">
-            <!-- Modal content -->
-            <div class="relative bg-gray-200 rounded-lg shadow dark:bg-gray-700">
-                <div class="py-6 px-6 lg:px-8 ">
-                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Iniciá sesión en Mi Impacto Ambiental</h3>
-                    <form class="space-y-6" method="POST" action="/login">
-                        <div>
-                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Usuario</label>
-                            <input type="text" name="username" id="username"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
-                        </div>
-                        <div>
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Contraseña</label>
-                            <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                   required="">
-                        </div>
-                        <button type="submit"
-                                class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style="background: #5E8C31">INICIAR SESION</button>
-                    </form>
+<div id="authentication-modal" tabindex="-1" aria-hidden="true"
+     class="bg-gray-100 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
+    <div class="relative p-4 w-full max-w-lg h-full md:h-auto items-center">
+        <!-- Content -->
+        <div class="relative bg-gray-200 rounded-lg shadow dark:bg-gray-700">
+            <div class="py-6 px-6 lg:px-8 ">
+                <div class="flex items-center flex-col">
+                    <img src="images/world_green.svg" class="h-32 w-32 pb-4">
+                    <h3 class="m-4 text-2xl font-medium text-black">Iniciá sesión en</h3>
+                    <h3 class="mb-4 text-2xl font-bold text-black">Mi Impacto Ambiental</h3>
                 </div>
+                <form class="space-y-6" method="POST" action="/login">
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-black dark:text-gray-300">Usuario</label>
+                        <input type="text" name="username" id="username"
+                               class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-black dark:text-gray-300">Contraseña</label>
+                        <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                               required="">
+                    </div>
+                    <button type="submit"
+                            class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31">INICIAR SESION</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </body>
