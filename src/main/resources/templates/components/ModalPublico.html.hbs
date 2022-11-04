@@ -21,14 +21,14 @@
                         <div>
                             <label for="origen" class="block mb-2 text-sm font-medium text-gray-900 ">Parada Inicial</label>
                             <select required name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                                <option selected disabled>Elegi la Parada que mas te guste</option>
+                                <option selected disabled value="">Elegi la Parada que mas te guste</option>
                                 {{#each linea.paradas}}
                                     <option value="{{id}}">{{nombre}}</option>
                                 {{/each}}
                             </select>
                             <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 ">Parada Final</label>
                             <select required name="destino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                                <option selected disabled>Elegi la Parada que mas te guste</option>
+                                <option selected disabled value="">Elegi la Parada que mas te guste</option>
                                 {{#each linea.paradas}}
                                     <option value="{{id}}">{{nombre}}</option>
                                 {{/each}}

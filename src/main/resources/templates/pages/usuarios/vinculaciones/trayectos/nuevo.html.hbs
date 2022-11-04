@@ -16,7 +16,7 @@
                 <input type="hidden" name="tipo" value="publico">
 
                 <select required name="linea" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected disabled>Elija una Linea</option>
+                    <option selected disabled value="">Elija una Linea</option>
                     {{#each lineas}}
                         <option value="{{id}}">{{nombre}}</option>
                     {{/each}}
@@ -29,7 +29,7 @@
                 <input type="hidden" name="tipo" value="privado">
 
                 <select required name="medioDeTransporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected disabled>Elija un Medio de Transporte</option>
+                    <option selected disabled value="">Elija un Medio de Transporte</option>
                     {{#each mediosDeTransporte}}
                         <option value="{{id}}">{{nombre}}</option>
                     {{/each}}
