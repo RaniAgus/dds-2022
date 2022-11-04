@@ -1,9 +1,8 @@
-{{#partial "form"}}
-    <body>
-    <script src="https://onpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+{{#partial "contenido-usuario"}}
+<div>
     <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
         <span class="ml-3" style="align-self: center">Nuevo Trayecto</span>
-        <div>
+        <div style="margin-top: 10px">
             <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos" style="display: flex">
                 <input type="date" name="fecha" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " style="margin-right: 10px" required>
                 <button type="submit"
@@ -11,39 +10,75 @@
             </form>
         </div>
     </div>
-    <div style="display: flex;justify-content: space-between" >
+    <div style="display: flex;justify-content: space-around" >
+        <div class="w-64">
+            <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
+                <input type="hidden" name="tipo" value="publico">
 
-        <div>
-    <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo" style="display: flex">
-        <input type="hidden" name="tipo" value="publico">
-
-        <select name="linea" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-            <option selected>Elija una Linea</option>
-            {{#each lineas}}
-                <option value="{{id}}">{{nombre}}</option>
-            {{/each}}
-        </select>
-        <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2     ">Nuevo Tramo Publico</button>
-    </form>
+                <select name="linea" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                    <option selected>Elija una Linea</option>
+                    {{#each lineas}}
+                        <option value="{{id}}">{{nombre}}</option>
+                    {{/each}}
+                </select>
+                <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full mb-2" style="margin-top: 10px">Nuevo Tramo Publico</button>
+            </form>
         </div>
-        <div>
+        <div class="w-64">
+            <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo" >
+                <input type="hidden" name="tipo" value="privado">
 
-    <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo" style="display: flex">
-        <input type="hidden" name="tipo" value="privado">
-
-        <select name="medioDeTransporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-            <option selected>Elija un Medio de Transporte</option>
-            {{#each mediosDeTransporte}}
-                <option value="{{id}}">{{nombre}}</option>
-            {{/each}}
-        </select>
-
-        <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2     ">Nuevo Tramo Privado</button>
-    </form>
+                <select name="medioDeTransporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                    <option selected>Elija un Medio de Transporte</option>
+                    {{#each mediosDeTransporte}}
+                        <option value="{{id}}">{{nombre}}</option>
+                    {{/each}}
+                </select>
+                <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full mb-2" style="margin-top: 10px">Nuevo Tramo Privado</button>
+            </form>
         </div>
     </div>
+
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500 ">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Origen
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Destino
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Tipo de Tramo
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Medio de Transporte
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each pretramos }}
+                <tr class="bg-white border-b  ">
+                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                        {{origen}}
+                    </th>
+                    <td class="py-4 px-6">
+                        {{destino}}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{tipo}}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{medio}}
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
     {{#block "modal"}}{{/block}}
-    </body>
 {{/partial}}
-{{> components/TrayectosLayout.html.hbs}}
+{{> components/LayoutUsuario.html.hbs}}
 
