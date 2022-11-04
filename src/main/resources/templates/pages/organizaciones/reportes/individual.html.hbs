@@ -28,17 +28,17 @@
             </tr>
             </thead>
             <tbody>
-            {{# if huellaCarbonoTotal }}
+            {{# if reporte.huellaCarbonoTotal }}
                 <tr class="bg-white border-b  ">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
                         TOTAL
                     </th>
                     <td class="py-4 px-6">
-                        {{huellaCarbonoTotal}}
+                        {{reporte.huellaCarbonoTotal}}
                     </td>
                 </tr>
             {{/if}}
-            {{#each huellaCarbonoPorTipoDeConsumo }}
+            {{#each reporte.huellaCarbonoPorTipoDeConsumo }}
                 <tr class="bg-white border-b  ">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
                         {{@key.nombre}}
