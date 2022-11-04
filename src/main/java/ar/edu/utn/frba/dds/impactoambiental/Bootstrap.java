@@ -23,7 +23,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioSectorTerritorial;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +38,8 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
 
   public void init() {
     withTransaction(() -> {
-      Recomendacion recomendacion = new Recomendacion(LocalDate.now(),"Recomendaciones de Noviembre","Tremendas recomendaciones","localhost:8080/recomendaciones");
-      Recomendacion recomendacion2 = new Recomendacion(LocalDate.now(),"Recomendaciones de Noviembre","Tremendas recomendaciones","localhost:8080/recomendaciones");
+      Recomendacion recomendacion = new Recomendacion(LocalDate.now(),"Recomendaciones de Noviembre","Tremendas recomendaciones","/recomendaciones");
+      Recomendacion recomendacion2 = new Recomendacion(LocalDate.now(),"Recomendaciones de Noviembre","Tremendas recomendaciones","/recomendaciones");
       List<Trayecto> trayectos = new ArrayList<>();
       Parada parada = new Parada("Lo De Marco", new Distancia(10D, Unidad.KM), new Distancia(10D, Unidad.KM));
       Parada parada2 = new Parada("Lo De Uli", new Distancia(10D, Unidad.KM), new Distancia(10D, Unidad.KM));
