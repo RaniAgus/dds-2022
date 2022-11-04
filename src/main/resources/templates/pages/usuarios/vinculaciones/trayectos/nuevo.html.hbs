@@ -15,8 +15,8 @@
             <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo">
                 <input type="hidden" name="tipo" value="publico">
 
-                <select name="linea" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected>Elija una Linea</option>
+                <select required name="linea" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                    <option selected disabled>Elija una Linea</option>
                     {{#each lineas}}
                         <option value="{{id}}">{{nombre}}</option>
                     {{/each}}
@@ -28,8 +28,8 @@
             <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo" >
                 <input type="hidden" name="tipo" value="privado">
 
-                <select name="medioDeTransporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected>Elija un Medio de Transporte</option>
+                <select required name="medioDeTransporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                    <option selected disabled>Elija un Medio de Transporte</option>
                     {{#each mediosDeTransporte}}
                         <option value="{{id}}">{{nombre}}</option>
                     {{/each}}

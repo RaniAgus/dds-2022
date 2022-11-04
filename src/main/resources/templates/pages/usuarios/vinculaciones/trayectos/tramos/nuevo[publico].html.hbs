@@ -1,25 +1,4 @@
 {{#partial "modal"}}
-<h1>Tramo en {{linea.nombre}}</h1>
-
-<form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos">
-    <input type="hidden" name="tipo" value="publico">
-    <input type="hidden" name="linea" value="{{linea.id}}">
-    <label for="origen">Parada Inicial</label>
-    <select name="origen">
-        {{#each linea.paradas}}
-            <option value="{{id}}">{{nombre}}</option>
-        {{/each}}
-    </select>
-
-    <label for="destino">Parada Final</label>
-    <select name="destino">
-        {{#each linea.paradas}}
-            <option value="{{id}}">{{nombre}}</option>
-        {{/each}}
-    </select>
-
-    <button type="submit">Confirmar Tramo</button>
-</form>
-
+    {{> components/ModalPublico.html.hbs}}
 {{/partial}}
 {{> pages/usuarios/vinculaciones/trayectos/nuevo.html.hbs}}
