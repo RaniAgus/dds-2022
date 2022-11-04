@@ -1,3 +1,10 @@
-<h1>404</h1>
-<p>Con Spring Boot esto no pasaba</p>
-<a href="/">Volver al home</a>
+{{#partial "contenido"}}
+  {{#partial "main-content"}}
+    <h1>404</h1>
+    <p>Con Spring Boot esto no pasaba</p>
+    <a href="/">Volver al home</a>
+  {{/partial}}
+  {{> components/Main.html.hbs }}
+{{/partial}}
+
+{{> components/Layout.html.hbs }}
