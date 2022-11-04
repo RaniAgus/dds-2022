@@ -141,8 +141,9 @@ public class OrganizacionController implements Controller {
     }
 
     ImmutableMap<String , Object> model = ImmutableMap.of(
-      "organizacion", organizacion,
-      "reporte", reporte
+      "usuario", entry(organizacionDeSesion(request)),
+      "organizacion", entry(organizacion),
+      "reporte", entry(reporte)
     );
     return new ModelAndView(model, "pages/organizaciones/reportes/individual.html.hbs");
   }
@@ -195,7 +196,7 @@ public class OrganizacionController implements Controller {
     });
 
     ImmutableMap<String , Object> model = ImmutableMap.of(
-      "usuario", organizacionDeSesion(request),
+      "usuario", entry(organizacionDeSesion(request)),
       "organizacion", entry(organizacion),
       "primerTotal", entry(primerReporte.getHuellaCarbonoTotal()),
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
