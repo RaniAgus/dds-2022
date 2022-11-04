@@ -2,12 +2,14 @@ package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
@@ -20,11 +22,15 @@ import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
 
 public class OrganizacionController implements Controller {
   RepositorioTipoDeConsumo repoTipoDeConsumo = RepositorioTipoDeConsumo.getInstance();
@@ -178,12 +184,25 @@ public class OrganizacionController implements Controller {
       reporteEvolucion = ReporteOrganizacionalDto.reporteVacio();
     }
 
+    Map<TipoDeConsumo, FilaReporteEvolucionDto> consumos = new HashMap<>();
+    primerReporte.getHuellaCarbonoPorTipoDeConsumo().forEach((tipoDeConsumo, d) -> {
+      FilaReporteEvolucionDto fila = new FilaReporteEvolucionDto(
+        primerReporte.getHuellaCarbonoPorTipoDeConsumo().get(tipoDeConsumo),
+        segundoReporte.getHuellaCarbonoPorTipoDeConsumo().get(tipoDeConsumo),
+        reporteEvolucion.getHuellaCarbonoPorTipoDeConsumo().get(tipoDeConsumo)
+      );
+      consumos.put(tipoDeConsumo, fila);
+    });
+
     ImmutableMap<String , Object> model = ImmutableMap.of(
-      "organizacion", organizacion,
-      "primerReporte", primerReporte,
-      "segundoReporte", segundoReporte,
-      "reporteEvolucion", reporteEvolucion
+      "usuario", organizacionDeSesion(request),
+      "organizacion", entry(organizacion),
+      "primerTotal", entry(primerReporte.getHuellaCarbonoTotal()),
+      "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
+      "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
+      "consumos", consumos
     );
+
     return new ModelAndView(model, "pages/organizaciones/reportes/evolucion.html.hbs");
   }
 
