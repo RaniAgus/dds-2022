@@ -1,0 +1,11 @@
+<li>
+  <button type="button" class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+    <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4 21C5.30622 21 6.41746 20.1652 6.82929 19H15.5C17.9853 19 20 16.9853 20 14.5C20 12.0147 17.9853 10 15.5 10H4.5C3.11929 10 2 8.88073 2 7.50001C2 6.1193 3.11929 5.00001 4.5 5.00001H7.58579L6.29289 6.29291L7.70711 7.70712L11.4142 4.00001L7.70711 0.292908L6.29289 1.70712L7.58579 3.00001H4.5C2.01472 3.00001 0 5.01473 0 7.50001C0 9.9853 2.01472 12 4.5 12H15.5C16.8807 12 18 13.1193 18 14.5C18 15.8807 16.8807 17 15.5 17H6.82929C6.41746 15.8348 5.30622 15 4 15C2.34315 15 1 16.3432 1 18C1 19.6569 2.34315 21 4 21ZM3 18C3 17.4477 3.44772 17 4 17C4.55228 17 5 17.4477 5 18C5 18.5523 4.55228 19 4 19C3.44772 19 3 18.5523 3 18ZM16 1.00001C17.6569 1.00001 19 2.34316 19 4.00001C19 5.65687 17.6569 7.00001 16 7.00001C14.3431 7.00001 13 5.65687 13 4.00001C13 2.34316 14.3431 1.00001 16 1.00001ZM15 4.00001C15 3.44773 15.4477 3.00001 16 3.00001C16.5523 3.00001 17 3.44773 17 4.00001C17 4.5523 16.5523 5.00001 16 5.00001C15.4477 5.00001 15 4.5523 15 4.00001Z" fill="#5E8C31"/></svg>
+    <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="" style="color: #5E8C31">{{#block "sidebar-title"}}{{/block}}</span>
+    <svg sidebar-toggle-item="" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+  </button>
+  <ul id="dropdown-example" class="hidden py-2 space-y-2">
+    {{#block "sidebar-item-dropdown-items"}}
+    {{/block}}
+  </ul>
+</li>

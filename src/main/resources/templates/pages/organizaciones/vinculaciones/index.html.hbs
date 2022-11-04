@@ -5,7 +5,9 @@
       {{#each vinculaciones}}
           {{#partial "card-title"}}{{miembro.nombre}}{{/partial}}
           {{#partial "card-body"}}{{sector.nombre}}{{/partial}}
-          {{#partial "card-aside"}}{{miembro.documento}}{{/partial}}
+          {{#partial "card-aside"}}
+            <p class="font-normal text-gray-700 h-full">{{miembro.documento}}</p>
+          {{/partial}}
           {{#partial "card-action"}}
             <form method="POST" action="/organizaciones/me/vinculaciones">
               <input type="hidden" name="vinculacionId" value="{{id}}">
