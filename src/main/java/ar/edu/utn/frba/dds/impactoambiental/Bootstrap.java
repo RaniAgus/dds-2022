@@ -62,7 +62,7 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       Sector pascuas = persistirSector("Pascuas", juan.get(2), uli.get(0), agus.get(1));
       DatoActividad datoActividad1 = persistirDatoActividad(nafta, LocalDate.now(), Periodicidad.MENSUAL);
       DatoActividad datoActividad2 = persistirDatoActividad(gas, LocalDate.now(), Periodicidad.ANUAL);
-      DatoActividad datoActividad3 = persistirDatoActividad(electricidad, LocalDate.of(2021, 1, 1), Periodicidad.MENSUAL);
+      DatoActividad datoActividad3 = persistirDatoActividad(electricidad, LocalDate.now().minusMonths(2), Periodicidad.MENSUAL);
       Organizacion pepeSa = persistirOrganizacion("pepe", "peperroGato00", "PEPE SA", Collections.singletonList(halloween), TipoDeOrganizacion.GUBERNAMENTAL, Arrays.asList(datoActividad1, datoActividad2));
       Organizacion juanSa = persistirOrganizacion("ulidesign", "ulidesign", "ULI DISENIOS", Collections.singletonList(pascuas), TipoDeOrganizacion.EMPRESA, Collections.singletonList(datoActividad3));
       Organizacion utn = persistirOrganizacion("utn", "utn", "UTN", Collections.singletonList(navidad), TipoDeOrganizacion.GUBERNAMENTAL, Collections.emptyList());

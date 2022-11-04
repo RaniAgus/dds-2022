@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
+
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
@@ -16,19 +18,16 @@ import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-
-import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
 
 
 public class AgenteSectorialController implements Controller {
   RepositorioTipoDeConsumo repoTipoDeConsumo = RepositorioTipoDeConsumo.getInstance();
 
   public ModelAndView reportesConsumoIndividual(Request request, Response response) {
-    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    UsuarioSectorTerritorial usuario = request.attribute("usuario");
     SectorTerritorial sector = usuario.getSectorTerritorial();
     
     ReporteSectorialDto reporte;
@@ -59,7 +58,7 @@ public class AgenteSectorialController implements Controller {
   }
 
   public ModelAndView reportesConsumoEvolucion(Request request, Response response) {
-    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    UsuarioSectorTerritorial usuario = request.attribute("usuario");
     SectorTerritorial sector = usuario.getSectorTerritorial();
 
     ReporteSectorialDto primerReporte;
@@ -69,10 +68,10 @@ public class AgenteSectorialController implements Controller {
       Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
         .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
         .getValor();
-      LocalDate primerFecha = Form.of(request).getParamOrError("fecha", "Es necesario indicar una fecha")
+      LocalDate primerFecha = Form.of(request).getParamOrError("fechaInicial", "Es necesario indicar una fecha")
         .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
         .getValor();
-      LocalDate segundaFecha = Form.of(request).getParamOrError("fecha2", "Es necesario indicar una fecha")
+      LocalDate segundaFecha = Form.of(request).getParamOrError("fechaFinal", "Es necesario indicar una fecha")
         .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
         .getValor();
 
@@ -119,7 +118,7 @@ public class AgenteSectorialController implements Controller {
 
 
   public ModelAndView reportesOrganizacionIndividual(Request request, Response response) {
-    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    UsuarioSectorTerritorial usuario = request.attribute("usuario");
     SectorTerritorial sector = usuario.getSectorTerritorial();
 
     ReporteSectorialDto reporte;
@@ -150,7 +149,7 @@ public class AgenteSectorialController implements Controller {
   }
 
   public ModelAndView reportesOrganizacionEvolucion(Request request, Response response) {
-    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    UsuarioSectorTerritorial usuario = request.attribute("usuario");
     SectorTerritorial sector = usuario.getSectorTerritorial();
 
     ReporteSectorialDto primerReporte;
@@ -160,10 +159,10 @@ public class AgenteSectorialController implements Controller {
       Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
         .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
         .getValor();
-      LocalDate primerFecha = Form.of(request).getParamOrError("fecha", "Es necesario indicar una fecha")
+      LocalDate primerFecha = Form.of(request).getParamOrError("fechaInicial", "Es necesario indicar una fecha")
         .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
         .getValor();
-      LocalDate segundaFecha = Form.of(request).getParamOrError("fecha2", "Es necesario indicar una fecha")
+      LocalDate segundaFecha = Form.of(request).getParamOrError("fechaFinal", "Es necesario indicar una fecha")
         .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
         .getValor();
 
