@@ -22,6 +22,6 @@ public class UsuarioSectorTerritorial extends Usuario {
   }
 
   public String getHomeUrl() {
-    return "/sectoresterritoriales/" + getId() + "/reportes";
+    return "/sectoresterritoriales/me/reportes/consumo/individual";
   }
 }

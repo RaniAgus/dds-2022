@@ -2,23 +2,34 @@ package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.SectorTerritorial;
+import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.TipoDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorialDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.reportes.ReporteSectorialFactory;
+import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioSectorTerritorial;
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
+
 
 public class AgenteSectorialController implements Controller {
   RepositorioTipoDeConsumo repoTipoDeConsumo = RepositorioTipoDeConsumo.getInstance();
 
   public ModelAndView reportesConsumoIndividual(Request request, Response response) {
-    SectorTerritorial sector = request.session().attribute("sector");
+    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    SectorTerritorial sector = usuario.getSectorTerritorial();
     
     ReporteSectorialDto reporte;
     if(Context.of(request).hasBodyParams()) {
@@ -40,15 +51,17 @@ public class AgenteSectorialController implements Controller {
     }
 
     ImmutableMap<String , Object> model = ImmutableMap.of(
-      "sectorTerritorial", sector,
-      "reporte", reporte
+      "usuario", entry(usuario),
+      "sectorTerritorial", entry(sector),
+      "reporte", entry(reporte)
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/individual.html.hbs");
   }
 
   public ModelAndView reportesConsumoEvolucion(Request request, Response response) {
-    SectorTerritorial sector = request.session().attribute("sector");
-    
+    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    SectorTerritorial sector = usuario.getSectorTerritorial();
+
     ReporteSectorialDto primerReporte;
     ReporteSectorialDto segundoReporte;
     ReporteSectorialDto reporteEvolucion;
@@ -83,19 +96,32 @@ public class AgenteSectorialController implements Controller {
       reporteEvolucion = ReporteSectorialDto.reporteVacio();
     }
 
+    Map<TipoDeConsumo, FilaReporteEvolucionDto> consumos = new HashMap<>();
+    primerReporte.getHuellaCarbonoPorTipoDeConsumo().forEach((tipoDeConsumo, d) -> {
+      FilaReporteEvolucionDto fila = new FilaReporteEvolucionDto(
+        primerReporte.getHuellaCarbonoPorTipoDeConsumo().get(tipoDeConsumo),
+        segundoReporte.getHuellaCarbonoPorTipoDeConsumo().get(tipoDeConsumo),
+        reporteEvolucion.getHuellaCarbonoPorTipoDeConsumo().get(tipoDeConsumo)
+      );
+      consumos.put(tipoDeConsumo, fila);
+    });
+
     ImmutableMap<String , Object> model = ImmutableMap.of(
-      "sectorTerritorial", sector,
-      "primerReporte", primerReporte,
-      "segundoReporte", segundoReporte,
-      "reporteEvolucion", reporteEvolucion
+      "usuario", entry(usuario),
+      "sectorTerritorial", entry(sector),
+      "primerTotal", entry(primerReporte.getHuellaCarbonoTotal()),
+      "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
+      "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
+      "consumos", entry(consumos)
     );
-    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/index.html.hbs");
+    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/evolucion.html.hbs");
   }
 
 
   public ModelAndView reportesOrganizacionIndividual(Request request, Response response) {
-    SectorTerritorial sector = request.session().attribute("sector");
-    
+    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    SectorTerritorial sector = usuario.getSectorTerritorial();
+
     ReporteSectorialDto reporte;
     if(Context.of(request).hasBodyParams()) {
       Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
@@ -116,15 +142,17 @@ public class AgenteSectorialController implements Controller {
     }
 
     ImmutableMap<String , Object> model = ImmutableMap.of(
-      "sectorTerritorial", sector,
-      "reporte", reporte
+      "usuario", entry(usuario),
+      "sectorTerritorial", entry(sector),
+      "reporte", entry(reporte)
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/individual.html.hbs");
   }
 
   public ModelAndView reportesOrganizacionEvolucion(Request request, Response response) {
-    SectorTerritorial sector = request.session().attribute("sector");
-    
+    UsuarioSectorTerritorial usuario = request.session().attribute("sector");
+    SectorTerritorial sector = usuario.getSectorTerritorial();
+
     ReporteSectorialDto primerReporte;
     ReporteSectorialDto segundoReporte;
     ReporteSectorialDto reporteEvolucion;
@@ -159,12 +187,24 @@ public class AgenteSectorialController implements Controller {
       reporteEvolucion = ReporteSectorialDto.reporteVacio();
     }
 
+    Map<TipoDeOrganizacion, FilaReporteEvolucionDto> consumos = new HashMap<>();
+    primerReporte.getHuellaCarbonoPorTipoDeOrganizacion().forEach((tipoDeOrganizacion, d) -> {
+      FilaReporteEvolucionDto fila = new FilaReporteEvolucionDto(
+        primerReporte.getHuellaCarbonoPorTipoDeOrganizacion().get(tipoDeOrganizacion),
+        segundoReporte.getHuellaCarbonoPorTipoDeOrganizacion().get(tipoDeOrganizacion),
+        reporteEvolucion.getHuellaCarbonoPorTipoDeOrganizacion().get(tipoDeOrganizacion)
+      );
+      consumos.put(tipoDeOrganizacion, fila);
+    });
+
     ImmutableMap<String , Object> model = ImmutableMap.of(
-      "sectorTerritorial", sector,
-      "primerReporte", primerReporte,
-      "segundoReporte", segundoReporte,
-      "reporteEvolucion", reporteEvolucion
+      "usuario", entry(usuario),
+      "sectorTerritorial", entry(sector),
+      "primerTotal", entry(primerReporte.getHuellaCarbonoTotal()),
+      "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
+      "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
+      "consumos", entry(consumos)
     );
-    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/index.html.hbs");
+    return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/evolucion.html.hbs");
   }
 }
