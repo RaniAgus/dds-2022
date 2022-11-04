@@ -90,7 +90,7 @@ public class Routes {
       if (e.getErrores().contains("UNAUTHORIZED")) {
         res.redirect("/login"); // TODO: Setear un originUrl
       } else {
-        throw new HttpNotFoundException();
+        res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/404.html.hbs")));
       }
     });
     exception(HttpNotFoundException.class, (e, req, res) -> {
