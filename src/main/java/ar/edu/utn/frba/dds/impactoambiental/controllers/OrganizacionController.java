@@ -157,10 +157,10 @@ public class OrganizacionController implements Controller {
       Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
         .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
         .getValor();
-      LocalDate primerFecha = Form.of(request).getParamOrError("fecha", "Es necesario indicar una fecha")
+      LocalDate primerFecha = Form.of(request).getParamOrError("fechaInicial", "Es necesario indicar una fecha")
         .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
         .getValor();
-      LocalDate segundaFecha = Form.of(request).getParamOrError("fecha2", "Es necesario indicar una fecha")
+      LocalDate segundaFecha = Form.of(request).getParamOrError("fechaFinal", "Es necesario indicar una fecha")
         .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
         .getValor();
 

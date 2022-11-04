@@ -1,7 +1,7 @@
 {{#partial "contenido"}}
 <div>
     <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
-        <span class="ml-3" style="align-self: center">Nuevo Trayecto</span>
+        <span class="ml-3" style="align-self: center">Reportes de Evolucion</span>
         <div style="margin-top: 10px">
             <form method="GET" action="/organizaciones/me/reportes/evolucion" style="display: flex">
                 <select name="periodicidad" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
@@ -9,7 +9,8 @@
                     <option value="MENSUAL">MENSUAL</option>
                     <option value="ANUAL">ANUAL</option>
                 </select>
-                <input type="date" name="fecha" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " style="margin-right: 10px" required>
+                <input type="date" name="fechaInicial" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " style="margin-right: 10px" required>
+                <input type="date" name="fechaFinal" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " style="margin-right: 10px" required>
                 <button type="submit"
                         class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Generar Reporte</button>
             </form>
