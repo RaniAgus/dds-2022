@@ -97,7 +97,10 @@ public class Routes {
       res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/404.html.hbs")));
     });
 
-    exception(Exception.class,(e,req,res)->{res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/500.html.hbs")));});
+    exception(Exception.class, (e, req, res) -> {
+      e.printStackTrace();
+      res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/500.html.hbs")));
+    });
 
   }
 
