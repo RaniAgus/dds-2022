@@ -89,6 +89,7 @@ public class MiembroController implements Controller {
     Miembro miembro = miembrosHelper.obtenerMiembroDesdeAttributes(Context.of(request)).getValor();
     List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
     List<TrayectoResumenDto> trayectos = miembrosHelper.obtenerTrayectosDto(Context.of(request));
+    request.attribute("vinculacion");
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,

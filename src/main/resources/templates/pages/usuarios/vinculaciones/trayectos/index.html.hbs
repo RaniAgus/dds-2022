@@ -1,15 +1,52 @@
-<h1>TODO</h1>
-
-<form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo">
-    <button type="submit">Nuevo trayecto</button>
-</form>
-
-<ul>
-{{#each trayectos }}
-    <li>{{fecha}}</li>
-    <li>{{origen}}</li>
-    <li>{{destino}}</li>
-    <li>{{codigoInvite}}</li>
-{{/each}}
-</ul>
-
+ {{#partial "contenido-usuario"}}
+     <div>
+        <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
+            <span class="ml-3" style="align-self: center">Trayectos de {{vinculacion.miembro.nombre}}</span>
+            <div style="margin-top: 10px">
+            <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo">
+            <button type="submit"
+                    class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Crear Trayecto</button>
+            </form>
+            </div>
+        </div>
+         <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+             <table class="w-full text-sm text-left text-gray-500 ">
+                 <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
+                 <tr>
+                     <th scope="col" class="py-3 px-6">
+                         Fecha
+                     </th>
+                     <th scope="col" class="py-3 px-6">
+                         Origen
+                     </th>
+                     <th scope="col" class="py-3 px-6">
+                         Destino
+                     </th>
+                     <th scope="col" class="py-3 px-6">
+                         Codigo de Invitacion
+                     </th>
+                 </tr>
+                 </thead>
+                 <tbody>
+                 {{#each trayectos }}
+                     <tr class="bg-white border-b  ">
+                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                             {{fecha}}
+                         </th>
+                         <td class="py-4 px-6">
+                             {{origen}}
+                         </td>
+                         <td class="py-4 px-6">
+                             {{destino}}
+                         </td>
+                         <td class="py-4 px-6">
+                             {{codigoInvite}}
+                         </td>
+                     </tr>
+                 {{/each}}
+                 </tbody>
+             </table>
+         </div>
+     </div>
+ {{/partial}}
+{{> components/LayoutUsuario.html.hbs}}

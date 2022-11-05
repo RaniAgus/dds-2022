@@ -24,4 +24,8 @@ public interface MapUtil {
         .flatMap(m -> m.entrySet().stream())
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, mergeFunction));
   }
+
+  static Object entry(Object value) {
+    return value == null ? false : value;
+  }
 }

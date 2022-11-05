@@ -43,7 +43,7 @@ public class UsuarioController implements Controller {
         .map(err -> Arrays.asList(decode(err).split(", ")))
         .orElse(Collections.emptyList());
 
-    return new ModelAndView(ImmutableMap.of("errores", errores), "pages/login/index.html.hbs");
+    return new ModelAndView(ImmutableMap.of("errores", errores,"noHayErrores",errores.isEmpty()), "pages/login/index.html.hbs");
   }
 
   public Void iniciarSesion(Request req, Response res) {

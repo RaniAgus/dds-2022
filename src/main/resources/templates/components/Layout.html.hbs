@@ -1,0 +1,16 @@
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <title>Mi Impacto Ambiental App</title>
+</head>
+
+<body>
+{{> components/Navbar.html.hbs}}
+<div class="flex h-screen justify-center bg-gray-200">
+  <div class="flex bg-gray-100 gap-12 mx-10" style="padding-left: 20px; padding-right: 40px;">
+    {{#block "contenido"}}
+    {{/block}}
+  </div>
+</div>
+<script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
+</body>

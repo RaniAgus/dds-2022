@@ -1,17 +1,40 @@
-<h1>TODO</h1>
+{{>components/AlertError.html.hbs}}
 
-<ul>
-{{#each errores}}
-    <li>{{this}}</li>
-{{/each}}
-</ul>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css"/>
+</head>
 
-<form method="POST" action="/login">
-    <label for="username">Nombre de usuario.</label>
-    <input type="text" name="username">
+<body>
+<img class="rounded-t-lg" src="/images/img.png" alt="" sizes="" >
+<script src="https://unpkg.com/flowbite@1.5.3/dist/flowbite.js"></script>
 
-    <label for="password">Contraseña</label>
-    <input type="password" name="password">
-
-    <button type="submit">INICIAR SESION</button>
-</form>
+<div id="authentication-modal" tabindex="-1" aria-hidden="true"
+     class="bg-gray-100 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex" style="background: none">
+    <div class="relative p-4 w-full max-w-lg h-full md:h-auto items-center">
+        <!-- Content -->
+        <div class="relative bg-gray-200 rounded-lg shadow ">
+            <div class="py-6 px-6 lg:px-8 ">
+                <div class="flex items-center flex-col">
+                    <img src="images/world_green.svg" class="h-32 w-32 pb-4">
+                    <h3 class="m-4 text-2xl font-medium text-black">Iniciá sesión en</h3>
+                    <h3 class="mb-4 text-2xl font-bold text-black">Mi Impacto Ambiental</h3>
+                </div>
+                <form class="space-y-6" method="POST" action="/login">
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-black ">Usuario</label>
+                        <input type="text" name="username" id="username"
+                               class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    " required="">
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-black ">Contraseña</label>
+                        <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    "
+                               required="">
+                    </div>
+                    <button type="submit"
+                            class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31">INICIAR SESION</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

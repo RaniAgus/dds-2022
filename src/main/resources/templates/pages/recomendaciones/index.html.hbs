@@ -1,3 +1,8 @@
-<h1>TO-DO</h1>
-
-<a href="/login">login</a>
+{{#partial "contenido"}}
+    <div style="display: flex">
+    {{#each recomendaciones}}
+        {{> components/CardRecomendaciones.html.hbs}}
+    {{/each}}
+    </div>
+{{/partial}}
+{{> components/Layout.html.hbs}}

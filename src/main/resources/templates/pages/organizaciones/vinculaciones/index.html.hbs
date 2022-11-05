@@ -1,15 +1,23 @@
-<h1>TODO</h1>
-
-<ul>
-{{#each vinculaciones}}
-    <li>{{miembro.nombre}}</li> {{! aca hay que volver a agregar datos a mi}}
-    <li>{{sector.nombre}}</li>
-    <li>{{sector.nombre}}</li>
-    <li>{{estado.nombre}}</li>
-    <form method="POST" action="/organizaciones/me/vinculaciones">
-        <input type="hidden" name="vinculacionId" value="{{id}}">
-
-        <button type="submit">Aceptar Vinculacion</button>
-    </form>
-{{/each}}
-</ul>
+{{#partial "contenido-org"}}
+  {{#partial "main-title"}}Vinculaciones Pendientes{{/partial}}
+  {{#partial "main-content"}}
+    <div class="grid grid-cols-2 justify-items-center gap-6">
+      {{#each vinculaciones}}
+          {{#partial "card-title"}}{{miembro.nombre}}{{/partial}}
+          {{#partial "card-body"}}{{sector.nombre}}{{/partial}}
+          {{#partial "card-aside"}}
+            <p class="font-normal text-gray-700 h-full">{{miembro.documento}}</p>
+          {{/partial}}
+          {{#partial "card-action"}}
+            <form method="POST" action="/organizaciones/me/vinculaciones">
+              <input type="hidden" name="vinculacionId" value="{{id}}">
+              <button type="submit" class="py-2 px-3 text-sm font-bold text-white text-center rounded-lg bg-primary">Aceptar</button>
+            </form>
+          {{/partial}}
+          {{> components/Card.html.hbs}}
+      {{/each}}
+    </div>
+  {{/partial}}
+  {{> components/Main.html.hbs}}
+{{/partial}}
+{{> components/LayoutOrganizacion.html.hbs}}

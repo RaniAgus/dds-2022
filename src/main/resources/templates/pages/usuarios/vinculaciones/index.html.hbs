@@ -1,21 +1,38 @@
-<h1>TODO</h1>
+{{# partial "contenido-usuario"}}
+    {{#partial "main-title"}}Mis Vinculaciones{{/partial}}
+    {{#partial "main-content"}}
+      <div class="grid grid-cols-2 justify-items-center gap-6">
+        {{#each vinculaciones}}
+          {{#partial "card-title"}}{{organizacion.razonSocial}}{{/partial}}
+          {{#partial "card-body"}}Sector: {{sector.nombre}}{{/partial}}
+          {{#partial "card-aside"}}
+            <p class="font-normal text-gray-700 h-full">Estado: {{estado}}</p>
+          {{/partial}}
+          {{#partial "card-action"}}
+              {{#if sePuedenVerLosTrayectos}}
+            <a  href="/usuarios/me/vinculaciones/{{id}}/trayectos" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300   ">
+              Ver Trayectos
+              <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </a>
+              {{/if}}
+          {{/partial}}
+          {{> components/Card.html.hbs}}
+        {{/each}}
 
-<ul>
-{{#each vinculaciones}}
-    <li>{{organizacion.razonSocial}}</li>
-    <li>{{sector.codigoInvite}}</li>
-    <li>{{estado.nombre}}</li>
-    {{#if sePuedenVerLosTrayectos}}
-        <form method="GET" action="/usuarios/me/vinculaciones/{{id}}/trayectos">
-            <button type="submit">VER TRAYECTOS</button>
-        </form>
-    {{/if}}
-{{/each}}
-</ul>
-
-<form method="POST" action="/usuarios/me/vinculaciones/">
-    <label for="codigo">Codigo Vinculacion</label>
-    <input type="text" name="codigo">
-
-    <button type="submit">Solicitar vinculacion</button>
-</form>
+        {{#partial "card-title"}}Nueva Vinculacion{{/partial}}
+        {{#partial "card-body"}}
+          Pedile a tu organización el código de invitación para vincularte y empezar a cargar tus trayectos.
+        {{/partial}}
+        {{#partial "card-aside"}}{{/partial}}
+        {{#partial "card-action"}}
+          <form method="POST" action="/usuarios/me/vinculaciones/" style="display: inline-flex">
+            <input type="text" name="codigo" placeholder="codigo de invitación"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " required>
+            <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2     " style="margin-top: 10px; margin-left: 10px; margin-bottom: 0px">Vincularme</button>
+          </form>
+        {{/partial}}
+        {{> components/Card.html.hbs}}
+      </div>
+    {{/partial}}
+    {{> components/Main.html.hbs}}
+{{/partial}}
+{{> components/LayoutUsuario.html.hbs}}
