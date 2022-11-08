@@ -8,6 +8,14 @@ RUN ["/usr/local/bin/mvn-entrypoint.sh", "mvn", "verify", "clean", "--fail-never
 
 COPY . ./
 
+ARG DB_URL
+ARG DB_USERNAME
+ARG DB_PASSWORD
+
+RUN sed -i "s,name=\"hibernate\.connection\.url\" value=\".*\",name=\"hibernate\.connection\.url\" value=\"${DB_URL}\",g" "src/main/resources/META-INF/persistence.xml" \
+    && sed -i "s,name=\"hibernate\.connection\.username\" value=\".*\",name=\"hibernate\.connection\.username\" value=\"${DB_USERNAME}\",g" "src/main/resources/META-INF/persistence.xml" \
+    && sed -i "s,name=\"hibernate\.connection\.password\" value=\".*\",name=\"hibernate\.connection\.password\" value=\"${DB_PASSWORD}\",g" "src/main/resources/META-INF/persistence.xml"
+
 RUN mvn package
 
 
@@ -22,9 +30,8 @@ RUN crontab /etc/cron.d/cronjob
 WORKDIR /app/target
 
 COPY --from=builder /app/target ./
-COPY start.sh ./
 
-ENTRYPOINT ["sh", "start.sh", "crond -f"]
+ENTRYPOINT ["crond", "-f"]
 
 
 FROM openjdk:8-jre-alpine as java
@@ -33,6 +40,5 @@ WORKDIR /app/target
 
 COPY --from=builder /app/target ./
 COPY public ./public
-COPY start.sh ./
 
-ENTRYPOINT ["sh", "start.sh", "java -jar application.jar"]
+ENTRYPOINT ["java", "-jar", "application.jar"]
