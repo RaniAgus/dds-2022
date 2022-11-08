@@ -4,7 +4,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import ar.edu.utn.frba.dds.impactoambiental.ServiceLocator;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Lector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ public interface PersistenceTest extends TransactionalOps, EntityManagerOps, Wit
     when(serviceLocatorMock.getSmtpPassword()).thenReturn("");
     when(serviceLocatorMock.getSmtpUser()).thenReturn("");
     when(serviceLocatorMock.getRecomendacionesUrl()).thenReturn("");
-    when(serviceLocatorMock.getWeakPasswordsFileReader()).thenReturn(mock(LectorDeArchivos.class));
+    when(serviceLocatorMock.getWeakPasswordsFileReader()).thenReturn(mock(Lector.class));
     ServiceLocator.setServiceLocator(serviceLocatorMock);
   }
 

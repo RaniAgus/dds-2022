@@ -1,12 +1,14 @@
 package ar.edu.utn.frba.dds.impactoambiental.controllers;
 
+import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
+
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeBytes;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
@@ -29,8 +31,6 @@ import java.util.stream.Collectors;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-
-import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
 
 public class OrganizacionController implements Controller {
   RepositorioTipoDeConsumo repoTipoDeConsumo = RepositorioTipoDeConsumo.getInstance();
@@ -211,7 +211,7 @@ public class OrganizacionController implements Controller {
     return Form.of(request).getFile("archivo")
         .map(bytes -> new DatosActividadesParser(
             repoTipoDeConsumo,
-            new LectorDeArchivos(bytes),
+            new LectorDeBytes(bytes),
             1, ';', "MM/yyyy")
             .getDatosActividad())
         .orElse(Collections.emptyList());
@@ -227,7 +227,7 @@ public class OrganizacionController implements Controller {
 
     DatosActividadesParser DAParser = new DatosActividadesParser(
       repoTipoDeConsumo, 
-      new LectorDeArchivos(DAComoLineaCSV.getBytes()), 0, ';', "yyyy/MM");
+      new LectorDeBytes(DAComoLineaCSV.getBytes()), 0, ';', "yyyy/MM");
     return DAParser.getDatosActividad();
   }
 

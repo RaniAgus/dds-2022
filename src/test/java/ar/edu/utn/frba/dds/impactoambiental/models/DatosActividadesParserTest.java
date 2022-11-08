@@ -1,17 +1,16 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
-import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
+
+import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class DatosActividadesParserTest extends BaseTest {
   // [TPA2]: Se debe permitir la carga de mediciones por parte de una Organización, respetando la estructura del archivo
@@ -21,7 +20,7 @@ public class DatosActividadesParserTest extends BaseTest {
 
   @Test
   public void sePuedeCargarDatosDeActividadConPeriodicidadMensual() {
-    when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
+    when(lector.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "ELECTRICIDAD;122;MENSUAL;03/2002"
     ));
@@ -36,7 +35,7 @@ public class DatosActividadesParserTest extends BaseTest {
 
   @Test
   public void sePuedeCargarDatosDeActividadConPeriodicidadAnual() {
-    when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
+    when(lector.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "NAFTA;5;ANUAL;2020"
     ));
@@ -52,7 +51,7 @@ public class DatosActividadesParserTest extends BaseTest {
   @Test
   public void noSePuedenCargarDAsConCamposFaltantes() {
     DatosActividadesParser parser = crearParserDatosDeActividad();
-    when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
+    when(lector.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "122;MENSUAL;03/2002",
         "NAFTA;5;2020"
@@ -66,7 +65,7 @@ public class DatosActividadesParserTest extends BaseTest {
   @Test
   public void noSePuedenCargarTiposDeConsumoInexistentes() {
     DatosActividadesParser parser = crearParserDatosDeActividad();
-    when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
+    when(lector.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "FANTA;5;ANUAL;2020"
     ));

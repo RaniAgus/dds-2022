@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.validaciones.Validacion;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.UsuarioDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
-import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Lector;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
@@ -61,7 +61,7 @@ public abstract class BaseTest {
   protected MedioDeTransporte automovil = new MedioDeTransporte("AUTOMOVIL", 1.0, nafta, TipoDeTransporte.VEHICULO_PARTICULAR);
 
   protected RepositorioTipoDeConsumo repositorioTipoDeConsumo;
-  protected LectorDeArchivos lectorDeArchivos;
+  protected Lector lector;
   protected Geolocalizador geolocalizador;
 
   @BeforeEach
@@ -70,7 +70,7 @@ public abstract class BaseTest {
     when(repositorioTipoDeConsumo.obtenerTodos()).thenReturn(Arrays.asList(nafta, electricidad));
     when(repositorioTipoDeConsumo.buscarPorNombre("ELECTRICIDAD")).thenReturn(Optional.of(electricidad));
     when(repositorioTipoDeConsumo.buscarPorNombre("NAFTA")).thenReturn(Optional.of(nafta));
-    lectorDeArchivos = mock(LectorDeArchivos.class);
+    lector = mock(Lector.class);
     geolocalizador = mock(Geolocalizador.class);
   }
 
@@ -157,7 +157,7 @@ public abstract class BaseTest {
   // Datos de Actividad
 
   protected DatosActividadesParser crearParserDatosDeActividad() {
-    return new DatosActividadesParser(repositorioTipoDeConsumo, lectorDeArchivos, 1, ';', "MM/yyyy");
+    return new DatosActividadesParser(repositorioTipoDeConsumo, lector, 1, ';', "MM/yyyy");
   }
 
   // Validadores
@@ -166,7 +166,7 @@ public abstract class BaseTest {
     return Arrays.asList(
         new Validar8Caracteres(),
         new ValidarCaracteresRepetidos(),
-        new Validar10MilContrasenas(lectorDeArchivos),
+        new Validar10MilContrasenas(lector),
         new ValidarCaracteresConsecutivos(),
         new ValidarUsuarioPorDefecto()
     );

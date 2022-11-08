@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
+import ar.edu.utn.frba.dds.impactoambiental.models.da.Lector;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeArchivos;
+import ar.edu.utn.frba.dds.impactoambiental.models.da.LectorDeBytes;
 import java.util.Optional;
 
 // TODO: Preguntar si se puede usar Guice para evitar esto
@@ -11,9 +13,9 @@ public class ServiceLocator {
   private String recomendacionesUrl = System.getenv("RECOMENDACIONES_URL");
   private String smtpUser = System.getenv("SMTP_USER");
   private String smtpPassword = System.getenv("SMTP_PASSWORD");
-  private LectorDeArchivos weakPasswordsFile = new LectorDeArchivos(
-      Optional.ofNullable(System.getenv("WEAK_PASSWORDS_FILE"))
-          .orElse("target/classes/weak_passwords.txt"));
+  private Lector weakPasswordsFile = Optional.ofNullable(System.getenv("WEAK_PASSWORDS_FILE"))
+      .<Lector>map(LectorDeArchivos::new)
+      .orElseGet(() -> new LectorDeBytes(new byte[0]));
   private String whatsappApiKey = System.getenv("WHATSAPP_API_KEY");
   private String whatsappApiId = System.getenv("WHATSAPP_API_ID");
 
@@ -53,7 +55,7 @@ public class ServiceLocator {
     return smtpPassword;
   }
 
-  public LectorDeArchivos getWeakPasswordsFileReader() {
+  public Lector getWeakPasswordsFileReader() {
     return weakPasswordsFile;
   }
 

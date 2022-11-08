@@ -24,7 +24,7 @@ public class ValidadorDeUsuarioTest extends BaseTest {
   public void unaContraseniaInvalidaDevuelveUnResultadoFallidoAlValidar() {
     Validador<UsuarioDto> validador = new Validador<>(new UsuarioDto("user", "111"))
         .agregarValidaciones(todasLasValidaciones());
-    when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("111"));
+    when(lector.getLineas()).thenReturn(Collections.singletonList("111"));
 
     Either<UsuarioDto> resultado = validador.validar();
 

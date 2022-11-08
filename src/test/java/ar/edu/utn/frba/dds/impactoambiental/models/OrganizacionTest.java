@@ -1,14 +1,13 @@
 package ar.edu.utn.frba.dds.impactoambiental.models;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
-import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.Test;
 
 public class OrganizacionTest extends BaseTest {
 
@@ -30,7 +29,7 @@ public class OrganizacionTest extends BaseTest {
   @Test
   public void sePuedeCargarMedicionesDeUnaOrganizacion() {
     Organizacion organizacion = crearOrganizacionVacia();
-    when(lectorDeArchivos.getLineas()).thenReturn(Arrays.asList(
+    when(lector.getLineas()).thenReturn(Arrays.asList(
         "TIPO_CONSUMO;VALOR;PERIODICIDAD;PERIODO",
         "ELECTRICIDAD;122;MENSUAL;03/2002",
         "NAFTA;5;ANUAL;2020"

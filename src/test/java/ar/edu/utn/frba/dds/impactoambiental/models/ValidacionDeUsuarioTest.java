@@ -40,8 +40,8 @@ public class ValidacionDeUsuarioTest extends BaseTest {
 
   @Test
   public void unaContraseniaEsValidaSiNoSeEncuentraEntreLasDiezMilMasUsadas() {
-    ValidacionDeUsuario validacion = new Validar10MilContrasenas(lectorDeArchivos);
-    when(lectorDeArchivos.getLineas()).thenReturn(Collections.emptyList());
+    ValidacionDeUsuario validacion = new Validar10MilContrasenas(lector);
+    when(lector.getLineas()).thenReturn(Collections.emptyList());
 
     Either<UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "password"));
 
@@ -50,8 +50,8 @@ public class ValidacionDeUsuarioTest extends BaseTest {
 
   @Test
   public void unaContraseniaNoEsValidaSiSeEncuentraEntreLasDiezMilMasUsadas() {
-    ValidacionDeUsuario validacion = new Validar10MilContrasenas(lectorDeArchivos);
-    when(lectorDeArchivos.getLineas()).thenReturn(Collections.singletonList("password"));
+    ValidacionDeUsuario validacion = new Validar10MilContrasenas(lector);
+    when(lector.getLineas()).thenReturn(Collections.singletonList("password"));
 
     Either<UsuarioDto> resultado = validacion.validar(new UsuarioDto("user", "password"));
 
