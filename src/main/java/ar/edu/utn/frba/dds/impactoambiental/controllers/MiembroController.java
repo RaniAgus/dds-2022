@@ -33,10 +33,14 @@ public class MiembroController implements Controller {
   private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
   private RepositorioOrganizaciones organizaciones = RepositorioOrganizaciones.getInstance();
   private RepositorioVinculaciones vinculaciones = RepositorioVinculaciones.getInstance();
-  private Geolocalizador geolocalizador = new Geolocalizador("Bearer /deHQgNGwBMcTx2fwx0P0xnoPvqSJzSb6/+8Bg0OC7g=");// TODO: turbio el apikey en el servicelocator porque no una variable de entorno??
+  private Geolocalizador geolocalizador;
   private TramosHelper tramosHelper = new TramosHelper();
   private MiembrosHelper miembrosHelper = new MiembrosHelper();
   private TrayectosHelper trayectosHelper = new TrayectosHelper();
+
+  public MiembroController(Geolocalizador geolocalizador) {
+    this.geolocalizador = geolocalizador;
+  }
 
   public void validarVinculacion(Request request, Response response) {
     Context ctx = Context.of(request);

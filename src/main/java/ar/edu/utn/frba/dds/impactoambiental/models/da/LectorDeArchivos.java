@@ -3,22 +3,21 @@ package ar.edu.utn.frba.dds.impactoambiental.models.da;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class LectorDeArchivos {
-  private final List<String> lineas;
+public class LectorDeArchivos implements Lector {
+  private String path;
 
   public LectorDeArchivos(String path) {
-    File archivo = new File(path);
-    validarArchivo(archivo);
-
-    this.lineas = archivoALineas(archivo);
+    this.path = path;
   }
 
-  public LectorDeArchivos(byte[] bytes) {
-    this.lineas = Arrays.asList(new String(bytes).split("\n"));
+  @Override
+  public List<String> getLineas() {
+    File archivo = new File(path);
+    validarArchivo(archivo);
+    return archivoALineas(archivo);
   }
 
   private void validarArchivo(File f) {
@@ -40,15 +39,10 @@ public class LectorDeArchivos {
       while (scannerArchivo.hasNextLine()) {
         nuevasLineas.add(scannerArchivo.nextLine());
       }
-
       scannerArchivo.close();
       return nuevasLineas;
     } catch (FileNotFoundException e) {
       throw new IllegalArgumentException("El archivo no existe.");
     }
-  }
-
-  public List<String> getLineas() {
-    return lineas;
   }
 }

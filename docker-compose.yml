@@ -4,14 +4,21 @@ services:
       context: .
       dockerfile: Dockerfile
       target: java
+      args:
+        - DB_URL=${DB_URL:-jdbc:postgresql://db:5432/impactoambiental}
+        - DB_USERNAME=${DB_USERNAME:-jpademo}
+        - DB_PASSWORD=${DB_PASSWORD:-jpademo}
     container_name: impactoambiental-java
+    ports:
+      - ${PORT:-8080}:${PORT:-8080}
     environment:
       - GEODDS_API_KEY=${GEODDS_API_KEY}
+      - PORT=${PORT:-8080}
       - RECOMENDACIONES_TEMPLATE=${RECOMENDACIONES_TEMPLATE}
-      - RECOMENDACIONES_URL=${RECOMENDACIONES_URL}
+      - RECOMENDACIONES_URL=${RECOMENDACIONES_URL:-recomendaciones}
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - WEAK_PASSWORDS_FILE=${WEAK_PASSWORDS_FILE}
+      - WEAK_PASSWORDS_FILE=${WEAK_PASSWORDS_FILE:-/app/target/classes/weak_passwords.txt}
       - WHATSAPP_API_KEY=${WHATSAPP_API_KEY}
       - WHATSAPP_API_ID=${WHATSAPP_API_ID}
     depends_on:
@@ -22,14 +29,18 @@ services:
       context: .
       dockerfile: Dockerfile
       target: cron
+      args:
+        - DB_URL=${DB_URL:-jdbc:postgresql://db:5432/impactoambiental}
+        - DB_USERNAME=${DB_USERNAME:-jpademo}
+        - DB_PASSWORD=${DB_PASSWORD:-jpademo}
     container_name: impactoambiental-cron
     environment:
       - GEODDS_API_KEY=${GEODDS_API_KEY}
       - RECOMENDACIONES_TEMPLATE=${RECOMENDACIONES_TEMPLATE}
-      - RECOMENDACIONES_URL=${RECOMENDACIONES_URL}
+      - RECOMENDACIONES_URL=${RECOMENDACIONES_URL:-recomendaciones}
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - WEAK_PASSWORDS_FILE=${WEAK_PASSWORDS_FILE}
+      - WEAK_PASSWORDS_FILE=${WEAK_PASSWORDS_FILE:-/app/target/classes/weak_passwords.txt}
       - WHATSAPP_API_KEY=${WHATSAPP_API_KEY}
       - WHATSAPP_API_ID=${WHATSAPP_API_ID}
     depends_on:

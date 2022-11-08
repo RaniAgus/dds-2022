@@ -1,1 +1,1 @@
-* * * * * sh -c "java -cp /usr/src/target/application.jar ar.edu.utn.frba.dds.impactoambiental.JobEnvioGuia"
+* * * * * sh -c "java -cp /app/target/application.jar ar.edu.utn.frba.dds.impactoambiental.JobEnvioGuia"
