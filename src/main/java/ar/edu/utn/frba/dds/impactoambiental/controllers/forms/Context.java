@@ -20,6 +20,10 @@ public class Context {
         .orElseGet(() -> Either.fallido(error));
   }
 
+  public Optional<String> getRedirectUnauthorized(){
+    return  Optional.ofNullable(req.queryParams("uriunautorized"));
+  }
+
   public <T> Either<T> getSessionAttribute(String name, String error) {
     return Either.desde(() -> req.session().attribute(name), error);
   }

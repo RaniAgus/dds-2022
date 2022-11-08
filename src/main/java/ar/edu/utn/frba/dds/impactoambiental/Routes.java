@@ -25,7 +25,7 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
   public static void main(String[] args) {
-    new Bootstrap().init();
+    //new Bootstrap().init();
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
     staticFiles.externalLocation("public");
 
@@ -88,7 +88,7 @@ public class Routes {
 
     exception(ValidacionException.class, (e, req, res) -> {
       if (e.getErrores().contains("UNAUTHORIZED")) {
-        res.redirect("/login"); // TODO: Setear un originUrl
+        res.redirect("/login?uriunautorized="+ req.uri());
       } else {
         res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/404.html.hbs")));
       }
