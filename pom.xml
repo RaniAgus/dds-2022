@@ -281,7 +281,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>ar.edu.utn.frba.dds.impactoambiental.MiImpactoAmbientalApp</mainClass>
+              <mainClass>ar.edu.utn.frba.dds.impactoambiental.Routes</mainClass>
             </manifest>
           </archive>
         </configuration>

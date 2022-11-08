@@ -25,7 +25,6 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Routes {
   public static void main(String[] args) {
-    new Bootstrap().init();
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
     staticFiles.externalLocation("public");
 

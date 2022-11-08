@@ -13,7 +13,7 @@ public class ServiceLocator {
   private String smtpPassword = System.getenv("SMTP_PASSWORD");
   private LectorDeArchivos weakPasswordsFile = new LectorDeArchivos(
       Optional.ofNullable(System.getenv("WEAK_PASSWORDS_FILE"))
-          .orElse("src/main/resources/weak_passwords.txt"));
+          .orElse("target/classes/weak_passwords.txt"));
   private String whatsappApiKey = System.getenv("WHATSAPP_API_KEY");
   private String whatsappApiId = System.getenv("WHATSAPP_API_ID");
 

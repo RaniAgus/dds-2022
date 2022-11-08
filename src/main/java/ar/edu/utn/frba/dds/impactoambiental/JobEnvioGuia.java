@@ -1,9 +1,8 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
-
+import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizaciones;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 public class JobEnvioGuia {
@@ -11,7 +10,7 @@ public class JobEnvioGuia {
   private final String link;
 
   public static void main(String[] args) {
-    new JobEnvioGuia(Collections.emptyList(),
+    new JobEnvioGuia(RepositorioOrganizaciones.getInstance().obtenerTodos(),
         System.getenv("RECOMENDACIONES_URL")).ejecutar();
   }
 

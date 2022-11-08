@@ -1,6 +1,6 @@
 FROM maven:3.8.6-openjdk-8-slim as builder
 
-WORKDIR /usr/src
+WORKDIR /app
 
 COPY pom.xml ./
 
@@ -19,17 +19,20 @@ RUN chmod 0644 /etc/cron.d/cronjob
 
 RUN crontab /etc/cron.d/cronjob
 
-WORKDIR /usr/src/target
+WORKDIR /app/target
 
-COPY --from=builder /usr/src/target ./
+COPY --from=builder /app/target ./
+COPY start.sh ./
 
-ENTRYPOINT ["crond", "-f"]
+ENTRYPOINT ["sh", "start.sh", "crond -f"]
 
 
 FROM openjdk:8-jre-alpine as java
 
-WORKDIR /usr/src/target
+WORKDIR /app/target
 
-COPY --from=builder /usr/src/target ./
+COPY --from=builder /app/target ./
+COPY public ./public
+COPY start.sh ./
 
-ENTRYPOINT [ "java", "-jar", "application.jar" ]
+ENTRYPOINT ["sh", "start.sh", "java -jar application.jar"]
