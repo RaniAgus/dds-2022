@@ -17,6 +17,7 @@ import ar.edu.utn.frba.dds.impactoambiental.controllers.OrganizacionController;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.UsuarioController;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.HttpNotFoundException;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionException;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
 import com.google.common.collect.ImmutableMap;
 import java.util.Optional;
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
@@ -28,9 +29,11 @@ public class Routes {
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
     staticFiles.externalLocation("public");
 
+    Geolocalizador geolocalizador = new Geolocalizador(getGeoddsApiKey());
+
     HomeController homeController = new HomeController();
     UsuarioController usuarioController = new UsuarioController();
-    MiembroController miembroController = new MiembroController();
+    MiembroController miembroController = new MiembroController(geolocalizador);
     OrganizacionController organizacionController = new OrganizacionController();
     AgenteSectorialController agenteSectorialController = new AgenteSectorialController();
 
@@ -107,5 +110,11 @@ public class Routes {
     return Optional.ofNullable(System.getenv("PORT"))
         .map(Integer::parseInt)
         .orElse(8080);
+  }
+
+  private static String getGeoddsApiKey() {
+    return "Bearer " + Optional.ofNullable(System.getenv("GEODDS_API_KEY"))
+        .filter(key -> !key.isEmpty())
+        .orElse("/deHQgNGwBMcTx2fwx0P0xnoPvqSJzSb6/+8Bg0OC7g="); // TODO: lo moví acá pero está re mal jaja
   }
 }
