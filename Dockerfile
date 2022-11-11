@@ -21,11 +21,15 @@ RUN mvn package
 
 FROM openjdk:8-jre-alpine as cron
 
-ADD crontab /etc/cron.d/cronjob
+ARG CRON_ENVIO_GUIA
 
-RUN chmod 0644 /etc/cron.d/cronjob
+WORKDIR /etc/cron.d
 
-RUN crontab /etc/cron.d/cronjob
+RUN echo "${CRON_ENVIO_GUIA} sh -c \"java -cp /app/target/application.jar ar.edu.utn.frba.dds.impactoambiental.JobEnvioGuia\"" >> cronjob
+
+RUN chmod 0644 cronjob
+
+RUN crontab cronjob
 
 WORKDIR /app/target
 

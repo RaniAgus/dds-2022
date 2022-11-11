@@ -30,6 +30,7 @@ services:
       dockerfile: Dockerfile
       target: cron
       args:
+        - CRON_ENVIO_GUIA=${CRON_ENVIO_GUIA:-* * * * *}
         - DB_URL=${DB_URL:-jdbc:postgresql://db:5432/impactoambiental}
         - DB_USERNAME=${DB_USERNAME:-jpademo}
         - DB_PASSWORD=${DB_PASSWORD:-jpademo}
