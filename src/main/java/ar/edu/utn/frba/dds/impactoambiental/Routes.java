@@ -43,7 +43,6 @@ public class Routes {
     get("/login", usuarioController::verLogin, templateEngine);
     post("/login", usuarioController::iniciarSesion);
     post("/logout", usuarioController::cerrarSesion, templateEngine);
-    get("/logout", usuarioController::cerrarSesion, templateEngine);
 
     path("/usuarios/me", () -> {
       before("/*", usuarioController::validarUsuario);
