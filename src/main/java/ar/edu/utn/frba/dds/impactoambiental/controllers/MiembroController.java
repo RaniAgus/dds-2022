@@ -89,14 +89,15 @@ public class MiembroController implements Controller {
     Miembro miembro = miembrosHelper.obtenerMiembroDesdeAttributes(Context.of(request)).getValor();
     List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
     List<TrayectoResumenDto> trayectos = miembrosHelper.obtenerTrayectosDto(Context.of(request));
-    request.attribute("vinculacion");
+    Vinculacion vinculacion = request.attribute("vinculacion");
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
         "miembro", miembro,
         "vinculaciones", vinculaciones,
         "trayectos", trayectos,
-        "vinculacion", request.attribute("vinculacion")
+        "vinculacion", vinculacion,
+        "vinculacionElegida", vinculaciones.stream().filter(v -> v.getId().equals(vinculacion.getId())).findFirst().orElse(null)
     );
     return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/index.html.hbs");
   }
@@ -108,6 +109,7 @@ public class MiembroController implements Controller {
     List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
     List<Linea> lineas = RepositorioDeLineas.getInstance().obtenerTodos();
     List<MedioDeTransporte> mediosDeTransporte = RepositorioMediosDeTransporte.getInstance().obtenerTodos();
+    Vinculacion vinculacion = request.attribute("vinculacion");
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
@@ -116,7 +118,8 @@ public class MiembroController implements Controller {
         "pretramos", TramoDto.ofList(pretramos),
         "lineas", lineas,
         "mediosDeTransporte", mediosDeTransporte,
-        "vinculacion", request.attribute("vinculacion")
+        "vinculacion", vinculacion,
+        "vinculacionElegida", vinculaciones.stream().filter(v -> v.getId().equals(vinculacion.getId())).findFirst().orElse(null)
     );
     return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/nuevo.html.hbs");
   }

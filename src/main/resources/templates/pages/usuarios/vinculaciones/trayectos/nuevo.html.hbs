@@ -1,7 +1,7 @@
 {{#partial "contenido-usuario"}}
 <div>
     <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
-        <span class="ml-3" style="align-self: center">Nuevo Trayecto</span>
+        <span class="ml-3" style="align-self: center">Nuevo Trayecto de {{vinculacionElegida.organizacion.razonSocial}}</span>
         <div style="margin-top: 10px">
             <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos" style="display: flex">
                 <input type="date" name="fecha" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " style="margin-right: 10px" required>
