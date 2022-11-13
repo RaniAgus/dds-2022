@@ -57,7 +57,11 @@ public class OrganizacionController implements Controller {
     ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
         "organizacion", org,
-        "vinculaciones", vinculaciones
+        "vinculaciones", vinculaciones,
+        "vinculacionesSidebarSelected", true,
+        "daSidebarSelected", false,
+        "reportesEvolucionSidebarSelected", false,
+        "reportesIndividualSidebarSelected", false
     );
 
     return new ModelAndView(model, "pages/organizaciones/vinculaciones/index.html.hbs");
@@ -91,7 +95,11 @@ public class OrganizacionController implements Controller {
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "organizacion", usuarioOrg.getOrganizacion(),
       "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
-        "periodicidades", Arrays.asList(Periodicidad.values())
+      "periodicidades", Arrays.asList(Periodicidad.values()),
+      "vinculacionesSidebarSelected", false,
+        "daSidebarSelected", true,
+        "reportesEvolucionSidebarSelected", false,
+        "reportesIndividualSidebarSelected", false
     );
     return new ModelAndView(model, "pages/organizaciones/da/index.html.hbs");
   }
@@ -143,7 +151,11 @@ public class OrganizacionController implements Controller {
     ImmutableMap<String , Object> model = ImmutableMap.of(
       "usuario", entry(organizacionDeSesion(request)),
       "organizacion", entry(organizacion),
-      "reporte", entry(reporte)
+      "reporte", entry(reporte),
+      "vinculacionesSidebarSelected", false,
+        "daSidebarSelected", false,
+        "reportesEvolucionSidebarSelected", false,
+        "reportesIndividualSidebarSelected", true
     );
     return new ModelAndView(model, "pages/organizaciones/reportes/individual.html.hbs");
   }
@@ -201,7 +213,11 @@ public class OrganizacionController implements Controller {
       "primerTotal", entry(primerReporte.getHuellaCarbonoTotal()),
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
-      "consumos", consumos
+      "consumos", consumos,
+      "vinculacionesSidebarSelected", false,
+      "daSidebarSelected", false,
+      "reportesEvolucionSidebarSelected", true,
+      "reportesIndividualSidebarSelected", false
     );
 
     return new ModelAndView(model, "pages/organizaciones/reportes/evolucion.html.hbs");
