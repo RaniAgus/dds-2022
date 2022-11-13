@@ -14,6 +14,7 @@ public class VinculacionDto {
   private Sector sector;
   private EstadoVinculo estado;
   private boolean sePuedenVerLosTrayectos;
+  private boolean seleccionado;
 
   public VinculacionDto(Long id, Miembro miembro, Organizacion organizacion, Sector sector, EstadoVinculo estado) {
       this.id = id;
@@ -22,6 +23,7 @@ public class VinculacionDto {
       this.sector = sector;
       this.estado = estado;
       this.sePuedenVerLosTrayectos = estado.equals(EstadoVinculo.ACEPTADO);
+      this.seleccionado = false;
   }
 
   public Long getId() {
@@ -84,5 +86,13 @@ public class VinculacionDto {
         sector,
         vinculacion.getEstado()
     );
+  }
+
+  public boolean getSeleccionado() {
+    return seleccionado;
+  }
+
+  public void setSeleccionado(boolean seleccionado) {
+    this.seleccionado = seleccionado;
   }
 }
