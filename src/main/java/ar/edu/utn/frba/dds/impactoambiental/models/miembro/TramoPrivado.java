@@ -85,12 +85,12 @@ public class TramoPrivado extends Tramo {
 
   @Override
   public String nombreOrigen() {
-    return ubicacionInicial.toString();
+    return ubicacionInicial.getDireccion();
   }
 
   @Override
   public String nombreDestino() {
-    return ubicacionFinal.toString();
+    return ubicacionFinal.getDireccion();
   }
 
   @Override

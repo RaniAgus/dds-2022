@@ -37,4 +37,8 @@ public class Ubicacion {
         + ", altura='" + altura + '\''
         + '}';
   }
+
+  public String getDireccion() {
+    return calle + " " + altura;
+  }
 }
