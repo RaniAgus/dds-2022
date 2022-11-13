@@ -1,23 +1,73 @@
 {{#partial "contenido"}}
     {{#partial "sidebar-items"}}
 
+        {{#partial "sidebar-title-color"}}
+            {{#if reporteConsumoEvolucionSidebarSelected}}
+                text-primary
+            {{else}}
+                {{#if reporteConsumoIndividualSidebarSelected}}
+                    text-primary
+                {{else}}
+                    text-gray-900
+                {{/if}}
+            {{/if}}
+        {{/partial}}
         {{#partial "sidebar-title"}}Reportes de Consumo{{/partial}}
         {{#partial "sidebar-item-dropdown-items"}}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/consumo/individual"{{/partial}}
+            {{#partial "sidebar-item-dropdown-color"}}
+                {{#if reporteConsumoIndividualSidebarSelected}}
+                    text-primary
+                {{else}}
+                    text-gray-900
+                {{/if}}
+            {{/partial}}
             {{#partial "sidebar-item-dropdown-item-text"}}Individual{{/partial}}
             {{> components/SidebarItemDropdownItem.html.hbs }}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/consumo/evolucion"{{/partial}}
+            {{#partial "sidebar-item-dropdown-color"}}
+                {{#if reporteConsumoEvolucionSidebarSelected}}
+                    text-primary
+                {{else}}
+                    text-gray-900
+                {{/if}}
+            {{/partial}}
             {{#partial "sidebar-item-dropdown-item-text"}}Evolución{{/partial}}
             {{> components/SidebarItemDropdownItem.html.hbs }}
         {{/partial}}
         {{> components/SidebarItemDropdown.html.hbs }}
 
+        {{#partial "sidebar-title-color"}}
+            {{#if reporteOrganizacionalEvolucionSidebarSelected}}
+                text-primary
+            {{else}}
+                {{#if reporteOrganizacionalIndividualSidebarSelected}}
+                    text-primary
+                {{else}}
+                    text-gray-900
+                {{/if}}
+            {{/if}}
+        {{/partial}}
         {{#partial "sidebar-title"}}Reportes de Organización{{/partial}}
         {{#partial "sidebar-item-dropdown-items"}}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/organizacion/individual"{{/partial}}
+            {{#partial "sidebar-item-dropdown-color"}}
+                {{#if reporteOrganizacionalIndividualSidebarSelected}}
+                    text-primary
+                {{else}}
+                    text-gray-900
+                {{/if}}
+            {{/partial}}
             {{#partial "sidebar-item-dropdown-item-text"}}Individual{{/partial}}
             {{> components/SidebarItemDropdownItem.html.hbs }}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/organizacion/evolucion"{{/partial}}
+            {{#partial "sidebar-item-dropdown-color"}}
+                {{#if reporteOrganizacionalEvolucionSidebarSelected}}
+                    text-primary
+                {{else}}
+                    text-gray-900
+                {{/if}}
+            {{/partial}}
             {{#partial "sidebar-item-dropdown-item-text"}}Evolución{{/partial}}
             {{> components/SidebarItemDropdownItem.html.hbs }}
         {{/partial}}
