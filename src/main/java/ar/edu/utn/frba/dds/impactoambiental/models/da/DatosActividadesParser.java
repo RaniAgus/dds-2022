@@ -12,18 +12,18 @@ import java.util.stream.Collectors;
 public class DatosActividadesParser {
   private final Character separator;
   private final Integer skiplines;
-  private final LectorDeArchivos lectorDeArchivos;
+  private final Lector lector;
   private final String datePattern;
 
   private final RepositorioTipoDeConsumo repositorioTipoDeConsumo;
 
   public DatosActividadesParser(RepositorioTipoDeConsumo repositorioTipoDeConsumo,
-                                LectorDeArchivos loader,
+                                Lector loader,
                                 Integer skiplines,
                                 Character separator,
                                 String datePattern) {
     this.repositorioTipoDeConsumo = repositorioTipoDeConsumo;
-    this.lectorDeArchivos = loader;
+    this.lector = loader;
     this.skiplines = skiplines;
     this.separator = separator;
     this.datePattern = datePattern;
@@ -56,7 +56,7 @@ public class DatosActividadesParser {
   }
 
   public List<DatoActividad> getDatosActividad() {
-    List<String> lineas = lectorDeArchivos.getLineas();
+    List<String> lineas = lector.getLineas();
     lineas = lineas.subList(skiplines, lineas.size());
 
     return lineas.stream().map(this::parseLine).collect(Collectors.toList());
