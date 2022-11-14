@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.impactoambiental.dtos;
 
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.Usuario;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class UsuarioDto {
   private String username;
@@ -22,6 +21,6 @@ public class UsuarioDto {
 
   // TODO: Ver cómo crear distintos tipos de usuarios
   public Usuario toEntity() {
-    throw new NotImplementedException();
+    throw new UnsupportedOperationException();
   }
 }
