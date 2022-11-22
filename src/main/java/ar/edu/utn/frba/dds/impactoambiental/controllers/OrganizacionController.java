@@ -100,18 +100,22 @@ public class OrganizacionController implements Controller {
     return new ModelAndView(model, "pages/organizaciones/da/index.html.hbs");
   }
 
+  public ModelAndView daManual(Request request, Response response) {
+    UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
+
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+      "organizacion", usuarioOrg.getOrganizacion(),
+      "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
+      "periodicidades", Arrays.asList(Periodicidad.values()),
+      "sidebar", new SidebarOrganizacion(false, true, false, false)
+    );
+    return new ModelAndView(model, "pages/organizaciones/da/manual.html.hbs");
+  }
+
   public ModelAndView cargarDA(Request request, Response response) {
     Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
-    List<DatoActividad> DAs;
-
-    if (request.contentType().startsWith("multipart/form-data")) {
-      DAs = daDesdeCSV(request);
-    } else {
-      DAs = daDesdeQueryParams(request);
-    }
-
-    final List<DatoActividad> finalDAs = DAs;
+    final List<DatoActividad> finalDAs = daDesdeCSV(request);
     
     withTransaction(() -> {
       organizacion.agregarDatosActividad(finalDAs);
@@ -119,6 +123,20 @@ public class OrganizacionController implements Controller {
     });
 
     response.redirect("/organizaciones/me/da");
+    return null;
+  }
+
+  public ModelAndView cargarDAManual (Request request, Response response) {
+    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
+    
+    final List<DatoActividad> finalDAs = daDesdeQueryParams(request);
+
+    withTransaction(() -> {
+      organizacion.agregarDatosActividad(finalDAs);
+      repoOrganizaciones.actualizar(organizacion);
+    });
+
+    response.redirect("/organizaciones/me/da/manual");
     return null;
   }
 

@@ -70,6 +70,8 @@ public class Routes {
       post("/vinculaciones", organizacionController::aceptarVinculacion, templateEngine);
       get("/da", organizacionController::da, templateEngine);
       post("/da", organizacionController::cargarDA, templateEngine);
+      get("/da/manual", organizacionController::daManual, templateEngine);
+      post("/da/manual", organizacionController::cargarDAManual, templateEngine);
       get("/reportes/individual", organizacionController::reportesIndividual, templateEngine);
       get("/reportes/evolucion", organizacionController::reportesEvolucion, templateEngine);
     });

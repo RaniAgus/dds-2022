@@ -1,0 +1,70 @@
+{{#partial "contenido-org"}}
+    {{#partial "main-title"}}Datos de Actividad{{/partial}}
+    {{#partial "main-content"}}
+
+        <div class="flex justify-between" style="width: 1000px">
+            <div class="w-full max-w-md h-full">
+
+                <!-- Modal content -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="py-6 px-6 lg:px-8">
+                        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Carga manual</h3>
+                        <form class="space-y-6" method="POST" action="/organizaciones/me/da/manual">
+
+                            <!-- PERIODICIDAD -->
+                            <div>
+                                <label for="periodicidad"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Periodicidad</label>
+                                <select name="periodicidad"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected>Elija una periodicidad</option>
+                                    {{#each periodicidades}}
+                                        <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <!-- FECHA -->
+                            <div>
+                                <label for="fechaInicial" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Fecha</label>
+                                <input type="date" name="fechaInicial" id="fechaInicial"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       required>
+                            </div>
+
+                            <!-- TIPO DE CONSUMO -->
+                            <div>
+                                <label for="tipoDeConsumo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tipo
+                                    de Consumo</label>
+                                <select name="tipoDeConsumo"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected>Elija un Tipo de Consumo</option>
+                                    {{#each tiposDeConsumo}}
+                                        <option value="{{nombre}}">{{nombre}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <!-- CANTIDAD -->
+                            <div>
+                                <label for="cantidadConsumo"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cantidad de Consumo</label>
+                                <input type="number" name="cantidadConsumo" id="cantidadConsumo"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                       required>
+                            </div>
+
+                            <button type="submit"
+                                    class="w-full text-white focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
+                                    style="background-color: #5E8C31">Cargar</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {{/partial}}
+    {{> components/Main.html.hbs}}
+{{/partial}}
+{{> components/LayoutOrganizacion.html.hbs}}
