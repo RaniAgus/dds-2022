@@ -134,6 +134,6 @@ public class Organizacion extends EntidadPersistente {
   public List<Integer> aniosConsumo() {
     Stream<Integer> aniosTrayectos = getMiembros().stream().flatMap(m -> m.getTrayectos().stream()).map(Trayecto::getAnio);
     Stream<Integer> aniosDA = datosActividad.stream().map(DatoActividad::getAnio);
-    return Stream.concat(aniosTrayectos, aniosDA).distinct().collect(Collectors.toList());
+    return Stream.concat(aniosTrayectos, aniosDA).distinct().sorted().collect(Collectors.toList());
   }
 }
