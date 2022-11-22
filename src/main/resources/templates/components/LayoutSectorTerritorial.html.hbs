@@ -2,10 +2,10 @@
     {{#partial "sidebar-items"}}
 
         {{#partial "sidebar-title-color"}}
-            {{#if reporteConsumoEvolucionSidebarSelected}}
+            {{#if sidebar.reporteConsumoEvolucion}}
                 text-primary
             {{else}}
-                {{#if reporteConsumoIndividualSidebarSelected}}
+                {{#if sidebar.reporteConsumoIndividual}}
                     text-primary
                 {{else}}
                     text-gray-900
@@ -19,7 +19,7 @@
         {{#partial "sidebar-item-dropdown-items"}}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/consumo/individual"{{/partial}}
             {{#partial "sidebar-item-dropdown-color"}}
-                {{#if reporteConsumoIndividualSidebarSelected}}
+                {{#if sidebar.reporteConsumoIndividual}}
                     text-primary
                 {{else}}
                     text-gray-900
@@ -29,7 +29,7 @@
             {{> components/SidebarItemDropdownItem.html.hbs }}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/consumo/evolucion"{{/partial}}
             {{#partial "sidebar-item-dropdown-color"}}
-                {{#if reporteConsumoEvolucionSidebarSelected}}
+                {{#if sidebar.reporteConsumoEvolucion}}
                     text-primary
                 {{else}}
                     text-gray-900
@@ -41,10 +41,10 @@
         {{> components/SidebarItemDropdown.html.hbs }}
 
         {{#partial "sidebar-title-color"}}
-            {{#if reporteOrganizacionalEvolucionSidebarSelected}}
+            {{#if sidebar.reporteOrganizacionalEvolucion}}
                 text-primary
             {{else}}
-                {{#if reporteOrganizacionalIndividualSidebarSelected}}
+                {{#if sidebar.reporteOrganizacionalEvolucion}}
                     text-primary
                 {{else}}
                     text-gray-900
@@ -58,7 +58,7 @@
         {{#partial "sidebar-item-dropdown-items"}}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/organizacion/individual"{{/partial}}
             {{#partial "sidebar-item-dropdown-color"}}
-                {{#if reporteOrganizacionalIndividualSidebarSelected}}
+                {{#if sidebar.reporteOrganizacionalEvolucion}}
                     text-primary
                 {{else}}
                     text-gray-900
@@ -68,7 +68,7 @@
             {{> components/SidebarItemDropdownItem.html.hbs }}
             {{#partial "sidebar-item-dropdown-item-link"}}href="/sectoresterritoriales/me/reportes/organizacion/evolucion"{{/partial}}
             {{#partial "sidebar-item-dropdown-color"}}
-                {{#if reporteOrganizacionalEvolucionSidebarSelected}}
+                {{#if sidebar.reporteOrganizacionalEvolucion}}
                     text-primary
                 {{else}}
                     text-gray-900

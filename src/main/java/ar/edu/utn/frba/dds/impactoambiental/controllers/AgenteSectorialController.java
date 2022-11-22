@@ -5,6 +5,7 @@ import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.SidebarSector;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
@@ -53,10 +54,7 @@ public class AgenteSectorialController implements Controller {
       "usuario", entry(usuario),
       "sectorTerritorial", entry(sector),
       "reporte", entry(reporte),
-      "reporteOrganizacionalIndividualSidebarSelected", false,
-      "reporteOrganizacionalEvolucionSidebarSelected", false,
-      "reporteConsumoIndividualSidebarSelected", true,
-      "reporteConsumoEvolucionSidebarSelected", false
+      "sidebar", entry(new SidebarSector(false, false, true, false))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/individual.html.hbs");
   }
@@ -116,10 +114,7 @@ public class AgenteSectorialController implements Controller {
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
       "consumos", entry(consumos),
-      "reporteOrganizacionalIndividualSidebarSelected", false,
-      "reporteOrganizacionalEvolucionSidebarSelected", false,
-      "reporteConsumoIndividualSidebarSelected", false,
-      "reporteConsumoEvolucionSidebarSelected", true
+      "sidebar", entry(new SidebarSector(false, false, false, true))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/evolucion.html.hbs");
   }
@@ -152,10 +147,7 @@ public class AgenteSectorialController implements Controller {
       "usuario", entry(usuario),
       "sectorTerritorial", entry(sector),
       "reporte", entry(reporte),
-      "reporteOrganizacionalIndividualSidebarSelected", true,
-      "reporteOrganizacionalEvolucionSidebarSelected", false,
-      "reporteConsumoIndividualSidebarSelected", false,
-      "reporteConsumoEvolucionSidebarSelected", false
+      "sidebar", entry(new SidebarSector(true, false, false, false))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/individual.html.hbs");
   }
@@ -215,10 +207,7 @@ public class AgenteSectorialController implements Controller {
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
       "consumos", entry(consumos),
-      "reporteOrganizacionalIndividualSidebarSelected", false,
-      "reporteOrganizacionalEvolucionSidebarSelected", true,
-      "reporteConsumoIndividualSidebarSelected", false,
-      "reporteConsumoEvolucionSidebarSelected", false
+      "sidebar", entry(new SidebarSector(false, true, false, false))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/evolucion.html.hbs");
   }
