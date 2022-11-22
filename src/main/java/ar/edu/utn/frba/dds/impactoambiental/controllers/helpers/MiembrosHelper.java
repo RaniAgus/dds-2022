@@ -48,4 +48,13 @@ public class MiembrosHelper {
     Map<Long, List<Tramo>> miembrosPretramos = ctx.computeSessionAttributeIfAbsent("miembrosPretramos", HashMap::new);
     return miembrosPretramos.computeIfAbsent(obtenerMiembroDesdeAttributes(ctx).getValor().getId(), k -> new ArrayList<>());
   }
+
+  //no me odien por cambiar el estado y retornar al mismo tiempo
+  public static VinculacionDto determinarVinculacionSeleccionada(List<VinculacionDto> vinculaciones, Vinculacion vinculacion) {
+    return vinculaciones.stream()
+        .filter(v -> v.getId().equals(vinculacion.getId()))
+        .map(v -> {v.setSeleccionado(true); return v;})
+        .findFirst()
+        .orElse(null);
+  }
 }

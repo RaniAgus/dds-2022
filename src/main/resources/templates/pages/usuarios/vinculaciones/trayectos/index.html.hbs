@@ -1,7 +1,7 @@
  {{#partial "contenido-usuario"}}
      <div>
         <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
-            <span class="ml-3" style="align-self: center">Trayectos de {{vinculacion.miembro.nombre}}</span>
+            <span class="ml-3" style="align-self: center">Trayectos de {{vinculacionElegida.organizacion.razonSocial}}</span>
             <div style="margin-top: 10px">
             <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo">
             <button type="submit"

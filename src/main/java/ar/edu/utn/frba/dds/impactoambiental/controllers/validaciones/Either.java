@@ -22,6 +22,9 @@ public interface Either<T> {
 
   static <T> Either<T> desde(Supplier<T> supplier, String error) {
     try {
+      if (supplier.get()==null){
+        throw new Exception();
+      }
       return exitoso(supplier.get());
     } catch (Exception e) {
       return fallido(error);

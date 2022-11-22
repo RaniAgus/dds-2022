@@ -45,7 +45,6 @@ public class Routes {
     get("/login", usuarioController::verLogin, templateEngine);
     post("/login", usuarioController::iniciarSesion);
     post("/logout", usuarioController::cerrarSesion, templateEngine);
-    get("/logout", usuarioController::cerrarSesion, templateEngine);
 
     path("/usuarios/me", () -> {
       before("/*", usuarioController::validarUsuario);
@@ -90,7 +89,7 @@ public class Routes {
 
     exception(ValidacionException.class, (e, req, res) -> {
       if (e.getErrores().contains("UNAUTHORIZED")) {
-        res.redirect("/login"); // TODO: Setear un originUrl
+        res.redirect("/login?uriunautorized="+ req.uri());
       } else {
         res.body(templateEngine.render(new ModelAndView(ImmutableMap.of(), "pages/404.html.hbs")));
       }

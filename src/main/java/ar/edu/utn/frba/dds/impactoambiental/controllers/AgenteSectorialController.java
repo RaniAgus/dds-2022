@@ -52,7 +52,11 @@ public class AgenteSectorialController implements Controller {
     ImmutableMap<String , Object> model = ImmutableMap.of(
       "usuario", entry(usuario),
       "sectorTerritorial", entry(sector),
-      "reporte", entry(reporte)
+      "reporte", entry(reporte),
+      "reporteOrganizacionalIndividualSidebarSelected", false,
+      "reporteOrganizacionalEvolucionSidebarSelected", false,
+      "reporteConsumoIndividualSidebarSelected", true,
+      "reporteConsumoEvolucionSidebarSelected", false
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/individual.html.hbs");
   }
@@ -111,7 +115,11 @@ public class AgenteSectorialController implements Controller {
       "primerTotal", entry(primerReporte.getHuellaCarbonoTotal()),
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
-      "consumos", entry(consumos)
+      "consumos", entry(consumos),
+      "reporteOrganizacionalIndividualSidebarSelected", false,
+      "reporteOrganizacionalEvolucionSidebarSelected", false,
+      "reporteConsumoIndividualSidebarSelected", false,
+      "reporteConsumoEvolucionSidebarSelected", true
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/evolucion.html.hbs");
   }
@@ -143,7 +151,11 @@ public class AgenteSectorialController implements Controller {
     ImmutableMap<String , Object> model = ImmutableMap.of(
       "usuario", entry(usuario),
       "sectorTerritorial", entry(sector),
-      "reporte", entry(reporte)
+      "reporte", entry(reporte),
+      "reporteOrganizacionalIndividualSidebarSelected", true,
+      "reporteOrganizacionalEvolucionSidebarSelected", false,
+      "reporteConsumoIndividualSidebarSelected", false,
+      "reporteConsumoEvolucionSidebarSelected", false
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/individual.html.hbs");
   }
@@ -202,7 +214,11 @@ public class AgenteSectorialController implements Controller {
       "primerTotal", entry(primerReporte.getHuellaCarbonoTotal()),
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
-      "consumos", entry(consumos)
+      "consumos", entry(consumos),
+      "reporteOrganizacionalIndividualSidebarSelected", false,
+      "reporteOrganizacionalEvolucionSidebarSelected", true,
+      "reporteConsumoIndividualSidebarSelected", false,
+      "reporteConsumoEvolucionSidebarSelected", false
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/evolucion.html.hbs");
   }

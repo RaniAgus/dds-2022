@@ -29,6 +29,8 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import static ar.edu.utn.frba.dds.impactoambiental.controllers.helpers.MiembrosHelper.determinarVinculacionSeleccionada;
+
 public class MiembroController implements Controller {
   private RepositorioDeSectores sectores = RepositorioDeSectores.getInstance();
   private RepositorioOrganizaciones organizaciones = RepositorioOrganizaciones.getInstance();
@@ -62,7 +64,9 @@ public class MiembroController implements Controller {
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "usuario", usuario,
-      "vinculaciones", vinculaciones
+      "vinculaciones", vinculaciones,
+      "vinculacionesSidebarSelected", true,
+      "trayectosSidebarSelected", false
     );
     return new ModelAndView(model, "pages/usuarios/vinculaciones/index.html.hbs");
   }
@@ -93,14 +97,18 @@ public class MiembroController implements Controller {
     Miembro miembro = miembrosHelper.obtenerMiembroDesdeAttributes(Context.of(request)).getValor();
     List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
     List<TrayectoResumenDto> trayectos = miembrosHelper.obtenerTrayectosDto(Context.of(request));
-    request.attribute("vinculacion");
+    Vinculacion vinculacion = request.attribute("vinculacion");
+    VinculacionDto vinculacionElegida = determinarVinculacionSeleccionada(vinculaciones, vinculacion);
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
         "miembro", miembro,
         "vinculaciones", vinculaciones,
         "trayectos", trayectos,
-        "vinculacion", request.attribute("vinculacion")
+        "vinculacion", vinculacion,
+        "vinculacionElegida", vinculacionElegida,
+        "vinculacionesSidebarSelected", false,
+        "trayectosSidebarSelected", true
     );
     return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/index.html.hbs");
   }
@@ -112,6 +120,8 @@ public class MiembroController implements Controller {
     List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
     List<Linea> lineas = RepositorioDeLineas.getInstance().obtenerTodos();
     List<MedioDeTransporte> mediosDeTransporte = RepositorioMediosDeTransporte.getInstance().obtenerTodos();
+    Vinculacion vinculacion = request.attribute("vinculacion");
+    VinculacionDto vinculacionElegida = determinarVinculacionSeleccionada(vinculaciones, vinculacion);
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
         "usuario", usuario,
@@ -120,7 +130,10 @@ public class MiembroController implements Controller {
         "pretramos", TramoDto.ofList(pretramos),
         "lineas", lineas,
         "mediosDeTransporte", mediosDeTransporte,
-        "vinculacion", request.attribute("vinculacion")
+        "vinculacion", vinculacion,
+        "vinculacionElegida", vinculacionElegida,
+        "vinculacionesSidebarSelected", false,
+        "trayectosSidebarSelected", true
     );
     return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/nuevo.html.hbs");
   }
@@ -154,6 +167,9 @@ public class MiembroController implements Controller {
     Miembro miembro = miembrosHelper.obtenerMiembroDesdeAttributes(Context.of(request)).getValor();
     List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
     List<TramoDto> pretramosDtos = TramoDto.ofList(miembrosHelper.obtenerPretramos(Context.of(request)));
+    
+    Vinculacion vinculacion = request.attribute("vinculacion");
+    determinarVinculacionSeleccionada(vinculaciones, vinculacion);
 
     if (request.queryParams("tipo").equals("publico")) {
       //param de form
@@ -165,7 +181,9 @@ public class MiembroController implements Controller {
           "vinculaciones", vinculaciones,
           "pretramos", pretramosDtos,
           "linea", linea,
-          "vinculacion", request.attribute("vinculacion")
+          "vinculacion", vinculacion,
+          "vinculacionesSidebarSelected", false,
+          "trayectosSidebarSelected", true
       );
       return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/tramos/nuevo[publico].html.hbs");
     }
@@ -179,7 +197,9 @@ public class MiembroController implements Controller {
           "vinculaciones", vinculaciones,
           "pretramos", pretramosDtos,
           "medio", medio,
-          "vinculacion", request.attribute("vinculacion")
+          "vinculacion", vinculacion,
+          "vinculacionesSidebarSelected", false,
+          "trayectosSidebarSelected", true
       );
       return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/tramos/nuevo[privado].html.hbs");
     }
