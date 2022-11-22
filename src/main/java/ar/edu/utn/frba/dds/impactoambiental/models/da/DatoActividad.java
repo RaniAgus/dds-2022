@@ -38,6 +38,9 @@ public class DatoActividad extends EntidadPersistente {
     return this.tipoDeConsumo.equals(tipo);
   }
 
+  public Integer getAnio() {
+    return Integer.valueOf(periodo.getInicioPeriodo().getYear());
+  }
 }
 
 

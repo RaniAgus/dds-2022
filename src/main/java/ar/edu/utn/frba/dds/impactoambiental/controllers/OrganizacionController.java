@@ -23,6 +23,7 @@ import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizacion
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -126,12 +127,25 @@ public class OrganizacionController implements Controller {
 
     ReporteOrganizacionalDto reporte;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anio = Form.of(request).getParamOrError("anio", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate fecha = Form.of(request).getParamOrError("fecha", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+
+      Periodicidad periodicidad;  
+
+      if (mes == 0) {
+        periodicidad = Periodicidad.ANUAL;
+        mes = 1;
+      }
+      else {
+        periodicidad = Periodicidad.MENSUAL;
+      }
+
+      LocalDate fecha = LocalDate.of(anio, mes, 1);
 
       reporte = new ReporteOrganizacionalFactory(
         repoTipoDeConsumo.obtenerTodos(),
@@ -147,6 +161,7 @@ public class OrganizacionController implements Controller {
       "usuario", entry(organizacionDeSesion(request)),
       "organizacion", entry(organizacion),
       "reporte", entry(reporte),
+      "anios", entry(organizacion.aniosConsumo()),
       "sidebar", new SidebarOrganizacion(false, false, false, true)
     );
     return new ModelAndView(model, "pages/organizaciones/reportes/individual.html.hbs");
@@ -159,15 +174,29 @@ public class OrganizacionController implements Controller {
     ReporteOrganizacionalDto segundoReporte;
     ReporteOrganizacionalDto reporteEvolucion;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anioInicial = Form.of(request).getParamOrError("anioInicial", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate primerFecha = Form.of(request).getParamOrError("fechaInicial", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+
+      Integer anioFinal = Form.of(request).getParamOrError("anioFinal", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate segundaFecha = Form.of(request).getParamOrError("fechaFinal", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+      
+      Periodicidad periodicidad;
+
+      if (mes == 0) {
+        periodicidad = Periodicidad.ANUAL;
+        mes = 1;
+      } else {
+        periodicidad = Periodicidad.MENSUAL;
+      }      
+
+      LocalDate primerFecha = LocalDate.of(anioInicial, mes, 1);
+      LocalDate segundaFecha = LocalDate.of(anioFinal, mes, 1);
 
       primerReporte = new ReporteOrganizacionalFactory(
         repoTipoDeConsumo.obtenerTodos(),
@@ -206,6 +235,7 @@ public class OrganizacionController implements Controller {
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
       "consumos", consumos,
+      "anios", entry(organizacion.aniosConsumo()),
       "sidebar", new SidebarOrganizacion(false, false, true, false)
     );
 

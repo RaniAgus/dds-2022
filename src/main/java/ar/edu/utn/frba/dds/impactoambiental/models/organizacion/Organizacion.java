@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -128,5 +129,11 @@ public class Organizacion extends EntidadPersistente {
 
   public String getRazonSocial() {
     return razonSocial;
+  }
+
+  public List<Integer> aniosConsumo() {
+    Stream<Integer> aniosTrayectos = getMiembros().stream().flatMap(m -> m.getTrayectos().stream()).map(Trayecto::getAnio);
+    Stream<Integer> aniosDA = datosActividad.stream().map(DatoActividad::getAnio);
+    return Stream.concat(aniosTrayectos, aniosDA).distinct().collect(Collectors.toList());
   }
 }

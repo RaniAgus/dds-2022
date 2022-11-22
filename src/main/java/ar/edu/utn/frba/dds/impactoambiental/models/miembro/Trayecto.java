@@ -82,4 +82,8 @@ public class Trayecto extends EntidadPersistente {
         .mapToDouble(Tramo::carbonoEquivalente)
         .sum();
   }
+
+  public Integer getAnio() {
+    return Integer.valueOf(fecha.getYear());
+  }
 }
