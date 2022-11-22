@@ -4,12 +4,28 @@
         <span class="ml-3" style="align-self: center">Reportes Individuales por Tipo de Organizacion</span>
         <div style="margin-top: 10px">
             <form method="GET" action="/sectoresterritoriales/me/reportes/organizacion/individual" style="display: flex">
-                <select name="periodicidad" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected>Elija una periodicidad</option>
-                    <option value="MENSUAL">MENSUAL</option>
-                    <option value="ANUAL">ANUAL</option>
+                <select name="anio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                    <option selected>Elija un año</option>
+                    {{#each anios}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
                 </select>
-                <input type="date" name="fecha" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " style="margin-right: 10px" required>
+                <select name="mes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                    <option selected>Elija un mes</option>
+                    <option value="0">ANUAL</option>
+                    <option value="1">ENERO</option>
+                    <option value="2">FEBRERO</option>
+                    <option value="3">MARZO</option>
+                    <option value="4">ABRIL</option>
+                    <option value="5">MAYO</option>
+                    <option value="6">JUNIO</option>
+                    <option value="7">JULIO</option>
+                    <option value="8">AGOSTO</option>
+                    <option value="9">SEPTIEMBRE</option>
+                    <option value="10">OCTUBRE</option>
+                    <option value="11">NOVIEMBRE</option>
+                    <option value="12">DICIEMBRE</option>
+                </select>
                 <button type="submit"
                         class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Generar Reporte</button>
             </form>
