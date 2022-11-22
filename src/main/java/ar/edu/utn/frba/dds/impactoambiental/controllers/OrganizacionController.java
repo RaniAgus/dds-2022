@@ -5,6 +5,7 @@ import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.SidebarOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
@@ -58,10 +59,7 @@ public class OrganizacionController implements Controller {
         "usuario", usuario,
         "organizacion", org,
         "vinculaciones", vinculaciones,
-        "vinculacionesSidebarSelected", true,
-        "daSidebarSelected", false,
-        "reportesEvolucionSidebarSelected", false,
-        "reportesIndividualSidebarSelected", false
+        "sidebar", new SidebarOrganizacion(true, false, false, false)
     );
 
     return new ModelAndView(model, "pages/organizaciones/vinculaciones/index.html.hbs");
@@ -96,10 +94,7 @@ public class OrganizacionController implements Controller {
       "organizacion", usuarioOrg.getOrganizacion(),
       "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
       "periodicidades", Arrays.asList(Periodicidad.values()),
-      "vinculacionesSidebarSelected", false,
-        "daSidebarSelected", true,
-        "reportesEvolucionSidebarSelected", false,
-        "reportesIndividualSidebarSelected", false
+      "sidebar", new SidebarOrganizacion(false, true, false, false)
     );
     return new ModelAndView(model, "pages/organizaciones/da/index.html.hbs");
   }
@@ -152,10 +147,7 @@ public class OrganizacionController implements Controller {
       "usuario", entry(organizacionDeSesion(request)),
       "organizacion", entry(organizacion),
       "reporte", entry(reporte),
-      "vinculacionesSidebarSelected", false,
-        "daSidebarSelected", false,
-        "reportesEvolucionSidebarSelected", false,
-        "reportesIndividualSidebarSelected", true
+      "sidebar", new SidebarOrganizacion(false, false, false, true)
     );
     return new ModelAndView(model, "pages/organizaciones/reportes/individual.html.hbs");
   }
@@ -214,10 +206,7 @@ public class OrganizacionController implements Controller {
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
       "consumos", consumos,
-      "vinculacionesSidebarSelected", false,
-      "daSidebarSelected", false,
-      "reportesEvolucionSidebarSelected", true,
-      "reportesIndividualSidebarSelected", false
+      "sidebar", new SidebarOrganizacion(false, false, true, false)
     );
 
     return new ModelAndView(model, "pages/organizaciones/reportes/evolucion.html.hbs");
