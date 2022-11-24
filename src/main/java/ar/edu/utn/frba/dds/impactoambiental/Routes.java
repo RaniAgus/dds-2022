@@ -60,6 +60,13 @@ public class Routes {
         post("/trayectos", miembroController::anadirTrayecto, templateEngine);
         get("/trayectos/nuevo/tramos/nuevo", miembroController::nuevoTramo, templateEngine);
         post("/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
+
+        post("/trayectos/nuevo/tramos/nuevo/publico/linea", miembroController::tramoPublicoSetLinea, templateEngine);
+        post("/trayectos/nuevo/tramos/nuevo/publico/paradas", miembroController::tramoPublicoSetParadasYConfirmar, templateEngine);
+        post("/trayectos/nuevo/tramos/nuevo/privado/medio", miembroController::tramoPrivadoSetMedio, templateEngine);
+        post("/trayectos/nuevo/tramos/nuevo/privado/origen", miembroController::tramoPrivadoSetOrigen, templateEngine);
+        post("/trayectos/nuevo/tramos/nuevo/privado/destino", miembroController::tramoPrivadoSetDestinoYConfirmar, templateEngine);
+        
       });
     });
 

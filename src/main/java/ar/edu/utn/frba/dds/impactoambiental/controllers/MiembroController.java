@@ -10,10 +10,14 @@ import ar.edu.utn.frba.dds.impactoambiental.dtos.TrayectoResumenDto;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.exceptions.ValidacionException;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Geolocalizador;
+import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Linea;
 import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.MedioDeTransporte;
+import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.Parada;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Tramo;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoEnTransportePublico;
+import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TramoPrivado;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.EstadoVinculo;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Vinculacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.usuario.UsuarioMiembro;
@@ -203,6 +207,96 @@ public class MiembroController implements Controller {
       );
       return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/tramos/nuevo[privado].html.hbs");
     }
+  }
+
+  //POST pretramo publico linea
+  public ModelAndView tramoPublicoSetLinea(Request request, Response response) {
+    Linea linea = tramosHelper.obtenerLinea(Form.of(request)).getValor();
+    request.session().attribute("linea", linea);
+    response.redirect("/usuarios/me/vinculaciones/" + request.<Vinculacion>attribute("vinculacion").getId() + "/trayectos/nuevo/tramos/nuevo/publico/paradas");
+    return null;
+  }
+  
+  //POST pretramo publico paradas
+  public ModelAndView tramoPublicoSetParadasYConfirmar(Request request, Response response) {
+    Linea linea = request.attribute("linea");
+
+    Long origenID = Form.of(request).getParamOrError("origen", "Es necesario indicar un origen")
+        .apply(Long::parseLong, "El id del origen debe ser un numero")
+        .getValor();
+
+    Parada origen = linea.getParadas().stream().filter(p -> p.getId().equals(origenID)).findFirst().get();
+
+    Long destinoID = Form.of(request).getParamOrError("destino", "Es necesario indicar un destino")
+        .apply(Long::parseLong, "El id del destino debe ser un numero")
+        .getValor();
+
+    Parada destino = linea.getParadas().stream().filter(p -> p.getId().equals(destinoID)).findFirst().get();
+
+    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
+    pretramos.add(new TramoEnTransportePublico(origen, destino, linea));
+
+    response.redirect("/usuarios/me/vinculaciones/" + request.<Vinculacion>attribute("vinculacion").getId() + "/trayectos/nuevo");
+    return null;
+  }
+
+  //POST pretramo privado medio
+  public ModelAndView tramoPrivadoSetMedio(Request request, Response response) {
+    MedioDeTransporte medio = tramosHelper.obtenerMedioDeTransporte(Form.of(request)).getValor();
+    request.session().attribute("medio", medio);
+    response.redirect("/usuarios/me/vinculaciones/" + request.<Vinculacion>attribute("vinculacion").getId() + "/trayectos/nuevo/tramos/nuevo/privado/origen");
+    return null;
+  }
+
+  //POST pretramo publico origen
+  public ModelAndView tramoPrivadoSetOrigen(Request request, Response response) {
+    String paisOrigen = Form.of(request).getParamOrError("paisOrigen", "Es necesario indicar un pais de origen").getValor();
+    String provinciaOrigen = Form.of(request).getParamOrError("provinciaOrigen", "Es necesario indicar una provincia de origen").getValor();
+    String municipioOrigen = Form.of(request).getParamOrError("municipioOrigen", "Es necesario indicar un municipio de origen").getValor();
+    String localidadOrigen = Form.of(request).getParamOrError("localidadOrigen", "Es necesario indicar una localidad de origen").getValor();
+    String calleOrigen = Form.of(request).getParamOrError("calleOrigen", "Es necesario indicar una calle de origen").getValor();
+    String alturaOrigen = Form.of(request).getParamOrError("alturaOrigen", "Es necesario indicar una altura de origen").getValor();
+
+    Ubicacion origen = geolocalizador.getUbicacion(
+        paisOrigen,
+        provinciaOrigen,
+        municipioOrigen,
+        localidadOrigen,
+        calleOrigen,
+        alturaOrigen
+    ).get();
+
+    request.session().attribute("origen", origen);
+    response.redirect("/usuarios/me/vinculaciones/" + request.<Vinculacion>attribute("vinculacion").getId() + "/trayectos/nuevo/tramos/nuevo/privado/destino");
+    return null;
+  }
+
+  //POST pretramo publico destino
+  public ModelAndView tramoPrivadoSetDestinoYConfirmar(Request request, Response response) {
+    String paisDestino = Form.of(request).getParamOrError("paisDestino", "Es necesario indicar un pais de destino").getValor();
+    String provinciaDestino = Form.of(request).getParamOrError("provinciaDestino", "Es necesario indicar una provincia de destino").getValor();
+    String municipioDestino = Form.of(request).getParamOrError("municipioDestino", "Es necesario indicar un municipio de destino").getValor();
+    String localidadDestino = Form.of(request).getParamOrError("localidadDestino", "Es necesario indicar una localidad de destino").getValor();
+    String calleDestino = Form.of(request).getParamOrError("calleDestino", "Es necesario indicar una calle de destino").getValor();
+    String alturaDestino = Form.of(request).getParamOrError("alturaDestino", "Es necesario indicar una altura de destino").getValor();
+
+    Ubicacion destino = geolocalizador.getUbicacion(
+        paisDestino,
+        provinciaDestino,
+        municipioDestino,
+        localidadDestino,
+        calleDestino,
+        alturaDestino
+    ).get();
+
+    Ubicacion origen = request.session().attribute("origen");
+    MedioDeTransporte medio = request.session().attribute("medio");
+
+    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
+    pretramos.add(new TramoPrivado(geolocalizador, origen, destino, medio));
+
+    response.redirect("/usuarios/me/vinculaciones/" + request.<Vinculacion>attribute("vinculacion").getId() + "/trayectos/nuevo/tramos/nuevo");
+    return null;
   }
 
   public ModelAndView anadirTramo(Request request, Response response) {
