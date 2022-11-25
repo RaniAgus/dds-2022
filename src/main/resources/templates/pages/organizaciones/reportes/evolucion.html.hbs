@@ -1,96 +1,92 @@
 {{#partial "contenido-org"}}
-<div>
-    <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
-        <span class="ml-3" style="align-self: center">Reportes de Evolucion</span>
-        <div style="margin-top: 10px">
-            <form method="GET" action="/organizaciones/me/reportes/evolucion" style="display: flex">
-                <select name="anioInicial" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected>Elija un año</option>
-                    {{#each anios}}
-                        <option value="{{this}}">{{this}}</option>
-                    {{/each}}
-                </select>
-                <select name="anioFinal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected>Elija un año</option>
-                    {{#each anios}}
-                        <option value="{{this}}">{{this}}</option>
-                    {{/each}}
-                </select>
-                <select name="mes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
-                    <option selected>Elija un mes</option>
-                    <option value="0">ANUAL</option>
-                    <option value="1">ENERO</option>
-                    <option value="2">FEBRERO</option>
-                    <option value="3">MARZO</option>
-                    <option value="4">ABRIL</option>
-                    <option value="5">MAYO</option>
-                    <option value="6">JUNIO</option>
-                    <option value="7">JULIO</option>
-                    <option value="8">AGOSTO</option>
-                    <option value="9">SEPTIEMBRE</option>
-                    <option value="10">OCTUBRE</option>
-                    <option value="11">NOVIEMBRE</option>
-                    <option value="12">DICIEMBRE</option>
-                </select>
-                <button type="submit"
-                        class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Generar Reporte</button>
-            </form>
+    <div>
+        <span style="align-self: center; margin-top: 4px">Reportes de Evolucion</span>
+        <form method="GET" class="flex w-full  gap-2" action="/organizaciones/me/reportes/evolucion" style="justify-content: space-between; display: flex; margin-top: 16px">
+            <select name="anioInicial" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                <option selected>Elija un año</option>
+                {{#each anios}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+            <select name="anioFinal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                <option selected>Elija un año</option>
+                {{#each anios}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+            </select>
+            <select name="mes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                <option selected>Elija un mes</option>
+                <option value="0">ANUAL</option>
+                <option value="1">ENERO</option>
+                <option value="2">FEBRERO</option>
+                <option value="3">MARZO</option>
+                <option value="4">ABRIL</option>
+                <option value="5">MAYO</option>
+                <option value="6">JUNIO</option>
+                <option value="7">JULIO</option>
+                <option value="8">AGOSTO</option>
+                <option value="9">SEPTIEMBRE</option>
+                <option value="10">OCTUBRE</option>
+                <option value="11">NOVIEMBRE</option>
+                <option value="12">DICIEMBRE</option>
+            </select>
+            <button type="submit" class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
+                    style="background: #5E8C31">Generar Reporte</button>
+        </form>
+        <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500 ">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        Tipo de consumo
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Primer periodo
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Segundo periodo
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Evolucion
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {{# if primerTotal }}
+                    <tr class="bg-white border-b  ">
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                            TOTAL
+                        </th>
+                        <td class="py-4 px-6">
+                            {{primerTotal}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{segundoTotal}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{evolucionTotal}}
+                        </td>
+                    </tr>
+                {{/if}}
+                {{#each consumos }}
+                    <tr class="bg-white border-b  ">
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                            {{@key.nombre}}
+                        </th>
+                        <td class="py-4 px-6">
+                            {{this.primero}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{this.segundo}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{this.evolucion}}
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 ">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
-            <tr>
-                <th scope="col" class="py-3 px-6">
-                    Tipo de consumo
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Primer periodo
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Segundo periodo
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Evolucion
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {{# if primerTotal }}
-                <tr class="bg-white border-b  ">
-                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
-                        TOTAL
-                    </th>
-                    <td class="py-4 px-6">
-                        {{primerTotal}}
-                    </td>
-                    <td class="py-4 px-6">
-                        {{segundoTotal}}
-                    </td>
-                    <td class="py-4 px-6">
-                        {{evolucionTotal}}
-                    </td>
-                </tr>
-            {{/if}}
-            {{#each consumos }}
-                <tr class="bg-white border-b  ">
-                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
-                        {{@key.nombre}}
-                    </th>
-                    <td class="py-4 px-6">
-                        {{this.primero}}
-                    </td>
-                    <td class="py-4 px-6">
-                        {{this.segundo}}
-                    </td>
-                    <td class="py-4 px-6">
-                        {{this.evolucion}}
-                    </td>
-                </tr>
-            {{/each}}
-            </tbody>
-        </table>
-    </div>
-</div>
 {{/partial}}
 {{> components/LayoutOrganizacion.html.hbs}}
