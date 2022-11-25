@@ -92,6 +92,7 @@ public class OrganizacionController implements Controller {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
 
     ImmutableMap<String, Object> model = ImmutableMap.of(
+      "usuario", request.attribute("usuario"),
       "organizacion", usuarioOrg.getOrganizacion(),
       "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
       "periodicidades", Arrays.asList(Periodicidad.values()),
