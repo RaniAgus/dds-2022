@@ -15,7 +15,6 @@ import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.TipoDeTrans
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
-import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Recomendacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.ClasificacionDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
@@ -51,7 +50,6 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       persist(nafta);
       persist(gas);
       persist(electricidad);
-      persistirRecomendaciones();
       persistirLinea(persistirParadas());
       persistirTransportesPrivados();
       List<Vinculacion> juan = persistirMiembroYVinculacion("juan", "perroGato00", new ArrayList<>());
@@ -68,14 +66,6 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       Organizacion utn = persistirOrganizacion("utn", "utn", "UTN", Collections.singletonList(navidad), TipoDeOrganizacion.GUBERNAMENTAL, Collections.emptyList());
       persistirSectorTerritorial(Arrays.asList(pepeSa, juanSa, utn));
     });
-  }
-
-  private void persistirRecomendaciones() {
-    List<Recomendacion> recomendaciones = Arrays.asList(
-        new Recomendacion(LocalDate.now(),"Recomendaciones de Noviembre","Tremendas recomendaciones","/recomendaciones"),
-        new Recomendacion(LocalDate.now(),"Recomendaciones de Octubre","Tremendas recomendaciones","/recomendaciones")
-    );
-    recomendaciones.forEach(this::persist);
   }
 
   private List<Parada> persistirParadas() {

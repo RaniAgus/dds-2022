@@ -17,7 +17,7 @@ public class EjemploRetrofit {
   private static final String apiKey = "Bearer " + System.getenv("GEODDS_API_KEY");
 
   public static void main(String[] args) {
-    probarGeolocalizador();
+    //probarGeolocalizador();
     probarWhatsApp();
     System.exit(0);
   }
@@ -45,7 +45,7 @@ public class EjemploRetrofit {
   }
 
   private static void probarWhatsApp() {
-    Contacto contacto = new Contacto("", "<completar>");
+    Contacto contacto = new Contacto("", "541144736427");
     new NotificadorPorWhatsApp(getServiceLocator().getWhatsappApiId(),
         getServiceLocator().getWhatsappApiKey(),
         getServiceLocator().getRecomendacionesTemplate())

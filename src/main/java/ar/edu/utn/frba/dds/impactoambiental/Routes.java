@@ -43,7 +43,6 @@ public class Routes {
     port(getPort());
 
     get("/", homeController::home);
-    get("/recomendaciones", homeController::recomendaciones, templateEngine);
 
     get("/login", usuarioController::verLogin, templateEngine);
     post("/login", usuarioController::iniciarSesion);
