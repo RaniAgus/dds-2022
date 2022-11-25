@@ -1,0 +1,20 @@
+{{#partial "contenido-usuario"}}
+    <div>
+        <div>
+            <h3 class="mb-4 text-xl font-medium text-gray-900 " style="display: flex">Elegí el tipo de transporte para tu tramo privado</h3>
+        </div>
+        <div >
+            <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo" >
+                <input type="hidden" name="tipo" value="privado">
+                <button type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full mb-2" style="margin-top: 10px">Nuevo Tramo Privado</button>
+                <select required name="medioDeTransporte" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                    <option selected disabled value="">Elija un Medio de Transporte</option>
+                    {{#each mediosDeTransporte}}
+                        <option value="{{id}}">{{nombre}}</option>
+                    {{/each}}
+                </select>
+            </form>
+        </div>
+    </div>
+{{/partial}}
+{{> components/LayoutUsuario.html.hbs}}

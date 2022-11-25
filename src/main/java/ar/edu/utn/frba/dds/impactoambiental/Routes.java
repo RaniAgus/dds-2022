@@ -28,7 +28,7 @@ public class Routes {
   public static void main(String[] args) {
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
     staticFiles.externalLocation("public");
-
+    new Bootstrap().init();
     Geolocalizador geolocalizador = new Geolocalizador(getGeoddsApiKey());
 
     HomeController homeController = new HomeController();
@@ -60,7 +60,8 @@ public class Routes {
         post("/trayectos", miembroController::anadirTrayecto, templateEngine);
         get("/trayectos/nuevo/tramos/nuevo", miembroController::nuevoTramo, templateEngine);
         post("/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
-
+        get("/trayectos/nuevo/tramos/nuevo/tipovehiculo",miembroController::nuevoTramoPrivadoParte1,templateEngine);
+        get("/trayectos/nuevo/tramos/nuevo/linea",miembroController::nuevoTramoPublicoParte1,templateEngine);
         post("/trayectos/nuevo/tramos/nuevo/publico/linea", miembroController::tramoPublicoSetLinea, templateEngine);
         post("/trayectos/nuevo/tramos/nuevo/publico/paradas", miembroController::tramoPublicoSetParadasYConfirmar, templateEngine);
         post("/trayectos/nuevo/tramos/nuevo/privado/medio", miembroController::tramoPrivadoSetMedio, templateEngine);

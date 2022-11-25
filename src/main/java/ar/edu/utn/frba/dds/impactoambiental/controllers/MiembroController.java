@@ -141,7 +141,54 @@ public class MiembroController implements Controller {
     );
     return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/nuevo.html.hbs");
   }
+  public ModelAndView nuevoTramoPrivadoParte1(Request request, Response response){
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    Miembro miembro = miembrosHelper.obtenerMiembroDesdeAttributes(Context.of(request)).getValor();
+    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
+    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
+    List<Linea> lineas = RepositorioDeLineas.getInstance().obtenerTodos();
+    List<MedioDeTransporte> mediosDeTransporte = RepositorioMediosDeTransporte.getInstance().obtenerTodos();
+    Vinculacion vinculacion = request.attribute("vinculacion");
+    VinculacionDto vinculacionElegida = determinarVinculacionSeleccionada(vinculaciones, vinculacion);
 
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+            "usuario", usuario,
+            "miembro", miembro,
+            "vinculaciones", vinculaciones,
+            "pretramos", TramoDto.ofList(pretramos),
+            "lineas", lineas,
+            "mediosDeTransporte", mediosDeTransporte,
+            "vinculacion", vinculacion,
+            "vinculacionElegida", vinculacionElegida,
+            "vinculacionesSidebarSelected", false,
+            "trayectosSidebarSelected", true
+    );
+    return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/tramos/nuevo[privado1].html.hbs");
+  }
+  public ModelAndView nuevoTramoPublicoParte1(Request request, Response response){
+    UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
+    Miembro miembro = miembrosHelper.obtenerMiembroDesdeAttributes(Context.of(request)).getValor();
+    List<VinculacionDto> vinculaciones = miembrosHelper.obtenerVinculacionesDto(Context.of(request));
+    List<Tramo> pretramos = miembrosHelper.obtenerPretramos(Context.of(request));
+    List<Linea> lineas = RepositorioDeLineas.getInstance().obtenerTodos();
+    List<MedioDeTransporte> mediosDeTransporte = RepositorioMediosDeTransporte.getInstance().obtenerTodos();
+    Vinculacion vinculacion = request.attribute("vinculacion");
+    VinculacionDto vinculacionElegida = determinarVinculacionSeleccionada(vinculaciones, vinculacion);
+
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+            "usuario", usuario,
+            "miembro", miembro,
+            "vinculaciones", vinculaciones,
+            "pretramos", TramoDto.ofList(pretramos),
+            "lineas", lineas,
+            "mediosDeTransporte", mediosDeTransporte,
+            "vinculacion", vinculacion,
+            "vinculacionElegida", vinculacionElegida,
+            "vinculacionesSidebarSelected", false,
+            "trayectosSidebarSelected", true
+    );
+    return new ModelAndView(model, "pages/usuarios/vinculaciones/trayectos/tramos/nuevo[publico1].html.hbs");
+  }
   public ModelAndView anadirTrayecto(Request request, Response response) {
     UsuarioMiembro usuario = miembrosHelper.usuarioMiembroDeSesion(Context.of(request)).getValor();
     Miembro miembro = miembrosHelper.obtenerMiembroDesdeAttributes(Context.of(request)).getValor();

@@ -1,4 +1,37 @@
-{{#partial "modal"}}
-    {{> components/ModalPublico.html.hbs}}
+{{#partial "contenido-usuario"}}
+    <div style="margin-top: 20px">
+        <div>
+            <h3 class="mb-4 text-xl font-medium text-gray-900 " style="display: flex">Nuevo Tramo Publico</h3>
+        </div>
+
+        <div>
+            <h3 class="mb-4 text-xl font-medium text-gray-900 ">Tramo en {{linea.nombre}}</h3>
+            <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos">
+                <input type="hidden" name="tipo" value="publico">
+                <input type="hidden" name="linea" value="{{linea.id}}">
+                <div class="grid gap-12 mb-12 md:grid-cols-1" style="display: flex">
+                    <div>
+                        <label for="origen" class="block mb-2 text-sm font-medium text-gray-900 ">Parada Inicial</label>
+                        <select required name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                            <option selected disabled value="">Elegi la Parada que mas te guste</option>
+                            {{#each linea.paradas}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="destino" class="block mb-2 text-sm font-medium text-gray-900 ">Parada Final</label>
+                        <select required name="destino" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
+                            <option selected disabled value="">Elegi la Parada que mas te guste</option>
+                            {{#each linea.paradas}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center   " style="background: #5E8C31;margin-top: 10px ">Anadir tramo</button>
+            </form>
+        </div>
+    </div>
 {{/partial}}
-{{> pages/usuarios/vinculaciones/trayectos/nuevo.html.hbs}}
+{{> components/LayoutUsuario.html.hbs}}
