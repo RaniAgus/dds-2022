@@ -29,14 +29,14 @@
         </nav>
 
         <div>
-            <h3 class="mb-4 text-xl font-medium text-gray-900 " style="display: flex">Elegi la Parada que mas te guste</h3>
+            <h3 class="mb-4 text-xl font-medium text-gray-900">Elegi las paradas que más te gusten</h3>
         </div>
 
         <div>
             <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos">
                 <input type="hidden" name="tipo" value="publico">
                 <input type="hidden" name="linea" value="{{linea.id}}">
-                <div class="grid gap-12 mb-12 md:grid-cols-1" style="display: flex">
+                <div class="grid gap-6 mb-12 md:grid-cols-1">
                     <div>
                         <label for="origen" class="block mb-2 text-sm font-medium text-gray-900 ">Parada Inicial</label>
                         <select required name="origen" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      ">
