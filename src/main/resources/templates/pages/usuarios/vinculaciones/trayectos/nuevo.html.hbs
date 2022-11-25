@@ -15,6 +15,10 @@
         </li>
       </ol>
     </nav>
+    <div>
+        <h3 class="mb-4 text-xl font-medium text-gray-900 " style="display: flex">Creá tu nuevo trayecto</h3>
+        <h4 class="mb-4 text-l font-medium text-gray-500 " style="display: flex">Podés agregar los tramos que recorriste, y luego confirmarlo</h4>
+    </div>
     <div style="display: flex;justify-content: space-around" >
         <div class="w-64">
           <a href="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo/tramos/nuevo/publico" type="submit" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full mb-2" style="margin-top: 10px">
@@ -49,9 +53,9 @@
             <tbody>
             {{#each pretramos }}
                 <tr class="bg-white border-b  ">
-                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                    <td scope="row" class="py-4 px-6">
                         {{origen}}
-                    </th>
+                    </td>
                     <td class="py-4 px-6">
                         {{destino}}
                     </td>
@@ -70,7 +74,7 @@
         <form method="POST" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos" style="display: flex">
             <input type="date" name="fecha" placeholder="Fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5      " style="margin-right: 10px" required>
             <button type="submit"
-                    class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Añadir Trayecto</button>
+                    class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Confirmar Trayecto</button>
         </form>
     </div>
 </div>
