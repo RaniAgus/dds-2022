@@ -2,7 +2,7 @@ services:
   java:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: java.Dockerfile
       target: java
       args:
         - DB_URL=${DB_URL:-jdbc:postgresql://db:5432/impactoambiental}
@@ -27,7 +27,7 @@ services:
   cron:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: cron.Dockerfile
       target: cron
       args:
         - CRON_ENVIO_GUIA=${CRON_ENVIO_GUIA:-* * * * *}

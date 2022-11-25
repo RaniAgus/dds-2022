@@ -54,3 +54,13 @@ docker compose up db
 ```bash
 docker compose up --build
 ```
+
+## Despliegue en Railway
+
+1. Crear un proyecto en [Railway](https://railway.app/)
+2. Usar la opción "Provision PostgreSQL" y copiar los datos de conexión
+3. Desplegar la aplicación Java mediante la opción "Deploy from GitHub repo" y 
+   agregando las variables de entorno necesarias (ver `.env.example`).
+   Usar `RAILWAY_DOCKERFILE_PATH=java.Dockerfile` 
+4. Desplegar el cron job repitiendo el paso 3 pero usando 
+   `RAILWAY_DOCKERFILE_PATH=cron.Dockerfile`.

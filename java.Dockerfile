@@ -19,25 +19,6 @@ RUN sed -i "s,name=\"hibernate\.connection\.url\" value=\".*\",name=\"hibernate\
 RUN mvn package
 
 
-FROM openjdk:8-jre-alpine as cron
-
-ARG CRON_ENVIO_GUIA
-
-WORKDIR /etc/cron.d
-
-RUN echo "${CRON_ENVIO_GUIA} sh -c \"java -cp /app/target/application.jar ar.edu.utn.frba.dds.impactoambiental.JobEnvioGuia\"" >> cronjob
-
-RUN chmod 0644 cronjob
-
-RUN crontab cronjob
-
-WORKDIR /app/target
-
-COPY --from=builder /app/target ./
-
-ENTRYPOINT ["crond", "-f"]
-
-
 FROM openjdk:8-jre-alpine as java
 
 WORKDIR /app/target
