@@ -1,0 +1,31 @@
+@startuml
+
+node "Browser" as browser
+
+browser -> internet
+
+cloud "Internet" as internet {
+}
+
+internet -> bc
+
+node "Balanceador de carga\n(Azure)" as bc {
+}
+
+bc --> sw
+
+node "Servidor\n(Azure)" as sv {
+   component "Servidor Web" as sw {
+   }
+
+   component CronJob as cron {
+   }
+
+   database "Base de datos" as db {
+   }
+}
+
+cron --> db
+sw --> db
+
+@enduml

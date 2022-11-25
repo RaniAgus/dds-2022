@@ -1,5 +1,7 @@
 # 2022-tpa-vi-no-grupo-16
 
+![arquitectura](docs/img/arquitectura.png)
+
 ## Documentación
 
 La documentación se encuentra en la carpeta [docs](docs/README.md).
