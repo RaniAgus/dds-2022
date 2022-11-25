@@ -28,7 +28,6 @@ public class Routes {
   public static void main(String[] args) {
     HandlebarsTemplateEngine templateEngine = new HandlebarsTemplateEngine();
     staticFiles.externalLocation("public");
-    new Bootstrap().init();
     Geolocalizador geolocalizador = new Geolocalizador(getGeoddsApiKey());
 
     HomeController homeController = new HomeController();
