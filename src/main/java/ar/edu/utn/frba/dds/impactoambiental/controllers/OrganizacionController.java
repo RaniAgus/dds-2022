@@ -91,12 +91,15 @@ public class OrganizacionController implements Controller {
   public ModelAndView da(Request request, Response response) {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
 
+    Boolean cargaExitosa = request.queryParams("cargaExitosa") != null;
+
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "usuario", request.attribute("usuario"),
       "organizacion", usuarioOrg.getOrganizacion(),
       "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
       "periodicidades", Arrays.asList(Periodicidad.values()),
-      "sidebar", new SidebarOrganizacion(false, true, false, false)
+      "sidebar", new SidebarOrganizacion(false, true, false, false),
+        "cargaExitosa", cargaExitosa
     );
     return new ModelAndView(model, "pages/organizaciones/da/index.html.hbs");
   }
@@ -104,11 +107,14 @@ public class OrganizacionController implements Controller {
   public ModelAndView daManual(Request request, Response response) {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
 
+    Boolean cargaExitosa = request.queryParams("cargaExitosa") != null;
+
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "organizacion", usuarioOrg.getOrganizacion(),
       "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
       "periodicidades", Arrays.asList(Periodicidad.values()),
-      "sidebar", new SidebarOrganizacion(false, true, false, false)
+      "sidebar", new SidebarOrganizacion(false, true, false, false),
+        "cargaExitosa", cargaExitosa
     );
     return new ModelAndView(model, "pages/organizaciones/da/manual.html.hbs");
   }
@@ -123,7 +129,7 @@ public class OrganizacionController implements Controller {
       repoOrganizaciones.actualizar(organizacion);
     });
 
-    response.redirect("/organizaciones/me/da");
+    response.redirect("/organizaciones/me/da?cargaExitosa=true");
     return null;
   }
 
@@ -137,7 +143,7 @@ public class OrganizacionController implements Controller {
       repoOrganizaciones.actualizar(organizacion);
     });
 
-    response.redirect("/organizaciones/me/da/manual");
+    response.redirect("/organizaciones/me/da/manual?cargaExitosa=true");
     return null;
   }
 
