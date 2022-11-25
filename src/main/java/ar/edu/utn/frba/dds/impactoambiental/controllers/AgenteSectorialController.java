@@ -5,6 +5,7 @@ import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.SidebarSector;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.TipoDeConsumo;
@@ -32,12 +33,25 @@ public class AgenteSectorialController implements Controller {
     
     ReporteSectorialDto reporte;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anio = Form.of(request).getParamOrError("anio", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate fecha = Form.of(request).getParamOrError("fecha", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+
+      Periodicidad periodicidad;  
+
+      if (mes == 0) {
+        periodicidad = Periodicidad.ANUAL;
+        mes = 1;
+      }
+      else {
+        periodicidad = Periodicidad.MENSUAL;
+      }
+
+      LocalDate fecha = LocalDate.of(anio, mes, 1);
 
       reporte = new ReporteSectorialFactory(
         repoTipoDeConsumo.obtenerTodos(),
@@ -53,10 +67,7 @@ public class AgenteSectorialController implements Controller {
       "usuario", entry(usuario),
       "sectorTerritorial", entry(sector),
       "reporte", entry(reporte),
-      "reporteOrganizacionalIndividualSidebarSelected", false,
-      "reporteOrganizacionalEvolucionSidebarSelected", false,
-      "reporteConsumoIndividualSidebarSelected", true,
-      "reporteConsumoEvolucionSidebarSelected", false
+      "sidebar", entry(new SidebarSector(false, false, true, false))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/individual.html.hbs");
   }
@@ -69,15 +80,29 @@ public class AgenteSectorialController implements Controller {
     ReporteSectorialDto segundoReporte;
     ReporteSectorialDto reporteEvolucion;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anioInicial = Form.of(request).getParamOrError("anioInicial", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate primerFecha = Form.of(request).getParamOrError("fechaInicial", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+
+      Integer anioFinal = Form.of(request).getParamOrError("anioFinal", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate segundaFecha = Form.of(request).getParamOrError("fechaFinal", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+      
+      Periodicidad periodicidad;
+
+      if (mes == 0) {
+        periodicidad = Periodicidad.ANUAL;
+        mes = 1;
+      } else {
+        periodicidad = Periodicidad.MENSUAL;
+      }      
+
+      LocalDate primerFecha = LocalDate.of(anioInicial, mes, 1);
+      LocalDate segundaFecha = LocalDate.of(anioFinal, mes, 1);
 
       primerReporte = new ReporteSectorialFactory(
         repoTipoDeConsumo.obtenerTodos(),
@@ -116,10 +141,7 @@ public class AgenteSectorialController implements Controller {
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
       "consumos", entry(consumos),
-      "reporteOrganizacionalIndividualSidebarSelected", false,
-      "reporteOrganizacionalEvolucionSidebarSelected", false,
-      "reporteConsumoIndividualSidebarSelected", false,
-      "reporteConsumoEvolucionSidebarSelected", true
+      "sidebar", entry(new SidebarSector(false, false, false, true))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/consumo/evolucion.html.hbs");
   }
@@ -131,12 +153,26 @@ public class AgenteSectorialController implements Controller {
 
     ReporteSectorialDto reporte;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anio = Form.of(request).getParamOrError("anio", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate fecha = Form.of(request).getParamOrError("fecha", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+
+      Periodicidad periodicidad;  
+
+      if (mes == 0) {
+        periodicidad = Periodicidad.ANUAL;
+        mes = 1;
+      }
+      else {
+        periodicidad = Periodicidad.MENSUAL;
+      }
+
+      LocalDate fecha = LocalDate.of(anio, mes, 1);
+
 
       reporte = new ReporteSectorialFactory(
         repoTipoDeConsumo.obtenerTodos(),
@@ -152,10 +188,7 @@ public class AgenteSectorialController implements Controller {
       "usuario", entry(usuario),
       "sectorTerritorial", entry(sector),
       "reporte", entry(reporte),
-      "reporteOrganizacionalIndividualSidebarSelected", true,
-      "reporteOrganizacionalEvolucionSidebarSelected", false,
-      "reporteConsumoIndividualSidebarSelected", false,
-      "reporteConsumoEvolucionSidebarSelected", false
+      "sidebar", entry(new SidebarSector(true, false, false, false))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/individual.html.hbs");
   }
@@ -168,15 +201,29 @@ public class AgenteSectorialController implements Controller {
     ReporteSectorialDto segundoReporte;
     ReporteSectorialDto reporteEvolucion;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anioInicial = Form.of(request).getParamOrError("anioInicial", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate primerFecha = Form.of(request).getParamOrError("fechaInicial", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+
+      Integer anioFinal = Form.of(request).getParamOrError("anioFinal", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate segundaFecha = Form.of(request).getParamOrError("fechaFinal", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+      
+      Periodicidad periodicidad;
+
+      if (mes == 0) {
+        periodicidad = Periodicidad.ANUAL;
+        mes = 1;
+      } else {
+        periodicidad = Periodicidad.MENSUAL;
+      }      
+
+      LocalDate primerFecha = LocalDate.of(anioInicial, mes, 1);
+      LocalDate segundaFecha = LocalDate.of(anioFinal, mes, 1);
 
       primerReporte = new ReporteSectorialFactory(
         repoTipoDeConsumo.obtenerTodos(),
@@ -215,10 +262,7 @@ public class AgenteSectorialController implements Controller {
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
       "consumos", entry(consumos),
-      "reporteOrganizacionalIndividualSidebarSelected", false,
-      "reporteOrganizacionalEvolucionSidebarSelected", true,
-      "reporteConsumoIndividualSidebarSelected", false,
-      "reporteConsumoEvolucionSidebarSelected", false
+      "sidebar", entry(new SidebarSector(false, true, false, false))
     );
     return new ModelAndView(model, "pages/sectoresterritoriales/reportes/organizacion/evolucion.html.hbs");
   }

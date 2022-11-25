@@ -1,91 +1,43 @@
 {{#partial "contenido-org"}}
     {{#partial "main-title"}}Datos de Actividad{{/partial}}
     {{#partial "main-content"}}
+        {{> components/AlertCargaDAExitosa.html.hbs}}
 
-        <div class="flex justify-between" style="width: 1000px">
-            <div class="w-full max-w-md h-full">
+        <div style="width: 1000px; align-items: stretch" >
+            <div  style="display: flex">
+                <div class="w-full max-w-md h-full">
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Podes cargar tus datos de actividad por CSV</p>
+                    <!-- Modal content -->
+                    <div>
+                        <div class="bg-white rounded-lg shadow h-full">
+                            <div class="py-6 px-6 lg:px-8 h-full">
+                                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Carga por CSV</h3>
+                                <form class="space-y-6" method="POST" action="/organizaciones/me/da" enctype="multipart/form-data">
 
-                <!-- Modal content -->
-                <div class="bg-white rounded-lg shadow">
-                    <div class="py-6 px-6 lg:px-8">
-                        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Carga manual</h3>
-                        <form class="space-y-6" method="POST" action="/organizaciones/me/da">
+                                    <div class="flex justify-center items-center w-full">
+                                        <label for="archivo" class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                            <div class="flex flex-col justify-center items-center pt-5 pb-6">
+                                                <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Arrastra y suelta un archivo</span><br>o haz click para seleccionar.</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">Formato: CSV</p>
+                                            </div>
+                                            <input id="archivo" type="file" class="hidden" name="archivo" accept=".csv"/>
+                                        </label>
+                                    </div>
 
-                            <!-- PERIODICIDAD -->
-                            <div>
-                                <label for="periodicidad"
-                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Periodicidad</label>
-                                <select name="periodicidad"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    <option selected>Elija una periodicidad</option>
-                                    {{#each periodicidades}}
-                                        <option value="{{this}}">{{this}}</option>
-                                    {{/each}}
-                                </select>
+                                    <button type="submit"
+                                            class="w-full text-white focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
+                                            style="background-color: #5E8C31">Cargar</button>
+                                </form>
                             </div>
-
-                            <!-- FECHA -->
-                            <div>
-                                <label for="fechaInicial" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Fecha</label>
-                                <input type="date" name="fechaInicial" id="fechaInicial"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                       required>
-                            </div>
-
-                            <!-- TIPO DE CONSUMO -->
-                            <div>
-                                <label for="tipoDeConsumo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tipo
-                                    de Consumo</label>
-                                <select name="tipoDeConsumo"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    <option selected>Elija un Tipo de Consumo</option>
-                                    {{#each tiposDeConsumo}}
-                                        <option value="{{nombre}}">{{nombre}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-
-                            <!-- CANTIDAD -->
-                            <div>
-                                <label for="cantidadConsumo"
-                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cantidad de Consumo</label>
-                                <input type="number" name="cantidadConsumo" id="cantidadConsumo"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                       required>
-                            </div>
-
-                            <button type="submit"
-                                    class="w-full text-white focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
-                                    style="background-color: #5E8C31">Cargar</button>
-
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="w-full max-w-md h-full">
-                <!-- Modal content -->
-                <div class="bg-white rounded-lg shadow h-full">
-                    <div class="py-6 px-6 lg:px-8 h-full">
-                        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Carga por CSV</h3>
-                        <form class="space-y-6" method="POST" action="/organizaciones/me/da" enctype="multipart/form-data">
-
-                            <div class="flex justify-center items-center w-full">
-                                <label for="archivo" class="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                    <div class="flex flex-col justify-center items-center pt-5 pb-6">
-                                        <svg aria-hidden="true" class="mb-3 w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Arrastra y suelta un archivo</span><br>o haz click para seleccionar.</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Formato: CSV</p>
-                                    </div>
-                                    <input id="archivo" type="file" class="hidden" name="archivo" accept=".csv"/>
-                                </label>
-                            </div>
-
-                            <button type="submit"
-                                    class="w-full text-white focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
-                                    style="background-color: #5E8C31">Cargar</button>
-                        </form>
-                    </div>
+                <div style="align-self: self-end; margin-bottom: 40px; margin-left: 20px" >
+                    <p class="text-xs text-gray-500 dark:text-gray-400">O podes cargarlos de manera manual, uno por uno</p>
+                    <a href="/organizaciones/me/da/manual" class="bg-primary inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300   " style="display: block">
+                    Ir a Carga Manual
+                    </a>
                 </div>
             </div>
         </div>

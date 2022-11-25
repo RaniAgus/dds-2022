@@ -2,7 +2,7 @@
   {{#partial "sidebar-items"}}
     {{#partial "sidebar-link"}}href="/organizaciones/me/vinculaciones"{{/partial}}
     {{#partial "sidebar-item-color"}}
-        {{#if vinculacionesSidebarSelected}}
+        {{#if sidebar.vinculaciones}}
             text-primary
         {{else}}
             text-gray-900
@@ -16,7 +16,7 @@
 
     {{#partial "sidebar-link"}}href="/organizaciones/me/da"{{/partial}}
     {{#partial "sidebar-item-color"}}
-        {{#if daSidebarSelected}}
+        {{#if sidebar.datosActividad}}
             text-primary
         {{else}}
             text-gray-900
@@ -29,10 +29,10 @@
     {{> components/SidebarItem.html.hbs }}
 
     {{#partial "sidebar-title-color"}}
-        {{#if reportesEvolucionSidebarSelected}}
+        {{#if sidebar.reportesEvolucion}}
             text-primary
         {{else}}
-            {{#if reportesIndividualSidebarSelected}}
+            {{#if sidebar.reportesIndividual}}
                 text-primary
             {{else}}
                 text-gray-900
@@ -46,7 +46,7 @@
     {{#partial "sidebar-item-dropdown-items"}}
         {{#partial "sidebar-item-dropdown-item-link"}}href="/organizaciones/me/reportes/individual"{{/partial}}
         {{#partial "sidebar-item-dropdown-color"}}
-            {{#if reportesIndividualSidebarSelected}}
+            {{#if sidebar.reportesIndividual}}
                 text-primary
             {{else}}
                 text-gray-900
@@ -56,7 +56,7 @@
         {{> components/SidebarItemDropdownItem.html.hbs }}
         {{#partial "sidebar-item-dropdown-item-link"}}href="/organizaciones/me/reportes/evolucion"{{/partial}}
         {{#partial "sidebar-item-dropdown-color"}}
-            {{#if reportesEvolucionSidebarSelected}}
+            {{#if sidebar.reportesEvolucion}}
                 text-primary
             {{else}}
                 text-gray-900

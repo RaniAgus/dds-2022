@@ -1,12 +1,11 @@
  {{#partial "contenido-usuario"}}
      <div>
-        <div style="margin-bottom: 20px; justify-content: space-between; display: flex">
+        <div style="margin-bottom: 20px; margin-top: 10px; justify-content: space-between; display: flex">
             <span class="ml-3" style="align-self: center">Trayectos de {{vinculacionElegida.organizacion.razonSocial}}</span>
             <div style="margin-top: 10px">
-            <form method="GET" action="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo">
-            <button type="submit"
-                    class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">Crear Trayecto</button>
-            </form>
+              <a href="/usuarios/me/vinculaciones/{{vinculacion.id}}/trayectos/nuevo" class="w-full focus:ring-4 text-white focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-sm px-5 py-2.5 text-center" style="background: #5E8C31; align:right">
+                Crear Trayecto
+              </a>
             </div>
         </div>
          <div class="overflow-x-auto relative shadow-md sm:rounded-lg">

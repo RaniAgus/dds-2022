@@ -5,6 +5,7 @@ import static ar.edu.utn.frba.dds.impactoambiental.utils.MapUtil.entry;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Context;
 import ar.edu.utn.frba.dds.impactoambiental.controllers.forms.Form;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.FilaReporteEvolucionDto;
+import ar.edu.utn.frba.dds.impactoambiental.dtos.SidebarOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.dtos.VinculacionDto;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatosActividadesParser;
@@ -22,6 +23,7 @@ import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioOrganizacion
 import ar.edu.utn.frba.dds.impactoambiental.repositories.RepositorioTipoDeConsumo;
 import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -58,10 +60,7 @@ public class OrganizacionController implements Controller {
         "usuario", usuario,
         "organizacion", org,
         "vinculaciones", vinculaciones,
-        "vinculacionesSidebarSelected", true,
-        "daSidebarSelected", false,
-        "reportesEvolucionSidebarSelected", false,
-        "reportesIndividualSidebarSelected", false
+        "sidebar", new SidebarOrganizacion(true, false, false, false)
     );
 
     return new ModelAndView(model, "pages/organizaciones/vinculaciones/index.html.hbs");
@@ -92,37 +91,59 @@ public class OrganizacionController implements Controller {
   public ModelAndView da(Request request, Response response) {
     UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
 
+    Boolean cargaExitosa = request.queryParams("cargaExitosa") != null;
+
+    ImmutableMap<String, Object> model = ImmutableMap.of(
+      "usuario", request.attribute("usuario"),
+      "organizacion", usuarioOrg.getOrganizacion(),
+      "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
+      "periodicidades", Arrays.asList(Periodicidad.values()),
+      "sidebar", new SidebarOrganizacion(false, true, false, false),
+        "cargaExitosa", cargaExitosa
+    );
+    return new ModelAndView(model, "pages/organizaciones/da/index.html.hbs");
+  }
+
+  public ModelAndView daManual(Request request, Response response) {
+    UsuarioOrganizacion usuarioOrg = organizacionDeSesion(request);
+
+    Boolean cargaExitosa = request.queryParams("cargaExitosa") != null;
+
     ImmutableMap<String, Object> model = ImmutableMap.of(
       "organizacion", usuarioOrg.getOrganizacion(),
       "tiposDeConsumo", repoTipoDeConsumo.obtenerTodos(),
       "periodicidades", Arrays.asList(Periodicidad.values()),
-      "vinculacionesSidebarSelected", false,
-        "daSidebarSelected", true,
-        "reportesEvolucionSidebarSelected", false,
-        "reportesIndividualSidebarSelected", false
+      "sidebar", new SidebarOrganizacion(false, true, false, false),
+        "cargaExitosa", cargaExitosa
     );
-    return new ModelAndView(model, "pages/organizaciones/da/index.html.hbs");
+    return new ModelAndView(model, "pages/organizaciones/da/manual.html.hbs");
   }
 
   public ModelAndView cargarDA(Request request, Response response) {
     Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
 
-    List<DatoActividad> DAs;
-
-    if (request.contentType().startsWith("multipart/form-data")) {
-      DAs = daDesdeCSV(request);
-    } else {
-      DAs = daDesdeQueryParams(request);
-    }
-
-    final List<DatoActividad> finalDAs = DAs;
+    final List<DatoActividad> finalDAs = daDesdeCSV(request);
     
     withTransaction(() -> {
       organizacion.agregarDatosActividad(finalDAs);
       repoOrganizaciones.actualizar(organizacion);
     });
 
-    response.redirect("/organizaciones/me/da");
+    response.redirect("/organizaciones/me/da?cargaExitosa=true");
+    return null;
+  }
+
+  public ModelAndView cargarDAManual (Request request, Response response) {
+    Organizacion organizacion = organizacionDeSesion(request).getOrganizacion();
+    
+    final List<DatoActividad> finalDAs = daDesdeQueryParams(request);
+
+    withTransaction(() -> {
+      organizacion.agregarDatosActividad(finalDAs);
+      repoOrganizaciones.actualizar(organizacion);
+    });
+
+    response.redirect("/organizaciones/me/da/manual?cargaExitosa=true");
     return null;
   }
 
@@ -131,12 +152,25 @@ public class OrganizacionController implements Controller {
 
     ReporteOrganizacionalDto reporte;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anio = Form.of(request).getParamOrError("anio", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate fecha = Form.of(request).getParamOrError("fecha", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+
+      Periodicidad periodicidad;  
+
+      if (mes == 0) {
+        periodicidad = Periodicidad.ANUAL;
+        mes = 1;
+      }
+      else {
+        periodicidad = Periodicidad.MENSUAL;
+      }
+
+      LocalDate fecha = LocalDate.of(anio, mes, 1);
 
       reporte = new ReporteOrganizacionalFactory(
         repoTipoDeConsumo.obtenerTodos(),
@@ -152,10 +186,8 @@ public class OrganizacionController implements Controller {
       "usuario", entry(organizacionDeSesion(request)),
       "organizacion", entry(organizacion),
       "reporte", entry(reporte),
-      "vinculacionesSidebarSelected", false,
-        "daSidebarSelected", false,
-        "reportesEvolucionSidebarSelected", false,
-        "reportesIndividualSidebarSelected", true
+      "anios", entry(organizacion.aniosConsumo()),
+      "sidebar", new SidebarOrganizacion(false, false, false, true)
     );
     return new ModelAndView(model, "pages/organizaciones/reportes/individual.html.hbs");
   }
@@ -167,25 +199,51 @@ public class OrganizacionController implements Controller {
     ReporteOrganizacionalDto segundoReporte;
     ReporteOrganizacionalDto reporteEvolucion;
     if(Context.of(request).hasBodyParams()) {
-      Periodicidad periodicidad = Form.of(request).getParamOrError("periodicidad", "Es necesario indicar una periodicidad")
-        .apply(s -> Periodicidad.valueOf(s.toUpperCase()), "La periodicidad debe ser anual o mensual")
+      Integer anioInicial = Form.of(request).getParamOrError("anioInicial", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate primerFecha = Form.of(request).getParamOrError("fechaInicial", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+
+      Integer anioFinal = Form.of(request).getParamOrError("anioFinal", "Es necesario indicar un año")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
-      LocalDate segundaFecha = Form.of(request).getParamOrError("fechaFinal", "Es necesario indicar una fecha")
-        .apply(LocalDate::parse, "La fecha debe tener el formato yyyy-MM-dd")
+      
+      Integer mes1 = Form.of(request).getParamOrError("mes1", "Es necesario indicar un mes")
+        .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+
+      Integer mes2 = Form.of(request).getParamOrError("mes2", "Es necesario indicar un mes")
+          .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
+          .getValor();
+      
+      Periodicidad periodicidad1;
+      Periodicidad periodicidad2;
+
+      if (mes1 == 0) {
+        periodicidad1 = Periodicidad.ANUAL;
+        mes1 = 1;
+      } else {
+        periodicidad1 = Periodicidad.MENSUAL;
+      }
+
+      if (mes2 == 0) {
+        periodicidad2 = Periodicidad.ANUAL;
+        mes2 = 1;
+      } else {
+        periodicidad2 = Periodicidad.MENSUAL;
+      }
+
+      LocalDate primerFecha = LocalDate.of(anioInicial, mes1, 1);
+      LocalDate segundaFecha = LocalDate.of(anioFinal, mes2, 1);
 
       primerReporte = new ReporteOrganizacionalFactory(
         repoTipoDeConsumo.obtenerTodos(),
-        new Periodo(primerFecha, periodicidad),
+        new Periodo(primerFecha, periodicidad1),
         organizacion
       ).getReporte();
 
       segundoReporte = new ReporteOrganizacionalFactory(
         repoTipoDeConsumo.obtenerTodos(),
-        new Periodo(segundaFecha, periodicidad),
+        new Periodo(segundaFecha, periodicidad2),
         organizacion
       ).getReporte();
 
@@ -214,10 +272,8 @@ public class OrganizacionController implements Controller {
       "segundoTotal", entry(segundoReporte.getHuellaCarbonoTotal()),
       "evolucionTotal", entry(reporteEvolucion.getHuellaCarbonoTotal()),
       "consumos", consumos,
-      "vinculacionesSidebarSelected", false,
-      "daSidebarSelected", false,
-      "reportesEvolucionSidebarSelected", true,
-      "reportesIndividualSidebarSelected", false
+      "anios", entry(organizacion.aniosConsumo()),
+      "sidebar", new SidebarOrganizacion(false, false, true, false)
     );
 
     return new ModelAndView(model, "pages/organizaciones/reportes/evolucion.html.hbs");
