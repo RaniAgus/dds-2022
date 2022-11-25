@@ -201,31 +201,43 @@ public class OrganizacionController implements Controller {
         .apply(Integer::parseInt, "Somos unos forros que escribimos mal el anio en el select option")
         .getValor();
       
-      Integer mes = Form.of(request).getParamOrError("mes", "Es necesario indicar un mes")
+      Integer mes1 = Form.of(request).getParamOrError("mes1", "Es necesario indicar un mes")
         .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
         .getValor();
+
+      Integer mes2 = Form.of(request).getParamOrError("mes2", "Es necesario indicar un mes")
+          .apply(Integer::parseInt, "Somos unos forros que escribimos mal el mes en el select option")
+          .getValor();
       
-      Periodicidad periodicidad;
+      Periodicidad periodicidad1;
+      Periodicidad periodicidad2;
 
-      if (mes == 0) {
-        periodicidad = Periodicidad.ANUAL;
-        mes = 1;
+      if (mes1 == 0) {
+        periodicidad1 = Periodicidad.ANUAL;
+        mes1 = 1;
       } else {
-        periodicidad = Periodicidad.MENSUAL;
-      }      
+        periodicidad1 = Periodicidad.MENSUAL;
+      }
 
-      LocalDate primerFecha = LocalDate.of(anioInicial, mes, 1);
-      LocalDate segundaFecha = LocalDate.of(anioFinal, mes, 1);
+      if (mes2 == 0) {
+        periodicidad2 = Periodicidad.ANUAL;
+        mes2 = 1;
+      } else {
+        periodicidad2 = Periodicidad.MENSUAL;
+      }
+
+      LocalDate primerFecha = LocalDate.of(anioInicial, mes1, 1);
+      LocalDate segundaFecha = LocalDate.of(anioFinal, mes2, 1);
 
       primerReporte = new ReporteOrganizacionalFactory(
         repoTipoDeConsumo.obtenerTodos(),
-        new Periodo(primerFecha, periodicidad),
+        new Periodo(primerFecha, periodicidad1),
         organizacion
       ).getReporte();
 
       segundoReporte = new ReporteOrganizacionalFactory(
         repoTipoDeConsumo.obtenerTodos(),
-        new Periodo(segundaFecha, periodicidad),
+        new Periodo(segundaFecha, periodicidad2),
         organizacion
       ).getReporte();
 
