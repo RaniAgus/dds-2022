@@ -10,15 +10,18 @@ import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Pais;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Provincia;
 import ar.edu.utn.frba.dds.impactoambiental.models.geolocalizacion.Ubicacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
+import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorMail;
 import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
+import java.util.Collections;
 import java.util.List;
 
 public class EjemploRetrofit {
   private static final String apiKey = "Bearer " + System.getenv("GEODDS_API_KEY");
 
   public static void main(String[] args) {
-    //probarGeolocalizador();
+    probarGeolocalizador();
     probarWhatsApp();
+    probarMail();
     System.exit(0);
   }
 
@@ -45,11 +48,16 @@ public class EjemploRetrofit {
   }
 
   private static void probarWhatsApp() {
-    Contacto contacto = new Contacto("", "541144736427");
+    Contacto contacto = new Contacto("", "541144736427", Collections.emptyList());
     new NotificadorPorWhatsApp(getServiceLocator().getWhatsappApiId(),
         getServiceLocator().getWhatsappApiKey(),
         getServiceLocator().getRecomendacionesTemplate())
         .enviarGuiaRecomendacion(contacto, getServiceLocator().getRecomendacionesUrl());
   }
 
+  private static void probarMail() {
+    Contacto contacto = new Contacto("aguseranieri@gmail.com", "", Collections.emptyList());
+    new NotificadorPorMail(getServiceLocator().getSmtpUser(), getServiceLocator().getSmtpPassword())
+        .enviarGuiaRecomendacion(contacto, getServiceLocator().getRecomendacionesUrl());
+  }
 }

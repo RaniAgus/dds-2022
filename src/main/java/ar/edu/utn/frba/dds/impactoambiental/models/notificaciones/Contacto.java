@@ -21,11 +21,6 @@ public class Contacto extends EntidadPersistente {
     this.mediosDeNotificacion = mediosDeNotificacion;
   }
 
-  public Contacto(String email, String telefono) {
-    this.email = email;
-    this.telefono = telefono;
-  }
-
   public String getEmail() {
     return email;
   }

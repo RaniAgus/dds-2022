@@ -51,7 +51,7 @@ public class NotificadorPorMail extends Notificador {
       message.setFrom(new InternetAddress(smtpUser));
       message.addRecipient(Message.RecipientType.BCC, new InternetAddress(contacto.getEmail()));
       message.setSubject("Guía Recomendaciones");
-      message.setText(link);
+      message.setText("¡Ya están listas nuestras últimas recomendaciones sobre cómo reducir el impacto ambiental de tu organización! Miralas desde: " + link);
 
       Transport transport = session.getTransport("smtp");
       Transport.send(message);

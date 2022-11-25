@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.impactoambiental;
 
+import static ar.edu.utn.frba.dds.impactoambiental.ServiceLocator.getServiceLocator;
+
 import ar.edu.utn.frba.dds.impactoambiental.models.da.DatoActividad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodicidad;
 import ar.edu.utn.frba.dds.impactoambiental.models.da.Periodo;
@@ -15,6 +17,9 @@ import ar.edu.utn.frba.dds.impactoambiental.models.mediodetransporte.TipoDeTrans
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Miembro;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.TipoDeDocumento;
 import ar.edu.utn.frba.dds.impactoambiental.models.miembro.Trayecto;
+import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.Contacto;
+import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorMail;
+import ar.edu.utn.frba.dds.impactoambiental.models.notificaciones.NotificadorPorWhatsApp;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.ClasificacionDeOrganizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Organizacion;
 import ar.edu.utn.frba.dds.impactoambiental.models.organizacion.Sector;
@@ -34,6 +39,8 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobalEntityManager {
+  NotificadorPorMail notificadorPorMail = new NotificadorPorMail(getServiceLocator().getSmtpUser(), getServiceLocator().getSmtpPassword());
+  NotificadorPorWhatsApp notificadorPorWhatsApp = new NotificadorPorWhatsApp(getServiceLocator().getWhatsappApiId(), getServiceLocator().getWhatsappApiKey(), getServiceLocator().getRecomendacionesTemplate());
 
   TipoDeConsumo consumoFalopa = new TipoDeConsumo("Consumo Faalopa", 30D, UnidadDeConsumo.KM);
   TipoDeConsumo nafta = new TipoDeConsumo("Nafta", 30D, UnidadDeConsumo.LT);
@@ -46,6 +53,8 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
 
   public void init() {
     withTransaction(() -> {
+      persist(notificadorPorMail);
+      persist(notificadorPorWhatsApp);
       persist(consumoFalopa);
       persist(nafta);
       persist(gas);
@@ -64,6 +73,7 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
       Organizacion pepeSa = persistirOrganizacion("pepe", "peperroGato00", "PEPE SA", Collections.singletonList(halloween), TipoDeOrganizacion.GUBERNAMENTAL, Arrays.asList(datoActividad1, datoActividad2));
       Organizacion juanSa = persistirOrganizacion("ulidesign", "ulidesign", "ULI DISENIOS", Collections.singletonList(pascuas), TipoDeOrganizacion.EMPRESA, Collections.singletonList(datoActividad3));
       Organizacion utn = persistirOrganizacion("utn", "utn", "UTN", Collections.singletonList(navidad), TipoDeOrganizacion.GUBERNAMENTAL, Collections.emptyList());
+      persistirContacto(utn);
       persistirSectorTerritorial(Arrays.asList(pepeSa, juanSa, utn));
     });
   }
@@ -141,5 +151,12 @@ public class Bootstrap implements TransactionalOps, EntityManagerOps, WithGlobal
     DatoActividad da = new DatoActividad(tipoDeConsumo, 100.0, new Periodo(fecha, periodicidad));
     persist(da);
     return da;
+  }
+
+  private void persistirContacto(Organizacion organizacion) {
+    Contacto contacto = new Contacto("aguseranieri@gmail.com", "", Collections.singletonList(notificadorPorMail));
+    persist(contacto);
+    organizacion.agregarContacto(contacto);
+    persist(organizacion);
   }
 }
