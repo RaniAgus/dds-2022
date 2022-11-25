@@ -58,15 +58,9 @@ public class Routes {
         get("/trayectos/nuevo", miembroController::nuevoTrayecto, templateEngine);
         post("/trayectos", miembroController::anadirTrayecto, templateEngine);
         get("/trayectos/nuevo/tramos/nuevo", miembroController::nuevoTramo, templateEngine);
+        get("/trayectos/nuevo/tramos/nuevo/privado", miembroController::nuevoTramoPrivadoParte1, templateEngine);
+        get("/trayectos/nuevo/tramos/nuevo/publico", miembroController::nuevoTramoPublicoParte1, templateEngine);
         post("/trayectos/nuevo/tramos", miembroController::anadirTramo, templateEngine);
-        get("/trayectos/nuevo/tramos/nuevo/tipovehiculo",miembroController::nuevoTramoPrivadoParte1,templateEngine);
-        get("/trayectos/nuevo/tramos/nuevo/linea",miembroController::nuevoTramoPublicoParte1,templateEngine);
-        post("/trayectos/nuevo/tramos/nuevo/publico/linea", miembroController::tramoPublicoSetLinea, templateEngine);
-        post("/trayectos/nuevo/tramos/nuevo/publico/paradas", miembroController::tramoPublicoSetParadasYConfirmar, templateEngine);
-        post("/trayectos/nuevo/tramos/nuevo/privado/medio", miembroController::tramoPrivadoSetMedio, templateEngine);
-        post("/trayectos/nuevo/tramos/nuevo/privado/origen", miembroController::tramoPrivadoSetOrigen, templateEngine);
-        post("/trayectos/nuevo/tramos/nuevo/privado/destino", miembroController::tramoPrivadoSetDestinoYConfirmar, templateEngine);
-        
       });
     });
 
