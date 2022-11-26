@@ -136,16 +136,16 @@ public class EitherTest extends BaseTest {
 
   @Test
   public void sePuedeObtenerUnEitherDesdeUnaFuncionQueDevuelveOptional() {
-    Either<String> resultado = Either.exitoso(Stream.of("1", "2", "3"))
-            .flatApply(Stream::findFirst, "No se encontró el valor");
+    Either<String> resultado = Either.exitoso(Arrays.asList("1", "2", "3"))
+            .flatApply(list -> list.stream().findFirst(), "No se encontró el valor");
 
     assertThat(resultado.getValor()).isEqualTo("1");
   }
 
   @Test
   public void sePuedeObtenerUnEitherDesdeUnaFuncionQueDevuelveOptionalConError() {
-    Either<String> resultado = Either.exitoso(Stream.<String>empty())
-            .flatApply(Stream::findFirst, "No se encontró el valor");
+    Either<Object> resultado = Either.exitoso(Collections.emptyList())
+            .flatApply(list -> list.stream().findFirst(), "No se encontró el valor");
 
     assertThat(resultado.getErrores()).containsExactly("No se encontró el valor");
   }
