@@ -15,16 +15,7 @@ public class WhatsAppTemplate {
     this.to = phoneNumber;
     this.template = ImmutableMap.of(
         "name", templateName,
-        "language", ImmutableMap.of("code", "es_AR"),
-        "components", ImmutableList.of(ImmutableMap.of(
-            "type", "button",
-            "sub_type", "url",
-            "index", 0,
-            "parameters", ImmutableList.of(ImmutableMap.of(
-                "type", "text",
-                "text", relativeUrl
-            ))
-        ))
+        "language", ImmutableMap.of("code", "es_AR")
     );
   }
 }
