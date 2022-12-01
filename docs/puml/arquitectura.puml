@@ -7,22 +7,15 @@ browser -> internet
 cloud "Internet" as internet {
 }
 
-internet -> bc
+internet -> sw
 
-node "Balanceador de carga\n(Azure)" as bc {
+node "Servidor Web" as sw {
 }
 
-bc --> sw
+node CronJob as cron {
+}
 
-node "Servidor\n(Azure)" as sv {
-   component "Servidor Web" as sw {
-   }
-
-   component CronJob as cron {
-   }
-
-   database "Base de datos" as db {
-   }
+database "Base de datos" as db {
 }
 
 cron --> db
