@@ -12,11 +12,7 @@ ARG DB_URL
 ARG DB_USERNAME
 ARG DB_PASSWORD
 
-RUN sed -i "s,name=\"hibernate\.connection\.url\" value=\".*\",name=\"hibernate\.connection\.url\" value=\"${DB_URL}\",g" "src/main/resources/META-INF/persistence.xml" \
-    && sed -i "s,name=\"hibernate\.connection\.username\" value=\".*\",name=\"hibernate\.connection\.username\" value=\"${DB_USERNAME}\",g" "src/main/resources/META-INF/persistence.xml" \
-    && sed -i "s,name=\"hibernate\.connection\.password\" value=\".*\",name=\"hibernate\.connection\.password\" value=\"${DB_PASSWORD}\",g" "src/main/resources/META-INF/persistence.xml"
-
-RUN mvn package
+RUN mvn package -Dhibernate.connection.url=${DB_URL} -Dhibernate.connection.username=${DB_USERNAME} -Dhibernate.connection.password=${DB_PASSWORD}
 
 
 FROM openjdk:8-jre-alpine as java

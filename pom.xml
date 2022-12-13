@@ -16,6 +16,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <hibernate.connection.url>jdbc:postgresql://localhost:5432/impactoambiental</hibernate.connection.url>
+    <hibernate.connection.username>jpademo</hibernate.connection.username>
+    <hibernate.connection.password>jpademo</hibernate.connection.password>
   </properties>
 
   <dependencies>
@@ -171,10 +174,36 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>META-INF/persistence.xml</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>META-INF/persistence.xml</include>
+        </includes>
+      </resource>
+    </resources>
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>META-INF/persistence.xml</exclude>
+        </excludes>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
         <filtering>true</filtering>
+        <includes>
+          <include>META-INF/persistence.xml</include>
+        </includes>
       </testResource>
     </testResources>
     <plugins>

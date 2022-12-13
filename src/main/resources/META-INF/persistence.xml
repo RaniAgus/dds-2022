@@ -14,9 +14,9 @@
 
             <!-- Descomentar cuando usemos un verdadero dbms -->
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/impactoambiental"/>
-            <property name="hibernate.connection.username" value="jpademo"/>
-            <property name="hibernate.connection.password" value="jpademo"/>
+            <property name="hibernate.connection.url" value="${hibernate.connection.url}"/>
+            <property name="hibernate.connection.username" value="${hibernate.connection.username}"/>
+            <property name="hibernate.connection.password" value="${hibernate.connection.password}"/>
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgresPlusDialect"/>
             <property name="hibernate.show_sql" value="true"/>
